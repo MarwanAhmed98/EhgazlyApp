@@ -1,1 +1,357 @@
-<p>signup works!</p>
+<!-- Main Wrapper -->
+<div
+  class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+
+  <!-- Typography (match Login page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :host { font-family: 'Inter', sans-serif; }
+  </style>
+
+  <!-- Background Glow Elements (Consistent) -->
+  <div class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none"></div>
+
+  <div class="max-w-7xl w-full mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-24 items-stretch relative z-10">
+
+    <!-- Left Side: Visual / Marketing -->
+    <div class="hidden lg:block">
+      <div
+        class="relative h-full min-h-[760px] rounded-[2.75rem] overflow-hidden border border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-emerald-200/30 dark:shadow-none animate-fade-in-up">
+
+        <!-- Background image (UPDATED) -->
+        <img
+          src="https://images.pexels.com/photos/36961381/pexels-photo-36961381/free-photo-of-kocaeli-stadium-interior-with-empty-seats.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+          alt="Football stadium"
+          class="absolute inset-0 w-full h-full object-cover" />
+
+        <!-- Green overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/35 to-black/20"></div>
+
+        <!-- Top badge -->
+        <div class="absolute top-8 left-8 right-8 flex justify-end">
+          <div
+            class="group inline-flex items-center gap-3 px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-lg shadow-black/20 transition-all duration-300 hover:bg-white/15 hover:-translate-y-0.5">
+            <span
+              class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-300/30 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 2" />
+              </svg>
+            </span>
+            <div class="leading-tight">
+              <p class="text-sm font-extrabold tracking-tight">Live Matches</p>
+              <p class="text-xs text-white/75 font-semibold">124 fields available now</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom content -->
+        <div class="absolute bottom-0 left-0 right-0 p-10">
+          <h2 class="text-5xl font-black tracking-tighter leading-[1.05] text-white">
+            Elevate Your
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">Game</span>
+          </h2>
+          <p class="mt-4 text-white/80 text-sm font-semibold max-w-md leading-relaxed">
+            Join the premier platform for athletes and venue owners. Manage bookings, find teammates, and dominate the
+            court.
+          </p>
+          <div class="mt-8 flex items-center gap-3 text-white/70 text-xs font-bold uppercase tracking-widest">
+            <span class="inline-flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Fast signup
+            </span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white/25"></span>
+            <span>Secure</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-white/25"></span>
+            <span>Modern facilities</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side: Create Account -->
+    <div class="w-full max-w-md mx-auto lg:max-w-none lg:mx-0 animate-fade-in-up" style="animation-delay: 90ms;">
+      <div
+        class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none">
+
+        <!-- Logo -->
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2E7D32] to-[#578061] flex items-center justify-center text-white font-black mb-6">
+          E
+        </div>
+
+        <h1 class="text-3xl font-black tracking-tight">Create Account</h1>
+        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 mb-8">
+          Join Ehgazly Sports ecosystem today.
+        </p>
+
+        <!-- Role Tabs -->
+        <div
+          class="bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl p-2 mb-8">
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" (click)="setRole('player')"
+              class="rounded-xl px-3 py-3 text-xs font-black uppercase tracking-widest transition-all duration-300 border"
+              [class]="role === 'player'
+                ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900 shadow-md shadow-emerald-200/40 dark:shadow-none'
+                : 'bg-transparent text-emerald-800/70 dark:text-emerald-200/70 border-transparent hover:bg-white/60 dark:hover:bg-white/5'">
+              <span class="flex items-center justify-center gap-2">
+                <span class="w-9 h-9 rounded-xl flex items-center justify-center border transition-all duration-300"
+                  [class]="role === 'player'
+                    ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-900'
+                    : 'bg-white/50 border-transparent dark:bg-white/5 dark:border-transparent'">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </span>
+                Player
+              </span>
+            </button>
+
+            <button type="button" (click)="setRole('owner')"
+              class="rounded-xl px-3 py-3 text-xs font-black uppercase tracking-widest transition-all duration-300 border"
+              [class]="role === 'owner'
+                ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900 shadow-md shadow-emerald-200/40 dark:shadow-none'
+                : 'bg-transparent text-emerald-800/70 dark:text-emerald-200/70 border-transparent hover:bg-white/60 dark:hover:bg-white/5'">
+              <span class="flex items-center justify-center gap-2">
+                <span class="w-9 h-9 rounded-xl flex items-center justify-center border transition-all duration-300"
+                  [class]="role === 'owner'
+                    ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-900'
+                    : 'bg-white/50 border-transparent dark:bg-white/5 dark:border-transparent'">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01" />
+                  </svg>
+                </span>
+                Owner
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <form [formGroup]="RegisterForm" (ngSubmit)="SubmitForm()" class="space-y-5" novalidate>
+
+          <input type="hidden" formControlName="role" />
+          @let RoleControl = RegisterForm.get('role');
+          @if (RoleControl?.invalid && (RoleControl?.touched || RoleControl?.dirty)) {
+          <div id="alert-role"
+            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex flex-col">
+              @if (RoleControl?.hasError('required')) {
+              <div class="ms-3 text-sm font-medium">Role is Required</div>
+              }
+            </div>
+            <button type="button" (click)="dismissRoleError()"
+              class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+              aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+          }
+
+          <!-- Full Name -->
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Full Name</label>
+            <input type="text" formControlName="name" placeholder="John Doe"
+              class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400">
+          </div>
+
+          @let NameControl = RegisterForm.get('name');
+          @if (NameControl?.errors && (NameControl?.touched || NameControl?.dirty)) {
+          <div id="alert-name"
+            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex flex-col">
+              @if (NameControl?.getError('required')) {
+              <div class="ms-3 text-sm font-medium">Name is Required</div>
+              } @else if (NameControl?.getError('minlength')) {
+              <div class="ms-3 text-sm font-medium">Name Should be more than or equal 3 chars</div>
+              } @else if (NameControl?.getError('maxlength')) {
+              <div class="ms-3 text-sm font-medium">Name Should be less than or equal 20 chars</div>
+              }
+            </div>
+            <button type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+              aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+          }
+
+          <!-- Email -->
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Email Address</label>
+            <input type="email" formControlName="email" placeholder="john@example.com"
+              class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400">
+          </div>
+
+          @let EmailControl = RegisterForm.get('email');
+          @if (EmailControl?.errors && (EmailControl?.touched || EmailControl?.dirty)) {
+          <div id="alert-email"
+            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex flex-col">
+              @if (EmailControl?.getError('required')) {
+              <div class="ms-3 text-sm font-medium">Email is Required</div>
+              } @else if (EmailControl?.getError('email')) {
+              <div class="ms-3 text-sm font-medium">Enter Valid Email</div>
+              }
+            </div>
+            <button type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+              aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+          }
+
+          <!-- Phone -->
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
+            <input type="tel" formControlName="phone" placeholder="+20 123 456 789"
+              class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400">
+          </div>
+
+          @let PhoneControl = RegisterForm.get('phone');
+          @if (PhoneControl?.errors && (PhoneControl?.touched || PhoneControl?.dirty)) {
+          <div id="alert-phone"
+            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex flex-col">
+              @if (PhoneControl?.getError('required')) {
+              <div class="ms-3 text-sm font-medium">Phone is Required</div>
+              } @else if (PhoneControl?.getError('pattern')) {
+              <div class="ms-3 text-sm font-medium">Only Egypt Phone Numbers</div>
+              }
+            </div>
+            <button type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+              aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+          }
+
+          <!-- Password -->
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Password</label>
+            <div class="relative">
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"
+                class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 pr-12 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400">
+              <button type="button" (click)="togglePassword()"
+                class="absolute inset-y-0 right-0 px-4 flex items-center text-slate-500 hover:text-emerald-700 dark:text-slate-400 dark:hover:text-emerald-300 transition-colors">
+                @if (!showPassword) {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-10-7-10-7a21.8 21.8 0 0 1 5.06-6.94" />
+                  <path d="M9.9 4.24A10.52 10.52 0 0 1 12 4c7 0 10 8 10 8a21.6 21.6 0 0 1-2.16 3.19" />
+                  <path d="M14.12 14.12A3 3 0 0 1 9.88 9.88" />
+                  <path d="M1 1l22 22" />
+                </svg>
+                }
+              </button>
+            </div>
+          </div>
+
+          @let PasswordControl = RegisterForm.get('password');
+          @if (PasswordControl?.errors && (PasswordControl?.touched || PasswordControl?.dirty)) {
+          <div id="alert-password"
+            class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex flex-col">
+              @if (PasswordControl?.getError('required')) {
+              <div class="ms-3 text-sm font-medium">Password is Required</div>
+              } @else if (PasswordControl?.getError('pattern')) {
+              <div class="ms-3 text-sm font-medium">Must be at least 6 Chars</div>
+              }
+            </div>
+            <button type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+              aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+          }
+
+          <button type="submit" [disabled]="RegisterForm.invalid"
+            class="w-full mt-4 bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl shadow-lg shadow-[#2E7D32]/25 transition-all hover:-translate-y-0.5 active:translate-y-0">
+            Create Account
+          </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-slate-600 dark:text-slate-400 font-medium">
+          Already have an account?
+          <a routerLink="/Login" class="font-black text-[#2E7D32] dark:text-[#4ade80] hover:underline transition-all">Login</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
