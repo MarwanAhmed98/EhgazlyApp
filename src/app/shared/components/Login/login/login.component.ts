@@ -24,9 +24,13 @@ export class LoginComponent {
       this.authService.sendLoginForm(this.LoginForm.value).subscribe({
         next: (res) => {
           console.log(res);
-          // localStorage.setItem('token', res.token);
-          this.router.navigate(['/MyBookings']);
-          console.log(this.LoginForm.value);
+          localStorage.setItem('PlayerToken', res.token);
+          if (res.user.role == 'customer') {
+            this.router.navigate(['/MyBookings']);
+          }
+          else {
+            this.router.navigate(['/Venues']);
+          }
         },
         error: (error) => {
           console.error(error);

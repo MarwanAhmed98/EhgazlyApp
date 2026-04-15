@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/services/Auth/auth.service';
 
 
-type Role = 'player' | 'owner';
+type Role = 'customer' | 'courtowner';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,9 @@ type Role = 'player' | 'owner';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  role: Role = 'player';
+  private readonly authService = inject(AuthService)
+  private readonly router = inject(Router)
+  role: Role = 'customer';
   showPassword = false;
 
   readonly RegisterForm = new FormGroup({
@@ -33,7 +36,7 @@ export class SignupComponent {
       nonNullable: true,
       validators: [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)],
     }),
-    role: new FormControl<Role>('player', {
+    role: new FormControl<Role>('customer', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -49,12 +52,22 @@ export class SignupComponent {
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
-
   SubmitForm(): void {
-    this.RegisterForm.markAllAsTouched();
-    if (this.RegisterForm.invalid) return;
-
-    console.log(this.RegisterForm.getRawValue());
+    if (this.RegisterForm.valid) {
+      this.authService.sendRegisterForm(this.RegisterForm.value).subscribe(
+        {
+          next: (res) => {
+            console.log(res);
+            localStorage.setItem('CourtOwnerToken', res.token);
+            this.router.navigate(['/Login']);
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        }
+      )
+    }
+    console.log(this.RegisterForm.value)
   }
 
   dismissRoleError(): void {

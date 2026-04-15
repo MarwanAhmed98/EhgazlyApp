@@ -7,12 +7,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    :host { font-family: 'Inter', sans-serif; }
+    :host {
+      font-family: 'Inter', sans-serif;
+    }
   </style>
 
   <!-- Background Glow Elements (Consistent) -->
-  <div class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none"></div>
-  <div class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none"></div>
+  <div class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
+  </div>
+  <div
+    class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+  </div>
 
   <div class="max-w-7xl w-full mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-24 items-stretch relative z-10">
 
@@ -24,8 +29,7 @@
         <!-- Background image (UPDATED) -->
         <img
           src="https://images.pexels.com/photos/36961381/pexels-photo-36961381/free-photo-of-kocaeli-stadium-interior-with-empty-seats.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          alt="Football stadium"
-          class="absolute inset-0 w-full h-full object-cover" />
+          alt="Football stadium" class="absolute inset-0 w-full h-full object-cover" />
 
         <!-- Green overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/35 to-black/20"></div>
@@ -92,14 +96,14 @@
         <div
           class="bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl p-2 mb-8">
           <div class="grid grid-cols-2 gap-2">
-            <button type="button" (click)="setRole('player')"
+            <button type="button" (click)="setRole('customer')"
               class="rounded-xl px-3 py-3 text-xs font-black uppercase tracking-widest transition-all duration-300 border"
-              [class]="role === 'player'
+              [class]="role === 'customer'
                 ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900 shadow-md shadow-emerald-200/40 dark:shadow-none'
                 : 'bg-transparent text-emerald-800/70 dark:text-emerald-200/70 border-transparent hover:bg-white/60 dark:hover:bg-white/5'">
               <span class="flex items-center justify-center gap-2">
                 <span class="w-9 h-9 rounded-xl flex items-center justify-center border transition-all duration-300"
-                  [class]="role === 'player'
+                  [class]="role === 'customer'
                     ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-900'
                     : 'bg-white/50 border-transparent dark:bg-white/5 dark:border-transparent'">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
@@ -112,14 +116,14 @@
               </span>
             </button>
 
-            <button type="button" (click)="setRole('owner')"
+            <button type="button" (click)="setRole('courtowner')"
               class="rounded-xl px-3 py-3 text-xs font-black uppercase tracking-widest transition-all duration-300 border"
-              [class]="role === 'owner'
+              [class]="role === 'courtowner'
                 ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900 shadow-md shadow-emerald-200/40 dark:shadow-none'
                 : 'bg-transparent text-emerald-800/70 dark:text-emerald-200/70 border-transparent hover:bg-white/60 dark:hover:bg-white/5'">
               <span class="flex items-center justify-center gap-2">
                 <span class="w-9 h-9 rounded-xl flex items-center justify-center border transition-all duration-300"
-                  [class]="role === 'owner'
+                  [class]="role === 'courtowner'
                     ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-900'
                     : 'bg-white/50 border-transparent dark:bg-white/5 dark:border-transparent'">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
@@ -348,7 +352,8 @@
 
         <p class="mt-8 text-center text-sm text-slate-600 dark:text-slate-400 font-medium">
           Already have an account?
-          <a routerLink="/Login" class="font-black text-[#2E7D32] dark:text-[#4ade80] hover:underline transition-all">Login</a>
+          <a routerLink="/Login"
+            class="font-black text-[#2E7D32] dark:text-[#4ade80] hover:underline transition-all">Login</a>
         </p>
       </div>
     </div>

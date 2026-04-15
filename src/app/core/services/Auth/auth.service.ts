@@ -8,9 +8,12 @@ import { environments } from '../../../shared/environment';
 })
 export class AuthService {
 
-  constructor( private httpClient: HttpClient ) { }
-   sendLoginForm(data: object): Observable<any> {
+  constructor(private httpClient: HttpClient) { }
+  sendLoginForm(data: object): Observable<any> {
     return this.httpClient.post(`${environments.baseUrl}/login`, data)
   }
-  
+  sendRegisterForm(data: object): Observable<any> {
+    return this.httpClient.post(`${environments.baseUrl}/signup`, data)
+  }
+
 }
