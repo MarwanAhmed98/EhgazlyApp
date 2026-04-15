@@ -1,0 +1,426 @@
+<!-- Main Wrapper -->
+<div
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+
+    <!-- Typography (match Login page) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
+        }
+    </style>
+
+    <!-- Background Glow Elements -->
+    <div
+        class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <!-- Navbar -->
+    <app-playernav [active]="'venues'" [venuesLink]="'/venues'" [tournamentsLink]="'/tournaments'"
+        [myBookingsLink]="'/MyBookings'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
+        @if (view === 'permission') {
+        <!-- Permission Screen -->
+        <section class="min-h-[70vh] grid place-items-center animate-fade-in-up">
+            <div class="w-full max-w-xl">
+                <div
+                    class="relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-emerald-200/35 via-transparent to-blue-200/20 pointer-events-none">
+                    </div>
+
+                    <div class="relative p-10 sm:p-12 text-center">
+                        <div
+                            class="mx-auto w-16 h-16 rounded-[1.6rem] bg-emerald-200/70 border border-emerald-300/60 grid place-items-center shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-[#146A1E]" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
+                                <circle cx="12" cy="10" r="2" />
+                            </svg>
+                        </div>
+
+                        <h1
+                            class="mt-6 text-3xl sm:text-4xl font-black tracking-tighter text-emerald-950 dark:text-white">
+                            Find Courts <br class="hidden sm:block"> Near You
+                        </h1>
+                        <p
+                            class="mt-4 text-slate-600 dark:text-slate-400 font-semibold leading-relaxed max-w-md mx-auto">
+                            Enable location to discover available pitches in your neighborhood and get accurate travel
+                            times.
+                        </p>
+
+                        <button type="button" (click)="allowAccess()"
+                            class="mt-8 w-full bg-[#146A1E] hover:bg-[#0f5418] text-white font-black py-4 rounded-2xl shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                            ALLOW ACCESS
+                        </button>
+
+                        <button type="button" (click)="maybeLater()"
+                            class="mt-4 w-full text-sm font-black text-emerald-900/70 dark:text-emerald-100/70 hover:text-emerald-900 dark:hover:text-emerald-100 transition-colors">
+                            Maybe Later
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        } @else if (view === 'all') {
+        <!-- All Stadiums -->
+        <section class="animate-fade-in-up">
+            <!-- Info Banner -->
+            @if (!dismissedBanner) {
+            <div
+                class="mb-8 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 px-5 py-4 flex items-start justify-between gap-4">
+                <div class="flex items-start gap-3">
+                    <div
+                        class="mt-0.5 w-9 h-9 rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 grid place-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#146A1E]" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            <path d="M18.63 13A17.89 17.89 0 0 1 18 8" />
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                        </svg>
+                    </div>
+
+                    <p class="text-sm font-semibold text-emerald-950/85 dark:text-emerald-100/85">
+                        Location access is disabled. Browse all stadiums or
+                        <button type="button" (click)="allowAccess()" class="font-black text-[#146A1E] hover:underline">
+                            Enable Location
+                        </button>
+                        for nearby results.
+                    </p>
+                </div>
+
+                <button type="button" (click)="dismissedBanner = true"
+                    class="shrink-0 w-10 h-10 rounded-2xl hover:bg-white/60 dark:hover:bg-white/5 border border-transparent hover:border-emerald-200/60 dark:hover:border-emerald-900/40 transition-all grid place-items-center"
+                    aria-label="Dismiss">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950/70 dark:text-emerald-100/70"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            }
+
+            <!-- Title + Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                <div>
+                    <h1 class="text-4xl sm:text-5xl font-black tracking-tighter leading-tight">
+                        All Football <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-[#2E7D32] to-[#578061]">Stadiums</span>
+                    </h1>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400 font-semibold">
+                        Exploring {{ stadiums.length }} professional venues in Egypt
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div
+                        class="inline-flex p-1.5 rounded-full bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
+                        <button type="button" (click)="setFilter('all')"
+                            class="px-5 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="filter === 'all'
+                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                            All
+                        </button>
+                        <button type="button" (click)="setFilter('natural')"
+                            class="px-5 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="filter === 'natural'
+                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                            Natural Grass
+                        </button>
+                        <button type="button" (click)="setFilter('artificial')"
+                            class="px-5 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="filter === 'artificial'
+                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                            Artificial
+                        </button>
+                    </div>
+
+                    <button type="button" (click)="cycleSort()"
+                        class="px-5 py-3 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-emerald-100 font-black text-sm shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                        {{ sortLabel }}
+                    </button>
+
+                    <button type="button" (click)="toggleFilters()"
+                        class="px-5 py-3 rounded-2xl bg-[#A34700] hover:bg-[#8f3d00] text-white font-black text-sm shadow-xl shadow-orange-900/15 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                        Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Cards -->
+            <div routerLink="/VenuesDetails" class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @for (s of visibleStadiums(); track s.id) {
+                <article
+                    class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/40 dark:shadow-none transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
+                    [style.animation-delay.ms]="70 + (s.index * 55)">
+
+                    <div class="relative h-52">
+                        <img [src]="s.image" [alt]="s.name" class="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent"></div>
+
+                        <div
+                            class="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/80 backdrop-blur-xl border border-white/40 text-emerald-950 text-xs font-black inline-flex items-center gap-1.5">
+                            <span class="text-amber-600">★</span>
+                            <span>{{ s.rating }}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="text-lg font-black tracking-tight text-emerald-950 dark:text-white">{{ s.name }}</h3>
+
+                        <div
+                            class="mt-2 flex items-center justify-between text-sm font-semibold text-slate-600 dark:text-slate-400">
+                            <div class="inline-flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#146A1E]"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
+                                    <circle cx="12" cy="10" r="2" />
+                                </svg>
+                                <span>{{ s.area }}</span>
+                            </div>
+
+                            @if (locationState !== 'granted') {
+                            <span class="text-emerald-950/70 dark:text-emerald-100/70 font-black">—</span>
+                            } @else {
+                            <span class="text-emerald-950/70 dark:text-emerald-100/70 font-black">{{
+                                s.distanceKm.toFixed(1) }} km</span>
+                            }
+                        </div>
+
+                        <div class="mt-5 flex items-end justify-between gap-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                    Starting From</p>
+                                <p class="mt-1 text-emerald-950 dark:text-white font-black text-lg">
+                                    EGP {{ s.pricePerHour }}<span
+                                        class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
+                                </p>
+                            </div>
+
+                            <button type="button" (click)="openStadium(s)"
+                                class="w-12 h-12 rounded-2xl bg-emerald-200/70 hover:bg-emerald-200 border border-emerald-200/60 dark:border-emerald-900/40 transition-all duration-300 grid place-items-center group-hover:-translate-y-0.5 active:translate-y-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14" />
+                                    <path d="M13 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                }
+            </div>
+        </section>
+        } @else {
+        <!-- Nearby Stadiums -->
+        <section class="animate-fade-in-up">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Current
+                        Location</p>
+                    <div class="mt-2 flex items-center gap-3">
+                        <h1 class="text-3xl sm:text-4xl font-black tracking-tighter">{{ currentLocationLabel }}</h1>
+                        <button type="button" (click)="changeLocation()"
+                            class="px-4 py-2 rounded-full bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-emerald-100 text-xs font-black transition-all hover:-translate-y-0.5 active:translate-y-0">
+                            Change
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-start lg:justify-end">
+                    <div
+                        class="inline-flex p-1.5 rounded-full bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
+                        <button type="button" (click)="setNearbyView('list')"
+                            class="px-6 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="nearbyView === 'list'
+                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                            ≡&nbsp;&nbsp;List View
+                        </button>
+                        <button type="button" (click)="setNearbyView('map')"
+                            class="px-6 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="nearbyView === 'map'
+                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                            ⌖&nbsp;&nbsp;Map View
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radius -->
+            <div
+                class="mt-8 rounded-[2rem] bg-emerald-100/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-8">
+                <div class="flex items-center justify-between gap-4">
+                    <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">Radius Distance</p>
+                    <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">{{ radiusKm }}km</p>
+                </div>
+
+                <input type="range" min="1" max="50" step="1" [(ngModel)]="radiusKm" (input)="recomputeNearby()"
+                    class="mt-4 w-full accent-[#146A1E]" />
+
+                <div
+                    class="mt-3 flex items-center justify-between text-[10px] font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">
+                    <span>1km</span><span>5km</span><span>10km</span><span>20km</span><span>50km</span>
+                </div>
+            </div>
+
+            @if (nearbyView === 'map') {
+            <div
+                class="mt-8 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-2xl shadow-slate-200/40 dark:shadow-none">
+                <div class="aspect-[16/9] grid place-items-center">
+                    <div class="text-center px-8">
+                        <p class="text-lg font-black text-emerald-950 dark:text-white">Map View</p>
+                        <p class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                            Map rendering is not enabled in this demo. Switch back to List View.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            } @else {
+            <!-- Nearby list cards -->
+            <div class="mt-8 space-y-6">
+                @for (s of nearbyStadiums(); track s.id) {
+                <article
+                    class="group grid grid-cols-1 lg:grid-cols-12 bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-25px_rgba(2,44,34,0.25)] hover:shadow-[0_30px_70px_-30px_rgba(2,44,34,0.35)] transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
+                    [style.animation-delay.ms]="70 + (s.index * 55)">
+
+                    <div class="lg:col-span-5 relative min-h-[260px]">
+                        <img [src]="s.image" [alt]="s.name" class="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent"></div>
+
+                        <div
+                            class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/85 backdrop-blur-xl border border-white/40 text-emerald-950 text-xs font-black">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#146A1E]" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M13 19a9 9 0 1 0-9-9" />
+                                <path d="M9 15l-3 3 3 3" />
+                            </svg>
+                            <span>{{ s.distanceKm.toFixed(1) }} km</span>
+                        </div>
+
+                        <div
+                            class="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#A34700]/95 border border-white/10 text-white text-[11px] font-black uppercase tracking-widest">
+                            Walking Distance
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 p-7 sm:p-9 flex flex-col gap-6">
+                        <div class="flex items-start justify-between gap-6">
+                            <div class="min-w-0">
+                                <h3
+                                    class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                                    {{ s.name }}
+                                </h3>
+                                <p
+                                    class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-400 inline-flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#146A1E]"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
+                                        <circle cx="12" cy="10" r="2" />
+                                    </svg>
+                                    <span>{{ s.address }}</span>
+                                </p>
+                            </div>
+
+                            <button type="button" (click)="openStadium(s)"
+                                class="w-12 h-12 rounded-2xl bg-emerald-200/70 hover:bg-emerald-200 border border-emerald-200/60 dark:border-emerald-900/40 transition-all duration-300 grid place-items-center hover:-translate-y-0.5 active:translate-y-0"
+                                aria-label="Open">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 18l6-6-6-6" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div
+                                class="rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 p-4">
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                    Travel Time</p>
+                                <p
+                                    class="mt-2 text-sm font-black text-emerald-950 dark:text-white inline-flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#146A1E]"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 17H5l1.5-9h11z" />
+                                        <path d="M6 17a2 2 0 1 0 4 0" />
+                                        <path d="M14 17a2 2 0 1 0 4 0" />
+                                    </svg>
+                                    <span>{{ s.travelMins }} mins</span>
+                                </p>
+                            </div>
+
+                            <div
+                                class="rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 p-4">
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                    Live Status</p>
+                                <p class="mt-2 text-sm font-black inline-flex items-center gap-2"
+                                    [class]="s.live.type === 'ok' ? 'text-emerald-700 dark:text-emerald-300' : (s.live.type === 'warn' ? 'text-amber-700 dark:text-amber-300' : 'text-red-700 dark:text-red-300')">
+                                    <span class="w-2.5 h-2.5 rounded-full"
+                                        [class]="s.live.type === 'ok' ? 'bg-emerald-500' : (s.live.type === 'warn' ? 'bg-amber-500' : 'bg-red-500')">
+                                    </span>
+                                    <span>{{ s.live.label }}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-end justify-between gap-6 pt-2">
+                            <div>
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                    Starts from</p>
+                                <p class="mt-1 text-emerald-950 dark:text-white font-black text-2xl">
+                                    {{ s.pricePerHour }} EGP<span
+                                        class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
+                                </p>
+                            </div>
+
+                            <button routerLink="/VenuesDetails" type="button" (click)="book(s)"
+                                class="px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                                BOOK FIELD
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                }
+            </div>
+            }
+        </section>
+        }
+    </main>
+</div>

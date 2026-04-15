@@ -17,7 +17,7 @@ export class PlayernavComponent {
 
   @Input() active: PlayerNavActive = 'my-bookings';
   @Input() tournamentsLink: string | any[] = '/tournaments';
-  @Input() venuesLink: string | any[] = '/venues';
+  @Input() venuesLink: string | any[] = '/Venues';
   @Input() myBookingsLink: string | any[] = '/MyBookings';
 
   isMobileMenuOpen = false;

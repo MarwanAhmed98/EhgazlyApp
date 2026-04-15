@@ -1,186 +1,173 @@
-<!-- Main Wrapper -->
 <div
-  class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+  class="min-h-screen bg-[#F0FDF4] text-slate-900 font-sans transition-colors duration-300 relative overflow-x-hidden">
 
-  <!-- Typography (match Login page) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <style>
-    :host { font-family: 'Inter', sans-serif; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in-up { animation: fadeInUp .7s cubic-bezier(.4,0,.2,1) both; }
-  </style>
-
-  <!-- Background Glow Elements -->
-  <div class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none"></div>
-  <div class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none"></div>
-
-  <!-- Navbar -->
   <app-playernav></app-playernav>
 
-  <!-- Page Content -->
   <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
+
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-fade-in-up">
       <div>
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tighter leading-tight">
-          YOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#2E7D32] to-[#578061]">ARENA</span>
-        </h1>
-        <p class="mt-2 text-slate-600 dark:text-slate-400 font-semibold">
-          Manage your sessions and upcoming matches.
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D]">YOUR ARENA</h1>
+        <p class="mt-2 text-emerald-800/70 font-semibold max-w-xl">
+          {{ tab === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your past performances and
+          stadium visits.' }}
         </p>
       </div>
 
-      <!-- Toggle -->
-      <div class="flex items-center justify-start lg:justify-end">
-        <div
-          class="inline-flex p-1.5 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
-          <button type="button" (click)="setTab('upcoming')"
-            class="px-6 py-3 rounded-xl text-sm font-black transition-all duration-300"
-            [class]="tab === 'upcoming'
-              ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
-              : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+      <div class="flex items-center">
+        <div class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] border border-emerald-200 shadow-sm">
+          <button (click)="setTab('upcoming')"
+            class="px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
+            [class]="tab === 'upcoming' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
             Upcoming
           </button>
-          <button type="button" (click)="setTab('previous')"
-            class="px-6 py-3 rounded-xl text-sm font-black transition-all duration-300"
-            [class]="tab === 'previous'
-              ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
-              : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+          <button (click)="setTab('previous')"
+            class="px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
+            [class]="tab === 'previous' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
             Previous
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Grid -->
-    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
-      @for (b of filteredBookings(); track b.id) {
-      <article
-        class="group bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-25px_rgba(2,44,34,0.25)] hover:shadow-[0_30px_70px_-30px_rgba(2,44,34,0.35)] transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
-        [style.animation-delay.ms]="80 + (b.index * 70)">
+    <div class="mt-10 min-h-[400px]">
 
-        <div class="grid grid-cols-1 sm:grid-cols-5">
-          <!-- Image -->
-          <div class="sm:col-span-2 relative h-56 sm:h-full min-h-[220px]">
-            <img [src]="b.image" [alt]="b.title" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
-          </div>
+      @if (filteredBookings().length > 0) {
 
-          <!-- Content -->
-          <div class="sm:col-span-3 p-7 sm:p-8 flex flex-col gap-5">
-            <div class="flex items-start justify-between gap-4">
-              <div class="space-y-2">
-                <div class="inline-flex items-center gap-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        @for (b of filteredBookings(); track b.id) {
+        <article
+          class="group bg-[#C6E7C1] border border-emerald-300/30 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all animate-fade-in-up">
+          <div class="flex flex-col sm:flex-row h-full">
+            <div class="sm:w-2/5 relative h-48 sm:h-full min-h-[220px]">
+              <img [src]="b.image" class="absolute inset-0 w-full h-full object-cover" [alt]="b.title" />
+            </div>
+
+            <div class="sm:w-3/5 p-6 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-start">
                   <span
-                    class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border"
-                    [class]="b.status === 'upcoming'
-                      ? 'bg-emerald-200/80 text-emerald-900 border-emerald-300/60'
-                      : 'bg-slate-200/80 text-slate-700 border-slate-300/60 dark:bg-white/10 dark:text-white/80 dark:border-white/10'">
-                    {{ b.status }}
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/40 text-emerald-900 border border-white/20">
+                    <span class="w-1.5 h-1.5 rounded-full"
+                      [class]="b.status === 'upcoming' ? 'bg-orange-500' : 'bg-emerald-600'"></span>
+                    {{ b.status === 'upcoming' ? 'CONFIRMED' : 'COMPLETED' }}
                   </span>
+                  <div class="flex items-center gap-1 text-emerald-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                      fill="currentColor">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    <span class="text-xs font-black">{{ b.rating }}</span>
+                  </div>
                 </div>
 
-                <h3 class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
-                  {{ b.title }}
-                </h3>
+                <h3 class="mt-4 text-2xl font-black text-emerald-950 tracking-tight">{{ b.title }}</h3>
+
+                <div class="mt-4 space-y-2">
+                  <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2.5">
+                      <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                      <path d="M16 2v4M8 2v4M3 10h18"></path>
+                    </svg>
+                    <span>{{ b.date }}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>{{ b.time }}</span>
+                  </div>
+                </div>
               </div>
 
-              <div class="flex items-center gap-2 text-emerald-950 dark:text-emerald-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-                  class="text-amber-500">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                <span class="text-sm font-black">{{ b.rating }}</span>
+              <div class="mt-8 flex items-center gap-6">
+                @if (b.status === 'previous') {
+                <button (click)="viewDetails(b)"
+                  class="flex-1 px-4 py-3 rounded-full bg-[#A8D1A3] text-emerald-950 text-[11px] font-black uppercase tracking-widest hover:bg-[#96c291] transition-all">Match
+                  Report</button>
+                <button (click)="findVenue()"
+                  class="text-[11px] font-black uppercase tracking-widest text-emerald-900/60 hover:text-emerald-900">Rebook</button>
+                } @else {
+                <button routerLink="/FullBookingDetails" (click)="viewDetails(b)"
+                  class="flex-1 px-4 py-3 rounded-full bg-[#14532D] text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20 hover:bg-[#0f3f22]">View
+                  Details</button>
+                <button (click)="cancel(b)"
+                  class="text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700">Cancel</button>
+                }
               </div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-3 text-sm font-semibold text-emerald-950/80 dark:text-emerald-100/80">
-              <div class="flex items-center gap-3">
-                <span class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/50 dark:border-emerald-900/50 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#146A1E]" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                </span>
-                <span>{{ b.date }}</span>
-              </div>
-
-              <div class="flex items-center gap-3">
-                <span class="w-10 h-10 rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/50 dark:border-emerald-900/50 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#146A1E]" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </span>
-                <span>{{ b.time }}</span>
-              </div>
-            </div>
-
-            <div class="pt-2 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
-              <button type="button" (click)="viewDetails(b)"
-                class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#146A1E] text-white font-black shadow-lg shadow-emerald-900/15 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                View Details
-              </button>
-
-              <button type="button" (click)="cancel(b)" [disabled]="b.status !== 'upcoming'"
-                class="w-full sm:w-auto text-sm font-black transition-colors duration-200"
-                [class]="b.status === 'upcoming'
-                  ? 'text-red-600 hover:text-red-700'
-                  : 'text-slate-400 cursor-not-allowed'">
-                Cancel Booking
-              </button>
             </div>
           </div>
-        </div>
-      </article>
-      }
+        </article>
+        }
 
-      <!-- CTA Card -->
+        @if (tab === 'upcoming') {
+        <div
+          class="bg-[#C6E7C1]/40 border-2 border-dashed border-emerald-300 rounded-3xl p-8 flex flex-col items-center justify-center text-center animate-fade-in-up">
+          <div class="w-16 h-16 rounded-full bg-[#14532D] text-white flex items-center justify-center shadow-xl mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-black text-emerald-950 uppercase tracking-tight">Ready for more?</h3>
+          <p class="mt-2 text-emerald-800/70 font-bold text-sm max-w-[200px]">Book another court and keep the momentum
+            going.</p>
+          <button routerLink="/Venues" (click)="findVenue()"
+            class="mt-8 px-10 py-3.5 rounded-full bg-[#A34700] text-white font-black text-xs uppercase tracking-widest shadow-lg hover:-translate-y-1 transition-all">
+            Find a Venue
+          </button>
+        </div>
+        }
+      </div>
+      } @else {
+
       <div
-        class="bg-emerald-100/60 dark:bg-emerald-950/20 border-2 border-dashed border-emerald-300/70 dark:border-emerald-900/40 rounded-[2rem] p-10 sm:p-12 flex flex-col items-center justify-center text-center gap-5 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.18)] animate-fade-in-up"
-        style="animation-delay: 260ms;">
-        <button type="button"
-          class="w-20 h-20 rounded-full bg-[#146A1E] text-white shadow-2xl shadow-emerald-900/20 grid place-items-center transition-all duration-300 hover:scale-105 active:scale-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5v14"></path>
-            <path d="M5 12h14"></path>
+        class="bg-white rounded-[3.5rem] p-12 sm:p-24 shadow-sm flex flex-col items-center justify-center text-center animate-fade-in-up">
+        <div class="relative mb-10">
+          <div class="w-36 h-36 rounded-full bg-[#DCFCE7] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+              stroke="#14532D" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="m6.7 6.7 10.6 10.6" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </div>
+          <div
+            class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#A34700] border-4 border-white flex items-center justify-center shadow-lg">
+            <span class="text-white text-lg font-black">?</span>
+          </div>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-emerald-950 mb-4">No matches scheduled yet.</h2>
+        <p class="text-emerald-800/60 font-semibold max-w-md mb-12 text-lg leading-relaxed">
+          Your next goal is just a booking away. Let's find the perfect pitch for your team.
+        </p>
+        <button routerLink="/Venues" (click)="findVenue()"
+          class="group flex items-center gap-4 px-12 py-5 rounded-full bg-[#14532D] text-white font-black text-sm uppercase tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
+          Find a Pitch
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" class="transition-transform group-hover:translate-x-1">
+            <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </button>
-
-        <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
-          READY FOR MORE?
-        </h3>
-        <p class="text-slate-600 dark:text-slate-400 font-semibold max-w-sm">
-          Book another court and keep the momentum going.
-        </p>
-
-        <button type="button" (click)="findVenue()"
-          class="mt-2 px-10 py-4 rounded-2xl bg-[#A34700] hover:bg-[#8f3d00] text-white font-black shadow-xl shadow-orange-900/15 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-          FIND A VENUE
-        </button>
       </div>
+      }
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="mt-14 border-t border-slate-200/60 dark:border-slate-800/60">
-    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-      <div>
-        <p class="text-lg font-black tracking-tight">Ehgazly</p>
-        <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold mt-1">© 2024 Ehgazly. The Digital Locker Room.</p>
+  <footer class="mt-20 py-12 border-t border-emerald-200/50 bg-[#F0FDF4]">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-8">
+      <div class="text-center sm:text-left">
+        <p class="text-2xl font-black text-[#14532D]">Ehgazly</p>
+        <p class="text-sm text-emerald-800/50 font-bold mt-1">© 2024 Ehgazly. The Digital Locker Room.</p>
       </div>
-
-      <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm font-bold text-slate-500 dark:text-slate-400">
-        <a href="#" class="hover:text-[#2E7D32] transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-[#2E7D32] transition-colors">Terms of Service</a>
-        <a href="#" class="hover:text-[#2E7D32] transition-colors">Support</a>
-        <a href="#" class="hover:text-[#2E7D32] transition-colors">Contact Us</a>
+      <div class="flex gap-8 text-sm font-black text-emerald-800/50">
+        <a href="#" class="hover:text-emerald-900 transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-emerald-900 transition-colors">Terms of Service</a>
+        <a href="#" class="hover:text-emerald-900 transition-colors">Support</a>
       </div>
     </div>
   </footer>
