@@ -3,7 +3,7 @@ import { Component, HostListener, Input, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 
-export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings';
+export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friendly-matches';
 
 @Component({
   selector: 'app-playernav',
@@ -17,6 +17,7 @@ export class PlayernavComponent {
 
   @Input() active: PlayerNavActive = 'my-bookings';
   @Input() tournamentsLink: string | any[] = '/tournaments';
+  @Input() FriendlyMatchesLink: string | any[] = '/FriendlyMatches';
   @Input() venuesLink: string | any[] = '/Venues';
   @Input() myBookingsLink: string | any[] = '/MyBookings';
 

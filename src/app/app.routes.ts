@@ -11,6 +11,8 @@ import { ForgetPassComponent } from './shared/components/ForgetPass/forget-pass/
 import { ResetPassComponent } from './shared/components/ResetPass/reset-pass/reset-pass.component';
 import { BookingandScheduleComponent } from './shared/components/BookingandSchedule/bookingand-schedule/bookingand-schedule.component';
 import { PaymentComponent } from './shared/components/payment/payment/payment.component';
+import { FriendlyMatchDashboardComponent } from './shared/components/FriendlyMatchDashboard/friendly-match-dashboard/friendly-match-dashboard.component';
+import { FriendlyMatchDetailsComponent } from './shared/components/FriendlyMatchDetails/friendly-match-details/friendly-match-details.component';
 
 export const routes: Routes = [
     {
@@ -70,5 +72,15 @@ export const routes: Routes = [
         path: 'VenuesDetails',
         component: CourtDetailsComponent,
         title: 'Court Details',
+    },
+    {
+        path: 'FriendlyMatches',
+        component: FriendlyMatchDashboardComponent,
+        title: 'Friendly Matches',
+    },
+    {
+        path: 'FriendlyMatchesDetails',
+        component: FriendlyMatchDetailsComponent,
+        title: 'Friendly Matches Details',
     },
 ];

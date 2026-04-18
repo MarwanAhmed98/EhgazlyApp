@@ -16,6 +16,12 @@
 
     <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-10 text-[15px] font-bold text-slate-500 dark:text-slate-300">
+      <a [routerLink]="FriendlyMatchesLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
+      'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'friendly-matches'
+    }" routerLinkActive="text-[#2E7D32]" [routerLinkActiveOptions]="{ exact: true }"
+        (click)="currentTitle = 'Friendly Matches'">
+        Friendly Matches
+      </a>
 
       <a [routerLink]="tournamentsLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
       'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'tournaments'
