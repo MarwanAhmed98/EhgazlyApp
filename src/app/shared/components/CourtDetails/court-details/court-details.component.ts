@@ -1,10 +1,11 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
+import { RouterLink } from "@angular/router";
 type VenueSpec = { label: string; value: string; icon: string };
 type Amenity = { label: string; icon: string };
 @Component({
   selector: 'app-court-details',
-  imports: [PlayernavComponent],
+  imports: [PlayernavComponent, RouterLink],
   templateUrl: './court-details.component.html',
   styleUrl: './court-details.component.scss'
 })

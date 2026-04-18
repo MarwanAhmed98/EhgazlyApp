@@ -1,0 +1,332 @@
+<!-- Main Wrapper -->
+<div
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
+        }
+    </style>
+
+    <!-- Background Glow -->
+    <div
+        class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <!-- Navbar -->
+    <app-playernav [active]="'venues'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
+        <!-- Hero / Stadium Slider (independent from courts) -->
+        <section class="animate-fade-in-up">
+            <div
+                class="relative rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-2xl shadow-emerald-200/30 dark:shadow-none">
+                <div class="relative h-[260px] sm:h-[340px] lg:h-[380px] bg-emerald-950/20">
+                    <!-- Slides -->
+                    <div class="absolute inset-0">
+                        @for (img of venue.images; track $index) {
+                        <div class="absolute inset-0 transition-opacity duration-500 ease-out"
+                            [class.opacity-100]="$index === activeVenueSlide"
+                            [class.opacity-0]="$index !== activeVenueSlide"
+                            [class.pointer-events-auto]="$index === activeVenueSlide"
+                            [class.pointer-events-none]="$index !== activeVenueSlide">
+                            <img [src]="img" [alt]="venue.name + ' image ' + ($index + 1)"
+                                class="w-full h-full object-cover" loading="lazy" draggable="false" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/25 to-transparent">
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <button type="button" (click)="prevVenueSlide()"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-2xl bg-white/15 hover:bg-white/25 border border-white/15 backdrop-blur-xl grid place-items-center transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+                        aria-label="Previous image">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+
+                    <button type="button" (click)="nextVenueSlide()"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-2xl bg-white/15 hover:bg-white/25 border border-white/15 backdrop-blur-xl grid place-items-center transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+                        aria-label="Next image">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
+
+                    <!-- Text / Content -->
+                    <div class="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-20">
+                        <div class="max-w-4xl">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span
+                                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#A34700]/90 text-white text-[11px] font-black uppercase tracking-widest border border-white/10">
+                                    Top Rated Arena
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-xl text-white text-[11px] font-black border border-white/10">
+                                    <span class="text-amber-300">★</span>
+                                    {{ venue.rating }} <span class="font-semibold opacity-80">({{ venue.reviews }}
+                                        reviews)</span>
+                                </span>
+                            </div>
+
+                            <h1 class="mt-4 text-4xl sm:text-5xl font-black tracking-tighter text-white leading-tight">
+                                {{ venue.name }}
+                            </h1>
+
+                            <p class="mt-2 text-white/85 font-semibold inline-flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
+                                    <circle cx="12" cy="10" r="2" />
+                                </svg>
+                                <span class="truncate">{{ venue.location }}</span>
+                            </p>
+
+                            <!-- Dots -->
+                            <div class="mt-6 flex items-center gap-2">
+                                @for (img of venue.images; track $index) {
+                                <button type="button" (click)="goToVenueSlide($index)"
+                                    class="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                                    [class]="activeVenueSlide === $index ? 'bg-white' : 'bg-white/35 hover:bg-white/55'"
+                                    aria-label="Go to slide">
+                                </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtle top vignette for readability -->
+                    <div class="absolute inset-0 pointer-events-none">
+                        <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/25 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout -->
+        <section class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Pitch Amenities -->
+                <div class="animate-fade-in-up" style="animation-delay: 80ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
+                        <p class="text-xl font-black tracking-tight text-emerald-950 dark:text-white">Pitch Amenities
+                        </p>
+
+                        <div class="mt-5 grid grid-cols-2 gap-3">
+                            @for (a of selectedCourt.amenities; track a.label) {
+                            <div
+                                class="rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 p-4 flex items-center gap-3">
+                                <span
+                                    class="w-10 h-10 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
+                                    {{ a.icon }}
+                                </span>
+                                <span class="text-sm font-black text-emerald-950 dark:text-white">{{ a.label }}</span>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prime Time Alert -->
+                <div class="animate-fade-in-up" style="animation-delay: 120ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-200/55 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-emerald-950/10 blur-2xl">
+                        </div>
+                        <p class="text-xl font-black tracking-tight text-emerald-950 dark:text-white">Prime Time Alert
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-emerald-950/75 dark:text-emerald-100/75">
+                            Evening slots (18:00 – 22:00) are high demand. Book at least 3 days in advance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-8 space-y-8">
+                <!-- Select Date -->
+                <div class="animate-fade-in-up" style="animation-delay: 90ms;">
+                    <div class="flex items-center justify-between gap-4">
+                        <p class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">SELECT DATE</p>
+                        <p class="text-sm font-black text-slate-600 dark:text-slate-400">{{ monthLabel }}</p>
+                    </div>
+
+                    <div class="mt-5 grid grid-cols-3 sm:grid-cols-6 gap-3">
+                        @for (d of visibleDates; track d.iso) {
+                        <button type="button" (click)="selectDate(d.iso)"
+                            class="rounded-[1.4rem] border transition-all duration-300 p-4 text-center hover:-translate-y-0.5 active:translate-y-0"
+                            [class]="selectedDateISO === d.iso
+                  ? 'bg-[#146A1E] text-white border-emerald-900/30 shadow-lg shadow-emerald-900/15'
+                  : 'bg-emerald-100/60 dark:bg-emerald-950/20 text-emerald-950 dark:text-white border-emerald-200/60 dark:border-emerald-900/40 hover:bg-emerald-100'">
+                            <p class="text-[11px] font-black uppercase tracking-widest opacity-90">{{ d.dow }}</p>
+                            <p class="mt-2 text-3xl font-black leading-none">{{ d.day }}</p>
+                            <div class="mt-3 h-1.5">
+                                @if (selectedDateISO === d.iso) {
+                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-white"></span>
+                                }
+                            </div>
+                        </button>
+                        }
+                    </div>
+                </div>
+
+                <!-- Court Selection (independent) -->
+                <div class="animate-fade-in-up" style="animation-delay: 120ms;">
+                    <div class="flex items-center justify-between gap-4">
+                        <p class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">COURT SELECTION
+                        </p>
+                        <p class="text-sm font-black text-slate-600 dark:text-slate-400">Choose your court</p>
+                    </div>
+
+                    <div class="mt-5">
+                        <div
+                            class="inline-flex flex-wrap gap-2 p-1.5 rounded-2xl bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
+                            @for (c of courts; track c.id) {
+                            <button type="button" (click)="selectCourt(c.id)"
+                                class="px-6 py-3 rounded-xl text-sm font-black transition-all duration-300" [class]="c.id === selectedCourtId
+                    ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
+                    : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
+                                {{ c.name }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Slots -->
+                <div class="animate-fade-in-up" style="animation-delay: 160ms;">
+                    <div class="flex items-center justify-between">
+                        <p class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">AVAILABLE SLOTS
+                        </p>
+
+                        <div
+                            class="flex items-center gap-4 text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                            <span class="inline-flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-[#146A1E]"></span> Selected
+                            </span>
+                            <span class="inline-flex items-center gap-2">
+                                <span
+                                    class="w-3 h-3 rounded-full bg-emerald-200/90 border border-emerald-200/60"></span>
+                                Available
+                            </span>
+                            <span class="inline-flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-200/90 border border-red-200/60"></span> Booked
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @for (s of visibleSlots(); track s.id) {
+                        <button type="button" (click)="selectSlot(s)" [disabled]="!s.available"
+                            class="rounded-[1.6rem] border p-5 text-left transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed"
+                            [class]="slotClass(s)">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-sm font-black tracking-wide opacity-90">{{ s.label }}</p>
+                                    <p class="mt-2 text-xl font-black">
+                                        @if (s.available) {
+                                        {{ s.price }} EGP
+                                        } @else {
+                                        <span class="text-red-700 dark:text-red-300">UNAVAILABLE</span>
+                                        }
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-col items-end gap-2">
+                                    @if (s.isPrime && s.available) {
+                                    <span
+                                        class="px-2.5 py-1 rounded-full bg-[#A34700] text-white text-[10px] font-black uppercase tracking-widest">
+                                        PRIME
+                                    </span>
+                                    }
+                                    @if (isSelectedSlot(s)) {
+                                    <span
+                                        class="w-6 h-6 rounded-full bg-white/15 border border-white/20 grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 6 9 17l-5-5" />
+                                        </svg>
+                                    </span>
+                                    }
+                                </div>
+                            </div>
+                        </button>
+                        }
+                    </div>
+                </div>
+
+                <!-- Bottom Summary Bar -->
+                <div class="animate-fade-in-up" style="animation-delay: 210ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.20)]">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+                            <div>
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                                    Total Duration</p>
+                                <p class="mt-1 text-sm font-black text-emerald-950 dark:text-white">{{
+                                    totalDurationLabel }}</p>
+                            </div>
+
+                            <div class="h-6 w-px bg-emerald-200/70 dark:bg-emerald-900/40 hidden sm:block"></div>
+
+                            <div>
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                                    Grand Total</p>
+                                <p class="mt-1 text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
+                                    {{ grandTotal }} <span
+                                        class="text-sm font-black text-slate-600 dark:text-slate-400">EGP</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <button type="button" (click)="confirmBooking()" [disabled]="selectedSlots.length === 0"
+                            class="w-full lg:w-auto px-10 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                            CONFIRM BOOKING
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14" />
+                                <path d="M13 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>

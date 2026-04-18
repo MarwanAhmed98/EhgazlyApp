@@ -3,12 +3,9 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
-import { PlayernavComponent } from "../../../../layouts/playernav/playernav/playernav.component";
-
-
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, PlayernavComponent],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

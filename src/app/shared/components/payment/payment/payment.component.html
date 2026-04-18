@@ -1,0 +1,542 @@
+<!-- Main Wrapper -->
+<div
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
+        }
+
+        .animate-pop-in {
+            animation: popIn .35s cubic-bezier(.2, .9, .2, 1) both;
+        }
+    </style>
+
+    <!-- Background Glow -->
+    <div
+        class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <app-playernav [active]="'venues'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
+        <!-- Header -->
+        <section class="animate-fade-in-up">
+            <div class="max-w-4xl">
+                <h1
+                    class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.02] text-emerald-950 dark:text-white">
+                    FINAL <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-[#A34700] to-[#EF6C00]">WHISTLE.</span><br />
+                    SECURE YOUR PITCH.
+                </h1>
+                <p class="mt-5 text-slate-600 dark:text-slate-400 font-semibold leading-relaxed">
+                    Complete your transfer to finalize the reservation for
+                    <span class="font-black text-emerald-950 dark:text-white">{{ booking.field }}</span> –
+                    <span class="font-black text-emerald-950 dark:text-white">{{ booking.pitch }}</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Content -->
+        <section class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Select Payment Method -->
+                <div class="animate-fade-in-up" style="animation-delay: 90ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-11 h-11 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
+                                💳
+                            </span>
+                            <p class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
+                                Select Payment Method</p>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- InstaPay -->
+                            <button type="button" (click)="selectMethod('instapay')"
+                                class="text-left rounded-[1.75rem] border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+                                [class]="selectedMethod === 'instapay'
+                  ? 'bg-white/70 dark:bg-white/5 border-emerald-300/70 dark:border-emerald-700/40 shadow-xl shadow-emerald-200/25'
+                  : 'bg-emerald-50/60 dark:bg-emerald-950/10 border-emerald-200/60 dark:border-emerald-900/40 hover:bg-white/60 dark:hover:bg-white/5'">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div class="flex items-start gap-4">
+                                        <span
+                                            class="w-12 h-12 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
+                                            🏦
+                                        </span>
+                                        <div>
+                                            <p class="text-base font-black text-emerald-950 dark:text-white">InstaPay
+                                            </p>
+                                            <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                                Instant Bank Transfer</p>
+                                        </div>
+                                    </div>
+
+                                    <span class="mt-2 w-4 h-4 rounded-full border-2"
+                                        [class]="selectedMethod === 'instapay' ? 'bg-[#146A1E] border-[#146A1E]' : 'border-emerald-400/60 dark:border-emerald-700/40'">
+                                    </span>
+                                </div>
+                            </button>
+
+                            <!-- Digital Wallets -->
+                            <button type="button" (click)="selectMethod('wallets')"
+                                class="text-left rounded-[1.75rem] border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+                                [class]="selectedMethod === 'wallets'
+                  ? 'bg-white/70 dark:bg-white/5 border-emerald-300/70 dark:border-emerald-700/40 shadow-xl shadow-emerald-200/25'
+                  : 'bg-emerald-50/60 dark:bg-emerald-950/10 border-emerald-200/60 dark:border-emerald-900/40 hover:bg-white/60 dark:hover:bg-white/5'">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div class="flex items-start gap-4">
+                                        <span
+                                            class="w-12 h-12 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
+                                            👛
+                                        </span>
+                                        <div>
+                                            <p class="text-base font-black text-emerald-950 dark:text-white">Digital
+                                                Wallets</p>
+                                            <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                                Vodafone, Orange, Etisalat</p>
+                                        </div>
+                                    </div>
+
+                                    <span class="mt-2 w-4 h-4 rounded-full border-2"
+                                        [class]="selectedMethod === 'wallets' ? 'bg-[#146A1E] border-[#146A1E]' : 'border-emerald-400/60 dark:border-emerald-700/40'">
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How to Pay -->
+                <div class="animate-fade-in-up" style="animation-delay: 140ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-200/55 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 relative overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-emerald-950/10 blur-2xl"></div>
+
+                        <div class="flex items-center justify-between gap-4">
+                            <p class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
+                                How to Pay</p>
+                            <div
+                                class="w-12 h-12 rounded-full bg-emerald-950/10 grid place-items-center text-emerald-950 dark:text-emerald-100 font-black">
+                                i
+                            </div>
+                        </div>
+
+                        <div class="mt-6 space-y-6">
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">1</span>
+                                <div>
+                                    <p class="font-black text-emerald-950 dark:text-white">Open your App</p>
+                                    <p class="mt-1 text-sm font-semibold text-emerald-950/70 dark:text-emerald-100/70">
+                                        Launch InstaPay or your preferred Digital Wallet app.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">2</span>
+                                <div class="min-w-0">
+                                    <p class="font-black text-emerald-950 dark:text-white">Transfer to Address</p>
+
+                                    <div
+                                        class="mt-2 inline-flex items-center gap-2 rounded-xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 px-4 py-2.5">
+                                        <code
+                                            class="text-sm font-black text-[#A34700] select-all">{{ payAddress }}</code>
+                                        <button type="button" (click)="copyPayAddress()"
+                                            class="px-3 py-1.5 rounded-lg bg-emerald-200/70 hover:bg-emerald-200 border border-emerald-200/60 text-emerald-950 font-black text-xs transition-all duration-300">
+                                            Copy
+                                        </button>
+                                    </div>
+
+                                    <p
+                                        class="mt-2 text-xs font-semibold text-emerald-950/60 dark:text-emerald-100/60 italic">
+                                        Or mobile: +20 102 345 6789
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">3</span>
+                                <div>
+                                    <p class="font-black text-emerald-950 dark:text-white">Amount to Pay</p>
+                                    <p class="mt-2 text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                                        {{ booking.total.toFixed(2) }} <span
+                                            class="text-sm font-black text-emerald-950/70 dark:text-emerald-100/70">EGP</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Booking Summary -->
+                <div class="animate-fade-in-up" style="animation-delay: 100ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-950 text-white border border-emerald-900/40 shadow-2xl shadow-emerald-950/20 overflow-hidden relative">
+                        <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-white/10 blur-2xl"></div>
+                        <div class="p-6 sm:p-7 relative">
+                            <p class="text-[12px] font-black uppercase tracking-widest text-emerald-100/80">Booking
+                                Summary</p>
+
+                            <div class="mt-5 space-y-3 text-sm font-semibold">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-white/75">Field</span>
+                                    <span class="font-black">{{ booking.field }}</span>
+                                </div>
+                                <div class="h-px bg-white/10"></div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-white/75">Date</span>
+                                    <span class="font-black">{{ booking.dateLabel }}</span>
+                                </div>
+                                <div class="h-px bg-white/10"></div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-white/75">Time</span>
+                                    <span class="font-black">{{ booking.timeLabel }}</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex items-end justify-between">
+                                <span class="text-lg font-black">Total</span>
+                                <span class="text-xl font-black text-[#F4B6A7]">{{ booking.total.toFixed(2) }}
+                                    EGP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Receipt -->
+                <div class="animate-fade-in-up" style="animation-delay: 160ms;">
+                    <div
+                        class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
+                        <p
+                            class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white text-center">
+                            Upload Receipt
+                        </p>
+
+                        <!-- Dropzone / States -->
+                        <div class="mt-5 relative">
+                            <!-- Default + Uploading -->
+                            @if (uploadStatus === 'idle' || uploadStatus === 'uploading') {
+                            <label
+                                class="block rounded-[1.75rem] border-2 border-dashed p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/60 dark:hover:bg-white/5"
+                                [class]="uploadStatus === 'uploading'
+                                  ? 'border-emerald-300/70 dark:border-emerald-900/50 bg-emerald-50/60 dark:bg-emerald-950/10 opacity-90'
+                                  : 'border-emerald-300/70 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/10'">
+                                <input type="file" class="hidden" accept=".jpg,.jpeg,.png,.pdf"
+                                    (change)="onFileSelected($event)" [disabled]="uploadStatus === 'uploading'" />
+
+                                <div class="grid place-items-center text-center">
+                                    <div
+                                        class="w-16 h-16 rounded-full bg-emerald-200/70 border border-emerald-200/60 grid place-items-center">
+                                        @if (uploadStatus === 'uploading') {
+                                        <span
+                                            class="w-7 h-7 rounded-full border-2 border-emerald-950/25 border-t-emerald-950 animate-spin"></span>
+                                        } @else {
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-950"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 3v12" />
+                                            <path d="m7 8 5-5 5 5" />
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        </svg>
+                                        }
+                                    </div>
+
+                                    <p class="mt-4 font-black text-emerald-950 dark:text-white">
+                                        @if (uploadStatus === 'uploading') { Uploading... } @else { Drag & Drop
+                                        screenshot }
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                        @if (uploadStatus === 'uploading') { Please wait while we upload your receipt. }
+                                        @else { or click to browse from device }
+                                    </p>
+
+                                    <p
+                                        class="mt-4 text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                        JPG, PNG, PDF (MAX 5MB)
+                                    </p>
+
+                                    @if (receiptFileName) {
+                                    <p class="mt-4 text-sm font-black text-emerald-950 dark:text-white">
+                                        Selected: <span class="text-[#146A1E]">{{ receiptFileName }}</span>
+                                    </p>
+                                    }
+                                </div>
+                            </label>
+                            }
+
+                            <!-- Success (inline preview stays) -->
+                            @if (uploadStatus === 'success') {
+                            <div
+                                class="animate-pop-in rounded-[1.75rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-white/70 dark:bg-white/5">
+                                <div class="p-5 sm:p-6 flex items-start justify-between gap-4">
+                                    <div class="flex items-start gap-4 min-w-0">
+                                        <div
+                                            class="w-12 h-12 rounded-2xl bg-[#146A1E] text-white grid place-items-center shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2.8"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M20 6 9 17l-5-5" />
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-base sm:text-lg font-black text-emerald-950 dark:text-white">
+                                                Upload Complete
+                                            </p>
+                                            <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                                Your booking proof has been uploaded successfully.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" (click)="removeUpload()"
+                                        class="px-4 py-2 rounded-xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-white font-black text-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                                        Remove
+                                    </button>
+                                </div>
+
+                                @if (uploadedPreviewUrl) {
+                                <div class="px-5 sm:px-6 pb-6">
+                                    <div
+                                        class="rounded-2xl overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+                                        <img [src]="uploadedPreviewUrl" alt="Uploaded receipt"
+                                            class="w-full h-56 sm:h-64 object-cover" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Reservation -->
+                <div class="animate-fade-in-up" style="animation-delay: 220ms;">
+                    <button type="button" (click)="confirmReservation()"
+                        [disabled]="!receiptFile || uploadStatus !== 'success' || confirmStatus === 'loading'"
+                        class="w-full px-10 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                        @if (confirmStatus === 'loading') {
+                        <span class="inline-flex items-center gap-3">
+                            <span
+                                class="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+                            Processing...
+                        </span>
+                        } @else {
+                        CONFIRM RESERVATION
+                        }
+                        <span class="w-6 h-6 rounded-full bg-white/15 border border-white/15 grid place-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <p class="mt-3 text-[11px] font-semibold text-slate-600 dark:text-slate-400 text-center">
+                        By clicking confirm, you agree to our booking terms. Your reservation will be verified within 15
+                        minutes.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Centered Modal (Upload + Confirm feedback) -->
+<div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
+    [class.opacity-100]="isStatusModalOpen" [class.opacity-0]="!isStatusModalOpen"
+    [class.pointer-events-auto]="isStatusModalOpen" [class.pointer-events-none]="!isStatusModalOpen" aria-live="polite">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        (click)="closeStatusModal()"></div>
+
+    <div class="relative w-[92%] max-w-xl rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/40 dark:shadow-none overflow-hidden transition-all duration-300"
+        [class.translate-y-0]="isStatusModalOpen" [class.translate-y-3]="!isStatusModalOpen"
+        [class.scale-100]="isStatusModalOpen" [class.scale-95]="!isStatusModalOpen">
+
+        <!-- UPLOAD SUCCESS -->
+        @if (modalKind === 'uploadSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146A1E] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                Upload Successful
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                Your booking proof has been uploaded successfully.
+            </p>
+
+            @if (uploadedPreviewUrl) {
+            <div
+                class="mt-6 rounded-2xl overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+                <img [src]="uploadedPreviewUrl" alt="Uploaded receipt" class="w-full h-56 sm:h-64 object-cover" />
+            </div>
+            }
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Continue
+            </button>
+
+            <button type="button" (click)="removeUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Remove Upload
+            </button>
+        </div>
+        }
+
+        <!-- UPLOAD ERROR -->
+        @if (modalKind === 'uploadError') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#B42318] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-[#B42318]">
+                Upload Failed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                {{ uploadErrorMessage || "We encountered a technical glitch while uploading your booking proof. Don't
+                worry, your progress is saved locally." }}
+            </p>
+
+            <button type="button" (click)="retryUpload()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#F04438] hover:bg-[#D92D20] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Try Again
+            </button>
+
+            <button type="button" (click)="cancelUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Cancel Upload
+            </button>
+
+            <div class="mt-6 flex items-center justify-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/60"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/35"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/20"></span>
+            </div>
+        </div>
+        }
+
+        <!-- CONFIRM SUCCESS -->
+        @if (modalKind === 'confirmSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146A1E] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                Reservation Confirmed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                Your reservation has been submitted successfully. We’ll verify your payment shortly.
+            </p>
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Done
+            </button>
+        </div>
+        }
+
+        <!-- CONFIRM ERROR -->
+        @if (modalKind === 'confirmError') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#B42318] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-[#B42318]">
+                Confirmation Failed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                {{ confirmErrorMessage || "We couldn’t confirm your reservation right now. Please try again." }}
+            </p>
+
+            <button type="button" (click)="retryConfirm()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#F04438] hover:bg-[#D92D20] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Try Again
+            </button>
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Close
+            </button>
+
+            <div class="mt-6 flex items-center justify-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/60"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/35"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/20"></span>
+            </div>
+        </div>
+        }
+    </div>
+</div>

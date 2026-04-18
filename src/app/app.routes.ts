@@ -7,6 +7,10 @@ import { PlayerbookingComponent } from './shared/components/playerbooking/player
 import { PlayerFullBookingComponent } from './shared/components/PlayerFullBooking/player-full-booking/player-full-booking.component';
 import { VenuesComponent } from './shared/components/Venues/venues/venues.component';
 import { CourtDetailsComponent } from './shared/components/CourtDetails/court-details/court-details.component';
+import { ForgetPassComponent } from './shared/components/ForgetPass/forget-pass/forget-pass.component';
+import { ResetPassComponent } from './shared/components/ResetPass/reset-pass/reset-pass.component';
+import { BookingandScheduleComponent } from './shared/components/BookingandSchedule/bookingand-schedule/bookingand-schedule.component';
+import { PaymentComponent } from './shared/components/payment/payment/payment.component';
 
 export const routes: Routes = [
     {
@@ -28,6 +32,16 @@ export const routes: Routes = [
         title: 'Sign Up',
     },
     {
+        path: 'ForgotPassword',
+        component: ForgetPassComponent,
+        title: 'Forgot Password',
+    },
+    {
+        path: 'ResetPassword',
+        component: ResetPassComponent,
+        title: 'Reset Password',
+    },
+    {
         path: 'MyBookings',
         component: PlayerbookingComponent,
         title: 'My Bookings',
@@ -36,6 +50,16 @@ export const routes: Routes = [
         path: 'FullBookingDetails',
         component: PlayerFullBookingComponent,
         title: 'Full Booking Details',
+    },
+    {
+        path: 'BookingandSchedule',
+        component: BookingandScheduleComponent,
+        title: 'Booking and Schedule',
+    },
+    {
+        path: 'payment',
+        component: PaymentComponent,
+        title: 'Payment',
     },
     {
         path: 'Venues',
