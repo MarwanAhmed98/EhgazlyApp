@@ -74,6 +74,86 @@
                 </p>
 
                 <form [formGroup]="ResetForm" (ngSubmit)="SubmitForm()" class="space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Email Address</label>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input type="email" placeholder="athlete@ehgazly.com"
+                                class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400"
+                                formControlName="email" required>
+                        </div>
+                    </div>
+
+                    @if (
+                    ResetForm.get("email")?.errors &&
+                    (ResetForm.get("email")?.touched || ResetForm.get("email")?.dirty)
+                    ) {
+                    <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                            @if (ResetForm.get("email")?.getError("email")) {
+                            <span class="font-medium">Danger alert!</span> Please enter a
+                            valid email address.
+                            } @else if (ResetForm.get("email")?.getError("required")) {
+                            <span class="font-medium">Danger alert!</span> Email is required.
+                            }
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Token -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Token</label>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 11c0-1.105.895-2 2-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 13V7a2 2 0 012-2h4" />
+                                </svg>
+                            </div>
+                            <input type="text" placeholder="Enter token"
+                                class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400"
+                                formControlName="token" required>
+                        </div>
+                    </div>
+
+                    @if (
+                    ResetForm.get("token")?.errors &&
+                    (ResetForm.get("token")?.touched || ResetForm.get("token")?.dirty)
+                    ) {
+                    <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                            @if (ResetForm.get("token")?.getError("required")) {
+                            <span class="font-medium">Danger alert!</span> Token is required.
+                            }
+                        </div>
+                    </div>
+                    }
+
                     <!-- New Password -->
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">New Password</label>
@@ -89,7 +169,7 @@
 
                             <input [type]="showNewPassword ? 'text' : 'password'" placeholder="••••••••"
                                 class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-xl py-3 pl-11 pr-12 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400"
-                                formControlName="newPassword" required />
+                                formControlName="password" required />
 
                             <button type="button" (click)="showNewPassword = !showNewPassword"
                                 class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
@@ -117,8 +197,8 @@
                     </div>
 
                     @if (
-                    ResetForm.get("newPassword")?.errors &&
-                    (ResetForm.get("newPassword")?.touched || ResetForm.get("newPassword")?.dirty)
+                    ResetForm.get("password")?.errors &&
+                    (ResetForm.get("password")?.touched || ResetForm.get("password")?.dirty)
                     ) {
                     <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert">
@@ -129,9 +209,9 @@
                         </svg>
                         <span class="sr-only">Info</span>
                         <div>
-                            @if (ResetForm.get("newPassword")?.getError("required")) {
+                            @if (ResetForm.get("password")?.getError("required")) {
                             <span class="font-medium">Danger alert!</span> New password is required.
-                            } @else if (ResetForm.get("newPassword")?.getError("minlength")) {
+                            } @else if (ResetForm.get("password")?.getError("minlength")) {
                             <span class="font-medium">Danger alert!</span> Password must be at least {{
                             minPasswordLength }} characters.
                             }
@@ -154,7 +234,7 @@
 
                             <input [type]="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
                                 class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-xl py-3 pl-11 pr-12 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400"
-                                formControlName="confirmPassword" required />
+                                formControlName="password_confirmation" required />
 
                             <button type="button" (click)="showConfirmPassword = !showConfirmPassword"
                                 class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
@@ -182,8 +262,9 @@
                     </div>
 
                     @if (
-                    (ResetForm.get("confirmPassword")?.touched || ResetForm.get("confirmPassword")?.dirty) &&
-                    (ResetForm.get("confirmPassword")?.errors || ResetForm.errors)
+                    (ResetForm.get("password_confirmation")?.touched || ResetForm.get("password_confirmation")?.dirty)
+                    &&
+                    (ResetForm.get("password_confirmation")?.errors || ResetForm.errors)
                     ) {
                     <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert">

@@ -18,5 +18,8 @@ export class AuthService {
   sendForgetPasswordForm(data: object): Observable<any> {
     return this.httpClient.post(`${environments.baseUrl}/forgot-password`, data)
   }
+  sendResetPasswordForm(data: object): Observable<any> {
+    return this.httpClient.post(`${environments.baseUrl}/reset-password`, data)
+  }
 
 }

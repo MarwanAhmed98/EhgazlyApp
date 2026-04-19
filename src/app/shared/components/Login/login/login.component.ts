@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
+import { ToastService } from '../../../../core/services/toast/toast.service';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink],
@@ -12,6 +13,7 @@ import { AuthService } from '../../../../core/services/Auth/auth.service';
 export class LoginComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
   LoginForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, Validators.minLength(6)]),

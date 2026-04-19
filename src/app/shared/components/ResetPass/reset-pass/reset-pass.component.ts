@@ -1,15 +1,27 @@
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/services/Auth/auth.service';
 
 @Component({
   selector: 'app-reset-pass',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './reset-pass.component.html',
-  styleUrl: './reset-pass.component.scss'
+  styleUrl: './reset-pass.component.scss',
 })
-export class ResetPassComponent {
+export class ResetPassComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
   minPasswordLength = 6;
 
   showNewPassword = false;
@@ -17,34 +29,59 @@ export class ResetPassComponent {
 
   ResetForm = new FormGroup(
     {
-      newPassword: new FormControl<string | null>(null, [
+      email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
+
+      token: new FormControl<string | null>(null, [Validators.required]),
+
+      password: new FormControl<string | null>(null, [
         Validators.required,
         Validators.minLength(this.minPasswordLength),
       ]),
-      confirmPassword: new FormControl<string | null>(null, [Validators.required]),
+
+      password_confirmation: new FormControl<string | null>(null, [Validators.required]),
     },
-    {
-      validators: [this.passwordMatchValidator],
-    }
+    { validators: [this.passwordMatchValidator] }
   );
+
+  ngOnInit(): void {
+    // Extract both token + email from URL using paramMap + queryParamMap
+    const tokenFromParam = this.route.snapshot.paramMap.get('token');
+    const emailFromParam = this.route.snapshot.paramMap.get('email');
+
+    const tokenFromQuery = this.route.snapshot.queryParamMap.get('token');
+    const emailFromQuery = this.route.snapshot.queryParamMap.get('email');
+
+    const extractedToken = tokenFromParam ?? tokenFromQuery;
+    const extractedEmail = emailFromParam ?? emailFromQuery;
+
+    this.ResetForm.patchValue({
+      email: extractedEmail,
+      token: extractedToken,
+    });
+  }
 
   SubmitForm(): void {
     if (this.ResetForm.valid) {
-      console.log('Reset password:', { newPassword: this.ResetForm.value.newPassword });
-      this.router.navigate(['/Login']);
-
+      this.authService.sendResetPasswordForm(this.ResetForm.value).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.router.navigate(['/Login']);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
     } else {
       this.ResetForm.markAllAsTouched();
     }
   }
 
   private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const group = control as FormGroup;
-    const newPassword = group.get('newPassword')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
+    const newpassword = control.get('password')?.value;
+    const confirmpassword = control.get('password_confirmation')?.value;
 
-    if (!newPassword || !confirmPassword) return null;
+    if (!newpassword || !confirmpassword) return null;
 
-    return newPassword === confirmPassword ? null : { passwordMismatch: true };
+    return newpassword === confirmpassword ? null : { passwordMismatch: true };
   }
 }

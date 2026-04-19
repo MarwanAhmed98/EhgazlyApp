@@ -148,7 +148,7 @@
                         </svg>
                         <span class="sr-only">Info</span>
                         <div>
-                            @if (LoginForm.get("password")?.getError("pattern")) {
+                            @if (LoginForm.get("password")?.getError("minlength")) {
                             <span class="font-medium">Danger alert!</span> Input must be
                             between 3 and 6 characters and can contain letters and numbers
                             only.

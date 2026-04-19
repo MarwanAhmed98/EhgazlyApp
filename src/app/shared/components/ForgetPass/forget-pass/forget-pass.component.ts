@@ -23,18 +23,15 @@ export class ForgetPassComponent {
   SubmitForm(): void {
     if (this.ForgetForm.valid) {
       console.log(this.ForgetForm.value);
-      this.openSuccess();
-
-      // this.authService.sendForgetPasswordForm(this.ForgetForm.value).subscribe({
-      //   next: (res) => {
-      //     console.log(res);
-      //     this.openSuccess();
-      //   },
-      //   error: (error) => {
-      //     console.error(error);
-      //     // Do not show success on error
-      //   },
-      // });
+      this.authService.sendForgetPasswordForm(this.ForgetForm.value).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.openSuccess();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
     } else {
       this.ForgetForm.markAllAsTouched();
     }

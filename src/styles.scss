@@ -1,13 +1,75 @@
-/* You can add global styles to this file, and also import other style files */
+/* --- 1. Global Setup (Fonts & Tailwind) --- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-h1 , h3 , span , button{
-    font-family: "Montserrat", sans-serif;
-}
-p , a{
-      font-family: "Roboto", sans-serif;
 
+h1, h3, span, button { font-family: "Montserrat", sans-serif; }
+p, a { font-family: "Roboto", sans-serif; }
+
+html, body { height: 100%; margin: 0; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.toast-container {
+  width: 380px; 
+  background: rgba(255, 255, 255, 0.85); 
+  backdrop-filter: blur(20px); 
+  border-radius: 18px; 
+  padding: 18px 22px; 
+  display: flex;
+  align-items: center; 
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5); 
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.1), 
+    0 0 0 1px rgba(0,0,0,0.03);
+  animation: slideInFromRight 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+  margin: 20px;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.success { border-left: 6px solid #22c55e; color: #22c55e; }
+.error { border-left: 6px solid #ef4444; color: #ef4444; }
+.warning { border-left: 6px solid #f59e0b; color: #f59e0b; }
+.icon { 
+  font-size: 32px !important; /* حجم كبير وواضح */
+  color: currentColor;
+  flex-shrink: 0; 
+}
+
+
+.text h4 { 
+  margin: 0; 
+  font-size: 15px; 
+  font-weight: 700; 
+  color: #0f172a; 
+  letter-spacing: 0.2px;
+}
+
+.text p { 
+  margin: 4px 0 0 0; 
+  font-size: 13px; 
+  color: #475569; 
+  line-height: 1.4;
+}
+@keyframes slideInFromRight {
+  from { transform: translateX(120px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.transparent-snack {
+  --mdc-snackbar-container-color: transparent !important;
+  --mdc-snackbar-container-elevation: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.transparent-snack .mdc-snackbar__surface {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+.transparent-snack .mat-mdc-snack-bar-label {
+  padding: 0 !important;
+}
