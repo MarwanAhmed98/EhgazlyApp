@@ -13,6 +13,7 @@ import { BookingandScheduleComponent } from './shared/components/BookingandSched
 import { PaymentComponent } from './shared/components/payment/payment/payment.component';
 import { FriendlyMatchDashboardComponent } from './shared/components/FriendlyMatchDashboard/friendly-match-dashboard/friendly-match-dashboard.component';
 import { FriendlyMatchDetailsComponent } from './shared/components/FriendlyMatchDetails/friendly-match-details/friendly-match-details.component';
+import { CreateFriendlyMatchComponent } from './shared/components/CreateFriendlyMatch/create-friendly-match/create-friendly-match.component';
 
 export const routes: Routes = [
     {
@@ -82,5 +83,10 @@ export const routes: Routes = [
         path: 'FriendlyMatchesDetails',
         component: FriendlyMatchDetailsComponent,
         title: 'Friendly Matches Details',
+    },
+    {
+        path: 'CreateFriendlyMatch',
+        component: CreateFriendlyMatchComponent,
+        title: 'Create Friendly Match',
     },
 ];
