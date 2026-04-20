@@ -14,6 +14,12 @@ import { PaymentComponent } from './shared/components/payment/payment/payment.co
 import { FriendlyMatchDashboardComponent } from './shared/components/FriendlyMatchDashboard/friendly-match-dashboard/friendly-match-dashboard.component';
 import { FriendlyMatchDetailsComponent } from './shared/components/FriendlyMatchDetails/friendly-match-details/friendly-match-details.component';
 import { CreateFriendlyMatchComponent } from './shared/components/CreateFriendlyMatch/create-friendly-match/create-friendly-match.component';
+import { FriendlyMatchOrganizerComponent } from './shared/components/FriendlyMatchOrganizer/friendly-match-organizer/friendly-match-organizer.component';
+import { TournamentsComponent } from './shared/components/Tournaments/tournaments/tournaments.component';
+import { TournamentsDetailsComponent } from './shared/components/TournamentsDetails/tournaments-details/tournaments-details.component';
+import { TournamentsRegisterComponent } from './shared/components/TournamentsRegister/tournaments-register/tournaments-register.component';
+import { TournamentsPaymentComponent } from './shared/components/TournamentsPayment/tournaments-payment/tournaments-payment.component';
+import { TournamentsDashboardComponent } from './shared/components/TournamentsDashboard/tournaments-dashboard/tournaments-dashboard.component';
 
 export const routes: Routes = [
     {
@@ -89,4 +95,35 @@ export const routes: Routes = [
         component: CreateFriendlyMatchComponent,
         title: 'Create Friendly Match',
     },
+    {
+        path: 'FriendlyMatchOrganizer',
+        component: FriendlyMatchOrganizerComponent,
+        title: 'Friendly Match Organizer',
+    },
+    {
+        path: 'Tournaments',
+        component: TournamentsComponent,
+        title: 'Tournaments',
+    },
+    {
+        path: 'TournamentsDetails',
+        component: TournamentsDetailsComponent,
+        title: 'Tournaments Details',
+    },
+    {
+        path: 'TournamentsRegister',
+        component: TournamentsRegisterComponent,
+        title: 'Tournaments Register',
+    },
+    {
+        path: 'TournamentsPayment',
+        component: TournamentsPaymentComponent,
+        title: 'Tournaments Payment',
+    },
+    {
+        path: 'TournamentsDashboard',
+        component: TournamentsDashboardComponent,
+        title: 'My Tournaments Dashboard',
+    },
+
 ];

@@ -1,0 +1,189 @@
+<!-- Main Wrapper -->
+<div
+    class="min-h-screen bg-[#DFFFE3] text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
+        }
+    </style>
+
+    <!-- Background grid + soft glow -->
+    <div class="absolute inset-0 opacity-[0.14] pointer-events-none"
+        style="background-image: radial-gradient(rgba(2,44,34,.10) 1px, transparent 1px); background-size: 22px 22px;">
+    </div>
+    <div
+        class="absolute top-0 left-0 -ml-56 -mt-56 w-[520px] h-[520px] bg-[#2E7D32]/12 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <!-- Navbar (existing component) -->
+    <app-playernav [active]="'tournaments'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 pb-20 pt-8 sm:pt-10 relative z-10">
+        <!-- Featured hero -->
+        <section class="animate-fade-in-up">
+            <div
+                class="relative overflow-hidden rounded-[2.5rem] border border-emerald-200/60 bg-white/40 shadow-[0_40px_100px_-60px_rgba(2,44,34,.40)]">
+                <img [src]="featured.image" alt="Featured tournament"
+                    class="absolute inset-0 w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/75 via-emerald-950/40 to-emerald-950/10">
+                </div>
+
+                <div class="relative p-8 sm:p-12 lg:p-14 min-h-[260px] sm:min-h-[320px] flex flex-col justify-between">
+                    <div class="flex items-center justify-between gap-4">
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#A34700] text-white text-xs font-black uppercase tracking-widest shadow-lg shadow-black/10">
+                            <span class="w-2.5 h-2.5 rounded-full bg-white/80"></span>
+                            Featured Tournament
+                        </span>
+                    </div>
+
+                    <div class="mt-8 sm:mt-10">
+                        <h1
+                            class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] text-emerald-50">
+                            {{ featured.titleLine1 }}<br />
+                            {{ featured.titleLine2 }}
+                        </h1>
+
+                        <p class="mt-5 max-w-xl text-emerald-50/80 text-sm sm:text-base font-semibold leading-relaxed">
+                            {{ featured.description }}
+                        </p>
+
+                        <div class="mt-8">
+                            <button type="button" (click)="joinFeatured()"
+                                class="px-8 py-4 rounded-[1.75rem] bg-[#A34700] hover:bg-[#8a3c00] text-white font-black shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                                Join Tournament
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search + filters (FIXED SECTION ONLY) -->
+        <section class="mt-8 animate-fade-in-up" style="animation-delay: 90ms;">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+                <!-- Search -->
+                <div class="flex-1 min-w-0">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-5 flex items-center text-emerald-950/55">🔎</span>
+                        <input [value]="search" (input)="onSearch(($any($event.target).value))" type="text"
+                            placeholder="Search tournaments, venues, or cities..."
+                            class="w-full h-[64px] rounded-[2rem] bg-[#B9F2C2]/55 border border-emerald-200/60 px-6 pl-12 font-bold text-emerald-950 outline-none placeholder:text-emerald-950/45 focus:border-emerald-950/40 focus:ring-2 focus:ring-emerald-950/10 transition-all" />
+                    </div>
+                </div>
+
+                <!-- Pills -->
+                <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap lg:justify-end">
+                    @for (f of filters; track f.key) {
+                    <button type="button" (click)="setFilter(f.key)"
+                        class="h-[52px] px-7 rounded-full border text-sm font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap"
+                        [class]="activeFilter === f.key
+          ? 'bg-[#146A1E] border-[#146A1E] text-white shadow-lg shadow-[#146A1E]/25'
+          : 'bg-[#B9F2C2]/55 border-emerald-200/60 text-emerald-950 hover:bg-[#B9F2C2]/75'">
+                        {{ f.label }}
+                    </button>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards -->
+        <section routerLink="/TournamentsDetails"
+            class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-fade-in-up"
+            style="animation-delay: 140ms;">
+            @for (t of visibleTournaments; track t.id) {
+            <article
+                class="group rounded-[2.2rem] bg-white/55 border border-emerald-200/60 shadow-[0_30px_80px_-60px_rgba(2,44,34,.35)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_40px_100px_-65px_rgba(2,44,34,.45)]">
+
+                <!-- Media -->
+                <div class="relative h-52 overflow-hidden">
+                    <img [src]="t.image" alt="Tournament"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+
+                    <!-- Price chip -->
+                    <div class="absolute top-4 right-4">
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 border border-emerald-200/60 text-emerald-950 text-sm font-black">
+                            💵 {{ t.feeEGP }} EGP / Team
+                        </span>
+                    </div>
+
+                    <!-- Label chip -->
+                    @if (t.tag) {
+                    <div class="absolute bottom-4 left-4">
+                        <span
+                            class="inline-flex items-center px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest"
+                            [class]="t.tagStyle === 'warning'
+                ? 'bg-[#A34700] text-white'
+                : 'bg-[#146A1E] text-white'">
+                            {{ t.tag }}
+                        </span>
+                    </div>
+                    }
+
+                    <!-- Floating plus button (only on 3rd card like image vibe) -->
+                    @if (t.showPlus) {
+                    <button type="button" (click)="quickAdd(t.id)"
+                        class="absolute bottom-4 right-4 w-16 h-16 rounded-full bg-[#A34700] text-white text-3xl font-black grid place-items-center shadow-xl shadow-black/15 transition-all duration-300 hover:scale-105 active:scale-100">
+                        +
+                    </button>
+                    }
+                </div>
+
+                <!-- Content -->
+                <div class="p-7">
+                    <h3 class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950">
+                        {{ t.title }}
+                    </h3>
+
+                    <p class="mt-2 text-sm font-semibold text-emerald-950/60 inline-flex items-center gap-2">
+                        📍 {{ t.location }}
+                    </p>
+
+                    <div class="mt-6 grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50">Date</p>
+                            <p class="mt-2 text-sm font-black text-emerald-950">{{ t.dateRange }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50">Time</p>
+                            <p class="mt-2 text-sm font-black text-emerald-950">{{ t.timeLabel }}</p>
+                        </div>
+                    </div>
+
+                    <button type="button" (click)="viewDetails(t.id)"
+                        class="mt-7 w-full px-6 py-4 rounded-2xl bg-[#9BF18E] hover:bg-[#86ea79] text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                        View Details <span>→</span>
+                    </button>
+                </div>
+            </article>
+            }
+        </section>
+    </main>
+</div>

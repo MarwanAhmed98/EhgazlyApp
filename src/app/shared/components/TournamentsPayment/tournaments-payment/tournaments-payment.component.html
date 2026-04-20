@@ -1,0 +1,646 @@
+<!-- Main Wrapper -->
+<div
+    class="min-h-screen bg-[#DFFFE3] text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
+        }
+
+        .animate-pop-in {
+            animation: popIn .35s cubic-bezier(.2, .9, .2, 1) both;
+        }
+    </style>
+
+    <!-- Background grid + soft glow -->
+    <div class="absolute inset-0 opacity-[0.14] pointer-events-none"
+        style="background-image: radial-gradient(rgba(2,44,34,.10) 1px, transparent 1px); background-size: 22px 22px;">
+    </div>
+    <div
+        class="absolute top-0 left-0 -ml-56 -mt-56 w-[520px] h-[520px] bg-[#2E7D32]/12 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <!-- Top nav (reuse existing) -->
+    <app-playernav [active]="'tournaments'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-10 pb-16 relative z-10">
+        <!-- Decision: WAITLIST vs PAYMENT -->
+        @if (isFull) {
+        <!-- WAITLIST STATE -->
+        <section class="animate-fade-in-up">
+            <div class="flex flex-col items-center text-center">
+                <span
+                    class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-[#FCD6C8] text-[#7A2E0A] text-[11px] font-black uppercase tracking-widest">
+                    Registration Notice
+                </span>
+
+                <h1
+                    class="mt-7 text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.02] text-emerald-950">
+                    The Pitch is<br />
+                    <span class="italic text-[#146A1E]">Fully Booked.</span>
+                </h1>
+
+                <p class="mt-6 max-w-2xl text-base sm:text-lg font-semibold text-emerald-950/60 leading-relaxed">
+                    Every locker is claimed and every slot is taken. But the game isn't over yet—join the official
+                    waitlist to secure the first open spot.
+                </p>
+            </div>
+        </section>
+
+        <section class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <!-- Left tournament card -->
+            <div class="lg:col-span-5">
+                <div
+                    class="rounded-[2.5rem] bg-[#B9F2C2]/55 border border-emerald-200/60 shadow-[0_40px_120px_-85px_rgba(2,44,34,.45)] overflow-hidden h-full">
+                    <div class="p-8 sm:p-10">
+                        <div
+                            class="w-24 h-24 rounded-full bg-emerald-200/55 border border-emerald-200/60 grid place-items-center">
+                            <div
+                                class="w-14 h-14 rounded-3xl bg-[#A34700] text-white grid place-items-center font-black">
+                                🏟</div>
+                        </div>
+
+                        <div
+                            class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#F04438] text-white text-[10px] font-black uppercase tracking-widest">
+                            Full Capacity
+                        </div>
+
+                        <h3 class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-emerald-950">
+                            {{ waitlist.tournamentTitle }}
+                        </h3>
+
+                        <p class="mt-3 text-sm font-semibold text-emerald-950/60 inline-flex items-center gap-2">
+                            <span class="opacity-80">📅</span> {{ waitlist.dateRange }}
+                        </p>
+
+                        <div class="mt-10 rounded-[1.75rem] bg-white/55 border border-emerald-200/60 p-6">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-black text-emerald-950">Registration Status</p>
+                                <span
+                                    class="px-4 py-2 rounded-xl bg-emerald-950 text-emerald-50 text-[11px] font-black uppercase tracking-widest">Closed</span>
+                            </div>
+
+                            <div class="mt-5 h-3 rounded-full bg-emerald-950/20 overflow-hidden">
+                                <div class="h-full bg-[#146A1E]" style="width: 100%"></div>
+                            </div>
+
+                            <p class="mt-3 text-right text-xs font-semibold text-emerald-950/60">
+                                {{ waitlist.registered }}/{{ waitlist.capacity }} Teams Registered
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right content -->
+            <div class="lg:col-span-7">
+                <div class="h-full flex flex-col justify-between gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="rounded-[2rem] bg-[#B9F2C2]/55 border border-emerald-200/60 p-7">
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="w-12 h-12 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">🔔</span>
+                                <div>
+                                    <p class="text-lg font-black text-emerald-950">Instant Alerts</p>
+                                    <p class="mt-2 text-sm font-semibold text-emerald-950/60 leading-relaxed">
+                                        We'll notify your team captain immediately if a registered team withdraws or
+                                        fails verification.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-[2rem] bg-[#B9F2C2]/55 border border-emerald-200/60 p-7">
+                            <div class="flex items-start gap-4">
+                                <span
+                                    class="w-12 h-12 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">⏱</span>
+                                <div>
+                                    <p class="text-lg font-black text-emerald-950">Priority Access</p>
+                                    <p class="mt-2 text-sm font-semibold text-emerald-950/60 leading-relaxed">
+                                        Waitlisted teams get 24-hour early bird access to our upcoming Autumn Regional
+                                        Invitational.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                        <button type="button" (click)="joinWaitlist()"
+                            [disabled]="waitlistStatus === 'joining' || waitlistStatus === 'joined'"
+                            class="flex-1 h-14 rounded-[2rem] bg-[#A34700] hover:bg-[#8a3c00] disabled:bg-[#A34700]/50 text-white font-black text-base shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                            @if (waitlistStatus === 'joining') { Joining... } @else if (waitlistStatus === 'joined') {
+                            Joined Waitlist } @else { Join Waitlist }
+                        </button>
+
+                        <button type="button" (click)="goBack()"
+                            class="flex-1 h-14 rounded-[2rem] bg-emerald-200/55 hover:bg-emerald-200 border border-emerald-200/60 text-emerald-950 font-black text-base transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                            <span class="text-xl leading-none">←</span> Go Back
+                        </button>
+                    </div>
+
+                    <div
+                        class="rounded-[1.25rem] bg-white/50 border border-emerald-200/60 px-5 py-4 flex items-center justify-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-[#146A1E]"></span>
+                        <p class="text-sm font-black text-emerald-950">
+                            Live Waitlist Status:
+                            <span class="text-emerald-950/60 font-semibold"> {{ waitlistAhead }} teams ahead of
+                                you</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer strip (simple) -->
+        <section class="mt-16 border-t border-emerald-200/60 pt-10 text-emerald-950/60 text-xs font-semibold">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <p class="text-emerald-950 font-black text-lg">Ehgazly</p>
+                    <p class="mt-3 max-w-xs">
+                        © 2024 Ehgazly. The Digital Locker Room. Transforming how athletes connect and compete.
+                    </p>
+                </div>
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/60">Explore</p>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" (click)="$event.preventDefault()"
+                                class="hover:text-emerald-950 transition-colors">About Us</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()"
+                                class="hover:text-emerald-950 transition-colors">Partner with Us</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()"
+                                class="hover:text-emerald-950 transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/60">Legal</p>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" (click)="$event.preventDefault()"
+                                class="hover:text-emerald-950 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()"
+                                class="hover:text-emerald-950 transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/60">Support</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <button type="button"
+                            class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center hover:-translate-y-0.5 transition-all">↗</button>
+                        <button type="button"
+                            class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center hover:-translate-y-0.5 transition-all">✉</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        } @else {
+        <!-- PAYMENT STATE -->
+        <section class="animate-fade-in-up">
+            <div class="flex flex-col items-center text-center">
+                <span
+                    class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-emerald-200/55 border border-emerald-200/60 text-emerald-950 text-[11px] font-black uppercase tracking-widest">
+                    Final Step
+                </span>
+
+                <h1
+                    class="mt-7 text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.02] text-emerald-950">
+                    Secure Your Spot
+                </h1>
+
+                <p class="mt-4 max-w-2xl text-base sm:text-lg font-semibold text-emerald-950/60">
+                    Complete your payment to finalize the registration for the <span
+                        class="font-black text-emerald-950">{{ tournamentTitle }}</span>.
+                </p>
+            </div>
+        </section>
+
+        <section class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- LEFT: Instructions -->
+            <div class="lg:col-span-7">
+                <div
+                    class="rounded-[2.5rem] bg-[#B9F2C2]/55 border border-emerald-200/60 p-7 sm:p-10 shadow-[0_40px_120px_-85px_rgba(2,44,34,.45)]">
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="w-11 h-11 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">💳</span>
+                        <h2 class="text-2xl font-black tracking-tight text-emerald-950">Payment Instructions</h2>
+                    </div>
+
+                    <div class="mt-8 space-y-8">
+                        <!-- 1 -->
+                        <div class="flex items-start gap-5">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">
+                                1</div>
+                            <div class="min-w-0">
+                                <p class="text-lg font-black text-emerald-950">Select Transfer Method</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-950/60">
+                                    Choose your preferred digital wallet or InstaPay for the transfer.
+                                </p>
+
+                                <div class="mt-4 flex flex-wrap gap-3">
+                                    <button type="button" (click)="selectMethod('instapay')"
+                                        class="px-5 py-2.5 rounded-full border text-xs font-black uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                                        [class]="selectedMethod === 'instapay'
+                        ? 'bg-emerald-950 text-white border-emerald-950 shadow-lg shadow-emerald-950/15'
+                        : 'bg-emerald-200/55 text-emerald-950 border-emerald-200/60 hover:bg-emerald-200'">
+                                        InstaPay
+                                    </button>
+
+                                    <button type="button" (click)="selectMethod('wallets')"
+                                        class="px-5 py-2.5 rounded-full border text-xs font-black uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                                        [class]="selectedMethod === 'wallets'
+                        ? 'bg-emerald-950 text-white border-emerald-950 shadow-lg shadow-emerald-950/15'
+                        : 'bg-emerald-200/55 text-emerald-950 border-emerald-200/60 hover:bg-emerald-200'">
+                                        Digital Wallets
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2 -->
+                        <div class="flex items-start gap-5">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">
+                                2</div>
+                            <div class="min-w-0 w-full">
+                                <p class="text-lg font-black text-emerald-950">Transfer Entry Fee</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-950/60">
+                                    Send exactly <span class="font-black text-emerald-950">{{ booking.total.toFixed(0)
+                                        }} EGP</span> to the following ID/Number:
+                                </p>
+
+                                <div
+                                    class="mt-4 rounded-[1.75rem] bg-emerald-200/45 border border-emerald-200/60 p-5 flex items-center justify-between gap-4">
+                                    <div>
+                                        <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/60">
+                                            Wallet ID / Phone
+                                        </p>
+                                        <p class="mt-2 text-2xl font-black tracking-tight text-emerald-950">
+                                            {{ payAddress }}
+                                        </p>
+                                    </div>
+
+                                    <button type="button" (click)="copyPayAddress()"
+                                        class="h-11 px-6 rounded-2xl bg-emerald-950 text-white font-black text-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3 -->
+                        <div class="flex items-start gap-5">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#146A1E] text-white grid place-items-center font-black">
+                                3</div>
+                            <div>
+                                <p class="text-lg font-black text-emerald-950">Upload Receipt</p>
+                                <p class="mt-1 text-sm font-semibold text-emerald-950/60">
+                                    Capture a screenshot of your successful transaction and upload it here.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="mt-10 rounded-[2rem] bg-[#F3F1D8] border border-amber-200/60 p-6 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-2xl bg-[#A34700] text-white grid place-items-center font-black">i
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-[#7A2E0A]">Important Notice</p>
+                            <p class="mt-1 text-sm font-semibold text-[#7A2E0A]/70 leading-relaxed">
+                                Verification takes up to 12 hours. Ensure the transaction reference number is visible in
+                                the screenshot to avoid rejection.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Verification card -->
+            <div class="lg:col-span-5 space-y-6">
+                <div
+                    class="rounded-[2.5rem] bg-white/70 border border-emerald-200/60 shadow-[0_40px_120px_-85px_rgba(2,44,34,.45)] overflow-hidden">
+                    <div class="p-7 sm:p-9">
+                        <h2 class="text-2xl font-black tracking-tight text-emerald-950">Payment Verification</h2>
+
+                        <!-- Dropzone / States (reuse payment code logic) -->
+                        <div class="mt-6">
+                            @if (uploadStatus === 'idle' || uploadStatus === 'uploading') {
+                            <label
+                                class="block rounded-[2rem] border-2 border-dashed border-emerald-200/60 bg-emerald-50/40 p-8 sm:p-10 cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/60"
+                                [class]="uploadStatus === 'uploading' ? 'opacity-90' : ''">
+                                <input type="file" class="hidden" accept=".jpg,.jpeg,.png,.pdf"
+                                    (change)="onFileSelected($event)" [disabled]="uploadStatus === 'uploading'" />
+
+                                <div class="grid place-items-center text-center">
+                                    <div
+                                        class="w-16 h-16 rounded-full bg-emerald-200/70 border border-emerald-200/60 grid place-items-center">
+                                        @if (uploadStatus === 'uploading') {
+                                        <span
+                                            class="w-7 h-7 rounded-full border-2 border-emerald-950/25 border-t-emerald-950 animate-spin"></span>
+                                        } @else {
+                                        <span class="text-2xl">☁</span>
+                                        }
+                                    </div>
+
+                                    <p class="mt-5 font-black text-emerald-950">
+                                        Drag & drop your receipt
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-emerald-950/60">
+                                        PNG, JPG or PDF up to 5MB
+                                    </p>
+
+                                    <button type="button"
+                                        class="mt-6 h-10 px-6 rounded-full bg-emerald-200/70 border border-emerald-200/60 text-emerald-950 font-black text-xs uppercase tracking-widest"
+                                        (click)="$event.preventDefault()">
+                                        Browse Files
+                                    </button>
+                                </div>
+                            </label>
+                            }
+
+                            @if (uploadStatus === 'success') {
+                            <div
+                                class="mt-4 animate-pop-in rounded-[1.5rem] bg-[#B9F2C2]/45 border border-emerald-200/60 p-4 flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-emerald-950 text-white grid place-items-center font-black">
+                                        🖼</div>
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-black text-emerald-950 truncate">{{ receiptFileName }}
+                                        </p>
+                                        <p class="text-xs font-semibold text-emerald-950/60">Uploaded</p>
+                                    </div>
+                                </div>
+
+                                <button type="button" (click)="removeUpload()"
+                                    class="w-10 h-10 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center font-black text-emerald-950 transition-all duration-300 hover:-translate-y-0.5">
+                                    ✕
+                                </button>
+                            </div>
+                            }
+
+                            @if (uploadStatus === 'error') {
+                            <div class="mt-4 animate-pop-in rounded-[1.5rem] bg-red-50 border border-red-200 p-4">
+                                <p class="text-sm font-black text-[#B42318]">Upload Failed</p>
+                                <p class="mt-1 text-sm font-semibold text-[#B42318]/70">{{ uploadErrorMessage }}</p>
+                                <div class="mt-4 flex gap-3">
+                                    <button type="button" (click)="retryUpload()"
+                                        class="h-10 px-5 rounded-2xl bg-[#F04438] hover:bg-[#D92D20] text-white font-black text-sm transition-all">
+                                        Try Again
+                                    </button>
+                                    <button type="button" (click)="cancelUpload()"
+                                        class="h-10 px-5 rounded-2xl bg-white/60 border border-red-200 text-[#B42318] font-black text-sm transition-all">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <button type="button" (click)="confirmReservation()"
+                            [disabled]="!receiptFile || uploadStatus !== 'success' || confirmStatus === 'loading'"
+                            class="mt-8 w-full h-14 rounded-[2rem] bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                            @if (confirmStatus === 'loading') { Processing... } @else { Confirm Registration }
+                        </button>
+
+                        <p
+                            class="mt-4 text-[10px] font-black uppercase tracking-widest text-emerald-950/50 text-center">
+                            Secure Encrypted Verification
+                        </p>
+                    </div>
+                </div>
+
+                <div class="rounded-[2rem] bg-emerald-200/35 border border-emerald-200/60 p-5 flex items-center gap-4">
+                    <div
+                        class="w-12 h-12 rounded-full bg-emerald-950 text-emerald-50 grid place-items-center font-black">
+                        C3
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-black text-emerald-950">{{ tournamentTitle }}</p>
+                        <p class="mt-1 text-xs font-semibold text-emerald-950/60">{{ tournamentDateRange }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="mt-16 border-t border-emerald-200/60 pt-10 text-emerald-950/60 text-xs font-semibold">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <p>Ehgazly © 2024 Ehgazly. All Rights Reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#" (click)="$event.preventDefault()"
+                        class="hover:text-emerald-950 transition-colors">Tournament Rules</a>
+                    <a href="#" (click)="$event.preventDefault()" class="hover:text-emerald-950 transition-colors">Terms
+                        of Service</a>
+                    <a href="#" (click)="$event.preventDefault()"
+                        class="hover:text-emerald-950 transition-colors">Privacy Policy</a>
+                    <a href="#" (click)="$event.preventDefault()"
+                        class="hover:text-emerald-950 transition-colors">Contact Support</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button"
+                        class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center hover:-translate-y-0.5 transition-all">↗</button>
+                    <button type="button"
+                        class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center hover:-translate-y-0.5 transition-all">?</button>
+                </div>
+            </div>
+        </section>
+        }
+    </main>
+</div>
+
+<!-- Status Modal (reused from payment code) -->
+<div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
+    [class.opacity-100]="isStatusModalOpen" [class.opacity-0]="!isStatusModalOpen"
+    [class.pointer-events-auto]="isStatusModalOpen" [class.pointer-events-none]="!isStatusModalOpen" aria-live="polite">
+
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        (click)="closeStatusModal()"></div>
+
+    <div class="relative w-[92%] max-w-xl rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/40 dark:shadow-none overflow-hidden transition-all duration-300"
+        [class.translate-y-0]="isStatusModalOpen" [class.translate-y-3]="!isStatusModalOpen"
+        [class.scale-100]="isStatusModalOpen" [class.scale-95]="!isStatusModalOpen">
+
+        <!-- UPLOAD SUCCESS -->
+        @if (modalKind === 'uploadSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146A1E] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                Upload Successful
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                Your booking proof has been uploaded successfully.
+            </p>
+
+            @if (uploadedPreviewUrl) {
+            <div
+                class="mt-6 rounded-2xl overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+                <img [src]="uploadedPreviewUrl" alt="Uploaded receipt" class="w-full h-56 sm:h-64 object-cover" />
+            </div>
+            }
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Continue
+            </button>
+
+            <button type="button" (click)="removeUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Remove Upload
+            </button>
+        </div>
+        }
+
+        <!-- UPLOAD ERROR -->
+        @if (modalKind === 'uploadError') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#B42318] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-[#B42318]">
+                Upload Failed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                {{ uploadErrorMessage || "We encountered a technical glitch while uploading your booking proof. Don't
+                worry, your progress is saved locally." }}
+            </p>
+
+            <button type="button" (click)="retryUpload()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#F04438] hover:bg-[#D92D20] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Try Again
+            </button>
+
+            <button type="button" (click)="cancelUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Cancel Upload
+            </button>
+
+            <div class="mt-6 flex items-center justify-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/60"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/35"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/20"></span>
+            </div>
+        </div>
+        }
+
+        <!-- CONFIRM SUCCESS -->
+        @if (modalKind === 'confirmSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146A1E] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
+                Reservation Confirmed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                Your reservation has been submitted successfully. We’ll verify your payment shortly.
+            </p>
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Done
+            </button>
+
+            <button type="button" (click)="goToTournaments()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Go to Tournaments
+            </button>
+        </div>
+        }
+
+        <!-- CONFIRM ERROR -->
+        @if (modalKind === 'confirmError') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#B42318] border-4 border-white dark:border-slate-900 grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </div>
+
+            <p class="mt-6 text-2xl sm:text-3xl font-black tracking-tight text-[#B42318]">
+                Confirmation Failed
+            </p>
+
+            <p class="mt-3 text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                {{ confirmErrorMessage || "We couldn’t confirm your reservation right now. Please try again." }}
+            </p>
+
+            <button type="button" (click)="retryConfirm()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#F04438] hover:bg-[#D92D20] text-white font-black shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Try Again
+            </button>
+
+            <button type="button" (click)="closeStatusModal()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                Close
+            </button>
+
+            <div class="mt-6 flex items-center justify-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/60"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/35"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#F04438]/20"></span>
+            </div>
+        </div>
+        }
+    </div>
+</div>

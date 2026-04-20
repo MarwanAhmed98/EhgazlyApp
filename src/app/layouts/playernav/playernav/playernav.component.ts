@@ -16,7 +16,7 @@ export class PlayernavComponent {
   private readonly router = inject(Router);
 
   @Input() active: PlayerNavActive = 'my-bookings';
-  @Input() tournamentsLink: string | any[] = '/tournaments';
+  @Input() tournamentsLink: string | any[] = '/Tournaments';
   @Input() FriendlyMatchesLink: string | any[] = '/FriendlyMatches';
   @Input() venuesLink: string | any[] = '/Venues';
   @Input() myBookingsLink: string | any[] = '/MyBookings';

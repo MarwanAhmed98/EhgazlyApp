@@ -1,0 +1,325 @@
+<!--
+  Team Registration Page (Ehgazly Tournament)
+  UI based on provided image design.
+  Logic strictly copied from user's SignupComponent.
+-->
+<div
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
+    <!-- Background Glow Elements -->
+    <div
+        class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
+    </div>
+
+    <div class="max-w-7xl w-full mx-auto px-6 grid lg:grid-cols-2 gap-14 lg:gap-24 items-stretch relative z-10">
+
+        <!-- Left Side: Visual / Marketing (Matches Image) -->
+        <div class="hidden lg:block">
+            <div
+                class="relative h-full min-h-[760px] rounded-[2.75rem] overflow-hidden border border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-emerald-200/30 dark:shadow-none animate-fade-in-up">
+
+                <img src="https://images.pexels.com/photos/36961381/pexels-photo-36961381/free-photo-of-kocaeli-stadium-interior-with-empty-seats.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                    alt="Football stadium" class="absolute inset-0 w-full h-full object-cover" />
+
+                <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/35 to-black/20"></div>
+
+                <div class="absolute top-8 left-8 right-8 flex justify-end">
+                    <div
+                        class="group inline-flex items-center gap-3 px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-lg shadow-black/20 transition-all duration-300 hover:bg-white/15 hover:-translate-y-0.5">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-300/30 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3 2" />
+                            </svg>
+                        </span>
+                        <div class="leading-tight">
+                            <p class="text-sm font-extrabold tracking-tight">Ehgazly Championship</p>
+                            <p class="text-xs text-white/75 font-semibold">Register your team now</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 right-0 p-10">
+                    <h2 class="text-5xl font-black tracking-tighter leading-[1.05] text-white">
+                        Dominate the
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">Pitch</span>
+                    </h2>
+                    <p class="mt-4 text-white/80 text-sm font-semibold max-w-md leading-relaxed">
+                        Assemble your squad, claim your spot, and compete for glory in the upcoming Ehgazly Tournament.
+                    </p>
+                    <div class="mt-8 flex items-center gap-3 text-white/70 text-xs font-bold uppercase tracking-widest">
+                        <span class="inline-flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Team Registration
+                        </span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-white/25"></span>
+                        <span>Secure</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-white/25"></span>
+                        <span>Live Matches</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Registration Form -->
+        <div class="w-full max-w-md mx-auto lg:max-w-none lg:mx-0 animate-fade-in-up" style="animation-delay: 90ms;">
+            <div
+                class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none">
+
+                <!-- Logo -->
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2E7D32] to-[#578061] flex items-center justify-center text-white font-black mb-6">
+                    E
+                </div>
+
+                <h1 class="text-3xl font-black tracking-tight">Register Team</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mt-2 mb-8">
+                    Claim your spot in the Ehgazly Championship.
+                </p>
+
+                <form [formGroup]="RegisterForm" (ngSubmit)="SubmitForm()" class="space-y-5" novalidate>
+                    <input type="hidden" formControlName="role" />
+
+                    <!-- Team Name -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Team Name</label>
+                        <input type="text" formControlName="teamName" placeholder="Enter team name"
+                            class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400" />
+                    </div>
+
+                    @let TeamNameControl = RegisterForm.get('teamName');
+                    @if (TeamNameControl?.errors && (TeamNameControl?.touched || TeamNameControl?.dirty)) {
+                    <div id="alert-teamname"
+                        class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div class="flex flex-col">
+                            @if (TeamNameControl?.getError('required')) {
+                            <div class="ms-3 text-sm font-medium">Team Name is Required</div>
+                            } @else if (TeamNameControl?.getError('minlength')) {
+                            <div class="ms-3 text-sm font-medium">Team Name should be more than or equal 3 chars</div>
+                            } @else if (TeamNameControl?.getError('maxlength')) {
+                            <div class="ms-3 text-sm font-medium">Team Name should be less than or equal 20 chars</div>
+                            }
+                        </div>
+                        <button type="button"
+                            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                            aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+
+                    <!-- Kit Color (NEW SECTION: exact image-style swatches + fully functional) -->
+                    <div class="space-y-3">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Kit Color</label>
+
+                        <div class="flex items-center gap-4">
+                            @for (c of kitColors; track c.key) {
+                            <button type="button" (click)="selectKitColor(c.hex)"
+                                class="w-[68px] h-[68px] rounded-2xl border transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                                [class]="RegisterForm.controls.kitColor.value === c.hex
+                  ? 'border-emerald-950 ring-2 ring-emerald-950/10 shadow-sm'
+                  : 'border-slate-200/70 dark:border-slate-700/70'" [style.background]="c.hex">
+                                @if (RegisterForm.controls.kitColor.value === c.hex) {
+                                <span
+                                    class="w-full h-full grid place-items-center text-white font-black text-lg">✓</span>
+                                }
+                            </button>
+                            }
+                        </div>
+                    </div>
+
+                    @let KitColorControl = RegisterForm.get('kitColor');
+                    @if (KitColorControl?.errors && (KitColorControl?.touched || KitColorControl?.dirty)) {
+                    <div id="alert-kitcolor"
+                        class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div class="flex flex-col">
+                            @if (KitColorControl?.getError('required')) {
+                            <div class="ms-3 text-sm font-medium">Kit Color is Required</div>
+                            }
+                        </div>
+                        <button type="button"
+                            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                            aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+
+                    <!-- Captain Name -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Captain Name</label>
+                        <input type="text" formControlName="captainName" placeholder="Full name of team lead"
+                            class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400" />
+                    </div>
+
+                    @let CaptainNameControl = RegisterForm.get('captainName');
+                    @if (CaptainNameControl?.errors && (CaptainNameControl?.touched || CaptainNameControl?.dirty)) {
+                    <div id="alert-captainname"
+                        class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div class="flex flex-col">
+                            @if (CaptainNameControl?.getError('required')) {
+                            <div class="ms-3 text-sm font-medium">Captain Name is Required</div>
+                            } @else if (CaptainNameControl?.getError('minlength')) {
+                            <div class="ms-3 text-sm font-medium">Captain Name should be more than or equal 3 chars
+                            </div>
+                            } @else if (CaptainNameControl?.getError('maxlength')) {
+                            <div class="ms-3 text-sm font-medium">Captain Name should be less than or equal 20 chars
+                            </div>
+                            }
+                        </div>
+                        <button type="button"
+                            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                            aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+
+                    <!-- Phone Number -->
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Phone Number</label>
+                        <input type="tel" formControlName="phone" placeholder="+20 100 000 0000"
+                            class="w-full bg-emerald-50/80 dark:bg-slate-950/40 border border-emerald-100 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl py-3.5 px-4 focus:ring-2 focus:ring-[#2E7D32] focus:border-[#2E7D32] outline-none transition-all placeholder:text-slate-400" />
+                    </div>
+
+                    @let PhoneControl = RegisterForm.get('phone');
+                    @if (PhoneControl?.errors && (PhoneControl?.touched || PhoneControl?.dirty)) {
+                    <div id="alert-phone"
+                        class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div class="flex flex-col">
+                            @if (PhoneControl?.getError('required')) {
+                            <div class="ms-3 text-sm font-medium">Phone is Required</div>
+                            } @else if (PhoneControl?.getError('pattern')) {
+                            <div class="ms-3 text-sm font-medium">Only Egypt Phone Numbers</div>
+                            }
+                        </div>
+                        <button type="button"
+                            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                            aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+
+                    <button type="submit" [disabled]="RegisterForm.invalid"
+                        class="w-full mt-4 bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl shadow-lg shadow-[#2E7D32]/25 transition-all hover:-translate-y-0.5 active:translate-y-0">
+                        Register Team
+                    </button>
+                </form>
+
+                <p class="mt-8 text-center text-sm text-slate-600 dark:text-slate-400 font-medium">
+                    By registering, you agree to the
+                    <a href="#"
+                        class="font-black text-[#2E7D32] dark:text-[#4ade80] hover:underline transition-all">Tournament
+                        Rules</a>
+                    and
+                    <a href="#"
+                        class="font-black text-[#2E7D32] dark:text-[#4ade80] hover:underline transition-all">Code of
+                        Conduct</a>.
+                </p>
+
+                <!-- Footer Links (from image) -->
+                <div class="mt-10 pt-6 border-t border-slate-100 dark:border-slate-800">
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-700 dark:text-slate-300">COMPANY</p>
+                            <p>About Us</p>
+                            <p>Careers</p>
+                            <p>Partner with Us</p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-700 dark:text-slate-300">SUPPORT</p>
+                            <p>Contact Support</p>
+                            <p>Terms of Service</p>
+                            <p>Privacy Policy</p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-slate-700 dark:text-slate-300">FOLLOW US</p>
+                            <div class="flex gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                                </svg>
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0021.962-11.81c0-.214-.005-.425-.015-.636A9.936 9.936 0 0024 4.59z" />
+                                </svg>
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-xs text-slate-400 dark:text-slate-500 mt-6">
+                        © 2024 Ehgazly. The Digital Locker Room.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
