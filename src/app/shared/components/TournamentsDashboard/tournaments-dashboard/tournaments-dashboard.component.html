@@ -1,1 +1,240 @@
-<p>tournaments-dashboard works!</p>
+<!-- Page Wrapper -->
+<div class="min-h-screen bg-[#DFFFE3] text-slate-900 font-sans relative overflow-hidden">
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
+    <!-- Subtle background grid -->
+    <div class="absolute inset-0 opacity-[0.12] pointer-events-none"
+        style="background-image: radial-gradient(rgba(2,44,34,.10) 1px, transparent 1px); background-size: 22px 22px;">
+    </div>
+
+    <!-- Top Nav -->
+    <app-playernav [active]="'tournaments'"></app-playernav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-12 pb-20 relative z-10">
+        <!-- Hero -->
+        <section>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.95] text-emerald-950">
+                My <span class="italic text-[#146A1E]">Tournaments</span>
+            </h1>
+
+            <p class="mt-5 max-w-3xl text-base sm:text-lg font-semibold text-emerald-950/60 leading-relaxed">
+                Manage your active registrations and revisit your match history in the digital<br
+                    class="hidden sm:block" />
+                locker room.
+            </p>
+        </section>
+
+        <!-- Active Registrations -->
+        <section class="mt-14">
+            <div class="flex items-center gap-4">
+                <span class="w-3 h-3 rounded-full bg-[#146A1E]"></span>
+
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950">
+                    Active Registrations
+                </h2>
+
+                <div class="flex-1 h-px bg-emerald-950/10 mt-1"></div>
+
+                <span
+                    class="px-5 py-2 rounded-full bg-[#B9F2C2]/75 border border-emerald-200/60 text-emerald-950 text-xs font-black uppercase tracking-widest">
+                    {{ upcomingCount }} UPCOMING
+                </span>
+            </div>
+
+            <div class="mt-7 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                @for (t of activeRegistrations; track t.id) {
+                <article
+                    class="rounded-[1.6rem] bg-white/60 border-2 border-emerald-300/60 shadow-[0_30px_80px_-65px_rgba(2,44,34,.5)] overflow-hidden transition-transform duration-300 hover:-translate-y-0.5">
+                    <div class="p-5">
+                        <div class="relative rounded-2xl overflow-hidden border border-emerald-200/60">
+                            <img [src]="t.coverUrl" [alt]="t.title" class="h-44 w-full object-cover" />
+
+                            @if (t.badge.kind === 'payment') {
+                            <span
+                                class="absolute top-3 left-3 px-4 py-2 rounded-full bg-[#A34700] text-white text-xs font-black">
+                                Payment Required
+                            </span>
+                            } @else if (t.badge.kind === 'approved') {
+                            <span
+                                class="absolute top-3 left-3 px-4 py-2 rounded-full bg-[#146A1E] text-white text-xs font-black inline-flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-white"></span> Approved
+                            </span>
+                            } @else if (t.badge.kind === 'pending') {
+                            <span
+                                class="absolute top-3 left-3 px-4 py-2 rounded-full bg-[#B9F2C2]/85 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-950/70"></span> Pending
+                            </span>
+                            }
+                        </div>
+
+                        <h3 class="mt-5 text-xl font-black text-emerald-950">{{ t.title }}</h3>
+                        <p class="mt-2 text-sm font-semibold text-emerald-950/60">
+                            Registration: {{ t.registrationLabel }}
+                        </p>
+
+                        <div class="mt-5 h-px bg-emerald-950/10"></div>
+
+                        <div class="mt-4 flex items-center justify-between gap-4">
+                            @if (t.footer.kind === 'pay') {
+                            <p class="text-lg font-black text-emerald-950">{{ t.footer.priceLabel }}</p>
+                            <button type="button" (click)="payNow(t)"
+                                class="h-11 px-7 rounded-full bg-[#A34700] text-white font-black text-sm transition-colors hover:bg-[#8a3c00]">
+                                Pay Now
+                            </button>
+                            } @else if (t.footer.kind === 'details') {
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="w-8 h-8 rounded-full bg-[#B9F2C2]/80 border border-emerald-200/60 grid place-items-center text-[11px] font-black text-emerald-950">
+                                    {{ t.footer.leftChip }}
+                                </span>
+                                <span
+                                    class="w-8 h-8 rounded-full bg-[#FFD9C2]/80 border border-amber-200/60 grid place-items-center text-[11px] font-black text-emerald-950">
+                                    {{ t.footer.rightChip }}
+                                </span>
+                            </div>
+                            <button type="button" (click)="viewDetails(t)"
+                                class="text-sm font-black text-emerald-950 hover:underline">
+                                View Details
+                            </button>
+                            } @else if (t.footer.kind === 'edit') {
+                            <p class="text-sm font-semibold text-emerald-950/45">{{ t.footer.note }}</p>
+                            <button type="button" (click)="editForm(t)"
+                                class="h-11 px-7 rounded-full bg-[#B9F2C2]/85 border border-emerald-200/60 text-emerald-950 font-black text-sm transition-colors hover:bg-[#B9F2C2]">
+                                Edit Form
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </article>
+                }
+            </div>
+        </section>
+
+        <!-- Past Tournaments -->
+        <section class="mt-16">
+            <div class="flex items-center gap-4">
+                <span class="w-3 h-3 rounded-full bg-emerald-950/35"></span>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950">
+                    Past Tournaments
+                </h2>
+                <div class="flex-1 h-px bg-emerald-950/10 mt-1"></div>
+            </div>
+
+            <div class="mt-7 space-y-6">
+                @for (p of pastTournaments; track p.id) {
+                <article
+                    class="rounded-[1.8rem] bg-[#B9F2C2]/50 border border-emerald-200/60 p-6 sm:p-7 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                    <div class="flex items-center gap-6">
+                        <div class="w-24 h-24 rounded-2xl bg-emerald-950/90 overflow-hidden">
+                            <img [src]="p.logoUrl" [alt]="p.title" class="w-full h-full object-cover opacity-90" />
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-black text-emerald-950">{{ p.title }}</h3>
+                            <div
+                                class="mt-3 flex flex-wrap items-center gap-x-7 gap-y-2 text-sm font-semibold text-emerald-950/60">
+                                <span class="inline-flex items-center gap-2">
+                                    <span class="opacity-80">📅</span> {{ p.dateRangeLabel }}
+                                </span>
+
+                                @if (p.resultKind === 'quarter') {
+                                <span class="inline-flex items-center gap-2">
+                                    <span class="opacity-80">🏆</span> Quarter-Finalist
+                                </span>
+                                } @else if (p.resultKind === 'winner') {
+                                <span class="inline-flex items-center gap-2 text-[#146A1E] font-black">
+                                    <span class="opacity-90">🏅</span> Winner
+                                </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
+                        <button type="button" (click)="viewBracket(p)"
+                            class="h-12 px-7 rounded-full bg-transparent border border-emerald-950/35 text-emerald-950 font-black text-sm transition-colors hover:bg-white/40">
+                            <span class="inline-flex items-center gap-3"><span class="opacity-90">⎇</span> View
+                                Bracket</span>
+                        </button>
+
+                        <button type="button" (click)="contactOrganizer(p)"
+                            class="h-12 px-7 rounded-full bg-transparent border border-emerald-950/35 text-emerald-950 font-black text-sm transition-colors hover:bg-white/40">
+                            <span class="inline-flex items-center gap-3"><span class="opacity-90">✉</span> Contact
+                                Organizer</span>
+                        </button>
+                    </div>
+                </article>
+                }
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-10 border-t border-emerald-950/10 text-emerald-950/60">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-xs font-semibold">
+                    <p class="text-emerald-950 font-black text-lg">Ehgazly</p>
+                    <p class="mt-2">© 2024 Ehgazly. The Digital Locker Room.</p>
+                </div>
+
+                <nav class="flex flex-wrap items-center justify-center gap-10 text-xs font-semibold">
+                    <a href="#" (click)="openLink($event, 'terms')"
+                        class="hover:text-emerald-950 transition-colors underline decoration-[#A34700] underline-offset-8">Terms
+                        of Play</a>
+                    <a href="#" (click)="openLink($event, 'regulations')"
+                        class="hover:text-emerald-950 transition-colors underline decoration-[#A34700] underline-offset-8">Pitch
+                        Regulations</a>
+                    <a href="#" (click)="openLink($event, 'support')"
+                        class="hover:text-emerald-950 transition-colors underline decoration-[#A34700] underline-offset-8">Support</a>
+                    <a href="#" (click)="openLink($event, 'privacy')"
+                        class="hover:text-emerald-950 transition-colors underline decoration-[#A34700] underline-offset-8">Privacy</a>
+                </nav>
+
+                <div class="flex items-center gap-3">
+                    <button type="button" (click)="quickAction('ball')"
+                        class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center transition-all hover:-translate-y-0.5">
+                        ⚽
+                    </button>
+                    <button type="button" (click)="quickAction('team')"
+                        class="w-11 h-11 rounded-2xl bg-white/60 border border-emerald-200/60 grid place-items-center transition-all hover:-translate-y-0.5">
+                        👥
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Simple modal used by page interactions -->
+    <div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
+        [class.opacity-100]="isModalOpen" [class.opacity-0]="!isModalOpen" [class.pointer-events-auto]="isModalOpen"
+        [class.pointer-events-none]="!isModalOpen" aria-live="polite">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeModal()"></div>
+
+        <div class="relative w-[92%] max-w-lg rounded-[2rem] bg-white border border-slate-200/60 shadow-2xl overflow-hidden transition-all duration-300"
+            [class.translate-y-0]="isModalOpen" [class.translate-y-3]="!isModalOpen" [class.scale-100]="isModalOpen"
+            [class.scale-95]="!isModalOpen">
+            <div class="p-7 sm:p-8">
+                <p class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950">{{ modalTitle }}</p>
+                <p class="mt-2 text-sm font-semibold text-emerald-950/60 leading-relaxed">{{ modalMessage }}</p>
+
+                <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <button type="button" (click)="confirmModal()"
+                        class="flex-1 h-12 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black transition-colors">
+                        {{ modalPrimaryLabel }}
+                    </button>
+                    <button type="button" (click)="closeModal()"
+                        class="flex-1 h-12 rounded-2xl bg-white/60 border border-slate-200/60 text-emerald-950 font-black transition-colors hover:bg-white">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
