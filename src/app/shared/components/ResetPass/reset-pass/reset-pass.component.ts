@@ -10,6 +10,8 @@ import {
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+
 
 @Component({
   selector: 'app-reset-pass',
@@ -21,6 +23,7 @@ export class ResetPassComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
 
   minPasswordLength = 6;
 
@@ -65,6 +68,7 @@ export class ResetPassComponent implements OnInit {
       this.authService.sendResetPasswordForm(this.ResetForm.value).subscribe({
         next: (res) => {
           console.log(res);
+          this.toastService.success(res.message, 'Ehgazly');
           this.router.navigate(['/Login']);
         },
         error: (err) => {

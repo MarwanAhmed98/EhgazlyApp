@@ -26,9 +26,11 @@ export class LoginComponent {
           localStorage.setItem('PlayerToken', res.token);
           if (res.user.role == 'customer') {
             this.router.navigate(['/MyBookings']);
+            this.toastService.success(res.message, 'Ehgazly');
           }
           else {
-            this.router.navigate(['/Venues']);
+            this.router.navigate(['/CourtOwner']);
+            this.toastService.success(res.message, 'Ehgazly');
           }
         },
         error: (error) => {

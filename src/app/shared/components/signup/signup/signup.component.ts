@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+
 
 
 type Role = 'customer' | 'courtowner';
@@ -15,6 +17,7 @@ type Role = 'customer' | 'courtowner';
 export class SignupComponent {
   private readonly authService = inject(AuthService)
   private readonly router = inject(Router)
+  private readonly toastService = inject(ToastService);
   role: Role = 'customer';
   showPassword = false;
 
@@ -59,6 +62,7 @@ export class SignupComponent {
           next: (res) => {
             console.log(res);
             localStorage.setItem('CourtOwnerToken', res.token);
+            this.toastService.success(res.message, 'Ehgazly');
             this.router.navigate(['/Login']);
           },
           error: (err) => {

@@ -2,6 +2,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+
 
 @Component({
   selector: 'app-forget-pass',
@@ -12,7 +14,7 @@ import { AuthService } from '../../../../core/services/Auth/auth.service';
 export class ForgetPassComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-
+  private readonly toastService = inject(ToastService);
   showSuccess = false;
   private successTimer: number | null = null;
 
@@ -26,6 +28,7 @@ export class ForgetPassComponent {
       this.authService.sendForgetPasswordForm(this.ForgetForm.value).subscribe({
         next: (res) => {
           console.log(res);
+          this.toastService.success(res.message, 'Ehgazly');
           this.openSuccess();
         },
         error: (error) => {
