@@ -1,0 +1,276 @@
+<div class="min-h-screen bg-[#DFFFE3] text-slate-900 font-sans">
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        :host {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10 pb-16 sm:pb-20">
+        <!-- Header -->
+        <header class="flex items-start justify-between gap-4">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-emerald-950">
+                Payment Verification
+            </h1>
+
+            <div
+                class="shrink-0 h-10 px-4 rounded-full bg-[#B9F2C2]/70 border border-emerald-200/60 inline-flex items-center gap-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#146A1E]"></span>
+                <span class="text-xs font-black uppercase tracking-widest text-emerald-950/80">LIVEAUDIT</span>
+            </div>
+        </header>
+
+        <section class="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 sm:gap-8">
+            <!-- Left -->
+            <div class="space-y-6 sm:space-y-8">
+                <!-- Booking Summary -->
+                <article
+                    class="rounded-[2.5rem] bg-white/75 border border-emerald-200/60 shadow-[0_45px_120px_-95px_rgba(2,44,34,.55)] overflow-hidden">
+                    <div class="p-6 sm:p-10">
+                        <div class="flex items-center gap-5">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-[#B9F2C2] border border-emerald-200/60 grid place-items-center text-emerald-950">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M8 7h8"></path>
+                                    <path d="M8 11h8"></path>
+                                    <path d="M8 15h8"></path>
+                                    <rect x="6" y="3" width="12" height="18" rx="2"></rect>
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-emerald-950">Booking Summary
+                            </h2>
+                        </div>
+
+                        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-xs font-black uppercase tracking-widest text-emerald-950/55">PLAYER NAME
+                                </p>
+                                <p class="mt-2 text-2xl font-black text-emerald-950">{{ summary.playerName }}</p>
+                                <div class="mt-4 h-px bg-emerald-950/10"></div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-black uppercase tracking-widest text-emerald-950/55">PITCH
+                                    LOCATION</p>
+                                <p class="mt-2 text-2xl font-black text-emerald-950">{{ summary.pitchLocation }}</p>
+                                <div class="mt-4 h-px bg-emerald-950/10"></div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-black uppercase tracking-widest text-emerald-950/55">DATE</p>
+                                <p class="mt-2 text-2xl font-black text-emerald-950">{{ summary.dateLabel }}</p>
+                                <div class="mt-4 h-px bg-emerald-950/10"></div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-black uppercase tracking-widest text-emerald-950/55">TIME SLOT
+                                </p>
+                                <p class="mt-2 text-2xl font-black text-[#146A1E]">{{ summary.timeSlotLabel }}</p>
+                                <div class="mt-4 h-px bg-emerald-950/10"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="mt-10 rounded-[1.75rem] bg-[#DFFFE3] border border-emerald-200/60 px-6 sm:px-8 py-6 flex items-center justify-between gap-6">
+                            <p class="text-xl font-black text-emerald-950/70">Total Amount</p>
+                            <p class="text-4xl sm:text-5xl font-black tracking-tight text-[#A34700]">
+                                {{ summary.totalAmountEgp.toLocaleString() }} EGP
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Final Verification -->
+                <article
+                    class="rounded-[2.5rem] bg-[#B9F2C2]/65 border border-emerald-200/60 shadow-[0_45px_120px_-95px_rgba(2,44,34,.55)] overflow-hidden">
+                    <div class="p-6 sm:p-10">
+                        <div class="flex items-center gap-5">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-white/75 border border-emerald-200/60 grid place-items-center text-emerald-950">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="m4 4 16 16"></path>
+                                    <path d="M8 4h8"></path>
+                                    <path d="M7 7h10"></path>
+                                    <path d="M6 10h12"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-emerald-950">Final
+                                Verification</h2>
+                        </div>
+
+                        <p class="mt-6 text-lg sm:text-xl font-semibold text-emerald-950/60 leading-relaxed max-w-3xl">
+                            Please ensure all transaction details match the internal booking records. Confirming this
+                            will finalize the court reservation for the player.
+                        </p>
+
+                        <div class="mt-10 flex flex-col sm:flex-row gap-4 sm:gap-6">
+                            <button type="button" (click)="openConfirmModal()" class="h-16 px-8 sm:px-10 rounded-2xl bg-[#146A1E] text-white font-black text-lg
+                       inline-flex items-center justify-center gap-4
+                       shadow-xl shadow-emerald-950/10
+                       hover:bg-[#0f5418] hover:-translate-y-0.5 active:translate-y-0 transition-all">
+                                <span class="w-8 h-8 rounded-full bg-white/10 grid place-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </span>
+                                Confirm Booking
+                            </button>
+
+                            <button type="button" (click)="openRejectModal()" class="h-16 px-8 sm:px-10 rounded-2xl bg-transparent border-2 border-red-600 text-red-600 font-black text-lg
+                       inline-flex items-center justify-center gap-4
+                       hover:bg-red-600/10 hover:-translate-y-0.5 active:translate-y-0 transition-all">
+                                <span class="w-8 h-8 rounded-full border-2 border-red-600 grid place-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="M6 6l12 12"></path>
+                                    </svg>
+                                </span>
+                                Reject Booking
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Right -->
+            <aside class="space-y-6 sm:space-y-8">
+                <!-- Customer Profile -->
+                <article
+                    class="rounded-[2.5rem] bg-[#B9F2C2]/55 border border-emerald-200/60 shadow-[0_45px_120px_-95px_rgba(2,44,34,.55)] overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <p class="text-xs font-black uppercase tracking-[0.22em] text-emerald-950/60">CUSTOMER PROFILE
+                        </p>
+
+                        <div class="mt-6 flex flex-col items-center text-center">
+                            <div
+                                class="w-28 h-28 rounded-full bg-white/80 border border-emerald-200/60 shadow-lg shadow-black/5 grid place-items-center">
+                                <div
+                                    class="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200/60 grid place-items-center text-emerald-950">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M20 21a8 8 0 1 0-16 0"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <p class="mt-6 text-3xl font-black text-emerald-950">{{ profile.name }}</p>
+                            <p class="mt-2 text-lg font-semibold text-[#146A1E] tracking-wider">{{ profile.phone }}</p>
+
+                            <button type="button" (click)="contactPlayer()" class="mt-8 w-full h-14 rounded-2xl bg-[#B9F2C2] border border-emerald-200/60 text-emerald-950 font-black
+                       inline-flex items-center justify-center gap-4
+                       hover:bg-[#B9F2C2]/85 hover:-translate-y-0.5 active:translate-y-0 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.81.3 1.6.54 2.36a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.72-1.06a2 2 0 0 1 2.11-.45c.76.24 1.55.42 2.36.54A2 2 0 0 1 22 16.92Z">
+                                    </path>
+                                </svg>
+                                Contact Player
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Audit Guidelines -->
+                <article
+                    class="rounded-[2.5rem] bg-[#B9F2C2]/55 border border-emerald-200/60 shadow-[0_45px_120px_-95px_rgba(2,44,34,.55)] overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-950 text-white grid place-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 16v-4"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xl font-black text-emerald-950">Audit Guidelines</p>
+                        </div>
+
+                        <ul class="mt-6 space-y-4 text-base font-semibold text-emerald-950/65">
+                            @for (g of guidelines; track g) {
+                            <li class="flex items-start gap-4">
+                                <span class="mt-2 w-2 h-2 rounded-full bg-emerald-950/80 shrink-0"></span>
+                                <span>{{ g }}</span>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </article>
+            </aside>
+        </section>
+    </main>
+
+    <!-- Confirm Modal -->
+    <div class="fixed inset-0 z-[80] flex items-center justify-center transition-all duration-300"
+        [class.opacity-100]="isConfirmModalOpen" [class.opacity-0]="!isConfirmModalOpen"
+        [class.pointer-events-auto]="isConfirmModalOpen" [class.pointer-events-none]="!isConfirmModalOpen">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeConfirmModal()"></div>
+
+        <div class="relative w-[92%] max-w-lg rounded-[2rem] bg-white border border-emerald-200/60 shadow-2xl overflow-hidden transition-all duration-300"
+            [class.translate-y-0]="isConfirmModalOpen" [class.translate-y-3]="!isConfirmModalOpen"
+            [class.scale-100]="isConfirmModalOpen" [class.scale-95]="!isConfirmModalOpen">
+            <div class="p-7 sm:p-8">
+                <p class="text-2xl font-black text-emerald-950">Confirm Booking</p>
+                <p class="mt-2 text-sm font-semibold text-emerald-950/60">This action will finalize the reservation.</p>
+
+                <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <button type="button" (click)="confirmBooking()"
+                        class="flex-1 h-12 rounded-2xl bg-[#146A1E] text-white font-black hover:bg-[#0f5418] transition-colors">
+                        Confirm
+                    </button>
+                    <button type="button" (click)="closeConfirmModal()"
+                        class="flex-1 h-12 rounded-2xl bg-white/60 border border-emerald-200/60 text-emerald-950 font-black hover:bg-white transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Modal -->
+    <div class="fixed inset-0 z-[80] flex items-center justify-center transition-all duration-300"
+        [class.opacity-100]="isRejectModalOpen" [class.opacity-0]="!isRejectModalOpen"
+        [class.pointer-events-auto]="isRejectModalOpen" [class.pointer-events-none]="!isRejectModalOpen">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeRejectModal()"></div>
+
+        <div class="relative w-[92%] max-w-lg rounded-[2rem] bg-white border border-emerald-200/60 shadow-2xl overflow-hidden transition-all duration-300"
+            [class.translate-y-0]="isRejectModalOpen" [class.translate-y-3]="!isRejectModalOpen"
+            [class.scale-100]="isRejectModalOpen" [class.scale-95]="!isRejectModalOpen">
+            <div class="p-7 sm:p-8">
+                <p class="text-2xl font-black text-emerald-950">Reject Booking</p>
+                <p class="mt-2 text-sm font-semibold text-emerald-950/60">Enter a reason to reject this booking.</p>
+
+                <textarea [(ngModel)]="rejectReason"
+                    class="mt-5 w-full min-h-[120px] rounded-2xl border border-emerald-200/60 bg-emerald-50/40 px-5 py-4 text-sm font-semibold text-emerald-950 placeholder:text-emerald-950/40 focus:outline-none focus:ring-2 focus:ring-emerald-200/80"
+                    placeholder="Type rejection reason..."></textarea>
+
+                <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <button type="button" (click)="rejectBooking()" [disabled]="rejectReason.trim().length === 0"
+                        class="flex-1 h-12 rounded-2xl bg-red-600 text-white font-black hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+                        Reject
+                    </button>
+                    <button type="button" (click)="closeRejectModal()"
+                        class="flex-1 h-12 rounded-2xl bg-white/60 border border-emerald-200/60 text-emerald-950 font-black hover:bg-white transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

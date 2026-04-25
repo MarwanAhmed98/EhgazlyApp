@@ -20,6 +20,10 @@ import { TournamentsDetailsComponent } from './shared/components/TournamentsDeta
 import { TournamentsRegisterComponent } from './shared/components/TournamentsRegister/tournaments-register/tournaments-register.component';
 import { TournamentsPaymentComponent } from './shared/components/TournamentsPayment/tournaments-payment/tournaments-payment.component';
 import { TournamentsDashboardComponent } from './shared/components/TournamentsDashboard/tournaments-dashboard/tournaments-dashboard.component';
+import { CourtOwnerComponent } from './shared/components/CourtOwner/court-owner/court-owner.component';
+import { CourtOwnerDashboardComponent } from './shared/components/CourtOwnerDashboard/court-owner-dashboard/court-owner-dashboard.component';
+import { CourtOwnerBookingComponent } from './shared/components/CourtOwnerBooking/court-owner-booking/court-owner-booking.component';
+import { CourtOwnerVerifciationComponent } from './shared/components/CourtOwnerBookingVerficiation/court-owner-verifciation/court-owner-verifciation.component';
 
 export const routes: Routes = [
     {
@@ -124,6 +128,16 @@ export const routes: Routes = [
         path: 'TournamentsDashboard',
         component: TournamentsDashboardComponent,
         title: 'My Tournaments Dashboard',
+    },
+    {
+        path: 'CourtOwner',
+        component: CourtOwnerComponent,
+        children: [
+            { path: 'Dashboard', component: CourtOwnerDashboardComponent, title: 'Dashboard' },
+            { path: 'CourtOwnerBookings', component: CourtOwnerBookingComponent, title: 'Bookings Management' },
+            { path: 'CourtOwnerBookingsVerification', component: CourtOwnerVerifciationComponent, title: 'Bookings Verification' },
+            { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
+        ]
     },
 
 ];

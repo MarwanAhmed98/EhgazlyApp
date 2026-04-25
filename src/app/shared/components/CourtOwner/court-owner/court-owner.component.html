@@ -1,0 +1,132 @@
+<div
+    class="flex min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans transition-colors duration-300">
+
+    <!-- Overlay -->
+    @if (isSideNavOpen) {
+    <div (click)="toggleSideNav()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"></div>
+    }
+
+    <!-- Side Nav -->
+    <aside [class.translate-x-0]="isSideNavOpen" [class.-translate-x-full]="!isSideNavOpen" class="w-72 fixed inset-y-0 left-0 z-50 lg:z-30 transition-transform duration-300 ease-in-out
+           bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl
+           border-r border-emerald-200/60 dark:border-slate-800/60
+           flex flex-col">
+
+        <!-- Brand + Close Button (X) -->
+        <div class="px-6 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-3 min-w-0">
+                <div
+                    class="w-10 h-10 bg-[#2E7D32] rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-emerald-200/50">
+                    <span class="text-white italic font-black text-xl">E</span>
+                </div>
+                <span class="text-lg font-black tracking-tight text-emerald-950 dark:text-white truncate">
+                    {{ brand.name }}
+                </span>
+            </div>
+
+            <button type="button" (click)="closeSideNav()" class="w-10 h-10 rounded-2xl grid place-items-center
+               text-emerald-950/70 dark:text-white/70
+               hover:bg-emerald-100/70 dark:hover:bg-white/5
+               border border-emerald-200/60 dark:border-slate-800/60
+               transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Nav -->
+        <nav class="px-4 pb-6 flex-1 space-y-2">
+            @for (item of navItems; track item.key) {
+            <a [routerLink]="item.route" (click)="onNavClick(item)"
+                routerLinkActive="bg-emerald-100/70 dark:bg-emerald-950/25 text-emerald-950 dark:text-white border-emerald-200/60 dark:border-emerald-900/40"
+                [routerLinkActiveOptions]="{ exact: item.exact }" class="group flex items-center gap-4 px-4 py-4 rounded-2xl border border-transparent
+               text-emerald-950/65 dark:text-white/70 font-bold
+               hover:text-emerald-950 dark:hover:text-white
+               hover:bg-emerald-50/80 dark:hover:bg-white/5
+               transition-colors">
+                <span class="w-10 h-10 rounded-2xl grid place-items-center
+                 bg-emerald-50/80 dark:bg-slate-950/40
+                 border border-emerald-200/60 dark:border-slate-800/60
+                 text-emerald-950/80 dark:text-white/80
+                 group-[.bg-emerald-100\\/70]:bg-white/70
+                 transition-colors">
+                    <span [innerHTML]="item.iconSvgSafe"></span>
+                </span>
+
+                <span class="flex-1 truncate">{{ item.label }}</span>
+
+                @if (item.badgeText) {
+                <span class="px-3 py-1 rounded-full text-[11px] font-black tracking-widest uppercase
+                     bg-emerald-100/70 border border-emerald-200/60 text-emerald-950
+                     dark:bg-emerald-950/20 dark:border-emerald-900/40 dark:text-emerald-100">
+                    {{ item.badgeText }}
+                </span>
+                }
+            </a>
+            }
+        </nav>
+
+        <!-- Bottom actions -->
+        <div class="px-6 py-6 border-t border-emerald-200/60 dark:border-slate-800/60 space-y-3">
+            <button type="button" (click)="logout()" class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl border border-red-200/60 dark:border-red-900/30
+               bg-red-50/70 dark:bg-red-950/20
+               hover:bg-red-100/70 dark:hover:bg-red-950/30
+               text-red-600 dark:text-red-300 font-black transition-colors">
+                <span
+                    class="w-10 h-10 rounded-2xl grid place-items-center bg-white/60 dark:bg-white/5 border border-red-200/60 dark:border-red-900/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <path d="M16 17l5-5-5-5" />
+                        <path d="M21 12H9" />
+                    </svg>
+                </span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 w-full transition-[margin] duration-300 ease-in-out" [class.lg:ml-72]="isSideNavOpen"
+        [class.lg:ml-0]="!isSideNavOpen">
+
+        <header class="sticky top-0 z-20 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl
+             border-b border-emerald-200/60 dark:border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button type="button" (click)="toggleSideNav()" class="w-10 h-10 rounded-2xl grid place-items-center
+                   bg-emerald-50/70 dark:bg-slate-950/30
+                   border border-emerald-200/60 dark:border-slate-800/60
+                   text-emerald-950/70 dark:text-white/70
+                   hover:bg-emerald-100/70 dark:hover:bg-white/5 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16" />
+                            <path d="M4 12h16" />
+                            <path d="M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <div class="hidden sm:flex items-center gap-2 text-sm font-bold">
+                        <span class="text-emerald-950/55 dark:text-white/55">{{ header.breadcrumbRoot }}</span>
+                        <span class="text-emerald-950/25 dark:text-white/25">/</span>
+                        <span class="text-emerald-950 dark:text-white">{{ currentTitle }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <img [src]="avatarUrl"
+                        class="w-10 h-10 rounded-2xl border border-emerald-200/60 dark:border-slate-800/60 bg-white/60 object-cover"
+                        alt="Avatar" />
+                </div>
+            </div>
+        </header>
+
+        <div class="min-h-[calc(100vh-72px)]">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>
