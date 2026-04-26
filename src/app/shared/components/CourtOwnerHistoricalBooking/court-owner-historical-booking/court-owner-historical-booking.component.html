@@ -1,0 +1,329 @@
+<div class="min-h-screen bg-[#E2F5E9] p-4 md:p-8 font-sans text-slate-800">
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Header Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-[#0D5C2E] rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-lg group">
+                <div class="relative z-10">
+                    <p class="text-sm font-medium opacity-80 mb-2 uppercase tracking-wider">Total Completed Revenue</p>
+                    <h2 class="text-3xl lg:text-5xl font-black flex items-baseline gap-3 mb-6">
+                        {{ totalRevenue() | number:'1.0-0' }} <span class="text-lg font-bold opacity-70">EGP</span>
+                    </h2>
+                    <div class="flex items-center gap-2 text-emerald-300 text-sm font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m19 12-7-7-7 7" />
+                            <path d="M12 19V5" />
+                        </svg>
+                        12% increase <span class="font-medium opacity-60">vs last month</span>
+                    </div>
+                </div>
+                <div
+                    class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1">
+                        <rect width="20" height="12" x="2" y="6" rx="2" />
+                        <circle cx="12" cy="12" r="2" />
+                        <path d="M6 12h.01M18 12h.01" />
+                    </svg>
+                </div>
+            </div>
+
+            <div
+                class="bg-[#BFF0D4] rounded-[2.5rem] p-8 shadow-sm border border-white/20 flex flex-col justify-between">
+                <div>
+                    <p class="text-sm font-bold text-slate-500 mb-1 uppercase tracking-wider">Filtered Bookings</p>
+                    <h2 class="text-5xl font-black text-slate-800">{{ filteredBookings().length }}</h2>
+                </div>
+                <div class="flex items-center gap-1 mt-6">
+                    <div class="flex -space-x-3">
+                        <img *ngFor="let i of [1,2,3]" src="https://i.pravatar.cc/150?u={{i}}"
+                            class="w-10 h-10 rounded-full border-4 border-[#BFF0D4]" alt="User">
+                    </div>
+                    <span class="text-xs font-black text-emerald-800 bg-white/40 px-3 py-2 rounded-full ml-1">+{{
+                        filteredBookings().length > 3 ? filteredBookings().length - 3 : 0 }} others</span>
+                </div>
+            </div>
+
+            <div class="bg-[#AF4D13] rounded-[2.5rem] p-8 text-white relative shadow-lg overflow-hidden">
+                <p class="text-sm font-medium opacity-80 mb-2 uppercase tracking-wider">Average Rating</p>
+                <h2 class="text-5xl font-black mb-6">4.9<span class="text-2xl opacity-60">/5.0</span></h2>
+                <div class="flex gap-1">
+                    <svg *ngFor="let s of [1,2,3,4,5]" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="currentColor" class="text-white">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                </div>
+                <div class="absolute -right-8 -top-8 opacity-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div
+            class="bg-white/40 rounded-[2rem] p-3 flex flex-col xl:flex-row xl:items-center justify-between gap-4 border border-emerald-100/50 backdrop-blur-md">
+            <div class="flex flex-col md:flex-row md:items-center gap-4">
+
+                <!-- Date Filter UI Improvement -->
+                <div class="relative group">
+                    <div
+                        class="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-100 transition-all group-within:border-emerald-500 group-within:bg-white">
+                        <div class="text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                                <line x1="16" x2="16" y1="2" y2="6" />
+                                <line x1="8" x2="8" y1="2" y2="6" />
+                                <line x1="3" x2="21" y1="10" y2="10" />
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span
+                                class="text-[9px] font-black text-slate-400 uppercase tracking-wider leading-none mb-0.5">Date
+                                Range</span>
+                            <input type="date" (change)="updateDateFilter($event)"
+                                class="border-none text-xs font-bold text-slate-800 outline-none bg-transparent cursor-pointer min-w-[120px]" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-8 w-px bg-emerald-200/50 hidden md:block"></div>
+
+                <div class="flex items-center gap-2">
+                    <button (click)="activeCourtFilter.set('All')"
+                        [class]="activeCourtFilter() === 'All' ? 'bg-[#0D5C2E] text-white shadow-md' : 'bg-white text-slate-600 hover:bg-emerald-50'"
+                        class="px-5 py-2.5 rounded-2xl text-xs font-black transition-all active:scale-95 border border-emerald-100/50 uppercase tracking-wide">All</button>
+                    <button (click)="activeCourtFilter.set('Padel')"
+                        [class]="activeCourtFilter() === 'Padel' ? 'bg-[#0D5C2E] text-white shadow-md' : 'bg-white text-slate-600 hover:bg-emerald-50'"
+                        class="px-5 py-2.5 rounded-2xl text-xs font-black transition-all border border-emerald-100/50 uppercase tracking-wide">Padel</button>
+                    <button (click)="activeCourtFilter.set('Football')"
+                        [class]="activeCourtFilter() === 'Football' ? 'bg-[#0D5C2E] text-white shadow-md' : 'bg-white text-slate-600 hover:bg-emerald-50'"
+                        class="px-5 py-2.5 rounded-2xl text-xs font-black transition-all border border-emerald-100/50 uppercase tracking-wide">Football</button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="relative flex-1 md:flex-none">
+                    <input type="text" placeholder="Search player..." (input)="updateSearch($event)"
+                        class="w-full md:w-64 bg-white border border-emerald-100 rounded-2xl py-3 px-5 pl-11 text-sm font-bold focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all shadow-sm" />
+                    <svg class="absolute left-4 top-3.5 text-emerald-700/50" xmlns="http://www.w3.org/2000/svg"
+                        width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </div>
+                <button (click)="exportToCSV()"
+                    class="flex items-center gap-2 bg-[#0D5C2E] text-white font-black text-sm px-6 py-3 rounded-2xl hover:bg-[#0a4824] transition-all shadow-lg active:scale-95 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="group-hover:translate-y-0.5 transition-transform">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
+                    Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Audit Table / Grid -->
+        <div
+            class="bg-white rounded-[2.5rem] p-4 md:p-8 shadow-xl shadow-emerald-900/5 border border-emerald-50 overflow-hidden">
+            <div
+                class="hidden md:grid grid-cols-12 gap-4 px-6 mb-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                <div class="col-span-2">Date & Time</div>
+                <div class="col-span-3">Player Name</div>
+                <div class="col-span-2">Field/Court</div>
+                <div class="col-span-2">Amount</div>
+                <div class="col-span-1">Payment</div>
+                <div class="col-span-2 text-right">Status</div>
+            </div>
+
+            <div class="space-y-4">
+                <div *ngFor="let booking of filteredBookings()" class="group">
+                    <!-- Desktop Row -->
+                    <div class="hidden md:grid grid-cols-12 gap-4 items-center px-6 py-6 rounded-[1.5rem] transition-all border border-transparent hover:border-emerald-100 hover:bg-[#E2F5E9]/20"
+                        [class.bg-red-50]="booking.status === 'REJECTED'">
+                        <div class="col-span-2">
+                            <p class="font-bold text-slate-800">{{booking.date}}</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">{{booking.time}}</p>
+                        </div>
+                        <div class="col-span-3 flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/150?u={{booking.player}}"
+                                class="w-10 h-10 rounded-full shadow-sm" alt="">
+                            <span class="font-bold text-slate-700 truncate">{{booking.player}}</span>
+                        </div>
+                        <div class="col-span-2">
+                            <span
+                                class="bg-[#BFF0D4] text-emerald-900 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-tighter block w-fit">
+                                {{booking.court}}
+                            </span>
+                        </div>
+                        <div class="col-span-2">
+                            <p class="text-lg font-black"
+                                [class]="booking.status === 'REJECTED' ? 'text-red-600' : 'text-emerald-800'">
+                                {{booking.amount | number:'1.2-2'}} <span class="text-[10px] opacity-60">EGP</span>
+                            </p>
+                        </div>
+                        <div class="col-span-1 flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">{{booking.payment}}</span>
+                        </div>
+                        <div class="col-span-2 flex justify-end">
+                            <span
+                                [class]="booking.status === 'ACCEPTED' ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-red-500 text-white shadow-red-500/20'"
+                                class="px-5 py-2 rounded-full text-[10px] font-black tracking-widest shadow-lg flex items-center gap-2 uppercase">
+                                {{booking.status}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Card -->
+                    <div class="md:hidden bg-white rounded-3xl p-5 border border-emerald-50 shadow-sm relative overflow-hidden"
+                        [class.bg-red-50]="booking.status === 'REJECTED'">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/150?u={{booking.player}}"
+                                    class="w-12 h-12 rounded-2xl shadow-sm" alt="">
+                                <div>
+                                    <p class="font-black text-slate-800 text-base leading-tight">{{booking.player}}</p>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                        {{booking.date}}</p>
+                                </div>
+                            </div>
+                            <span
+                                [class]="booking.status === 'ACCEPTED' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'"
+                                class="px-3 py-1 rounded-full text-[10px] font-black uppercase">
+                                {{booking.status}}
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 py-4 border-y border-emerald-50 mb-4">
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase mb-1">Field & Type</p>
+                                <span class="text-xs font-bold text-slate-700">{{booking.court}}
+                                    ({{booking.payment}})</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] font-black text-slate-400 uppercase mb-1">Total</p>
+                                <p class="font-black text-sm"
+                                    [class]="booking.status === 'REJECTED' ? 'text-red-600' : 'text-slate-800'">
+                                    {{booking.amount | number:'1.2-2'}} EGP</p>
+                            </div>
+                        </div>
+                        <div class="text-[10px] font-bold text-slate-400 uppercase flex justify-between">
+                            <span>Slot Time:</span>
+                            <span>{{booking.time}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="filteredBookings().length === 0" class="py-20 text-center space-y-4">
+                    <div
+                        class="bg-emerald-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-emerald-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xl font-black text-slate-800">No matching bookings found</p>
+                        <p class="text-slate-400 font-medium">Try adjusting your filters or search terms</p>
+                    </div>
+                    <button (click)="resetFilters()" class="text-[#0D5C2E] font-black text-sm hover:underline">Clear all
+                        filters</button>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center mt-8 pt-8 border-t border-emerald-50 gap-4">
+                <p class="text-xs font-bold text-slate-400">Showing <span class="text-slate-700">{{
+                        filteredBookings().length }}</span> bookings</p>
+                <div class="flex items-center gap-2">
+                    <button
+                        class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#0D5C2E] text-white font-black text-xs shadow-md shadow-emerald-900/20">1</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-[#BFF0D4] rounded-[2.5rem] p-8 shadow-sm border border-white/20">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-emerald-700 text-white rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                            <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Field Popularity</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <div *ngFor="let field of popularity()">
+                        <div
+                            class="flex justify-between text-xs font-black text-slate-600 mb-2 uppercase tracking-wide">
+                            <span>{{field.name}}</span>
+                            <span class="text-emerald-800">{{field.value}}%</span>
+                        </div>
+                        <div class="w-full bg-white/40 rounded-full h-3 overflow-hidden p-0.5">
+                            <div [style.width.%]="field.value" [class]="field.color"
+                                class="h-full rounded-full transition-all duration-1000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="lg:col-span-2 bg-[#F0FDF4] rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden">
+                <div class="flex-1 space-y-6 relative z-10">
+                    <h3 class="text-3xl lg:text-4xl font-black text-slate-800 leading-[1.1]">Generate Professional
+                        Financial Reports</h3>
+                    <p class="text-slate-500 text-lg leading-relaxed max-w-md">Get a summarized statement of the current
+                        filtered data for tax and auditing purposes.</p>
+                    <button (click)="generateReport()"
+                        class="bg-[#0D5C2E] hover:bg-[#0a4824] text-white px-10 py-5 rounded-2xl font-black text-lg flex items-center gap-3 shadow-xl transition-all hover:scale-105 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" x2="8" y1="13" y2="13" />
+                            <line x1="16" x2="8" y1="17" y2="17" />
+                            <line x1="10" x2="8" y1="9" y2="9" />
+                        </svg>
+                        Generate Report
+                    </button>
+                </div>
+
+                <div class="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0 animate-bounce-slow hidden sm:block">
+                    <div class="absolute inset-0 bg-[#E2F5E9] rounded-3xl rotate-12 shadow-sm"></div>
+                    <div
+                        class="absolute inset-0 bg-white rounded-3xl -rotate-6 shadow-xl border border-emerald-50 p-6 flex flex-col gap-4">
+                        <div class="w-full h-8 bg-[#E2F5E9] rounded-lg"></div>
+                        <div class="w-3/4 h-4 bg-slate-100 rounded-full"></div>
+                        <div class="w-1/2 h-4 bg-slate-100 rounded-full"></div>
+                        <div
+                            class="mt-auto h-20 w-full bg-gradient-to-t from-emerald-50 to-transparent rounded-lg relative overflow-hidden">
+                            <svg class="absolute bottom-0 w-full" viewBox="0 0 100 40">
+                                <path d="M0,35 Q20,10 40,30 T80,5 T100,20 V40 H0 Z" fill="#0D5C2E" fill-opacity="0.1" />
+                                <path d="M0,35 Q20,10 40,30 T80,5 T100,20" fill="none" stroke="#0D5C2E"
+                                    stroke-width="2" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,403 @@
+<div class="min-h-screen bg-[#e8fce8] p-4 md:p-8 font-sans text-slate-800 overflow-x-hidden">
+
+    @if (courts().length > 0) {
+    <!-- Header Section: Court Portfolio -->
+    <section class="max-w-7xl mx-auto mb-8 fade-in-up">
+        <div class="flex justify-between items-center mb-6 px-1">
+            <h2 class="text-lg md:text-xl font-bold">Court Portfolio</h2>
+            <button class="text-green-700 text-xs md:text-sm font-medium hover:underline">View All {{courts().length}}
+                Courts</button>
+        </div>
+
+        <!-- Responsive Scroll/Flex Grid -->
+        <div class="flex flex-col sm:flex-row flex-wrap gap-4">
+            @for (court of courts(); track court.id) {
+            <div (click)="selectCourt(court.id)"
+                [class]="selectedCourtId() === court.id 
+                  ? 'flex items-center p-3 bg-[#c7f4c7] border-2 border-green-600 rounded-2xl w-full sm:w-[calc(50%-8px)] lg:w-64 cursor-pointer transition-all' 
+                  : 'flex items-center p-3 bg-white/50 border border-transparent rounded-2xl w-full sm:w-[calc(50%-8px)] lg:w-64 cursor-pointer hover:bg-white/80 transition-colors'">
+                <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 mr-3 bg-slate-200">
+                    <img [src]="court.image" (error)="handleImgError($event)" class="w-full h-full object-cover">
+                </div>
+                <div class="min-w-0">
+                    <p class="font-bold text-sm leading-tight truncate">{{court.name}}</p>
+                    @if(selectedCourtId() === court.id) {
+                    <p class="text-[10px] uppercase font-bold text-green-700 tracking-wider">SELECTED</p>
+                    } @else {
+                    <p class="text-[10px] text-slate-500">Switch to Manage</p>
+                    }
+                </div>
+            </div>
+            }
+
+            <!-- Add New Court Button -->
+            <div
+                class="flex flex-row sm:flex-col items-center justify-center p-3 border-2 border-dashed border-green-300 rounded-2xl w-full sm:w-48 cursor-pointer hover:border-green-500 transition-all group gap-3 sm:gap-1">
+                <div
+                    class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform flex-shrink-0">
+                    <span class="text-xl font-bold">+</span>
+                </div>
+                <p class="text-xs font-bold text-slate-700">Add New Court</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Grid -->
+    <section class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 fade-in-up">
+        <!-- Large Featured Card -->
+        <div
+            class="lg:col-span-2 relative overflow-hidden rounded-[32px] md:rounded-[40px] min-h-[300px] sm:min-h-[450px] group shadow-2xl shadow-green-900/10 bg-slate-900">
+            <img [src]="selectedCourt().image" (error)="handleImgError($event)"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+
+            <div class="relative h-full p-6 md:p-8 flex flex-col justify-between">
+                <div>
+                    <span
+                        class="inline-flex items-center px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold text-white mb-4 md:mb-6 uppercase tracking-widest border border-white/30">
+                        <span
+                            [class]="selectedCourt().status === 'ACTIVE' ? 'w-2 h-2 bg-green-400 rounded-full mr-2' : 'w-2 h-2 bg-orange-400 rounded-full mr-2'"></span>
+                        {{selectedCourt().status}}
+                    </span>
+                    <h1 class="text-3xl md:text-6xl font-black text-white leading-tight drop-shadow-lg">
+                        Managing:<br /><span class="text-green-400">{{selectedCourt().name}}</span>
+                    </h1>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-6 md:mt-8">
+                    <button routerLink="/CourtOwner/CourtEditor"
+                        class="bg-[#a8440c] hover:bg-[#8e390a] text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold flex items-center justify-center transition-all shadow-lg text-sm md:text-base">
+                        Manage Selected Court
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </button>
+
+                    <button (click)="toggleDeleteModal(true)"
+                        class="bg-white/10 hover:bg-red-600/90 backdrop-blur-md text-white border border-white/20 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold flex items-center justify-center transition-all shadow-lg text-sm md:text-base">
+                        Delete Selected Court
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Stats -->
+        <div class="flex flex-col gap-4">
+            <div
+                class="bg-white p-5 md:p-6 rounded-[24px] md:rounded-[32px] shadow-sm flex flex-col justify-between border border-white/50">
+                <div class="flex justify-between items-start">
+                    <div class="flex flex-col">
+                        <span
+                            class="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Monthly
+                            Revenue</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 leading-none">
+                            {{formatCurrency(selectedCourt().revenue)}}</h3>
+                    </div>
+                    <div class="p-2.5 bg-green-100 rounded-xl text-green-600">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 9V5a1 1 0 112 0v4h1a1 1 0 110 2h-1v2a1 1 0 11-2 0v-2H8a1 1 0 110-2h1z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 md:mt-6 flex items-center">
+                    <span
+                        class="inline-flex items-center px-2 py-0.5 bg-green-50 text-green-700 rounded-lg text-[10px] md:text-xs font-bold mr-2">
+                        <svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7" />
+                        </svg>
+                        12.4%
+                    </span>
+                    <span class="text-[10px] font-medium text-slate-400">vs last month</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white p-5 md:p-6 rounded-[24px] md:rounded-[32px] shadow-sm flex flex-col justify-between border border-white/50">
+                <div class="flex justify-between items-start">
+                    <div class="flex flex-col">
+                        <span
+                            class="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Active
+                            Bookings</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 leading-none">
+                            {{selectedCourt().bookings}} <span
+                                class="text-xs md:text-sm font-medium text-slate-400">Slots</span>
+                        </h3>
+                    </div>
+                    <div class="p-2.5 bg-blue-100 rounded-xl text-blue-600">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 md:mt-6">
+                    <div
+                        class="flex justify-between text-[9px] md:text-[10px] font-bold text-slate-500 mb-1.5 uppercase">
+                        <span>Efficiency</span>
+                        <span>{{selectedCourt().status === 'ACTIVE' ? '92%' : '0%'}}</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-1.5 md:h-2 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-1000"
+                            [class]="selectedCourt().status === 'ACTIVE' ? 'bg-green-600 w-[92%]' : 'bg-slate-300 w-0'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Performance Summary -->
+    <section class="max-w-7xl mx-auto px-1 fade-in-up">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 class="text-xl font-bold text-slate-800">Portfolio Summary</h2>
+            <button (click)="downloadCsv()"
+                class="flex items-center justify-center w-full sm:w-auto px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm font-bold hover:bg-slate-50 transition-all shadow-sm active:scale-95">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download CSV Report
+            </button>
+        </div>
+
+        <!-- Mobile List Layout -->
+        <div class="flex flex-col gap-4 lg:hidden">
+            @for (court of courts(); track court.id) {
+            <div (click)="selectCourt(court.id)"
+                class="bg-white/60 p-4 rounded-3xl border border-white/80 shadow-sm flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl overflow-hidden bg-slate-200 shadow-sm">
+                            <img [src]="court.image" (error)="handleImgError($event)"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-sm text-slate-900 leading-tight">{{ court.name }}</span>
+                            <span class="text-[10px] text-slate-400 font-bold">#{{court.id}}</span>
+                        </div>
+                    </div>
+                    <span
+                        [class]="court.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'"
+                        class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tight">
+                        {{ court.status }}
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100/50">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Bookings</span>
+                        <span class="text-sm font-black text-slate-700">{{ court.bookings }} Slots</span>
+                    </div>
+                    <div class="flex flex-col text-right">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Revenue</span>
+                        <span class="text-sm font-black text-slate-900">{{ formatCurrency(court.revenue) }}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Desktop Table Layout -->
+        <div
+            class="hidden lg:block bg-white/40 rounded-[32px] p-2 backdrop-blur-md shadow-inner border border-white/60">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-separate border-spacing-y-3">
+                    <thead>
+                        <tr class="text-xs text-slate-400 font-bold uppercase tracking-widest px-6">
+                            <th class="py-3 px-6">Court Detail</th>
+                            <th class="py-3 px-6">Current Status</th>
+                            <th class="py-3 px-6">Activity</th>
+                            <th class="py-3 px-6 text-right">Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (court of courts(); track court.id) {
+                        <tr (click)="selectCourt(court.id)"
+                            class="group bg-white/30 hover:bg-white transition-all cursor-pointer rounded-2xl">
+                            <td class="py-4 px-6 rounded-l-2xl flex items-center">
+                                <div
+                                    class="w-12 h-12 rounded-xl overflow-hidden mr-4 bg-slate-200 ring-2 ring-white shadow-sm flex-shrink-0">
+                                    <img [src]="court.image" (error)="handleImgError($event)"
+                                        class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span class="font-bold text-sm text-slate-900 truncate">{{ court.name }}</span>
+                                    <span class="text-[10px] text-slate-400 font-medium">ID: #{{court.id}}</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span
+                                    [class]="court.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'"
+                                    class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tight inline-flex items-center">
+                                    <span [class]="court.status === 'ACTIVE' ? 'bg-green-500' : 'bg-orange-500'"
+                                        class="w-1.5 h-1.5 rounded-full mr-2"></span>
+                                    {{ court.status }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-slate-700">{{ court.bookings }} Slots</span>
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold">Confirmed</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 rounded-r-2xl text-right">
+                                <div class="flex flex-col items-end">
+                                    <span class="font-black text-sm text-slate-900">{{ formatCurrency(court.revenue)
+                                        }}</span>
+                                    <span class="text-[9px] text-green-600 font-bold uppercase">Target Reached</span>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    } @else {
+    <!-- EMPTY STATE SECTION (Inspired by UI Reference) -->
+    <section class="max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[80vh] fade-in-up py-12 px-4">
+
+        <!-- Central Graphic -->
+        <div class="relative mb-12">
+            <!-- Floating Toasts Decor -->
+            <div class="absolute -right-12 top-4 z-10 hidden sm:block">
+                <div
+                    class="bg-white rounded-2xl shadow-xl shadow-green-900/10 p-4 border border-slate-100 flex items-center gap-3 w-64 translate-x-4">
+                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold text-slate-600">Court deleted successfully</span>
+                </div>
+            </div>
+
+            <!-- Main Graphic Card -->
+            <div
+                class="w-64 h-64 md:w-80 md:h-80 bg-green-100/50 rounded-[48px] flex items-center justify-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-20"
+                    style="background-image: radial-gradient(#22c55e 1px, transparent 1px); background-size: 20px 20px;">
+                </div>
+                <div
+                    class="bg-white w-48 h-56 rounded-3xl shadow-2xl flex flex-col items-center justify-center p-6 border border-white/50 relative z-0">
+                    <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-slate-200" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none" />
+                            <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                    </div>
+                    <div class="w-full h-1.5 bg-green-100 rounded-full mb-3"></div>
+                    <div class="w-2/3 h-1.5 bg-slate-100 rounded-full"></div>
+                </div>
+
+                <!-- Floating Action Icon -->
+                <div
+                    class="absolute bottom-10 right-10 w-14 h-14 bg-[#8e390a] rounded-2xl shadow-xl flex items-center justify-center text-white rotate-12">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 7v6m-3-3h6" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Content -->
+        <div class="text-center max-w-lg">
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">No Courts Found</h1>
+            <p class="text-slate-500 font-medium text-lg leading-relaxed mb-10">
+                It looks like you haven't listed any facilities yet. Start managing your sports complex and getting
+                bookings today.
+            </p>
+
+            <button (click)="registerFirstCourt()"
+                class="inline-flex items-center gap-3 bg-green-800 hover:bg-green-900 text-white px-10 py-5 rounded-full font-black text-lg transition-all shadow-xl shadow-green-900/20 active:scale-95 group">
+                <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                    <span class="text-xl leading-none">+</span>
+                </div>
+                Register Your First Court
+            </button>
+        </div>
+
+        <!-- Bottom Feature Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-20 w-full">
+            <div class="bg-white/50 p-6 rounded-3xl border border-white flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700 mb-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1">Max Revenue</h4>
+                <p class="text-[11px] text-slate-400 font-bold uppercase leading-tight px-4">Fill empty slots with our
+                    intelligent engine.</p>
+            </div>
+            <div class="bg-white/50 p-6 rounded-3xl border border-white flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700 mb-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1">Global Reach</h4>
+                <p class="text-[11px] text-slate-400 font-bold uppercase leading-tight px-4">Put your field in front of
+                    thousands of players.</p>
+            </div>
+            <div class="bg-white/50 p-6 rounded-3xl border border-white flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700 mb-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1">Real-time Stats</h4>
+                <p class="text-[11px] text-slate-400 font-bold uppercase leading-tight px-4">Track your facility
+                    performance via analytics.</p>
+            </div>
+        </div>
+    </section>
+    }
+
+    <!-- Delete Confirmation Modal -->
+    @if (isDeleteModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="toggleDeleteModal(false)"></div>
+        <div
+            class="relative bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden modal-animate border border-white">
+            <div class="p-8">
+                <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center text-red-600 mb-6">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900 mb-2">Confirm Deletion</h2>
+                <p class="text-slate-500 font-medium leading-relaxed">
+                    Are you sure you want to delete <span
+                        class="font-bold text-slate-800">{{selectedCourt().name}}</span>? This action cannot be undone.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 mt-10">
+                    <button (click)="toggleDeleteModal(false)"
+                        class="flex-1 px-6 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors">
+                        Cancel
+                    </button>
+                    <button (click)="confirmDelete()"
+                        class="flex-1 px-6 py-4 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-colors shadow-lg">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

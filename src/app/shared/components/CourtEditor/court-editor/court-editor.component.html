@@ -1,0 +1,321 @@
+<div class="min-h-screen bg-[#E2FBE5] p-4 md:p-8 font-sans text-slate-900">
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span
+                    class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Active/Live</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-emerald-900 tracking-tight">Edit Court: Anfield Pro Pitch
+            </h1>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button (click)="submitForm()"
+                class="bg-emerald-800 hover:bg-emerald-900 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-emerald-900/20 transition-all active:scale-95">
+                Save Changes
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Column: Basic Info & Amenities -->
+        <div class="lg:col-span-7 space-y-8">
+
+            <!-- Basic Information Card -->
+            <section class="bg-white rounded-[2rem] p-8 shadow-sm border border-emerald-50/50">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-emerald-100 rounded-lg text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-black text-emerald-950">Basic Information</h2>
+                </div>
+
+                <form [formGroup]="courtForm" class="space-y-6">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-emerald-800/60 mb-2">
+                            Court Name
+                        </label>
+
+                        <input type="text" formControlName="courtName"
+                            class="w-full bg-emerald-50 border-none rounded-2xl py-4 px-6 text-emerald-950 font-bold focus:ring-2 focus:ring-emerald-500 transition-all"
+                            placeholder="e.g. Anfield Pro Pitch" />
+
+                        @if (courtForm.get('courtName')?.invalid && courtForm.get('courtName')?.touched) {
+                        <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                            role="alert">
+                            <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+
+                            <div>
+                                @if (courtForm.get('courtName')?.hasError('required')) {
+                                <span class="font-semibold">Court Name is required.</span>
+                                }
+
+                                @if (courtForm.get('courtName')?.hasError('minlength')) {
+                                <span class="font-semibold">
+                                    Court Name must be at least 3 characters.
+                                </span>
+                                }
+
+                                @if (courtForm.get('courtName')?.hasError('maxlength')) {
+                                <span class="font-semibold">
+                                    Court Name must not exceed 20 characters.
+                                </span>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-[10px] font-black uppercase tracking-widest text-emerald-800/60 mb-2">Hourly
+                            Rate (EGP)</label>
+                        <div class="relative">
+                            <span
+                                class="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-emerald-800/40">EGP</span>
+                            <input type="number" formControlName="hourlyRate"
+                                class="w-full bg-emerald-50 border-none rounded-2xl py-4 pl-16 pr-6 text-emerald-950 font-bold focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                        @if (courtForm.get('hourlyRate')?.invalid && courtForm.get('hourlyRate')?.touched) {
+                        <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                            role="alert">
+                            <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+
+                            <div>
+                                @if (courtForm.get('hourlyRate')?.hasError('required')) {
+                                <span class="font-semibold">Hourly Rate is required.</span>
+                                }
+
+                                @if (courtForm.get('hourlyRate')?.hasError('min')) {
+                                <span class="font-semibold">
+                                    Hourly Rate must be a positive number.
+                                </span>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-[10px] font-black uppercase tracking-widest text-emerald-800/60 mb-2">Detailed
+                            Description</label>
+                        <textarea formControlName="description" rows="5"
+                            class="w-full bg-emerald-50 border-none rounded-2xl py-4 px-6 text-emerald-950 font-medium focus:ring-2 focus:ring-emerald-500 transition-all resize-none"></textarea>
+                        @if (courtForm.get('description')?.invalid && courtForm.get('description')?.touched) {
+                        <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                            role="alert">
+                            <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+
+                            <div>
+                                @if (courtForm.get('description')?.hasError('required')) {
+                                <span class="font-semibold">Description is required.</span>
+                                }
+
+                                @if (courtForm.get('description')?.hasError('minlength')) {
+                                <span class="font-semibold">
+                                    Description must be at least 20 characters long.
+                                </span>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </form>
+            </section>
+
+            <!-- Amenities Card -->
+            <section class="bg-white rounded-[2rem] p-8 shadow-sm border border-emerald-50/50">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-emerald-100 rounded-lg text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-black text-emerald-950">Pitch Amenities</h2>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    @for(item of amenities(); track item.id; let idx = $index) {
+                    <button (click)="toggleAmenity(idx)"
+                        [class]="item.selected ? 'bg-emerald-800 text-white shadow-lg shadow-emerald-900/20' : 'bg-emerald-100 text-emerald-800 opacity-60 hover:opacity-100'"
+                        class="flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 gap-3 group">
+                        <span class="text-2xl material-symbols-outlined">{{item.icon}}</span>
+                        <span class="text-[10px] font-black tracking-tighter">{{item.label}}</span>
+                    </button>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column: Gallery Editor -->
+        <div class="lg:col-span-5 space-y-8">
+            <section class="bg-white rounded-[2rem] p-8 shadow-sm border border-emerald-50/50 flex flex-col h-full">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-emerald-100 rounded-lg text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-black text-emerald-950">Gallery Editor</h2>
+                </div>
+                <!-- Dropzone -->
+                <label
+                    class="border-4 border-dashed border-emerald-50 rounded-[2rem] p-12 flex flex-col items-center text-center group hover:border-emerald-200 transition-colors cursor-pointer mb-8">
+                    <input type="file" multiple accept="image/*" class="hidden"
+                        (change)="onGalleryFilesSelected($event)" />
+
+                    <div
+                        class="w-16 h-16 bg-emerald-700 rounded-3xl flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        @if (galleryUploadStatus === 'uploading') {
+                        <span class="w-7 h-7 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        }
+                    </div>
+
+                    <h3 class="font-bold text-emerald-950 mb-1">
+                        @if (galleryUploadStatus === 'uploading') { Uploading... } @else { Drop new stadium photos here
+                        }
+                    </h3>
+
+                    <p class="text-xs text-slate-400 font-medium">
+                        JPG, PNG (Max 10MB each)
+                    </p>
+                </label>
+
+                <!-- Thumbnails Grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    @for (img of galleryImages(); track img.id) {
+                    <div class="aspect-square rounded-3xl overflow-hidden shadow-sm relative group">
+                        <img [src]="img.preview" class="w-full h-full object-cover">
+
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+
+                            <button (click)="removeImage(img.id)" class="text-white hover:text-red-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
+                                </svg>
+                            </button>
+
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Add button -->
+                    <!-- <label
+                        class="aspect-square rounded-3xl bg-emerald-100 flex items-center justify-center text-emerald-400 hover:text-emerald-600 hover:bg-emerald-200 transition-all border-2 border-dashed cursor-pointer">
+                        <input type="file" multiple accept="image/*" class="hidden"
+                            (change)="onGalleryFilesSelected($event)" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </label> -->
+                </div>
+
+                <!-- Thumbnails Grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="aspect-square rounded-3xl overflow-hidden shadow-sm relative group">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=400"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button class="text-white hover:text-red-400"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg></button>
+                        </div>
+                    </div>
+                    <div class="aspect-square rounded-3xl overflow-hidden shadow-sm relative group">
+                        <img src="https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1820.jpg?semt=ais_hybrid&w=740&q=80"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-square rounded-3xl overflow-hidden shadow-sm relative group">
+                        <img src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RhZGl1bXxlbnwwfHwwfHx8MA%3D%3D"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <!-- Add button -->
+                    <label
+                        class="aspect-square rounded-3xl bg-emerald-100 flex items-center justify-center text-emerald-400 hover:text-emerald-600 hover:bg-emerald-200 transition-all border-2 border-dashed cursor-pointer">
+                        <input type="file" multiple accept="image/*" class="hidden"
+                            (change)="onGalleryFilesSelected($event)" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </label>
+                </div>
+
+                <!-- Tip Box -->
+                <div class="mt-auto pt-8">
+                    <div class="bg-orange-100 border border-orange-200 p-4 rounded-2xl flex items-center gap-4">
+                        <div class="text-orange-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <p class="text-xs font-bold text-orange-900 leading-tight">Better photos can increase bookings
+                            by up to 40%.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Danger Zone: Full Width -->
+        <div class="lg:col-span-12">
+            <section
+                class="bg-transparent border-2 border-dashed border-red-200 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left">
+                    <h2 class="text-xl font-black text-red-700 mb-2">Danger Zone</h2>
+                    <p class="text-sm text-red-900/60 font-medium max-w-xl">
+                        Deleting this court will permanently remove all booking history, statistics, and availability
+                        schedules. This action is high-friction and cannot be undone.
+                    </p>
+                </div>
+                <button (click)="removeCourt()"
+                    class="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-lg shadow-red-900/20 transition-all active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Remove Court
+                </button>
+            </section>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,392 @@
+<div class="min-h-screen bg-[#E2F5E9] p-4 md:p-8 font-sans text-slate-800 relative">
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Header Section: Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Total Earnings -->
+            <div class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20 transition-all hover:shadow-md">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600 mb-1">Total Earnings</p>
+                        <h2 class="text-3xl font-bold flex items-baseline gap-2">
+                            24,500 <span class="text-sm font-semibold opacity-70">EGP</span>
+                        </h2>
+                    </div>
+                    <div class="p-3 bg-white/30 rounded-2xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-emerald-700">
+                            <rect width="20" height="12" x="2" y="6" rx="2" />
+                            <circle cx="12" cy="12" r="2" />
+                            <path d="M6 12h.01M18 12h.01" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-center text-emerald-700 text-sm font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                        class="mr-1">
+                        <path d="m19 12-7-7-7 7" />
+                        <path d="M12 19V5" />
+                    </svg>
+                    12.5% this month
+                </div>
+            </div>
+
+            <!-- App Commission -->
+            <div class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20 transition-all hover:shadow-md">
+                <p class="text-sm font-medium text-slate-600 mb-1">App Commission</p>
+                <h2 class="text-3xl font-bold flex items-baseline gap-2 mb-4">
+                    3,675 <span class="text-sm font-semibold opacity-70">EGP</span>
+                </h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-semibold text-slate-500">
+                        <span>Standard Platform Fee</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="w-full bg-white/30 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-orange-600 h-full w-[15%] rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Net Payout (Primary Card) -->
+            <div class="bg-[#0D5C2E] rounded-3xl p-6 shadow-lg text-white transition-transform hover:scale-[1.02]">
+                <p class="text-sm font-medium opacity-80 mb-1">Your Net Payout</p>
+                <h2 class="text-4xl font-bold flex items-baseline gap-2 mb-6">
+                    20,825 <span class="text-sm font-semibold opacity-70">EGP</span>
+                </h2>
+                <button (click)="onWithdrawFunds()"
+                    class="w-full bg-[#AF4D13] hover:bg-[#964110] active:scale-95 transition-all text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
+                    Withdraw Funds
+                </button>
+            </div>
+        </div>
+
+        <!-- Middle Section: Trends and Velocity -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Revenue Trends Chart -->
+            <div class="lg:col-span-2 bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20">
+                <div class="flex flex-wrap justify-between items-center mb-8 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Revenue Trends</h3>
+                        <p class="text-sm text-slate-600">Last 4 Weeks performance overview</p>
+                    </div>
+                    <div class="bg-emerald-100/50 p-1 rounded-xl flex gap-1">
+                        <button (click)="activeTab.set('weekly')"
+                            [class]="activeTab() === 'weekly' ? 'bg-[#0D5C2E] text-white shadow-sm' : 'text-slate-600 hover:bg-white/40'"
+                            class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all">
+                            Weekly
+                        </button>
+                        <button (click)="activeTab.set('monthly')"
+                            [class]="activeTab() === 'monthly' ? 'bg-[#0D5C2E] text-white shadow-sm' : 'text-slate-600 hover:bg-white/40'"
+                            class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all">
+                            Monthly
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SVG Chart -->
+                <div class="relative h-48 w-full mt-4">
+                    <svg viewBox="0 0 800 200" class="w-full h-full preserve-3d transition-all duration-500">
+                        <path [attr.d]="trendPath()" fill="none" stroke="#0D5C2E" stroke-width="4"
+                            stroke-linecap="round" class="transition-all duration-700 ease-in-out" />
+                        <path [attr.d]="trendAreaPath()" fill="url(#gradient)" opacity="0.2"
+                            class="transition-all duration-700 ease-in-out" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0D5C2E;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#0D5C2E;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="flex justify-between px-2 mt-4 text-[10px] font-bold text-slate-500 tracking-wider">
+                        <ng-container *ngIf="activeTab() === 'weekly'">
+                            <span>WK 1</span><span>WK 2</span><span>WK 3</span><span>WK 4</span>
+                        </ng-container>
+                        <ng-container *ngIf="activeTab() === 'monthly'">
+                            <span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical Sidebar: Booking Velocity & Stats -->
+            <div class="space-y-6">
+                <!-- Booking Velocity -->
+                <div
+                    class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20 text-center flex flex-col items-center">
+                    <div class="relative w-32 h-32 mb-4">
+                        <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="white" stroke-width="3" stroke-dasharray="100, 100" />
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#0D5C2E" stroke-width="3" [attr.stroke-dasharray]="'82, 100'"
+                                stroke-linecap="round" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-2xl font-black text-slate-800 leading-none">82%</span>
+                            <span class="text-[8px] font-bold text-slate-500 uppercase tracking-tighter">Capacity</span>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-800">Booking Velocity</h4>
+                    <p class="text-xs text-slate-500 mb-4">Slot Utilization vs Availability</p>
+
+                    <div class="w-full flex justify-between items-center text-xs font-bold px-2 mb-3">
+                        <span class="text-slate-400">Last 7 Days</span>
+                        <span class="text-emerald-700">+4.2%</span>
+                    </div>
+                    <div class="w-full bg-white/30 rounded-full h-1 mb-6">
+                        <div class="bg-[#0D5C2E] h-full w-[82%] rounded-full"></div>
+                    </div>
+
+                    <div class="bg-[#F0E6D2] px-4 py-2 rounded-full flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></div>
+                        <span class="text-[10px] font-black text-orange-800 uppercase tracking-wide">Prime Time Peak
+                            Active</span>
+                    </div>
+                </div>
+
+                <!-- Mini Stats Grid -->
+                <div class="space-y-4 relative">
+                    <div
+                        class="bg-[#BFF0D4] rounded-2xl p-4 flex items-center gap-4 border border-white/20 transition-all hover:translate-x-1">
+                        <div class="p-2 bg-white/40 rounded-xl text-emerald-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Repeat Customers</p>
+                            <p class="text-xl font-black text-slate-800">64%</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-[#BFF0D4] rounded-2xl p-4 flex items-center gap-4 border border-white/20 transition-all hover:translate-x-1">
+                        <div class="p-2 bg-white/40 rounded-xl text-emerald-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="m8 3 4-2 4 2" />
+                                <path d="M12 14v7" />
+                                <path d="M4.5 7 2 11l3 10" />
+                                <path d="M19.5 7 22 11l-3 10" />
+                                <path d="M12 7v5" />
+                                <path d="M12 12H9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Avg. Booking Lead</p>
+                            <p class="text-xl font-black text-slate-800">2.4 Days</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Action Button -->
+                    <button (click)="onAddItem()"
+                        class="absolute -top-1 -right-2 bg-[#AF4D13] w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg hover:scale-110 active:scale-95 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Peak Hours & Demand Heatmap -->
+        <div class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800">Peak Hours & Demand</h3>
+                    <p class="text-sm text-slate-600">Slot density by time of day</p>
+                </div>
+                <button class="p-2 bg-white/30 rounded-xl text-emerald-800 hover:bg-white/50 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-7 gap-2">
+                <div *ngFor="let day of ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']"
+                    class="text-center text-[10px] font-black text-slate-500 mb-2">
+                    {{day}}
+                </div>
+
+                <!-- Heatmap Cells -->
+                <ng-container *ngFor="let row of [0, 1, 2]">
+                    <div *ngFor="let col of [0,1,2,3,4,5,6]" [class]="getCellColor(row, col)"
+                        class="h-10 rounded-lg transition-transform hover:scale-105 cursor-pointer shadow-sm">
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="flex justify-between mt-4 text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">
+                <span>Morning (6-12)</span>
+                <span>Afternoon (12-18)</span>
+                <span>Evening (18-00)</span>
+            </div>
+        </div>
+
+        <!-- Payout History Section -->
+        <div class="bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-emerald-100">
+            <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800">Payout History</h3>
+                    <p class="text-sm text-slate-500">Track your recent bank transfers</p>
+                </div>
+                <button
+                    class="text-emerald-700 font-bold text-sm flex items-center gap-2 hover:bg-emerald-50 px-4 py-2 rounded-xl transition-all">
+                    Download <span class="hidden sm:inline">Report</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Desktop View: Professional Table -->
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full text-left border-separate border-spacing-y-3">
+                    <thead>
+                        <tr class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <th class="pb-2 pl-4">Reference ID</th>
+                            <th class="pb-2">Date</th>
+                            <th class="pb-2">Method</th>
+                            <th class="pb-2">Amount</th>
+                            <th class="pb-2">Status</th>
+                            <th class="pb-2 text-right pr-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of payouts()" class="group">
+                            <td class="bg-[#E2F5E9]/30 py-4 pl-4 rounded-l-2xl font-bold text-slate-700">#{{item.id}}
+                            </td>
+                            <td class="bg-[#E2F5E9]/30 py-4 text-slate-600 text-sm font-medium whitespace-nowrap">
+                                {{item.date}}</td>
+                            <td class="bg-[#E2F5E9]/30 py-4 text-slate-600 text-sm font-medium">Bank Transfer (****
+                                {{item.acc}})</td>
+                            <td class="bg-[#E2F5E9]/30 py-4 font-bold text-slate-700 whitespace-nowrap">{{item.amount |
+                                number:'1.2-2'}} EGP</td>
+                            <td class="bg-[#E2F5E9]/30 py-4">
+                                <span
+                                    [class]="item.status === 'Paid' ? 'bg-[#D1FAE5] text-emerald-800 border-emerald-200' : 'bg-[#FEF3C7] text-amber-800 border-amber-200'"
+                                    class="px-3 py-1 rounded-full text-[10px] font-black border flex items-center w-fit gap-1 uppercase">
+                                    <div class="w-1 h-1 rounded-full"
+                                        [class]="item.status === 'Paid' ? 'bg-emerald-600' : 'bg-amber-600'"></div>
+                                    {{item.status}}
+                                </span>
+                            </td>
+                            <td class="bg-[#E2F5E9]/30 py-4 pr-4 rounded-r-2xl text-right">
+                                <button (click)="onViewDetails(item)"
+                                    class="p-2 hover:bg-white rounded-lg transition-colors text-slate-400 hover:text-emerald-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile View: Card Layout -->
+            <div class="md:hidden space-y-4">
+                <div *ngFor="let item of payouts()"
+                    class="bg-[#E2F5E9]/20 rounded-3xl p-5 border border-emerald-100/50 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Reference</span>
+                            <span class="font-bold text-slate-700">#{{item.id}}</span>
+                        </div>
+                        <span
+                            [class]="item.status === 'Paid' ? 'bg-[#D1FAE5] text-emerald-800' : 'bg-[#FEF3C7] text-amber-800'"
+                            class="px-3 py-1 rounded-full text-[10px] font-black flex items-center gap-1 uppercase">
+                            {{item.status}}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Date</span>
+                            <span class="text-sm font-medium text-slate-600">{{item.date}}</span>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Amount</span>
+                            <span class="text-sm font-bold text-slate-800">{{item.amount | number:'1.2-2'}} EGP</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-4 border-t border-emerald-100/50">
+                        <div class="flex items-center gap-2">
+                            <div class="p-1.5 bg-white rounded-lg shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="text-emerald-700">
+                                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                                    <line x1="2" x2="22" y1="10" y2="10" />
+                                </svg>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium">Bank (**** {{item.acc}})</span>
+                        </div>
+                        <button (click)="onViewDetails(item)"
+                            class="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-50">
+                            Details
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Simple UI Feedback Overlay (Simulation) -->
+    <div *ngIf="activeModal()"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-all">
+        <div class="bg-white rounded-[2rem] p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-300">
+            <div class="flex justify-center mb-6">
+                <div class="p-4 rounded-full bg-emerald-100 text-emerald-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-2xl font-black text-center text-slate-800 mb-2">{{modalTitle()}}</h2>
+            <p class="text-center text-slate-500 mb-8">{{modalMessage()}}</p>
+            <button (click)="activeModal.set(false)"
+                class="w-full py-4 bg-[#0D5C2E] text-white font-bold rounded-2xl hover:scale-[1.02] active:scale-95 transition-all">
+                Understood
+            </button>
+        </div>
+    </div>
+</div>

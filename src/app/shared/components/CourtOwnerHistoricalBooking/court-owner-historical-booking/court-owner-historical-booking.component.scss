@@ -1,0 +1,31 @@
+:host {
+    display: block;
+}
+
+@keyframes bounce-slow {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce-slow 4s infinite ease-in-out;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.8;
+    filter: invert(0.2) sepia(1) saturate(5) hue-rotate(100deg);
+    padding: 2px;
+}
+
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+}

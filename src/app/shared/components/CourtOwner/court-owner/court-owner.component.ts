@@ -58,8 +58,9 @@ export class CourtOwnerComponent implements OnInit {
         iconSvg: this.iconCalendar(),
       },
       { key: 'tournaments', label: 'Tournaments', route: '/Tournaments', exact: false, iconSvg: this.iconTrophy() },
-      { key: 'venues', label: 'Venues', route: '/Venues', exact: false, iconSvg: this.iconMapPin() },
-      { key: 'leaderboard', label: 'Leaderboard', route: '/leaderboard', exact: false, iconSvg: this.iconChart() },
+      { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconSvg: this.iconDollarSign() },
+      { key: 'historicalbooking', label: 'Historical Bookings', route: '/CourtOwner/CourtOwnerHistoricalBookings', exact: false, iconSvg: this.iconHistory() },
+      { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconSvg: this.iconCourt() },
     ] as const;
 
     this.navItems = rawItems.map((i) => ({
@@ -149,12 +150,12 @@ export class CourtOwnerComponent implements OnInit {
     `;
   }
 
-  private iconMapPin(): string {
+  private iconDollarSign(): string {
     return `
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
+        <path d="M12 1v22"></path>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"></path>
       </svg>
     `;
   }
@@ -180,4 +181,27 @@ export class CourtOwnerComponent implements OnInit {
       </svg>
     `;
   }
+
+  private iconHistory(): string {
+    return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12,6 12,12 16,14"></polyline>
+      </svg>
+    `;
+  }
+  private iconCourt(): string {
+    return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="10" rx="2"></rect>
+        <rect x="2" y="12" width="20" height="10" rx="2"></rect>
+        <line x1="12" y1="2" x2="12" y2="22"></line>
+        <line x1="2" y1="7" x2="22" y2="7"></line>
+        <line x1="2" y1="17" x2="22" y2="17"></line>
+      </svg>
+    `;
+  }
+
 }
