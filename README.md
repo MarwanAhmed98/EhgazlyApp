@@ -74,12 +74,6 @@ ng serve
 
 ---
 
-## 📸 Screenshots
-
-> Add screenshots here (recommended for better presentation)
-
----
-
 ## 🔮 Future Improvements
 
 * Backend integration for real booking system
