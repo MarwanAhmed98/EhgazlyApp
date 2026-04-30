@@ -57,10 +57,11 @@ export class CourtOwnerComponent implements OnInit {
         exact: false,
         iconSvg: this.iconCalendar(),
       },
-      { key: 'tournaments', label: 'Tournaments', route: '/Tournaments', exact: false, iconSvg: this.iconTrophy() },
       { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconSvg: this.iconDollarSign() },
       { key: 'historicalbooking', label: 'Historical Bookings', route: '/CourtOwner/CourtOwnerHistoricalBookings', exact: false, iconSvg: this.iconHistory() },
       { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconSvg: this.iconCourt() },
+      { key: 'manage-court-schedule', label: 'Manage Court Schedule', route: '/CourtOwner/ManageCourtSchedule', exact: false, iconSvg: this.iconCourtCalendar() },
+      { key: 'tournaments', label: 'Tournaments', route: '/Tournaments', exact: false, iconSvg: this.iconTrophy() },
     ] as const;
 
     this.navItems = rawItems.map((i) => ({
@@ -171,17 +172,6 @@ export class CourtOwnerComponent implements OnInit {
       </svg>
     `;
   }
-
-  private iconChart(): string {
-    return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 3v18h18"></path>
-        <path d="M7 14l4-4 4 2 5-6"></path>
-      </svg>
-    `;
-  }
-
   private iconHistory(): string {
     return `
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -200,6 +190,20 @@ export class CourtOwnerComponent implements OnInit {
         <line x1="12" y1="2" x2="12" y2="22"></line>
         <line x1="2" y1="7" x2="22" y2="7"></line>
         <line x1="2" y1="17" x2="22" y2="17"></line>
+      </svg>
+    `;
+  }
+  private iconCourtCalendar(): string {
+    return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="10" rx="2"></rect>
+        <rect x="2" y="12" width="20" height="10" rx="2"></rect>
+        <line x1="12" y1="2" x2="12" y2="22"></line>
+        <line x1="2" y1="7" x2="22" y2="7"></line>
+        <line x1="2" y1="17" x2="22" y2="17"></line>
+        <line x1="8" y1="12" x2="8" y2="22"></line>
+        <line x1="16" y1="12" x2="16" y2="22"></line>
       </svg>
     `;
   }

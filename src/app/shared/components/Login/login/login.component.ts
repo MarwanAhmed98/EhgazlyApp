@@ -23,7 +23,8 @@ export class LoginComponent {
       this.authService.sendLoginForm(this.LoginForm.value).subscribe({
         next: (res) => {
           console.log(res);
-          localStorage.setItem('PlayerToken', res.token);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('role', res.user.role);
           if (res.user.role == 'customer') {
             this.router.navigate(['/MyBookings']);
             this.toastService.success(res.message, 'Ehgazly');

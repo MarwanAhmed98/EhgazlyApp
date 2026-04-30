@@ -174,9 +174,9 @@
             </div>
 
             <!-- Grid Cards -->
-            <div routerLink="/VenuesDetails" class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @for (s of visibleStadiums(); track s.id) {
-                <article
+                <article [routerLink]="['/VenuesDetails', s.id]"
                     class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/40 dark:shadow-none transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
                     [style.animation-delay.ms]="70 + (s.index * 55)">
 
@@ -216,7 +216,7 @@
                         </div>
 
                         <div class="mt-5 flex items-end justify-between gap-4">
-                            <div>
+                            <!-- <div>
                                 <p
                                     class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                     Starting From</p>
@@ -224,7 +224,7 @@
                                     EGP {{ s.pricePerHour }}<span
                                         class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
                                 </p>
-                            </div>
+                            </div> -->
 
                             <button type="button" (click)="openStadium(s)"
                                 class="w-12 h-12 rounded-2xl bg-emerald-200/70 hover:bg-emerald-200 border border-emerald-200/60 dark:border-emerald-900/40 transition-all duration-300 grid place-items-center group-hover:-translate-y-0.5 active:translate-y-0">
@@ -400,7 +400,7 @@
                         </div>
 
                         <div class="flex items-end justify-between gap-6 pt-2">
-                            <div>
+                            <!-- <div>
                                 <p
                                     class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                     Starts from</p>
@@ -408,9 +408,9 @@
                                     {{ s.pricePerHour }} EGP<span
                                         class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
                                 </p>
-                            </div>
+                            </div> -->
 
-                            <button routerLink="/VenuesDetails" type="button" (click)="book(s)"
+                            <button [routerLink]="['/VenuesDetails', s.id]" type="button" (click)="book(s)"
                                 class="px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 BOOK FIELD
                             </button>

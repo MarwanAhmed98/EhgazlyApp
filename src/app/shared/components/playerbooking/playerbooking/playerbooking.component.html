@@ -5,25 +5,27 @@
 
   <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
 
+    <!-- Header Section -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-fade-in-up">
       <div>
         <h1 class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D]">YOUR ARENA</h1>
         <p class="mt-2 text-emerald-800/70 font-semibold max-w-xl">
-          {{ tab === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your past performances and
-          stadium visits.' }}
+          {{ tab() === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your past performances
+          and stadium visits.' }}
         </p>
       </div>
 
+      <!-- Tab Switcher -->
       <div class="flex items-center">
         <div class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] border border-emerald-200 shadow-sm">
           <button (click)="setTab('upcoming')"
             class="px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-            [class]="tab === 'upcoming' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
+            [class]="tab() === 'upcoming' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
             Upcoming
           </button>
           <button (click)="setTab('previous')"
             class="px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-            [class]="tab === 'previous' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
+            [class]="tab() === 'previous' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60'">
             Previous
           </button>
         </div>
@@ -32,6 +34,7 @@
 
     <div class="mt-10 min-h-[400px]">
 
+      <!-- Logic: If there are bookings to show -->
       @if (filteredBookings().length > 0) {
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -39,8 +42,11 @@
         <article
           class="group bg-[#C6E7C1] border border-emerald-300/30 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all animate-fade-in-up">
           <div class="flex flex-col sm:flex-row h-full">
+            <!-- Dynamic Image (Fallback to placeholder if no image exists) -->
             <div class="sm:w-2/5 relative h-48 sm:h-full min-h-[220px]">
-              <img [src]="b.image" class="absolute inset-0 w-full h-full object-cover" [alt]="b.title" />
+              <img
+                src="https://images.pexels.com/photos/28649105/pexels-photo-28649105/free-photo-of-panoramic-view-of-maracana-stadium.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                class="absolute inset-0 w-full h-full object-cover" [alt]="b.court.name" />
             </div>
 
             <div class="sm:w-3/5 p-6 flex flex-col justify-between">
@@ -49,20 +55,17 @@
                   <span
                     class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/40 text-emerald-900 border border-white/20">
                     <span class="w-1.5 h-1.5 rounded-full"
-                      [class]="b.status === 'upcoming' ? 'bg-orange-500' : 'bg-emerald-600'"></span>
-                    {{ b.status === 'upcoming' ? 'CONFIRMED' : 'COMPLETED' }}
+                      [class]="b.status === 'pending' ? 'bg-orange-500' : 'bg-emerald-600'"></span>
+                    {{ b.status }}
                   </span>
                   <div class="flex items-center gap-1 text-emerald-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                      fill="currentColor">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                    <span class="text-xs font-black">{{ b.rating }}</span>
+                    <span class="text-xs font-black">ID: {{ b.id }}</span>
                   </div>
                 </div>
 
-                <h3 class="mt-4 text-2xl font-black text-emerald-950 tracking-tight">{{ b.title }}</h3>
+                <!-- Dynamic Names -->
+                <h3 class="mt-4 text-2xl font-black text-emerald-950 tracking-tight">{{ b.court.name }}</h3>
+                <p class="text-xs font-bold text-emerald-800/60">{{ b.court.maincourt.name }}</p>
 
                 <div class="mt-4 space-y-2">
                   <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
@@ -71,7 +74,7 @@
                       <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                       <path d="M16 2v4M8 2v4M3 10h18"></path>
                     </svg>
-                    <span>{{ b.date }}</span>
+                    <span>{{ b.timeslot.date | date: "mediumDate" }}</span>
                   </div>
                   <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -79,23 +82,24 @@
                       <circle cx="12" cy="12" r="10"></circle>
                       <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                    <span>{{ b.time }}</span>
+                    <span>{{ b.timeslot.start_time }}</span>
                   </div>
                 </div>
               </div>
 
+              <!-- Action Buttons based on status -->
               <div class="mt-8 flex items-center gap-6">
-                @if (b.status === 'previous') {
-                <button (click)="viewDetails(b)"
+                @if (tab() === 'previous') {
+                <button
                   class="flex-1 px-4 py-3 rounded-full bg-[#A8D1A3] text-emerald-950 text-[11px] font-black uppercase tracking-widest hover:bg-[#96c291] transition-all">Match
                   Report</button>
-                <button (click)="findVenue()"
+                <button routerLink="/Venues"
                   class="text-[11px] font-black uppercase tracking-widest text-emerald-900/60 hover:text-emerald-900">Rebook</button>
                 } @else {
-                <button routerLink="/FullBookingDetails" (click)="viewDetails(b)"
+                <button [routerLink]="['/FullBookingDetails', b.id]"
                   class="flex-1 px-4 py-3 rounded-full bg-[#14532D] text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20 hover:bg-[#0f3f22]">View
                   Details</button>
-                <button (click)="cancel(b)"
+                <button
                   class="text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700">Cancel</button>
                 }
               </div>
@@ -104,7 +108,8 @@
         </article>
         }
 
-        @if (tab === 'upcoming') {
+        <!-- Find a Venue Card (Appears in grid when items are present, only on Upcoming tab) -->
+        @if (tab() === 'upcoming') {
         <div
           class="bg-[#C6E7C1]/40 border-2 border-dashed border-emerald-300 rounded-3xl p-8 flex flex-col items-center justify-center text-center animate-fade-in-up">
           <div class="w-16 h-16 rounded-full bg-[#14532D] text-white flex items-center justify-center shadow-xl mb-6">
@@ -116,15 +121,16 @@
           <h3 class="text-2xl font-black text-emerald-950 uppercase tracking-tight">Ready for more?</h3>
           <p class="mt-2 text-emerald-800/70 font-bold text-sm max-w-[200px]">Book another court and keep the momentum
             going.</p>
-          <button routerLink="/Venues" (click)="findVenue()"
+          <button routerLink="/Venues"
             class="mt-8 px-10 py-3.5 rounded-full bg-[#A34700] text-white font-black text-xs uppercase tracking-widest shadow-lg hover:-translate-y-1 transition-all">
             Find a Venue
           </button>
         </div>
         }
       </div>
-      } @else {
 
+      } @else {
+      <!-- Empty State: No bookings in this tab -->
       <div
         class="bg-white rounded-[3.5rem] p-12 sm:p-24 shadow-sm flex flex-col items-center justify-center text-center animate-fade-in-up">
         <div class="relative mb-10">
@@ -141,11 +147,11 @@
             <span class="text-white text-lg font-black">?</span>
           </div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-emerald-950 mb-4">No matches scheduled yet.</h2>
+        <h2 class="text-3xl sm:text-4xl font-black text-emerald-950 mb-4">No {{ tab() }} matches yet.</h2>
         <p class="text-emerald-800/60 font-semibold max-w-md mb-12 text-lg leading-relaxed">
           Your next goal is just a booking away. Let's find the perfect pitch for your team.
         </p>
-        <button routerLink="/Venues" (click)="findVenue()"
+        <button routerLink="/Venues"
           class="group flex items-center gap-4 px-12 py-5 rounded-full bg-[#14532D] text-white font-black text-sm uppercase tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
           Find a Pitch
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -158,11 +164,13 @@
     </div>
   </main>
 
+  <!-- Footer Section -->
   <footer class="mt-20 py-12 border-t border-emerald-200/50 bg-[#F0FDF4]">
     <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-8">
       <div class="text-center sm:text-left">
         <p class="text-2xl font-black text-[#14532D]">Ehgazly</p>
-        <p class="text-sm text-emerald-800/50 font-bold mt-1">© 2024 Ehgazly. The Digital Locker Room.</p>
+        <p class="text-sm text-emerald-800/50 font-bold mt-1">© {{ (allBookings().length > 0 ?
+          (allBookings()[0].created_at | date:'yyyy') : '2024') }} Ehgazly. The Digital Locker Room.</p>
       </div>
       <div class="flex gap-8 text-sm font-black text-emerald-800/50">
         <a href="#" class="hover:text-emerald-900 transition-colors">Privacy Policy</a>

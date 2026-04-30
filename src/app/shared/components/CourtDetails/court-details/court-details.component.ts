@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { IspecficCourt } from './../../../interfaces/ispecfic-court';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { VenuesService } from '../../../../core/services/venues/venues.service';
 type VenueSpec = { label: string; value: string; icon: string };
 type Amenity = { label: string; icon: string };
 @Component({
@@ -9,7 +11,11 @@ type Amenity = { label: string; icon: string };
   templateUrl: './court-details.component.html',
   styleUrl: './court-details.component.scss'
 })
-export class CourtDetailsComponent {
+export class CourtDetailsComponent implements OnInit {
+  private readonly venuesService = inject(VenuesService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  CourtDetails: IspecficCourt = {} as IspecficCourt
+  productId: any;
   @ViewChild('bookingCard', { read: ElementRef }) bookingCard?: ElementRef<HTMLElement>;
 
   venue = {
@@ -40,33 +46,49 @@ export class CourtDetailsComponent {
     ] as Amenity[],
   };
 
-  price = 850;
+  // price = 850;
 
-  readonly dates = ['Oct 24, 2023', 'Oct 25, 2023', 'Oct 26, 2023'];
-  readonly times = ['20:00 – 21:00', '21:00 – 22:00', '22:00 – 23:00'];
+  // readonly dates = ['Oct 24, 2023', 'Oct 25, 2023', 'Oct 26, 2023'];
+  // readonly times = ['20:00 – 21:00', '21:00 – 22:00', '22:00 – 23:00'];
 
   dateIndex = 0;
   timeIndex = 0;
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe({
+      next: (res) => {
+        console.log(res);
+        this.productId = res.get('id');
+        console.log(this.productId);
+        this.venuesService.GetSpecificCourts(this.productId).subscribe({
+          next: (res) => {
+            this.CourtDetails = res.data;
+            console.log(this.CourtDetails);
 
-  get selectedDate(): string {
-    return this.dates[this.dateIndex];
-  }
+          }
+        })
 
-  get selectedTime(): string {
-    return this.times[this.timeIndex];
+      }
+    })
   }
+  // get selectedDate(): string {
+  //   return this.dates[this.dateIndex];
+  // }
 
-  cycleDate(): void {
-    this.dateIndex = (this.dateIndex + 1) % this.dates.length;
-  }
+  // get selectedTime(): string {
+  //   return this.times[this.timeIndex];
+  // }
 
-  cycleTime(): void {
-    this.timeIndex = (this.timeIndex + 1) % this.times.length;
-  }
+  // cycleDate(): void {
+  //   this.dateIndex = (this.dateIndex + 1) % this.dates.length;
+  // }
 
-  confirmBooking(): void {
-    console.log('Confirm booking', { date: this.selectedDate, time: this.selectedTime, price: this.price });
-  }
+  // cycleTime(): void {
+  //   this.timeIndex = (this.timeIndex + 1) % this.times.length;
+  // }
+
+  // confirmBooking(): void {
+  //   console.log('Confirm booking', { date: this.selectedDate, time: this.selectedTime, price: this.price });
+  // }
 
   viewAllPhotos(): void {
     console.log('View all photos');

@@ -45,7 +45,7 @@
             <div
                 class="relative rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-2xl shadow-emerald-200/30 dark:shadow-none">
                 <div class="relative h-[340px] sm:h-[420px] lg:h-[460px]">
-                    <img [src]="venue.heroImage" [alt]="venue.name"
+                    <img [src]="CourtDetails.images[0].url" [alt]="CourtDetails.name"
                         class="absolute inset-0 w-full h-full object-cover" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-emerald-950/75 via-emerald-950/30 to-transparent">
@@ -69,7 +69,7 @@
 
                                 <h1
                                     class="mt-4 text-4xl sm:text-5xl font-black tracking-tighter text-white leading-tight">
-                                    {{ venue.name }}
+                                    {{ CourtDetails.name }}
                                 </h1>
 
                                 <p class="mt-2 text-white/80 font-semibold inline-flex items-center gap-2">
@@ -79,7 +79,7 @@
                                         <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
                                         <circle cx="12" cy="10" r="2" />
                                     </svg>
-                                    <span>{{ venue.location }}</span>
+                                    <span>{{ CourtDetails.address }}</span>
                                 </p>
                             </div>
 
@@ -146,16 +146,18 @@
                         <div class="col-span-12 md:col-span-6">
                             <button type="button" (click)="openPhoto(0)"
                                 class="group w-full h-[280px] md:h-[360px] rounded-[2rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-xl shadow-emerald-200/25 dark:shadow-none transition-all duration-300 hover:-translate-y-1">
-                                <img [src]="venue.gallery[0]" alt="Gallery 1"
+
+                                <img [src]="CourtDetails.images[0]?.url" [alt]="CourtDetails.images[0]?.id"
                                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
                             </button>
                         </div>
 
                         <div class="col-span-12 md:col-span-6 grid grid-cols-2 gap-4">
-                            @for (img of venue.gallery.slice(1, 5); track $index) {
+                            @for (img of CourtDetails.images.slice(1,5); track $index) {
                             <button type="button" (click)="openPhoto($index + 1)"
                                 class="group w-full h-[170px] md:h-[172px] rounded-[1.75rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-lg shadow-emerald-200/20 dark:shadow-none transition-all duration-300 hover:-translate-y-1">
-                                <img [src]="img" alt="Gallery item"
+
+                                <img [src]="img.url" [alt]="img.id"
                                     class="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-500" />
                             </button>
                             }
@@ -172,14 +174,14 @@
                     </div>
 
                     <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        @for (a of venue.amenities; track a) {
+                        @for (a of CourtDetails.amenities; track a) {
                         <div
                             class="rounded-[1.75rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 px-5 py-5 flex items-center gap-4 shadow-[0_18px_40px_-28px_rgba(2,44,34,0.25)] hover:shadow-[0_26px_60px_-34px_rgba(2,44,34,0.35)] transition-all duration-300 hover:-translate-y-1">
                             <span
                                 class="w-11 h-11 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
-                                {{ a.icon }}
+                                <!-- {{ a.icon }} -->
                             </span>
-                            <p class="text-sm font-black text-emerald-950 dark:text-white">{{ a.label }}</p>
+                            <p class="text-sm font-black text-emerald-950 dark:text-white">{{ a.name }}</p>
                         </div>
                         }
                     </div>
@@ -212,7 +214,7 @@
             <!-- Right -->
             <div class="lg:col-span-4 space-y-6">
                 <!-- Booking Card -->
-                <div #bookingCard class="animate-fade-in-up" style="animation-delay: 110ms;">
+                <!-- <div #bookingCard class="animate-fade-in-up" style="animation-delay: 110ms;">
                     <div
                         class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.25)]">
                         <div class="flex items-start justify-between">
@@ -273,16 +275,20 @@
                             Free cancellation up to 12 hours before kickoff.
                         </p>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Map Card -->
-                <div class="animate-fade-in-up" style="animation-delay: 180ms;">
+                <a [href]="CourtDetails.map_link" target="_blank" class="animate-fade-in-up block"
+                    style="animation-delay: 180ms;">
+
                     <div
                         class="rounded-[2rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-white/60 dark:bg-white/5 backdrop-blur-xl shadow-xl shadow-emerald-200/25 dark:shadow-none">
+
                         <div class="relative h-44 bg-gradient-to-br from-[#0ea5a4] via-[#14b8a6] to-[#fb923c]">
                             <div
                                 class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_20%,white,transparent_55%)]">
                             </div>
+
                             <div class="absolute inset-0 grid place-items-center">
                                 <div
                                     class="w-14 h-14 rounded-full bg-white/80 border border-white/40 grid place-items-center shadow-lg">
@@ -290,13 +296,19 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="p-5">
-                            <p class="text-sm font-black text-emerald-950 dark:text-white">{{ venue.name }}</p>
-                            <p class="mt-1 text-xs font-semibold text-slate-600 dark:text-slate-400">{{
-                                venue.fullAddress }}</p>
+                            <p class="text-sm font-black text-emerald-950 dark:text-white">
+                                {{ CourtDetails.name }}
+                            </p>
+
+                            <p class="mt-1 text-xs font-semibold text-slate-600 dark:text-slate-400">
+                                {{ CourtDetails.address }}
+                            </p>
                         </div>
+
                     </div>
-                </div>
+                </a>
             </div>
         </section>
     </main>

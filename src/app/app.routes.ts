@@ -1,3 +1,4 @@
+import { AddNewCourtComponent } from './shared/components/AddNewCourt/add-new-court/add-new-court.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './shared/components/Home/home/home.component';
@@ -28,6 +29,7 @@ import { CourtOwnerEarningsComponent } from './shared/components/CourtOwnerEarni
 import { CourtOwnerHistoricalBookingComponent } from './shared/components/CourtOwnerHistoricalBooking/court-owner-historical-booking/court-owner-historical-booking.component';
 import { CourtOwnerManagementComponent } from './shared/components/CourtOwnerManagement/court-owner-management/court-owner-management.component';
 import { CourtEditorComponent } from './shared/components/CourtEditor/court-editor/court-editor.component';
+import { ManageCourtScheduleComponent } from './shared/components/ManageCourtSchedule/manage-court-schedule/manage-court-schedule.component';
 
 export const routes: Routes = [
     {
@@ -64,7 +66,7 @@ export const routes: Routes = [
         title: 'My Bookings',
     },
     {
-        path: 'FullBookingDetails',
+        path: 'FullBookingDetails/:id',
         component: PlayerFullBookingComponent,
         title: 'Full Booking Details',
     },
@@ -81,10 +83,10 @@ export const routes: Routes = [
     {
         path: 'Venues',
         component: VenuesComponent,
-        title: 'Venues',
+        title: 'Courts',
     },
     {
-        path: 'VenuesDetails',
+        path: 'VenuesDetails/:id',
         component: CourtDetailsComponent,
         title: 'Court Details',
     },
@@ -143,7 +145,9 @@ export const routes: Routes = [
             { path: 'CourtOwnerEarnings', component: CourtOwnerEarningsComponent, title: 'Earnings' },
             { path: 'CourtOwnerHistoricalBookings', component: CourtOwnerHistoricalBookingComponent, title: 'Historical Bookings' },
             { path: 'CourtOwnerManagement', component: CourtOwnerManagementComponent, title: 'Courts Management' },
+            { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
             { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
+            { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
         ]
     },

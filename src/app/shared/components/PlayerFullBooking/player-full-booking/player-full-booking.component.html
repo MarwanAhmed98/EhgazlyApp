@@ -49,17 +49,17 @@
                         Review your pitch reservation information
                     </p>
 
-                    <div
+                    <!-- <div
                         class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-200/70 text-emerald-950 border border-emerald-300/60">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
                         <span class="text-xs font-black uppercase tracking-widest">Paid</span>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="flex items-center gap-2 shrink-0">
                     <button type="button"
                         class="w-11 h-11 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-white/5 backdrop-blur-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
-                        (click)="share()" aria-label="Share">
+                        aria-label="Share">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5 mx-auto text-slate-700 dark:text-slate-200" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -71,7 +71,7 @@
 
                     <button type="button"
                         class="w-11 h-11 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-white/5 backdrop-blur-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
-                        (click)="more()" aria-label="More">
+                        aria-label="More">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5 mx-auto text-slate-700 dark:text-slate-200" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -92,10 +92,10 @@
                     <div class="flex items-start justify-between gap-6">
                         <div class="min-w-0">
                             <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950 dark:text-white">
-                                {{ booking.title }}
+                                {{ bookingDetails.court.maincourt.name }}
                             </h2>
                             <p class="mt-1 text-sm font-black tracking-widest text-slate-500 dark:text-slate-400">
-                                #{{ booking.code }}
+                                #{{ bookingDetails.id }}
                             </p>
                         </div>
 
@@ -128,10 +128,11 @@
                                 <p
                                     class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                     Date & Time</p>
-                                <p class="mt-1 text-sm font-black text-emerald-950 dark:text-white">{{ booking.dateLabel
+                                <p class="mt-1 text-sm font-black text-emerald-950 dark:text-white">{{
+                                    bookingDetails.timeslot.date | date:"mediumDate"
                                     }}</p>
                                 <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">{{
-                                    booking.timeLabel }}</p>
+                                    bookingDetails.timeslot.start_time }} - {{ bookingDetails.timeslot.end_time }}</p>
                             </div>
                         </div>
 
@@ -152,7 +153,8 @@
                                     class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                     Total Amount</p>
                                 <p class="mt-1 text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
-                                    {{ booking.amount }} <span class="text-base font-black">EGP</span>
+                                    {{ bookingDetails.court.price_per_hour }} <span
+                                        class="text-base font-black">EGP</span>
                                 </p>
                             </div>
                         </div>
@@ -170,7 +172,7 @@
                             </svg>
                         </span>
                         <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">
-                            {{ booking.location }}
+                            {{ bookingDetails.court.maincourt.address }}
                         </p>
                     </div>
                 </div>
@@ -195,13 +197,13 @@
                 class="mt-4 rounded-[2rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-xl shadow-emerald-200/30 dark:shadow-none bg-white/60 dark:bg-white/5 backdrop-blur-xl">
                 <div
                     class="relative w-full aspect-[16/10] sm:aspect-[16/9] bg-gradient-to-br from-[#ffb44a] via-[#f59e0b] to-[#0ea5a4]">
-                    <img [src]="booking.receiptImage" alt="Receipt preview"
+                    <img [src]="bookingDetails.receipt_image_url" alt="Receipt preview"
                         class="absolute inset-0 w-full h-full object-cover opacity-25" />
                     <div class="absolute inset-0 flex items-center justify-center p-6">
                         <div
                             class="relative w-[72%] max-w-[360px] aspect-[9/19] rounded-[2.2rem] bg-slate-950/70 border border-white/15 shadow-2xl overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent"></div>
-                            <img src="https://images.unsplash.com/photo-1551650992-ee4fd47df41f?auto=format&fit=crop&w=900&q=80"
+                            <img [src]="bookingDetails.receipt_image_url" alt="Receipt phone mock"
                                 alt="Receipt phone mock"
                                 class="absolute inset-0 w-full h-full object-cover opacity-35" />
                             <div class="absolute inset-x-0 top-0 h-10 bg-black/25"></div>
@@ -219,7 +221,7 @@
             </div>
 
             <div class="mt-6 grid grid-cols-1 gap-4">
-                <button type="button" (click)="downloadReceipt()"
+                <button type="button"
                     class="w-full bg-[#146A1E] hover:bg-[#0f5418] text-white font-black py-4 rounded-2xl shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -230,7 +232,7 @@
                     Download Receipt
                 </button>
 
-                <button type="button" (click)="contactVenue()"
+                <!-- <button type="button"
                     class="w-full bg-emerald-200/70 hover:bg-emerald-200 text-emerald-950 dark:text-emerald-100 font-black py-4 rounded-2xl border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -239,9 +241,9 @@
                         <path d="M8 13h5" />
                     </svg>
                     Contact Venue
-                </button>
+                </button> -->
 
-                <button type="button" (click)="cancelBooking()"
+                <button type="button"
                     class="w-full py-3 text-sm font-black text-red-600 hover:text-red-700 transition-colors inline-flex items-center justify-center gap-2">
                     <span
                         class="w-6 h-6 rounded-full bg-red-100 text-red-700 inline-flex items-center justify-center border border-red-200">
