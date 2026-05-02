@@ -30,6 +30,8 @@ import { CourtOwnerHistoricalBookingComponent } from './shared/components/CourtO
 import { CourtOwnerManagementComponent } from './shared/components/CourtOwnerManagement/court-owner-management/court-owner-management.component';
 import { CourtEditorComponent } from './shared/components/CourtEditor/court-editor/court-editor.component';
 import { ManageCourtScheduleComponent } from './shared/components/ManageCourtSchedule/manage-court-schedule/manage-court-schedule.component';
+import { CourtOwnerNotificationsComponent } from './shared/components/CourtOwnerNotifications/court-owner-notifications/court-owner-notifications.component';
+import { CourtOwnerFinanceComponent } from './shared/components/CourtOwnerFinance/court-owner-finance/court-owner-finance.component';
 
 export const routes: Routes = [
     {
@@ -148,6 +150,8 @@ export const routes: Routes = [
             { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
             { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
             { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
+            { path: 'Notifications', component: CourtOwnerNotificationsComponent, title: 'Notifications' },
+            { path: 'Financials', component: CourtOwnerFinanceComponent, title: 'Financials' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
         ]
     },

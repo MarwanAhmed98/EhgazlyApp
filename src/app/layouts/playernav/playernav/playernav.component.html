@@ -50,20 +50,22 @@
       <!-- Notification -->
       <button
         class="w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 relative">
-        🔔
+        <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
+
         <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
       </button>
 
       <!-- Profile -->
       <div
         class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
-        👤
+        <lucide-icon name="user" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
+
       </div>
       <!-- Mobile button -->
       <button type="button" (click)="openMobileMenu()"
         class="md:hidden w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 transition-all"
         aria-label="Toggle menu">
-        ☰
+        <lucide-icon name="menu" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
       </button>
 
     </div>

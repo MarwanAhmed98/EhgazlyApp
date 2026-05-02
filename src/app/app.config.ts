@@ -8,6 +8,8 @@ import { errorInterceptor } from './core/interceptors/error/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading/loading.interceptor';
 import { headerInterceptor } from './core/interceptors/header/header.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LucideAngularModule, LucideIcons } from 'lucide-angular';
+import * as allIcons from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -15,7 +17,8 @@ export const appConfig: ApplicationConfig = {
   provideHttpClient(withFetch(), withInterceptors([headerInterceptor, errorInterceptor, loadingInterceptor])),
   provideAnimations(),
   provideClientHydration(withEventReplay()),
-  importProvidersFrom(NgxSpinnerModule)
+  importProvidersFrom(NgxSpinnerModule),
+  importProvidersFrom(LucideAngularModule.pick(allIcons as unknown as LucideIcons))
   ]
 };
 

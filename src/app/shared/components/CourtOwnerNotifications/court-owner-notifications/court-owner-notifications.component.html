@@ -1,0 +1,256 @@
+<div class="min-h-screen bg-[#E2F5E2] p-4 md:p-8 font-sans text-slate-800">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-10">
+            <h1 class="text-4xl font-black text-[#1A4D2E] mb-2">Notification Center</h1>
+            <p class="text-slate-600 font-medium">Keep track of your stadium's pulse and player activity.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- Left Column: New Bookings & Payment Reminders -->
+            <div class="lg:col-span-8 space-y-10">
+
+                <!-- New Bookings Section -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-6 bg-[#1A4D2E] rounded-full"></div>
+                            <h2 class="text-xl font-bold text-[#1A4D2E]">New Bookings</h2>
+                        </div>
+                        <span
+                            class="bg-[#B7E4C7] text-[#1A4D2E] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            {{ unreadCount() }} Unread
+                        </span>
+                    </div>
+
+                    <div class="space-y-4">
+                        @for (item of bookings(); track item.id) {
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border-l-8 flex flex-col md:flex-row gap-5 items-start transition-all hover:shadow-md"
+                            [class.border-[#1A4D2E]]="!item.read" [class.border-transparent]="item.read">
+
+                            <!-- Icon -->
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                                [class.bg-[#B7E4C7]]="item.type === 'booking'"
+                                [class.bg-[#D8F3DC]]="item.type === 'tournament'">
+                                @if (item.type === 'booking') {
+                                <svg class="w-6 h-6 text-[#1A4D2E]" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                                </svg>
+                                } @else {
+                                <svg class="w-6 h-6 text-[#1A4D2E]" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.94V19H7v2h10v-2h-4v-3.12c1.63-.3 2.98-1.44 3.61-2.94C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
+                                </svg>
+                                }
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h3 class="font-bold text-lg">{{ item.title }}</h3>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">{{
+                                        item.time }}</span>
+                                </div>
+                                <p class="text-slate-500 text-sm leading-relaxed mb-4 max-w-2xl">
+                                    {{ item.details }}
+                                </p>
+                                <div class="flex items-center gap-6">
+                                    <button (click)="openDetailsModal('booking', item.id)"
+                                        class="bg-[#1A4D2E] text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-[#143d24] transition-colors">
+                                        View Details
+                                    </button>
+                                    <button (click)="markAsRead(item.id)"
+                                        class="text-slate-400 text-sm font-bold hover:text-[#1A4D2E] transition-colors">
+                                        Mark as Read
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </section>
+
+                <!-- Payment Reminders Section -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-1.5 h-6 bg-[#2171B5] rounded-full"></div>
+                        <h2 class="text-xl font-bold text-[#1A4D2E]">Payment Reminders</h2>
+                    </div>
+
+                    <div
+                        class="bg-[#C1F1D4] rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 justify-between shadow-sm">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="bg-white/50 w-14 h-14 rounded-xl flex items-center justify-center shrink-0">
+                                <svg class="w-8 h-8 text-[#2171B5]" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[#0D3B66] text-lg">Pending Monthly Payout</h3>
+                                <p class="text-[#2D6A4F] text-sm font-medium">Your revenue share for 'Field 4' totaling
+                                    12,400 EGP is ready for withdrawal.</p>
+                            </div>
+                        </div>
+
+                        @if (!payout().processed) {
+                        <button (click)="processPayout()"
+                            class="bg-[#0062B1] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/20 hover:scale-105 transition-transform whitespace-nowrap">
+                            Process Payout
+                        </button>
+                        } @else {
+                        <button disabled
+                            class="bg-[#0062B1] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/20 opacity-60 cursor-not-allowed whitespace-nowrap">
+                            Processed
+                        </button>
+                        }
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Cancellations & Live Status -->
+            <div class="lg:col-span-4 space-y-8">
+
+                <!-- Cancellations Section -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-1.5 h-6 bg-[#BA181B] rounded-full"></div>
+                        <h2 class="text-xl font-bold text-[#BA181B]">Cancellations</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        @for (c of cancellationsVisible(); track c.id) {
+
+                        @if (c.type === 'match-cancelled') {
+                        <div class="bg-[#F9E9E9] border-l-4 border-[#BA181B] rounded-xl p-5 shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-[#BA181B]" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                                    </svg>
+                                    <h3 class="font-bold text-[#BA181B] text-lg">Match Cancelled</h3>
+                                </div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">{{ c.time }}</span>
+                            </div>
+                            <p class="font-bold text-sm text-[#5C1618] mb-1">{{ c.subtitle }}</p>
+                            <p class="text-xs text-[#8A5A5C] leading-relaxed mb-4">
+                                {{ c.reason }}
+                            </p>
+                            <div class="flex justify-between items-center">
+                                @if (c.slotStatus === 'blocked') {
+                                <button (click)="reopenSlot(c.id)"
+                                    class="text-[#BA181B] text-xs font-black uppercase underline decoration-2 underline-offset-4">Re-open
+                                    Slot</button>
+                                } @else {
+                                <button disabled
+                                    class="text-[#BA181B] text-xs font-black uppercase underline decoration-2 underline-offset-4 opacity-60 cursor-not-allowed">Slot
+                                    Open</button>
+                                }
+
+                                <button (click)="dismissCancellation(c.id)"
+                                    class="text-slate-400 text-xs font-bold uppercase tracking-widest">Dismiss</button>
+                            </div>
+                        </div>
+                        } @else {
+                        <div class="bg-[#F2F4E6] border-l-4 border-[#A5A58D] rounded-xl p-5 shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-[#6B705C]" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <h3 class="font-bold text-[#6B705C] text-lg">Booking Expired</h3>
+                                </div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">{{ c.time }}</span>
+                            </div>
+                            <p class="font-bold text-sm text-[#4A4E40] mb-1">{{ c.subtitle }}</p>
+                            <p class="text-xs text-[#828471] leading-relaxed mb-4">
+                                {{ c.reason }}
+                            </p>
+                            <button (click)="dismissCancellation(c.id)"
+                                class="text-slate-400 text-xs font-bold uppercase tracking-widest">Dismiss</button>
+                        </div>
+                        }
+
+                        }
+                    </div>
+                </section>
+
+                <!-- Live Status Widget -->
+                <section class="bg-[#E7F9EF] rounded-3xl overflow-hidden shadow-sm">
+                    <!-- Live Activity Image Area -->
+                    <div class="relative h-44 bg-slate-900 group">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 transition-transform duration-500"
+                            style="background-image: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800')">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="absolute bottom-4 left-5 right-5">
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                                <span class="text-[10px] font-black text-white uppercase tracking-widest">Live
+                                    Activity</span>
+                            </div>
+                            <h4 class="text-white text-xl font-black">All pitches currently full</h4>
+                        </div>
+                    </div>
+
+                    <!-- Stats Area -->
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-center pb-3 border-b border-[#D0EBD9]">
+                            <span class="text-sm font-bold text-[#2D6A4F]">Active Players</span>
+                            <span class="text-xl font-black text-[#1A4D2E]">24</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3 border-b border-[#D0EBD9]">
+                            <span class="text-sm font-bold text-[#2D6A4F]">Next Slot Open</span>
+                            <span class="text-xl font-black text-[#1A4D2E]">20:30</span>
+                        </div>
+                        <button
+                            class="w-full bg-[#F1FAF4] text-[#1A4D2E] border-2 border-[#1A4D2E]/10 py-3 rounded-xl font-bold text-sm hover:bg-[#D0EBD9] transition-colors mt-2">
+                            View Field Map
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+@if (isDetailsOpen()) {
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div class="absolute inset-0" (click)="closeDetailsModal()"></div>
+
+    <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex items-start justify-between gap-4">
+            <div class="min-w-0">
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">{{ detailsTitle() }}</p>
+                <h3 class="mt-1 text-xl font-black text-[#1A4D2E] truncate">{{ detailsHeading() }}</h3>
+            </div>
+            <button (click)="closeDetailsModal()" class="text-slate-400 hover:text-slate-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-6">
+            <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">{{ detailsBody() }}</p>
+
+            <div class="mt-6 flex gap-3">
+                <button (click)="closeDetailsModal()"
+                    class="flex-1 bg-[#1A4D2E] text-white px-6 py-3 rounded-xl text-sm font-black hover:bg-[#143d24] transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

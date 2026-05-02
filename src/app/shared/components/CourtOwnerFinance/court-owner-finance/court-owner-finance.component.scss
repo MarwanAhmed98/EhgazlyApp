@@ -1,0 +1,16 @@
+:host {
+    display: block;
+    --primary-green: #0E7A2A;
+    --dark-green: #0A3D14;
+    --light-green: #C1F2C7;
+    --bg-green: #E2F5E5;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

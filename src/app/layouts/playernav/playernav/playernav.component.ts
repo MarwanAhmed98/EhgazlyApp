@@ -2,13 +2,13 @@ import { NgClass } from '@angular/common';
 import { Component, HostListener, Input, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
-
+import { LucideAngularModule } from 'lucide-angular';
 export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friendly-matches';
 
 @Component({
   selector: 'app-playernav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgClass],
+  imports: [RouterLink, RouterLinkActive, NgClass, LucideAngularModule],
   templateUrl: './playernav.component.html',
   styleUrl: './playernav.component.scss',
 })
