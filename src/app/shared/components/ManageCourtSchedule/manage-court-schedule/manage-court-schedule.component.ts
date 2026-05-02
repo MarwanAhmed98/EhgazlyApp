@@ -9,66 +9,270 @@
 // export class ManageCourtScheduleComponent {
 
 // }
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+type SlotStatus = 'available' | 'blocked' | 'booked';
+
+type Slot = {
+  time: string;
+  period: string;
+  label: string;
+  status: SlotStatus;
+  prime?: boolean;
+};
+
+type Activity = {
+  id: number;
+  type: 'payment' | 'cancel';
+  title: string;
+  subtitle: string;
+  value: string;
+  time: string;
+};
+
+type Stats = { bookings: number; revenue: string; occupancy: number };
+type PitchKey = 'Anfield' | 'Bernabeu';
+
+type PitchData = {
+  schedule: Slot[];
+  activities: Activity[];
+  stats: Stats;
+};
+
 @Component({
   selector: 'app-manage-court-schedule',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './manage-court-schedule.component.html',
   styleUrl: './manage-court-schedule.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageCourtScheduleComponent {
-  activePitch = signal('Anfield');
-  isFacilityOpen = signal(true);
+  activePitch = signal<PitchKey>('Anfield');
   currentTime = signal('09:42 AM');
 
-  quickActions = [
-    {
-      label: 'Add Slot',
-      icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
-    },
-    {
-      label: 'Block Court',
-      icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>`
-    },
-    {
-      label: 'Promo Blast',
-      icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>`
-    },
-    {
-      label: 'Reports',
-      icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`
-    }
-  ];
+  // Modal State Signals
+  isModalOpen = signal(false);
+  isConfirmModalOpen = signal(false);
+  selectedSlot = signal<Slot | null>(null);
 
-  schedule = [
-    { time: '08:00', period: 'AM', label: 'Available for booking', status: 'available' },
-    { time: '09:00', period: 'AM', label: 'Booked: Captain Ahmed (Private Match)', status: 'booked' },
-    { time: '10:00', period: 'AM', label: 'Booked: Youth Academy Training', status: 'booked' },
-    { time: '11:00', period: 'AM', label: 'Maintenance: Turf Brushing', status: 'blocked' },
-    { time: '12:00', period: 'PM', label: 'Available for booking', status: 'available' },
-    { time: '01:00', period: 'PM', label: 'Available for booking', status: 'available' },
-    { time: '08:00', period: 'PM', label: 'Prime Time Slot (Available)', status: 'available', prime: true },
-  ];
+  // Per-court open/closed state
+  private pitchOpenStatus = signal<Record<PitchKey, boolean>>({
+    Anfield: true,
+    Bernabeu: true,
+  });
 
-  activities: any[] = [
-    { id: 1, type: 'payment', title: 'New Payment Received', subtitle: 'Anfield Pro Pitch - Slot 9:00 PM', value: '+$45.00', time: '' },
-    { id: 2, type: 'cancel', title: 'Booking Cancelled', subtitle: 'Bernabeu Main - Slot 6:00 PM', value: '3M AGO', time: '3M AGO' }
-  ];
+  // Immutable baseline for each pitch
+  private readonly originalPitchData: Record<PitchKey, PitchData> = {
+    Anfield: {
+      schedule: [
+        { time: '08:00', period: 'AM', label: 'Available for booking', status: 'available' },
+        { time: '09:00', period: 'AM', label: 'Booked: Captain Ahmed (Private Match)', status: 'booked' },
+        { time: '10:00', period: 'AM', label: 'Booked: Youth Academy Training', status: 'booked' },
+        { time: '11:00', period: 'AM', label: 'Maintenance: Turf Brushing', status: 'blocked' },
+        { time: '12:00', period: 'PM', label: 'Available for booking', status: 'available' },
+        { time: '01:00', period: 'PM', label: 'Available for booking', status: 'available' },
+        { time: '08:00', period: 'PM', label: 'Prime Time Slot (Available)', status: 'available', prime: true },
+      ],
+      activities: [
+        { id: 1, type: 'payment', title: 'New Payment Received', subtitle: 'Anfield Pro Pitch - Slot 9:00 AM', value: '+$45.00', time: '' },
+        { id: 2, type: 'cancel', title: 'Booking Cancelled', subtitle: 'Anfield Pro Pitch - Slot 11:00 PM', value: '10M AGO', time: '10M AGO' },
+      ],
+      stats: { bookings: 14, revenue: '$2,840', occupancy: 82 },
+    },
+    Bernabeu: {
+      schedule: [
+        { time: '08:00', period: 'AM', label: 'Booked: Real Madrid Fan Club', status: 'booked' },
+        { time: '09:00', period: 'AM', label: 'Available for booking', status: 'available' },
+        { time: '10:00', period: 'AM', label: 'Available for booking', status: 'available' },
+        { time: '11:00', period: 'AM', label: 'Booked: Corporate Cup', status: 'booked' },
+        { time: '12:00', period: 'PM', label: 'Maintenance: Irrigation', status: 'blocked' },
+        { time: '07:00', period: 'PM', label: 'Prime Time Slot (Available)', status: 'available', prime: true },
+        { time: '08:00', period: 'PM', label: 'Booked: Night League', status: 'booked' },
+      ],
+      activities: [
+        { id: 1, type: 'payment', title: 'Large Event Payment', subtitle: 'Bernabeu Main - Corporate Cup', value: '+$450.00', time: '1H AGO' },
+        { id: 2, type: 'cancel', title: 'Booking Cancelled', subtitle: 'Bernabeu Main - Slot 6:00 PM', value: '3M AGO', time: '3M AGO' },
+      ],
+      stats: { bookings: 9, revenue: '$1,920', occupancy: 50 },
+    },
+  };
 
-  getSlotClasses(slot: any) {
-    if (slot.status === 'booked') {
-      return "bg-[#D1F2D1] border-[#064420]";
+  // Canonical per-court state (source of truth)
+  private readonly pitchState = signal<Record<PitchKey, { schedule: Slot[]; stats: Stats }>>({
+    Anfield: {
+      schedule: this.cloneSchedule(this.originalPitchData.Anfield.schedule),
+      stats: this.computeStats(this.cloneSchedule(this.originalPitchData.Anfield.schedule), this.originalPitchData.Anfield.stats),
+    },
+    Bernabeu: {
+      schedule: this.cloneSchedule(this.originalPitchData.Bernabeu.schedule),
+      stats: this.computeStats(this.cloneSchedule(this.originalPitchData.Bernabeu.schedule), this.originalPitchData.Bernabeu.stats),
+    },
+  });
+
+  // Public computed to keep existing template variable name unchanged
+  isFacilityOpen = computed(() => this.pitchOpenStatus()[this.activePitch()]);
+
+  // Derived UI data ALWAYS re-evaluated from canonical state + open/closed flag
+  currentSchedule = computed(() => {
+    const pitch = this.activePitch();
+    const open = this.pitchOpenStatus()[pitch];
+    const baseSchedule = this.pitchState()[pitch].schedule;
+
+    if (!open) {
+      return baseSchedule.map((s) => ({
+        ...s,
+        status: 'blocked' as const,
+        label: 'Facility Closed: Unavailable',
+      }));
     }
-    if (slot.status === 'blocked') {
-      return "bg-[#E0E0E0] border-gray-400 opacity-60";
+
+    return baseSchedule.map((s) => ({ ...s }));
+  });
+
+  currentActivities = computed(() => this.originalPitchData[this.activePitch()].activities);
+
+  venueStats = computed(() => {
+    const pitch = this.activePitch();
+    const stats = this.pitchState()[pitch].stats;
+    return { ...stats };
+  });
+
+  constructor() {
+    effect(() => {
+      this.activePitch();
+      untracked(() => this.closeModal());
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // Per-Court Facility Logic
+  // ------------------------------------------------------------------
+  toggleFacilityStatus(): void {
+    if (this.isFacilityOpen()) {
+      this.openConfirmModal();
+    } else {
+      this.reopenFacility();
     }
-    if (slot.prime) {
-      return "bg-[#F9D8D8]/30 border-[#B04A26] border-solid";
+  }
+
+  openConfirmModal(): void {
+    this.isConfirmModalOpen.set(true);
+  }
+
+  closeConfirmModal(): void {
+    this.isConfirmModalOpen.set(false);
+  }
+
+  confirmFacilityToggle(): void {
+    const currentPitch = this.activePitch();
+
+    this.pitchOpenStatus.update((status) => ({
+      ...status,
+      [currentPitch]: false,
+    }));
+
+    this.closeConfirmModal();
+  }
+
+  reopenFacility(): void {
+    const currentPitch = this.activePitch();
+
+    this.pitchOpenStatus.update((status) => ({
+      ...status,
+      [currentPitch]: true,
+    }));
+  }
+
+  openEmergencyModal(): void {
+    if (this.isFacilityOpen()) {
+      this.openConfirmModal();
     }
-    return "bg-transparent border-[#064420]/20 border-dashed";
+  }
+
+  // ------------------------------------------------------------------
+  // Slot Management
+  // ------------------------------------------------------------------
+  getSlotClasses(slot: Slot): string {
+    if (slot.status === 'booked') return 'bg-[#D1F2D1] border-[#064420]';
+    if (slot.status === 'blocked') return 'bg-[#E0E0E0] border-gray-400 opacity-60';
+    if (slot.prime) return 'bg-[#F9D8D8]/30 border-[#B04A26] border-solid';
+    return 'bg-transparent border-[#064420]/20 border-dashed';
+  }
+
+  openSlotManagement(slot: Slot): void {
+    if (!this.isFacilityOpen()) return;
+    this.selectedSlot.set({ ...slot });
+    this.isModalOpen.set(true);
+  }
+
+  closeModal(): void {
+    this.isModalOpen.set(false);
+    this.selectedSlot.set(null);
+  }
+
+  updateStatus(newStatus: SlotStatus, isOffline: boolean = false): void {
+    const active = this.activePitch();
+    if (!this.pitchOpenStatus()[active]) return;
+
+    const selected = this.selectedSlot();
+    if (!selected) return;
+
+    const timeToFind = selected.time;
+
+    const current = this.pitchState()[active];
+    const idx = current.schedule.findIndex((s) => s.time === timeToFind);
+    if (idx === -1) return;
+
+    // Work on a fresh cloned schedule every time (no shared mutation)
+    const schedule = this.cloneSchedule(current.schedule);
+
+    const updatedSlot = { ...schedule[idx] };
+    updatedSlot.status = newStatus;
+
+    if (newStatus === 'blocked') {
+      updatedSlot.label = 'Maintenance: Temporarily Blocked';
+    } else if (newStatus === 'booked') {
+      updatedSlot.label = isOffline ? 'Offline Booking: Walk-in Client' : 'Booked: Online Customer';
+    } else {
+      updatedSlot.label = updatedSlot.prime ? 'Prime Time Slot (Available)' : 'Available for booking';
+    }
+
+    schedule[idx] = updatedSlot;
+
+    // Always recompute stats from schedule (fresh source of truth)
+    const nextStats = this.computeStats(schedule, this.pitchState()[active].stats);
+
+    this.pitchState.update((state) => ({
+      ...state,
+      [active]: {
+        schedule,
+        stats: nextStats,
+      },
+    }));
+
+    this.closeModal();
+  }
+
+  // ------------------------------------------------------------------
+  // Helpers
+  // ------------------------------------------------------------------
+  private cloneSchedule(schedule: Slot[]): Slot[] {
+    return schedule.map((s) => ({ ...s }));
+  }
+
+  private computeStats(schedule: Slot[], prev: Stats): Stats {
+    const bookedCount = schedule.filter((s) => s.status === 'booked').length;
+    const occupancy = Math.round((bookedCount / schedule.length) * 100);
+
+    // Keep revenue as-is (UI demo), but always derive bookings/occupancy from schedule
+    // IMPORTANT: do not do "10 + bookedCount" because it accumulates incorrectly across operations.
+    return {
+      ...prev,
+      bookings: bookedCount,
+      occupancy,
+    };
   }
 }
