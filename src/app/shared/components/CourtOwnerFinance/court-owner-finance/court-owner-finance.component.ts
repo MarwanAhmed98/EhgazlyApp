@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 // import { Component } from '@angular/core';
 
 // @Component({
@@ -9,8 +10,9 @@
 // export class CourtOwnerFinanceComponent {
 
 // }
-import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 interface Transaction {
   id: string;
@@ -26,12 +28,13 @@ type MonthKey = string; // "YYYY-MM"
 
 @Component({
   selector: 'app-court-owner-finance',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './court-owner-finance.component.html',
   styleUrl: './court-owner-finance.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourtOwnerFinanceComponent {
+  private readonly router = inject(Router)
   filterStatus = signal<StatusFilter>('All');
 
   // Search
@@ -143,6 +146,9 @@ export class CourtOwnerFinanceComponent {
 
     this.transactions.update((items) => [tx, ...items]);
     this.outstandingDues.set(0);
+    setTimeout(() => {
+      this.router.navigate(['//CourtOwner/Billing&Payments']);
+    }, 3000);
   }
 
   // 2) Download Button (CSV of CURRENT filtered view)

@@ -32,6 +32,9 @@ import { CourtEditorComponent } from './shared/components/CourtEditor/court-edit
 import { ManageCourtScheduleComponent } from './shared/components/ManageCourtSchedule/manage-court-schedule/manage-court-schedule.component';
 import { CourtOwnerNotificationsComponent } from './shared/components/CourtOwnerNotifications/court-owner-notifications/court-owner-notifications.component';
 import { CourtOwnerFinanceComponent } from './shared/components/CourtOwnerFinance/court-owner-finance/court-owner-finance.component';
+import { CourtOwnerBillingComponent } from './shared/components/court-owner-billing/court-owner-billing.component';
+import { PaymentInstructionsComponent } from './shared/components/PaymentInstructions/payment-instructions/payment-instructions.component';
+import { ProfofPaymentComponent } from './shared/components/ProfofPayment/profof-payment/profof-payment.component';
 
 export const routes: Routes = [
     {
@@ -152,6 +155,9 @@ export const routes: Routes = [
             { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
             { path: 'Notifications', component: CourtOwnerNotificationsComponent, title: 'Notifications' },
             { path: 'Financials', component: CourtOwnerFinanceComponent, title: 'Financials' },
+            { path: 'Billing&Payments', component: CourtOwnerBillingComponent, title: 'Billing & Payments' },
+            { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
+            { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
         ]
     },

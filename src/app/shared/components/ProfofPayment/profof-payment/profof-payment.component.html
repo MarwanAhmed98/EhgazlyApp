@@ -1,0 +1,308 @@
+<div class="min-h-screen bg-[#e2f8e1] font-sans antialiased p-4 md:p-8 lg:p-12">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0a3d1d] tracking-tight">
+                Submit Payment Proof
+            </h1>
+            <p class="text-lg text-[#3d6b4d] mt-2 font-medium">
+                Finalize your booking by uploading your transaction details.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Main Content: Form -->
+            <main class="lg:col-span-8 space-y-6">
+                <section class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-white/50">
+                    <div class="space-y-8">
+
+                        <!-- Upload Area -->
+                        <div>
+                            <div (dragover)="$event.preventDefault(); isDragging.set(true)"
+                                (dragleave)="isDragging.set(false)" (drop)="handleDrop($event)"
+                                [class.border-green-500]="isDragging()" [class.bg-green-50]="isDragging()"
+                                class="relative border-4 border-dashed border-[#c1e6bf] rounded-3xl p-8 md:p-12 transition-all duration-300 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-green-400 hover:bg-green-50/30">
+
+                                <!-- Hidden file input -->
+                                <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    (change)="handleFileInput($event)" accept="image/jpeg,image/png,application/pdf" />
+
+                                <!-- Uploading state -->
+                                @if (uploadStatus() === 'uploading') {
+                                <div class="w-16 h-16 bg-[#b4e6b1] rounded-full flex items-center justify-center mb-6">
+                                    <div
+                                        class="w-8 h-8 border-4 border-[#0a3d1d] border-t-transparent rounded-full animate-spin">
+                                    </div>
+                                </div>
+                                <h2 class="text-2xl font-bold text-[#0a3d1d] mb-2">Uploading...</h2>
+                                <p class="text-[#5a8064] text-lg mb-4">Please wait while we process your file.</p>
+                                }
+                                <!-- Idle state -->
+                                @else if (uploadStatus() === 'idle') {
+                                <div
+                                    class="w-16 h-16 bg-[#b4e6b1] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#0a3d1d]" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-2xl font-bold text-[#0a3d1d] mb-2">Payment Screenshot</h2>
+                                <p class="text-[#5a8064] text-lg mb-4">
+                                    Drag and drop your file here, or
+                                    <span
+                                        class="text-green-700 font-semibold underline decoration-2 underline-offset-4">browse
+                                        your device</span>
+                                </p>
+                                <p class="text-xs font-bold text-[#9dbfa3] tracking-widest uppercase">
+                                    Supports JPG, PNG, PDF (Max 5MB)
+                                </p>
+                                }
+                                <!-- Error state -->
+                                @else if (uploadStatus() === 'error') {
+                                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-2xl font-bold text-red-700 mb-2">Upload Failed</h2>
+                                <p class="text-[#5a8064] text-lg mb-4">{{ uploadErrorMessage() }}</p>
+                                <button (click)="retryUpload()"
+                                    class="mt-2 px-6 py-2 bg-[#146427] text-white rounded-full font-bold">Try
+                                    Again</button>
+                                }
+                                <!-- Success state with preview -->
+                                @else if (uploadStatus() === 'success' && uploadedFile()) {
+                                <div class="w-full">
+                                    <div class="flex items-center justify-center mb-4">
+                                        <div
+                                            class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <h2 class="text-2xl font-bold text-[#0a3d1d] mb-2">Upload Complete</h2>
+
+                                    @if (previewUrl()) {
+                                    <div
+                                        class="mt-4 rounded-xl overflow-hidden border border-green-200 max-w-md mx-auto">
+                                        <img [src]="previewUrl()!" alt="Payment preview"
+                                            class="w-full h-auto max-h-64 object-contain" />
+                                    </div>
+                                    } @else {
+                                    <div class="mt-4 p-3 bg-green-100 rounded-lg inline-flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-700"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-green-800">{{ fileName() }}</span>
+                                    </div>
+                                    }
+
+                                    <button (click)="removeUpload()"
+                                        class="mt-4 px-6 py-2 bg-red-100 text-red-700 rounded-full font-bold hover:bg-red-200 transition">
+                                        Remove File
+                                    </button>
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Transaction ID Input -->
+                        <div class="space-y-3">
+                            <label for="txnId" class="block text-sm font-bold text-[#0a3d1d] tracking-wide">
+                                Transaction ID / Reference Number
+                            </label>
+                            <div class="relative group">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#5a8064]">
+                                    <span class="text-xl font-medium">#</span>
+                                </div>
+                                <input id="txnId" type="text" placeholder="e.g., 202405018842"
+                                    [formControl]="paymentForm.controls.transactionId"
+                                    class="block w-full pl-10 pr-4 py-4 bg-[#c8f0c5] border-none rounded-2xl text-[#0a3d1d] placeholder-[#8fb394] focus:ring-4 focus:ring-green-400/30 transition-all text-lg font-medium" />
+                            </div>
+                            <p class="text-xs text-[#5a8064] italic">
+                                Found on your bank receipt or SMS confirmation.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bottom Action Banner -->
+                <section
+                    class="bg-[#bfeebc] rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-[#7c4d1d] rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold">i</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#0a3d1d] text-sm">Verification Time</h4>
+                            <p class="text-sm text-[#3d6b4d]">Approvals usually take 2–4 hours.</p>
+                        </div>
+                    </div>
+                    <button [disabled]="paymentForm.invalid || uploadStatus() !== 'success'" (click)="submitPayment()"
+                        class="w-full sm:w-auto px-10 py-4 bg-[#146427] hover:bg-[#0e4b1d] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
+                        Submit Payment
+                    </button>
+                </section>
+            </main>
+
+            <!-- Sidebar: Info & Summary -->
+            <aside class="lg:col-span-4 space-y-6">
+                <!-- Upload Tips -->
+                <div class="bg-[#bfeebc] rounded-3xl p-8 space-y-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">💡</span>
+                        <h3 class="text-xl font-bold text-[#0a3d1d]">Upload Tips</h3>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <span
+                                class="flex-shrink-0 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm font-bold text-[#3d6b4d]">1</span>
+                            <p class="text-[#3d6b4d] leading-snug">
+                                Ensure the <span class="font-bold">transaction amount</span> and <span
+                                    class="font-bold">date</span> are clearly visible in the image.
+                            </p>
+                        </li>
+                        <li class="flex gap-4">
+                            <span
+                                class="flex-shrink-0 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm font-bold text-[#3d6b4d]">2</span>
+                            <p class="text-[#3d6b4d] leading-snug">
+                                The file size must be <span class="font-bold">under 5MB</span> for a faster upload.
+                            </p>
+                        </li>
+                        <li class="flex gap-4">
+                            <span
+                                class="flex-shrink-0 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm font-bold text-[#3d6b4d]">3</span>
+                            <p class="text-[#3d6b4d] leading-snug">
+                                Avoid blurry photos or screenshots with obstructed information.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Booking Card -->
+                <div class="bg-[#0a2e1d] rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 rotate-12">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.5-11H15V7.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5V9h-1.5c-.28 0-.5.22-.5.5s.22.5.5.5H14v1.5c0 .28.22.5.5.5s.5-.22.5-.5V10h1.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5z" />
+                        </svg>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-green-400 opacity-80 mb-2">
+                                Pending Booking</p>
+                            <h3 class="text-2xl font-bold leading-tight">Wembley Arena Pitch A</h3>
+                            <p class="text-green-100/70 text-sm mt-1">Tomorrow, 18:00 - 19:30</p>
+                        </div>
+                        <div class="h-px bg-white/10 w-full"></div>
+                        <div class="flex items-end justify-between">
+                            <span class="text-sm text-green-100/60 font-medium">Total Due</span>
+                            <div class="text-right">
+                                <span class="text-3xl font-black text-[#58f081]">EGP 850</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Footer -->
+                <div class="flex items-center justify-center gap-2 bg-green-200/50 rounded-xl py-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-800" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 4.925-3.467 9.431-9.25 10.75-5.783-1.319-9.25-5.825-9.25-10.75 0-.68.056-1.35.166-2.001zm8.341 8.601a.75.75 0 10-1.014-1.104l-2.259 2.073-1.187-1.187a.75.75 0 00-1.06 1.06l1.75 1.75a.75.75 0 001.092-.032l2.678-2.56z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-[10px] font-black text-green-900 tracking-widest uppercase">Secure SSL Encrypted
+                        Transmission</span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Overlay (matching reference logic) -->
+<div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
+    [class.opacity-100]="isStatusModalOpen()" [class.opacity-0]="!isStatusModalOpen()"
+    [class.pointer-events-auto]="isStatusModalOpen()" [class.pointer-events-none]="!isStatusModalOpen()">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        (click)="closeStatusModal()"></div>
+
+    <div class="relative w-[92%] max-w-xl rounded-3xl bg-white shadow-2xl overflow-hidden transition-all duration-300"
+        [class.translate-y-0]="isStatusModalOpen()" [class.translate-y-3]="!isStatusModalOpen()"
+        [class.scale-100]="isStatusModalOpen()" [class.scale-95]="!isStatusModalOpen()">
+
+        <!-- Upload Success -->
+        @if (modalKind() === 'uploadSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146427] border-4 border-white grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+            <p class="mt-6 text-2xl font-black text-[#0a3d1d]">Upload Successful</p>
+            <p class="mt-3 text-sm text-[#3d6b4d]">Your payment proof has been uploaded successfully.</p>
+            <!-- @if (previewUrl()) {
+            <div class="mt-6 rounded-2xl overflow-hidden border border-green-200">
+                <img [src]="previewUrl()!" alt="Uploaded preview" class="w-full h-56 object-cover" />
+            </div>
+            } -->
+            <button (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146427] hover:bg-[#0e4b1d] text-white font-bold transition">Continue</button>
+            <button (click)="removeUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white border border-slate-200 text-[#0a3d1d] font-bold transition">Remove
+                Upload</button>
+        </div>
+        }
+
+        <!-- Upload Error -->
+        @if (modalKind() === 'uploadError') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-red-600 border-4 border-white grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8">
+                    <path d="M18 6 6 18" />
+                    <path d="M6 6l12 12" />
+                </svg>
+            </div>
+            <p class="mt-6 text-2xl font-black text-red-700">Upload Failed</p>
+            <p class="mt-3 text-sm text-[#3d6b4d]">{{ uploadErrorMessage() }}</p>
+            <button (click)="retryUpload()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition">Try
+                Again</button>
+            <button (click)="cancelUpload()"
+                class="mt-3 w-full px-8 py-4 rounded-2xl bg-white border border-slate-200 text-[#0a3d1d] font-bold transition">Cancel
+                Upload</button>
+        </div>
+        }
+
+        <!-- Confirm Success -->
+        @if (modalKind() === 'confirmSuccess') {
+        <div class="p-8 sm:p-20 text-center">
+            <div
+                class="mx-auto -mt-14 w-16 h-16 rounded-full bg-[#146427] border-4 border-white grid place-items-center shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.8">
+                    <path d="M20 6 9 17l-5-5" />
+                </svg>
+            </div>
+            <p class="mt-6 text-2xl font-black text-[#0a3d1d]">Payment Submitted</p>
+            <p class="mt-3 text-sm text-[#3d6b4d]">Your payment proof has been submitted. We'll verify it shortly.</p>
+            <button (click)="closeStatusModal()"
+                class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#146427] hover:bg-[#0e4b1d] text-white font-bold transition">Done</button>
+        </div>
+        }
+    </div>
+</div>

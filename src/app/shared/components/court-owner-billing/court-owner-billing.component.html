@@ -1,0 +1,336 @@
+<div class="min-h-screen bg-[#E2F7E6] p-3 sm:p-4 md:p-8 font-sans text-[#1A3A32] overflow-x-hidden">
+    <div class="max-w-6xl mx-auto space-y-4 md:space-y-6">
+
+        <!-- Top Section: Balance and Settlement -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Outstanding Balance Card -->
+            <div
+                class="lg:col-span-2 bg-[#0A5D2C] rounded-[24px] md:rounded-[32px] p-6 md:p-8 text-white relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2
+                        class="text-[10px] md:text-sm font-medium tracking-wider uppercase opacity-80 mb-3 md:mb-4 text-white">
+                        Outstanding Balance
+                    </h2>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <span class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter">{{
+                            outstandingBalanceDisplay() }}</span>
+                        <span class="text-lg md:text-2xl font-semibold opacity-90">EGP</span>
+                    </div>
+                    <p class="text-xs md:text-sm leading-relaxed opacity-80 max-w-md mb-6 md:mb-10">
+                        Application Percentage Due for the period Oct 01 - Oct 28. Settle now to maintain your active
+                        field status.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
+                        <button (click)="payOutstandingDues()"
+                            class="w-full sm:w-auto bg-[#B34700] hover:bg-[#963c00] transition-all px-5 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 font-bold text-base md:text-lg shadow-lg active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            Pay Outstanding Dues
+                        </button>
+                        <button
+                            class="text-xs md:text-sm font-bold underline underline-offset-4 hover:opacity-80 transition-opacity mx-auto sm:mx-0">
+                            View Breakup Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- External Settlement Card -->
+            <div
+                class="bg-[#C1F2D1] rounded-[24px] md:rounded-[32px] p-5 md:p-6 flex flex-col justify-between border border-[#A8E6BD]">
+                <div>
+                    <div class="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
+                        <div class="bg-[#98E4B0] p-2.5 md:p-3 rounded-lg md:xl shadow-sm shrink-0">
+                            <svg width="20" height="20" class="md:w-6 md:h-6" viewBox="0 0 24 24" fill="none"
+                                stroke="#0A5D2C" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base md:text-lg leading-tight">External Settlement</h3>
+                            <p class="text-[10px] md:text-xs opacity-60">InstaPay / Wallet Transfer</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-xl md:rounded-2xl p-4 md:p-5 mb-4 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                        <p class="text-[8px] md:text-[10px] uppercase font-bold opacity-40 mb-1 tracking-tight">ACCOUNT
+                            ID</p>
+                        <p class="text-sm md:text-lg font-bold truncate">ehgazly.payinstapay</p>
+                    </div>
+
+                    <p class="text-[10px] md:text-[11px] leading-relaxed opacity-60 px-1">
+                        Transfer the exact amount to the ID above. Once done, upload your receipt in the "Manual
+                        Verification" section.
+                    </p>
+                </div>
+
+                <div class="mt-5 md:mt-6 flex items-center justify-between pt-4 border-t border-[#A8E6BD]">
+                    <span class="text-[10px] md:text-xs font-bold opacity-70">Active Promo</span>
+                    <span
+                        class="bg-[#F8A88B] text-[#7A3015] text-[9px] md:text-[10px] font-black px-2.5 md:px-3 py-1.5 rounded-full uppercase tracking-wider">
+                        5% CASHBACK
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Revenue Card -->
+            <div
+                class="bg-[#C1F2D1] rounded-[20px] md:rounded-[24px] p-5 md:p-6 relative overflow-hidden border border-[#A8E6BD]">
+                <div class="flex justify-between items-start mb-4 md:mb-6">
+                    <div class="text-[#0A5D2C]">
+                        <svg width="20" height="20" class="md:w-6 md:h-6" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path d="M23 6l-9.5 9.5-5-5L1 18" />
+                            <path d="M17 6h6v6" />
+                        </svg>
+                    </div>
+                    <span
+                        class="bg-[#A8E6BD] text-[9px] md:text-[10px] font-bold px-2 py-1 rounded text-[#0A5D2C] uppercase tracking-tighter shadow-sm">+12%
+                        VS LAST MONTH</span>
+                </div>
+                <p class="text-[10px] md:text-xs opacity-60 font-medium mb-1">Total Lifetime Revenue</p>
+                <p class="text-xl md:text-2xl font-black">45,280.00 EGP</p>
+            </div>
+
+            <!-- Commission Card -->
+            <div class="bg-[#C1F2D1] rounded-[20px] md:rounded-[24px] p-5 md:p-6 border border-[#A8E6BD]">
+                <div class="flex justify-between items-start mb-4 md:mb-6">
+                    <div class="text-[#B34700]">
+                        <svg width="20" height="20" class="md:w-6 md:h-6" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M9 7h6m-6 4h6m-6 4h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                        </svg>
+                    </div>
+                    <button
+                        class="text-[9px] md:text-[10px] font-bold text-[#B34700] uppercase underline decoration-2 underline-offset-2 hover:opacity-70">Details</button>
+                </div>
+                <p class="text-[10px] md:text-xs opacity-60 font-medium mb-1">Total Commission Paid</p>
+                <p class="text-xl md:text-2xl font-black">6,792.00 EGP</p>
+            </div>
+
+            <!-- Status Card -->
+            <div
+                class="bg-[#C1F2D1] rounded-[20px] md:rounded-[24px] p-5 md:p-6 relative overflow-hidden border border-[#A8E6BD] sm:col-span-2 lg:col-span-1">
+                <p class="text-[10px] md:text-xs opacity-60 font-medium mb-2">Account Status</p>
+                <div class="flex items-center gap-2 mb-4 md:mb-6">
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-[#0A5D2C] rounded-full animate-pulse"></div>
+                    <span class="text-xl md:text-2xl font-black">Active</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="flex -space-x-2">
+                        <div
+                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#98E4B0] border-2 border-[#C1F2D1] flex items-center justify-center text-[7px] md:text-[8px] font-bold">
+                            JD</div>
+                        <div
+                            class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#F8A88B] border-2 border-[#C1F2D1] flex items-center justify-center text-[7px] md:text-[8px] font-bold">
+                            MK</div>
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold opacity-40 uppercase">2 Admins Authorized</span>
+                </div>
+                <div class="absolute right-[-10px] bottom-[-10px] opacity-10">
+                    <svg width="60" height="60" class="md:w-[80px] md:h-[80px]" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Table Section -->
+        <div class="pt-4 md:pt-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 md:mb-6 gap-4">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight">Billing & History</h2>
+                <div class="flex items-center gap-2 w-full md:w-auto">
+                    <!-- Status Filter -->
+                    <div class="relative flex-1 md:flex-none">
+                        <div (click)="toggleStatusMenu()"
+                            class="bg-white rounded-lg md:rounded-xl px-3 md:px-4 py-2 flex items-center justify-between md:justify-start gap-4 shadow-sm border border-[#C1F2D1] cursor-pointer hover:bg-gray-50 transition-colors">
+                            <span class="text-[10px] md:text-xs font-bold opacity-60 truncate">{{ statusFilterLabel()
+                                }}</span>
+                            <svg width="10" height="10" class="md:w-3 md:h-3" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </div>
+                        @if (isStatusMenuOpen()) {
+                        <div
+                            class="absolute left-0 top-11 z-30 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden min-w-[140px] md:min-w-[180px]">
+                            <button (click)="setStatusFilter('ALL')"
+                                class="w-full text-left px-4 py-3 text-[10px] md:text-xs font-bold text-slate-600 hover:bg-[#F1FAF3]">All
+                                Statuses</button>
+                            <button (click)="setStatusFilter('PAID')"
+                                class="w-full text-left px-4 py-3 text-[10px] md:text-xs font-bold text-slate-600 hover:bg-[#F1FAF3]">PAID</button>
+                            <button (click)="setStatusFilter('OVERDUE')"
+                                class="w-full text-left px-4 py-3 text-[10px] md:text-xs font-bold text-slate-600 hover:bg-[#F1FAF3]">OVERDUE</button>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Month Picker -->
+                    <div class="relative flex-none">
+                        <button (click)="toggleMonthPicker()"
+                            class="bg-white p-2 md:p-2.5 rounded-lg md:rounded-xl shadow-sm border border-[#C1F2D1] hover:bg-gray-50 transition-colors">
+                            <svg width="16" height="16" class="md:w-[18px] md:h-[18px]" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                        </button>
+                        @if (isMonthPickerOpen()) {
+                        <div
+                            class="absolute right-0 top-11 z-30 bg-white rounded-xl shadow-xl border border-slate-100 p-3 w-[240px] md:w-[260px]">
+                            <div class="flex items-center justify-between mb-2">
+                                <button (click)="shiftMonthPickerYear(-1)"
+                                    class="p-1.5 md:p-2 bg-[#F1FAF3] rounded-lg text-[#0A5D2C]"><svg width="14"
+                                        height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="m15 18-6-6 6-6" />
+                                    </svg></button>
+                                <div class="text-[11px] md:text-sm font-black text-[#1A3A32]">{{ monthPickerLabel() }}
+                                </div>
+                                <button (click)="shiftMonthPickerYear(1)"
+                                    class="p-1.5 md:p-2 bg-[#F1FAF3] rounded-lg text-[#0A5D2C]"><svg width="14"
+                                        height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="m9 18 6-6-6-6" />
+                                    </svg></button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1.5 md:gap-2">
+                                @for (m of monthGrid(); track m.key) {
+                                <button (click)="setMonthFilter(m.key)"
+                                    class="px-2 py-2 rounded-lg text-[10px] md:text-xs font-semibold transition-colors"
+                                    [class.bg-[#0A5D2C]]="m.key === selectedMonth()"
+                                    [class.text-white]="m.key === selectedMonth()"
+                                    [class.bg-[#F1FAF3]]="m.key !== selectedMonth()"
+                                    [class.text-[#0A5D2C]]="m.key !== selectedMonth()">
+                                    {{ m.label }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Card -->
+            <div
+                class="bg-[#F1FAF3] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-sm border border-[#C1F2D1]">
+                <div class="overflow-x-auto -mx-0">
+                    <table class="w-full text-left border-separate border-spacing-0 min-w-[600px] md:min-w-full">
+                        <thead>
+                            <tr
+                                class="text-[9px] md:text-[10px] font-black uppercase opacity-40 tracking-widest bg-white/20">
+                                <th class="px-5 md:px-8 py-4 md:py-6 border-b border-[#E2F1E6]">Date</th>
+                                <th class="px-5 md:px-8 py-4 md:py-6 border-b border-[#E2F1E6]">Description</th>
+                                <th class="px-5 md:px-8 py-4 md:py-6 border-b border-[#E2F1E6] hidden sm:table-cell">Ref
+                                    ID</th>
+                                <th class="px-5 md:px-8 py-4 md:py-6 text-right border-b border-[#E2F1E6]">Amount</th>
+                                <th class="px-5 md:px-8 py-4 md:py-6 text-center border-b border-[#E2F1E6]">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#E2F1E6]">
+                            <tr *ngFor="let tx of filteredTransactions()"
+                                class="bg-white/40 hover:bg-white/80 transition-colors">
+                                <td class="px-5 md:px-8 py-4 md:py-6 whitespace-nowrap">
+                                    <p class="font-bold text-xs md:text-sm">{{tx.date}}</p>
+                                    <p class="text-[9px] md:text-[10px] opacity-40">{{tx.time}}</p>
+                                </td>
+                                <td class="px-5 md:px-8 py-4 md:py-6">
+                                    <div class="flex items-center gap-3 md:gap-4">
+                                        <div class="p-1.5 md:p-2 rounded-lg shrink-0"
+                                            [ngClass]="tx.type === 'fee' ? 'bg-[#E2F1E6] text-[#0A5D2C]' : 'bg-[#FBE4DD] text-[#B34700]'">
+                                            <svg *ngIf="tx.type === 'fee'" width="16" height="16" class="md:w-5 md:h-5"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path
+                                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                            </svg>
+                                            <svg *ngIf="tx.type === 'payment'" width="16" height="16"
+                                                class="md:w-5 md:h-5" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2">
+                                                <path d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="font-bold text-xs md:text-sm truncate">{{tx.description}}</p>
+                                            <p
+                                                class="text-[9px] md:text-[10px] opacity-40 truncate sm:whitespace-normal">
+                                                {{tx.subDescription}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-5 md:px-8 py-4 md:py-6 hidden sm:table-cell">
+                                    <span
+                                        class="bg-[#E2F1E6] text-[#0A5D2C] px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-bold border border-[#0A5D2C]/10">#{{tx.refId}}</span>
+                                </td>
+                                <td class="px-5 md:px-8 py-4 md:py-6 text-right whitespace-nowrap">
+                                    <span class="text-xs md:text-sm font-black"
+                                        [ngClass]="{'text-red-500': tx.amount.startsWith('-')}">{{tx.amount}}</span>
+                                </td>
+                                <td class="px-5 md:px-8 py-4 md:py-6 text-center">
+                                    <div class="flex items-center justify-center gap-1 px-2 md:px-3 py-1 rounded-full text-[8px] md:text-[9px] font-black tracking-widest border mx-auto w-fit"
+                                        [ngClass]="tx.status === 'PAID' ? 'bg-[#E2F1E6] text-[#0A5D2C] border-[#0A5D2C]/20' : 'bg-[#FBE4DD] text-[#E03131] border-[#E03131]/20'">
+                                        <div class="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full"
+                                            [ngClass]="tx.status === 'PAID' ? 'bg-[#0A5D2C]' : 'bg-[#E03131]'"></div>
+                                        {{tx.status}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Pagination -->
+                <div
+                    class="px-5 md:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#E2F1E6] bg-white/20">
+                    <p class="text-[10px] md:text-[11px] font-bold italic opacity-40 text-center sm:text-left">Showing 3
+                        of 124 transactions</p>
+                    <div class="flex items-center gap-4 md:gap-6">
+                        <button class="opacity-20 pointer-events-none"><svg width="14" height="14" class="md:w-4 md:h-4"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg></button>
+                        <p class="text-[10px] md:text-xs font-bold">Page <span class="mx-1">1</span> of 42</p>
+                        <button class="text-[#0A5D2C] hover:opacity-70"><svg width="14" height="14"
+                                class="md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3">
+                                <path d="M9 18l6-6-6-6" />
+                            </svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Footer -->
+        <div class="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-12 pb-6 gap-6">
+            <div class="flex items-center gap-3 md:gap-4 opacity-40 grayscale transition-all hover:grayscale-0">
+                <div
+                    class="bg-white px-2 md:px-3 py-1 md:py-1.5 rounded font-bold text-[7px] md:text-[8px] border border-gray-100 shadow-sm">
+                    VISA</div>
+                <div
+                    class="bg-white px-2 md:px-3 py-1 md:py-1.5 rounded font-bold text-[7px] md:text-[8px] border border-gray-100 shadow-sm">
+                    MC</div>
+                <div
+                    class="bg-white px-2 md:px-3 py-1 md:py-1.5 rounded font-bold text-[7px] md:text-[8px] border border-gray-100 shadow-sm uppercase">
+                    InstaPay</div>
+            </div>
+            <p
+                class="text-[8px] md:text-[10px] font-bold opacity-30 tracking-widest uppercase text-center md:text-right">
+                Secure Transaction Environment • EHGAZLY FINTECH v2.4.1
+            </p>
+        </div>
+    </div>
+</div>

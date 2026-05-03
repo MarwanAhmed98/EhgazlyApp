@@ -1,0 +1,37 @@
+:host {
+    display: block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar for the table */
+.overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #A8E6BD;
+    border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #0A5D2C;
+}
+
+/* Typography Finetuning */
+h2,
+h3,
+.font-black {
+    letter-spacing: -0.02em;
+}
+
+/* Responsive Table Adjustments */
+@media (max-width: 768px) {
+    table {
+        min-width: 800px;
+    }
+}

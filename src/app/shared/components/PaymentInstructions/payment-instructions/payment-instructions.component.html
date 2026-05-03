@@ -1,0 +1,161 @@
+<div class="min-h-screen bg-[#F0FDF4] p-4 md:p-8 font-sans antialiased text-slate-800">
+    <div class="max-w-4xl mx-auto space-y-8">
+
+        <!-- Header Section: Payment Methods -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- InstaPay Card -->
+            <div
+                class="bg-[#BBF7D0] rounded-[2.5rem] p-8 flex flex-col justify-between shadow-sm border border-[#86EFAC]/30">
+                <div>
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="bg-[#4ADE80]/20 p-2 rounded-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="w-6 h-6 text-[#166534]">
+                                <line x1="3" y1="21" x2="21" y2="21"></line>
+                                <line x1="3" y1="7" x2="21" y2="7"></line>
+                                <line x1="5" y1="21" x2="5" y2="7"></line>
+                                <line x1="9" y1="21" x2="9" y2="7"></line>
+                                <line x1="15" y1="21" x2="15" y2="7"></line>
+                                <line x1="19" y1="21" x2="19" y2="7"></line>
+                                <path d="M10.2 2.2 2.6 6h18.8l-7.6-3.8a2 2 0 0 0-1.6 0z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-[#166534]">InstaPay Details</h2>
+                    </div>
+
+                    <div class="space-y-1 mb-8">
+                        <span class="text-xs uppercase tracking-widest text-[#166534]/60 font-semibold">Account
+                            Name</span>
+                        <p class="text-2xl font-black text-[#166534]">Ehgazly Sports</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#86EFAC]/40 rounded-2xl p-6 relative group border border-white/20">
+                    <span class="text-[10px] uppercase tracking-widest text-[#166534]/60 font-bold block mb-1">Account
+                        ID</span>
+                    <div class="flex items-center justify-between">
+                        <p class="text-lg font-bold text-[#166534] truncate mr-4">ehgazly.pay&#64;instapay</p>
+                        <button (click)="copyToClipboard('ehgazly.pay@instapay', 'instapay')"
+                            class="bg-[#166534] p-3 rounded-xl hover:bg-[#14532D] transition-all active:scale-95 shadow-md shadow-[#166534]/20">
+                            @if (copiedType() === 'instapay') {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="white" stroke-width="3" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            } @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Wallet Card -->
+            <div
+                class="bg-[#BBF7D0] rounded-[2.5rem] p-8 flex flex-col items-center shadow-sm border border-[#86EFAC]/30">
+                <div class="w-full flex items-center gap-3 mb-6">
+                    <div class="bg-[#4ADE80]/20 p-2 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-6 h-6 text-[#166534]">
+                            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+                            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+                            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-[#166534]">Digital Wallet</h2>
+                </div>
+
+                <div
+                    class="w-full bg-[#DCFCE7] rounded-2xl p-4 flex items-center justify-between mb-8 border border-white/40">
+                    <span class="text-lg font-bold text-[#166534] tracking-wider">01012345678</span>
+                    <button (click)="copyToClipboard('01012345678', 'wallet')"
+                        class="text-[#166534] hover:bg-[#86EFAC]/30 p-2 rounded-lg transition-colors">
+                        @if (copiedType() === 'wallet') {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        }
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-[2rem] shadow-inner mb-4 relative group">
+                    <div class="w-32 h-32 bg-slate-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        <svg viewBox="0 0 100 100" class="w-full h-full text-slate-800">
+                            <path d="M10 10h30v30h-30zM10 60h30v30h-30zM60 10h30v30h-30z" fill="currentColor"
+                                opacity="0.9" />
+                            <path
+                                d="M60 60h10v10h-10zM80 60h10v10h-10zM70 70h10v10h-10zM60 80h10v10h-10zM80 80h10v10h-10z"
+                                fill="currentColor" />
+                            <rect x="17" y="17" width="16" height="16" fill="white" />
+                            <rect x="17" y="67" width="16" height="16" fill="white" />
+                            <rect x="67" y="17" width="16" height="16" fill="white" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-[11px] font-bold text-[#166534]/50 uppercase tracking-widest text-center">Scan for direct
+                    wallet transfer</p>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="pt-4">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-3xl font-black text-[#166534] whitespace-nowrap">How it works</h2>
+                <div class="h-[2px] w-full bg-[#86EFAC]/40 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+                @for (step of steps; track step.id) {
+                <div
+                    class="bg-white rounded-[1.5rem] p-5 flex flex-col gap-3 shadow-sm border border-slate-100 transition-all hover:translate-y-[-4px] hover:shadow-md">
+                    <span class="text-4xl font-black text-[#BBF7D0] leading-none">{{ step.id }}</span>
+                    <p class="text-sm font-medium leading-relaxed text-slate-600">{{ step.text }}</p>
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex flex-col items-center gap-6 pt-4 pb-12">
+            <!-- Timer -->
+            <div
+                class="bg-[#DCFCE7] px-6 py-2.5 rounded-full flex items-center gap-2 border border-[#86EFAC]/30 shadow-sm animate-pulse-gentle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span class="text-sm font-bold text-[#166534]">Payment must be made within {{ timeLeft() }}</span>
+            </div>
+
+            <!-- Main Button -->
+            <button routerLink="/CourtOwner/ProfilePayment"
+                class="w-full md:w-auto min-w-[280px] bg-[#064E3B] hover:bg-[#065F46] text-white py-5 px-10 rounded-full font-bold text-xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-[#064E3B]/20">
+                I have paid
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</div>
