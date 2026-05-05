@@ -41,15 +41,8 @@
         @for (b of filteredBookings(); track b.id) {
         <article
           class="group bg-[#C6E7C1] border border-emerald-300/30 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all animate-fade-in-up">
-          <div class="flex flex-col sm:flex-row h-full">
-            <!-- Dynamic Image (Fallback to placeholder if no image exists) -->
-            <div class="sm:w-2/5 relative h-48 sm:h-full min-h-[220px]">
-              <img
-                src="https://images.pexels.com/photos/28649105/pexels-photo-28649105/free-photo-of-panoramic-view-of-maracana-stadium.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                class="absolute inset-0 w-full h-full object-cover" [alt]="b.court.name" />
-            </div>
-
-            <div class="sm:w-3/5 p-6 flex flex-col justify-between">
+          <div class="flex flex-col h-full">
+            <div class="p-8 flex flex-col justify-between h-full">
               <div>
                 <div class="flex justify-between items-start">
                   <span
@@ -62,23 +55,24 @@
                     <span class="text-xs font-black">ID: {{ b.id }}</span>
                   </div>
                 </div>
-
-                <!-- Dynamic Names -->
-                <h3 class="mt-4 text-2xl font-black text-emerald-950 tracking-tight">{{ b.court.name }}</h3>
-                <p class="text-xs font-bold text-emerald-800/60">{{ b.court.maincourt.name }}</p>
-
-                <div class="mt-4 space-y-2">
-                  <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2.5">
+                <div class="mt-6">
+                  <h3 class="text-3xl font-black text-emerald-950 tracking-tight leading-tight">{{ b.court.name }}</h3>
+                  <p class="text-sm font-bold text-emerald-800/60 mt-1">{{ b.court.maincourt.name }}</p>
+                </div>
+                <div class="mt-8 flex flex-wrap gap-6">
+                  <div
+                    class="flex items-center gap-3 text-emerald-900/80 font-bold text-sm bg-white/20 px-4 py-2 rounded-2xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                       <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                       <path d="M16 2v4M8 2v4M3 10h18"></path>
                     </svg>
                     <span>{{ b.timeslot.date | date: "mediumDate" }}</span>
                   </div>
-                  <div class="flex items-center gap-2 text-emerald-900/80 font-bold text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2.5">
+                  <div
+                    class="flex items-center gap-3 text-emerald-900/80 font-bold text-sm bg-white/20 px-4 py-2 rounded-2xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                       <circle cx="12" cy="12" r="10"></circle>
                       <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
@@ -86,23 +80,28 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Action Buttons based on status -->
-              <div class="mt-8 flex items-center gap-6">
+              <div class="mt-10 flex items-center gap-4">
                 @if (tab() === 'previous') {
                 <button
-                  class="flex-1 px-4 py-3 rounded-full bg-[#A8D1A3] text-emerald-950 text-[11px] font-black uppercase tracking-widest hover:bg-[#96c291] transition-all">Match
-                  Report</button>
+                  class="flex-1 px-6 py-3.5 rounded-2xl bg-[#A8D1A3] text-emerald-950 text-[11px] font-black uppercase tracking-widest hover:bg-[#96c291] transition-all">
+                  Match Report
+                </button>
                 <button routerLink="/Venues"
-                  class="text-[11px] font-black uppercase tracking-widest text-emerald-900/60 hover:text-emerald-900">Rebook</button>
+                  class="px-6 py-3.5 text-[11px] font-black uppercase tracking-widest text-emerald-900/60 hover:text-emerald-900">
+                  Rebook
+                </button>
                 } @else {
                 <button [routerLink]="['/FullBookingDetails', b.id]"
-                  class="flex-1 px-4 py-3 rounded-full bg-[#14532D] text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20 hover:bg-[#0f3f22]">View
-                  Details</button>
+                  class="flex-1 px-6 py-3.5 rounded-2xl bg-[#14532D] text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20 hover:bg-[#0f3f22] transition-all">
+                  View Details
+                </button>
                 <button
-                  class="text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700">Cancel</button>
+                  class="px-6 py-3.5 text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-700 transition-all">
+                  Cancel
+                </button>
                 }
               </div>
+
             </div>
           </div>
         </article>

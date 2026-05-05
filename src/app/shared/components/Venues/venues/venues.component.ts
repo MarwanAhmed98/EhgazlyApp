@@ -380,9 +380,8 @@ export class VenuesComponent implements OnInit {
           name: court.name,
           area: court.address,
           address: court.address,
-          image: court.primary_image?.url || '',
-          rating: 4.5, // fallback (API doesn't provide)
-          // pricePerHour: 300, // fallback
+          image: court.primary_image.url || '',
+          rating: 4.5,
           turf: index % 2 === 0 ? 'natural' : 'artificial', // fallback
           lat: parseFloat(court.latitude),
           lng: parseFloat(court.longitude),
@@ -390,6 +389,7 @@ export class VenuesComponent implements OnInit {
           travelMins: 0,
           live: { type: 'ok', label: 'Available' }
         }));
+        console.log(res.data);
 
         this.loading = false;
       },
