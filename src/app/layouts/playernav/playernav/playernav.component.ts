@@ -3,6 +3,8 @@ import { Component, HostListener, Input, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { LucideAngularModule } from 'lucide-angular';
+import { PlayerProfileService } from '../../../core/services/PlayerProfile/player-profile.service';
+import { Iplayerprofile } from '../../../shared/interfaces/iplayerprofile';
 export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friendly-matches';
 
 @Component({
@@ -14,7 +16,8 @@ export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friend
 })
 export class PlayernavComponent {
   private readonly router = inject(Router);
-
+  private readonly playerProfileService = inject(PlayerProfileService);
+  ProfileDetails: Iplayerprofile = {} as Iplayerprofile
   @Input() active: PlayerNavActive = 'my-bookings';
   @Input() tournamentsLink: string | any[] = '/Tournaments';
   @Input() FriendlyMatchesLink: string | any[] = '/FriendlyMatches';
@@ -25,6 +28,7 @@ export class PlayernavComponent {
   currentTitle = 'My Bookings';
 
   ngOnInit(): void {
+    this.GetProfile();
     this.updateTitleByRoute();
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
       this.updateTitleByRoute();
@@ -97,5 +101,12 @@ export class PlayernavComponent {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.isMobileMenuOpen = false;
+  }
+  GetProfile(): void {
+    this.playerProfileService.GetProfile().subscribe({
+      next: (res) => {
+        this.ProfileDetails = res.data;
+      }
+    })
   }
 }
