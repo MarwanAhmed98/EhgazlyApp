@@ -1,3 +1,4 @@
+import { AdminComponent } from './shared/components/Admin/admin/admin.component';
 import { AddNewCourtComponent } from './shared/components/AddNewCourt/add-new-court/add-new-court.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
@@ -35,6 +36,9 @@ import { CourtOwnerFinanceComponent } from './shared/components/CourtOwnerFinanc
 import { CourtOwnerBillingComponent } from './shared/components/court-owner-billing/court-owner-billing.component';
 import { PaymentInstructionsComponent } from './shared/components/PaymentInstructions/payment-instructions/payment-instructions.component';
 import { ProfofPaymentComponent } from './shared/components/ProfofPayment/profof-payment/profof-payment.component';
+import { AdminDashboardComponent } from './shared/components/AdminDashboard/admin-dashboard/admin-dashboard.component';
+import { UserDirectoryAdminComponent } from './shared/components/UserDirectoryAdmin/user-directory-admin/user-directory-admin.component';
+import { AdminHubComponent } from './shared/components/AdminHub/admin-hub/admin-hub.component';
 
 export const routes: Routes = [
     {
@@ -159,6 +163,27 @@ export const routes: Routes = [
             { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
             { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
+        ]
+    },
+    {
+        path: 'Admin',
+        component: AdminComponent,
+        children: [
+            { path: 'AdminDashboard', component: AdminDashboardComponent, title: 'Dashboard' },
+            { path: 'UserDirectory', component: UserDirectoryAdminComponent, title: 'User Directory' },
+            { path: 'AdminHub', component: AdminHubComponent, title: 'Admin Hub' },
+            { path: 'CourtOwnerEarnings', component: CourtOwnerEarningsComponent, title: 'Earnings' },
+            { path: 'CourtOwnerHistoricalBookings', component: CourtOwnerHistoricalBookingComponent, title: 'Historical Bookings' },
+            { path: 'CourtOwnerManagement', component: CourtOwnerManagementComponent, title: 'Courts Management' },
+            { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
+            { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
+            { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
+            { path: 'Notifications', component: CourtOwnerNotificationsComponent, title: 'Notifications' },
+            { path: 'Financials', component: CourtOwnerFinanceComponent, title: 'Financials' },
+            { path: 'Billing&Payments', component: CourtOwnerBillingComponent, title: 'Billing & Payments' },
+            { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
+            { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
+            { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },
 

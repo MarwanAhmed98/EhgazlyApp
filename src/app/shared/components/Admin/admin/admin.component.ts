@@ -14,13 +14,12 @@ type NavItem = {
 };
 
 @Component({
-  selector: 'app-court-owner',
-  standalone: true,
+  selector: 'app-admin',
   imports: [CommonModule, RouterModule, LucideAngularModule],
-  templateUrl: './court-owner.component.html',
-  styleUrl: './court-owner.component.scss',
+  templateUrl: './admin.component.html',
+  styleUrl: './admin.component.scss'
 })
-export class CourtOwnerComponent implements OnInit {
+export class AdminComponent {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -35,7 +34,8 @@ export class CourtOwnerComponent implements OnInit {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
   }
   navItems: NavItem[] = [
-    { key: 'dashboard', label: 'Dashboard', route: '/CourtOwner/Dashboard', exact: true, iconName: 'layout-grid' },
+    { key: 'dashboard', label: 'Dashboard', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
+    { key: 'user-directory', label: 'User Management', route: '/Admin/UserDirectory', exact: false, iconName: 'users' },
     { key: 'my-bookings', label: 'Bookings Management', route: '/CourtOwner/CourtOwnerBookings', exact: false, iconName: 'calendar-days' },
     { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconName: 'trending-up' },
     { key: 'historicalbooking', label: 'Historical Bookings', route: '/CourtOwner/CourtOwnerHistoricalBookings', exact: false, iconName: 'history' },
@@ -88,6 +88,6 @@ export class CourtOwnerComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();
     }
-    this.router.navigate(['/Login']);
+    this.router.navigate(['/login']);
   }
 }

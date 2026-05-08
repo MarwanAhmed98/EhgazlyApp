@@ -1,0 +1,29 @@
+:host {
+    display: block;
+}
+
+/* Custom thin scrollbar if needed */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #DCF5E1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #B5E1BD;
+    border-radius: 10px;
+}
+
+@keyframes pulse-soft {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
