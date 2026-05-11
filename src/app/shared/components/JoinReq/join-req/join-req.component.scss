@@ -1,0 +1,17 @@
+:host {
+    display: block;
+}
+
+/* Custom scrollbar for table container */
+.overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #c1e8cc;
+    border-radius: 10px;
+}

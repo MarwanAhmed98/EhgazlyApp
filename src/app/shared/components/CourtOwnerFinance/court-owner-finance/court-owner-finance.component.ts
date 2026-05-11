@@ -1,18 +1,6 @@
-import { ActivatedRoute, Router } from '@angular/router';
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-court-owner-finance',
-//   imports: [],
-//   templateUrl: './court-owner-finance.component.html',
-//   styleUrl: './court-owner-finance.component.scss'
-// })
-// export class CourtOwnerFinanceComponent {
-
-// }
 import { Component, ChangeDetectionStrategy, signal, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from "@angular/router";
+import { RouterLink, Router } from "@angular/router";
 
 interface Transaction {
   id: string;
@@ -34,14 +22,15 @@ type MonthKey = string; // "YYYY-MM"
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourtOwnerFinanceComponent {
-  private readonly router = inject(Router)
+  private readonly router = inject(Router);
+
   filterStatus = signal<StatusFilter>('All');
 
   // Search
   searchQuery = signal<string>('');
 
-  // Date filter (defaults to current month)
-  selectedMonth = signal<MonthKey>(this.toMonthKey(new Date()));
+  // Date filter (NO default selection)
+  selectedMonth = signal<MonthKey>(''); // "" => no date filtering
 
   // Month picker popover
   isMonthPickerOpen = signal<boolean>(false);
@@ -64,7 +53,10 @@ export class CourtOwnerFinanceComponent {
   ]);
 
   dateRangeLabel = computed(() => {
-    const [yStr, mStr] = this.selectedMonth().split('-');
+    const key = (this.selectedMonth() ?? '').trim();
+    if (!key) return 'App Date';
+
+    const [yStr, mStr] = key.split('-');
     const y = Number(yStr);
     const m = Number(mStr); // 1-12
     const start = new Date(y, m - 1, 1);
@@ -89,13 +81,15 @@ export class CourtOwnerFinanceComponent {
   filteredTransactions = computed(() => {
     const status = this.filterStatus();
     const q = this.searchQuery().trim().toLowerCase();
-    const month = this.selectedMonth();
+    const month = (this.selectedMonth() ?? '').trim(); // "" => no date filter
 
     return this.transactions().filter((tx) => {
       if (status !== 'All' && tx.status !== status) return false;
 
-      const txMonth = this.toMonthKey(this.parseTxDate(tx.date));
-      if (txMonth !== month) return false;
+      if (month) {
+        const txMonth = this.toMonthKey(this.parseTxDate(tx.date));
+        if (txMonth !== month) return false;
+      }
 
       if (!q) return true;
 
@@ -105,9 +99,10 @@ export class CourtOwnerFinanceComponent {
   });
 
   totalPaid = computed(() => {
-    const month = this.selectedMonth();
+    const month = (this.selectedMonth() ?? '').trim();
+
     return this.transactions()
-      .filter((t) => this.toMonthKey(this.parseTxDate(t.date)) === month)
+      .filter((t) => !month || this.toMonthKey(this.parseTxDate(t.date)) === month)
       .filter((t) => t.status === 'Verified')
       .reduce((sum, t) => sum + t.amount, 0);
   });
@@ -120,8 +115,12 @@ export class CourtOwnerFinanceComponent {
       this.openTxMenuId.set(null);
     });
 
+    // Sync picker year ONLY after user selects a month
     effect(() => {
-      const [yStr] = this.selectedMonth().split('-');
+      const key = (this.selectedMonth() ?? '').trim();
+      if (!key) return;
+
+      const [yStr] = key.split('-');
       const y = Number(yStr);
       if (!Number.isNaN(y)) this.monthPickerYear.set(y);
     });
@@ -168,7 +167,10 @@ export class CourtOwnerFinanceComponent {
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = `payment-history-${this.selectedMonth()}.csv`;
+
+    const suffix = (this.selectedMonth() ?? '').trim() || 'all';
+    a.download = `payment-history-${suffix}.csv`;
+
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -193,19 +195,15 @@ export class CourtOwnerFinanceComponent {
 
   // 4) Optimize Pricing Logic (IMPORTANT)
   optimizePricing(): void {
-    const month = this.selectedMonth();
+    const month = (this.selectedMonth() ?? '').trim();
 
-    const inMonth = this.transactions().filter((t) => this.toMonthKey(this.parseTxDate(t.date)) === month);
-    const total = inMonth.length || 1;
-    const pending = inMonth.filter((t) => t.status === 'Pending').length;
+    const inScope = this.transactions().filter((t) => !month || this.toMonthKey(this.parseTxDate(t.date)) === month);
+    const total = inScope.length || 1;
+    const pending = inScope.filter((t) => t.status === 'Pending').length;
 
-    // Availability proxy: more pending = higher availability (less demand)
     const availabilityRatio = pending / total; // 0..1
     const demandRatio = 1 - availabilityRatio; // 0..1
 
-    // Dynamic multiplier based on demandRatio
-    // high demand -> increase up to +12%
-    // low demand  -> decrease down to -8%
     const multiplier =
       demandRatio >= 0.7 ? 1.12 :
         demandRatio >= 0.45 ? 1.06 :
@@ -216,10 +214,9 @@ export class CourtOwnerFinanceComponent {
 
     this.transactions.update((items) =>
       items.map((t) => {
-        const sameMonth = this.toMonthKey(this.parseTxDate(t.date)) === month;
+        const sameMonth = !month || this.toMonthKey(this.parseTxDate(t.date)) === month;
         if (!sameMonth) return t;
 
-        // Apply only to Pending as "recommended price"
         if (t.status !== 'Pending') return t;
 
         const nextAmount = this.round2(t.amount * multiplier);
@@ -244,6 +241,12 @@ export class CourtOwnerFinanceComponent {
 
   setMonthFilter(monthKey: MonthKey): void {
     this.selectedMonth.set(monthKey);
+    this.isMonthPickerOpen.set(false);
+  }
+
+  // Optional: programmatic reset (keeps UI the same)
+  clearMonthFilter(): void {
+    this.selectedMonth.set('');
     this.isMonthPickerOpen.set(false);
   }
 

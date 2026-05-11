@@ -34,9 +34,9 @@ export class AdminComponent {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
   }
   navItems: NavItem[] = [
-    { key: 'dashboard', label: 'Dashboard', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
+    { key: 'dashboard', label: 'Operations', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
     { key: 'user-directory', label: 'User Management', route: '/Admin/UserDirectory', exact: false, iconName: 'users' },
-    { key: 'my-bookings', label: 'Bookings Management', route: '/CourtOwner/CourtOwnerBookings', exact: false, iconName: 'calendar-days' },
+    { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
     { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconName: 'trending-up' },
     { key: 'historicalbooking', label: 'Historical Bookings', route: '/CourtOwner/CourtOwnerHistoricalBookings', exact: false, iconName: 'history' },
     { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin' },

@@ -39,6 +39,9 @@ import { ProfofPaymentComponent } from './shared/components/ProfofPayment/profof
 import { AdminDashboardComponent } from './shared/components/AdminDashboard/admin-dashboard/admin-dashboard.component';
 import { UserDirectoryAdminComponent } from './shared/components/UserDirectoryAdmin/user-directory-admin/user-directory-admin.component';
 import { AdminHubComponent } from './shared/components/AdminHub/admin-hub/admin-hub.component';
+import { AdminJoinReqComponent } from './shared/components/AdminJoinReq/admin-join-req/admin-join-req.component';
+import { JoinReqComponent } from './shared/components/JoinReq/join-req/join-req.component';
+import { AdminReviewAppComponent } from './shared/components/AdminReviewApp/admin-review-app/admin-review-app.component';
 
 export const routes: Routes = [
     {
@@ -172,17 +175,9 @@ export const routes: Routes = [
             { path: 'AdminDashboard', component: AdminDashboardComponent, title: 'Dashboard' },
             { path: 'UserDirectory', component: UserDirectoryAdminComponent, title: 'User Directory' },
             { path: 'AdminHub', component: AdminHubComponent, title: 'Admin Hub' },
-            { path: 'CourtOwnerEarnings', component: CourtOwnerEarningsComponent, title: 'Earnings' },
-            { path: 'CourtOwnerHistoricalBookings', component: CourtOwnerHistoricalBookingComponent, title: 'Historical Bookings' },
-            { path: 'CourtOwnerManagement', component: CourtOwnerManagementComponent, title: 'Courts Management' },
-            { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
-            { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
-            { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
-            { path: 'Notifications', component: CourtOwnerNotificationsComponent, title: 'Notifications' },
-            { path: 'Financials', component: CourtOwnerFinanceComponent, title: 'Financials' },
-            { path: 'Billing&Payments', component: CourtOwnerBillingComponent, title: 'Billing & Payments' },
-            { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
-            { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
+            { path: 'AdminJoinReq', component: AdminJoinReqComponent, title: 'Admin Join Requests' },
+            { path: 'JoinReq', component: JoinReqComponent, title: 'Join Requests' },
+            { path: 'AdminReviewApp', component: AdminReviewAppComponent, title: 'Admin Review App' },
             { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },
