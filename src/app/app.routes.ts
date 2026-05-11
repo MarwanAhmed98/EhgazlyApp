@@ -42,6 +42,7 @@ import { AdminHubComponent } from './shared/components/AdminHub/admin-hub/admin-
 import { AdminJoinReqComponent } from './shared/components/AdminJoinReq/admin-join-req/admin-join-req.component';
 import { JoinReqComponent } from './shared/components/JoinReq/join-req/join-req.component';
 import { AdminReviewAppComponent } from './shared/components/AdminReviewApp/admin-review-app/admin-review-app.component';
+import { AdminRevenuesComponent } from './shared/components/AdminRevenues/admin-revenues/admin-revenues.component';
 
 export const routes: Routes = [
     {
@@ -178,6 +179,7 @@ export const routes: Routes = [
             { path: 'AdminJoinReq', component: AdminJoinReqComponent, title: 'Admin Join Requests' },
             { path: 'JoinReq', component: JoinReqComponent, title: 'Join Requests' },
             { path: 'AdminReviewApp', component: AdminReviewAppComponent, title: 'Admin Review App' },
+            { path: 'AdminRevenues', component: AdminRevenuesComponent, title: 'Admin Revenues' },
             { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },

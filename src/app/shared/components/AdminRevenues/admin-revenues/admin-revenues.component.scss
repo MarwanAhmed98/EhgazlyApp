@@ -1,0 +1,39 @@
+:host {
+    display: block;
+}
+
+/* Prevent all horizontal scrolling on body/host levels */
+* {
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+/* Ensure container fits mobile screens without side gaps */
+.max-w-7xl {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Smooth chart transitions */
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+}
+
+/* Responsive Overflows */
+.overflow-x-hidden {
+    overflow-x: hidden !important;
+}
+
+/* Touch smoothing for mobile view */
+.md\:hidden {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Table styling for desktop stability */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}

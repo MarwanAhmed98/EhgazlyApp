@@ -37,7 +37,7 @@ export class AdminComponent {
     { key: 'dashboard', label: 'Operations', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
     { key: 'user-directory', label: 'User Management', route: '/Admin/UserDirectory', exact: false, iconName: 'users' },
     { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
-    { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconName: 'trending-up' },
+    { key: 'revenues', label: 'Revenues', route: '/Admin/AdminRevenues', exact: false, iconName: 'dollar-sign' },
     { key: 'historicalbooking', label: 'Historical Bookings', route: '/CourtOwner/CourtOwnerHistoricalBookings', exact: false, iconName: 'history' },
     { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin' },
     { key: 'manage-court-schedule', label: 'Manage Court Schedule', route: '/CourtOwner/ManageCourtSchedule', exact: false, iconName: 'calendar-clock' },
