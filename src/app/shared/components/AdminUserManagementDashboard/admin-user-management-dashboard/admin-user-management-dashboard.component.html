@@ -1,0 +1,551 @@
+<div
+    class="min-h-screen bg-[#EAF7EE] p-4 sm:p-6 lg:p-8 font-sans text-slate-800 antialiased selection:bg-[#BCEFCD] selection:text-[#136336]">
+
+    <!-- Top Header / Dashboard Metrics -->
+    <header class="max-w-7xl mx-auto mb-6 sm:mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+            <!-- Primary Large Eco Card (Total Users) -->
+            <div
+                class="md:col-span-6 bg-[#BCEFCD] rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[180px] group transition-all duration-300 hover:shadow-md">
+                <!-- Background Decorative SVGs -->
+                <div
+                    class="absolute right-[-20px] bottom-[-20px] opacity-15 text-[#136336] transform group-hover:scale-110 transition-transform duration-500 ease-out">
+                    <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                    </svg>
+                </div>
+
+                <div>
+                    <p class="text-xs sm:text-sm font-bold tracking-wider text-[#136336]/80 uppercase mb-2">Total User
+                        Ecosystem</p>
+                    <h2 class="text-4xl sm:text-5xl font-black text-[#136336] tracking-tight">{{
+                        totalUsersCount().toLocaleString() }}</h2>
+                </div>
+                <div
+                    class="mt-4 flex items-center text-xs sm:text-sm font-semibold text-[#136336] bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-full w-fit">
+                    <svg class="w-4 h-4 mr-1 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span>+12% from last month</span>
+                </div>
+            </div>
+
+            <!-- Metric Card: Active Players -->
+            <div
+                class="md:col-span-3 bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[150px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs sm:text-sm font-bold tracking-wider text-slate-500 uppercase">Active
+                        Players</span>
+                    <div
+                        class="w-10 h-10 rounded-full bg-[#FCE7D4] flex items-center justify-center text-[#E07A5F] group-hover:rotate-12 transition-transform">
+                        <!-- Soccer ball icon -->
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="m12 2-1.5 5h3L12 2Z"></path>
+                            <path d="m12 22-1.5-5h3L12 22Z"></path>
+                            <path d="m2 12 5-1.5v3L2 12Z"></path>
+                            <path d="m22 12-5-1.5v3L22 12Z"></path>
+                            <path d="M12 7.5L8.5 10v4l3.5 2.5 3.5-2.5v-4z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-3xl font-extrabold text-slate-950 tracking-tight">{{
+                        activePlayersCount().toLocaleString() }}</h3>
+                </div>
+            </div>
+
+            <!-- Metric Card: Field Owners -->
+            <div
+                class="md:col-span-3 bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[150px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs sm:text-sm font-bold tracking-wider text-slate-500 uppercase">Field
+                        Owners</span>
+                    <div class="w-10 h-10 rounded-full bg-[#D1F5DD] flex items-center justify-center text-[#15803D]">
+                        <!-- Stadium / Building / Whistle Icon -->
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18"></path>
+                            <path d="M5 21V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14"></path>
+                            <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"></path>
+                            <path d="M10 9h4"></path>
+                            <path d="M10 13h4"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-3xl font-extrabold text-slate-950 tracking-tight">{{
+                        fieldOwnersCount().toLocaleString() }}</h3>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Section: Filters and Table Container -->
+    <main class="max-w-7xl mx-auto">
+
+        <!-- Filters Toolbar -->
+        <div
+            class="bg-[#D7F6E2] rounded-full px-4 py-2 sm:px-6 sm:py-3 mb-6 flex flex-wrap items-center justify-between gap-2 shadow-sm">
+            <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[#136336] font-semibold">
+                <!-- Filter label -->
+                <div class="flex items-center space-x-1.5 mr-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 8.293A1 1 0 013 7.586V4z">
+                        </path>
+                    </svg>
+                    <span class="hidden sm:inline">Filters:</span>
+                </div>
+
+                <!-- Role Selector -->
+                <div class="relative inline-block text-left">
+                    <select [value]="selectedRole()" (change)="setRole($any($event.target).value)"
+                        class="appearance-none bg-white border border-[#BCEFCD] hover:border-[#136336] px-3 py-1.5 pr-8 rounded-full text-slate-800 font-medium cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#136336]">
+                        <option value="All">All User Types</option>
+                        <option value="PLAYER">Players Only</option>
+                        <option value="FIELD OWNER">Field Owners Only</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-[#136336]">
+                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Status Selector -->
+                <div class="relative inline-block text-left">
+                    <select [value]="selectedStatus()" (change)="setStatus($any($event.target).value)"
+                        class="appearance-none bg-white border border-[#BCEFCD] hover:border-[#136336] px-3 py-1.5 pr-8 rounded-full text-slate-800 font-medium cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#136336]">
+                        <option value="All">All Statuses</option>
+                        <option value="Active">Active</option>
+                        <option value="Suspended">Suspended</option>
+                        <option value="Banned">Banned</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-[#136336]">
+                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Timeframe Selector -->
+                <div class="relative inline-block text-left">
+                    <select [value]="selectedTimeframe()" (change)="setTimeframe($any($event.target).value)"
+                        class="appearance-none bg-white border border-[#BCEFCD] hover:border-[#136336] px-3 py-1.5 pr-8 rounded-full text-slate-800 font-medium cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#136336]">
+                        <option value="All">All Time</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-[#136336]">
+                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clear All Trigger -->
+            <button (click)="clearAllFilters()"
+                class="text-xs sm:text-sm font-extrabold text-[#136336] hover:text-[#0b3d20] px-3 py-1.5 rounded-full hover:bg-[#BCEFCD]/50 transition-colors focus:outline-none">
+                Clear All
+            </button>
+        </div>
+
+        <!-- Table Card / Container -->
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-[#D1F5DD]/30">
+
+            <!-- Desktop / Tablet Table View (Hidden on smallest screens) -->
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#D1F5DD] text-[#136336] text-[11px] font-black uppercase tracking-wider">
+                            <th class="py-4 px-6 rounded-tl-2xl">User Profile</th>
+                            <th class="py-4 px-6">Role</th>
+                            <th class="py-4 px-6">Status</th>
+                            <th class="py-4 px-6">Join Date</th>
+                            <th class="py-4 px-6 text-right rounded-tr-2xl">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @for (user of paginatedUsers(); track user.id) {
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <!-- User Profile Column -->
+                            <td class="py-4 px-6">
+                                <div class="flex items-center space-x-3.5">
+                                    @if (user.avatarUrl) {
+                                    <img [src]="user.avatarUrl" [alt]="user.name"
+                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-slate-100">
+                                    } @else {
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-[#D1F5DD] text-[#136336] flex items-center justify-center font-bold text-sm tracking-wider">
+                                        {{ getFallbackAvatar(user.name) }}
+                                    </div>
+                                    }
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 leading-snug">{{ user.name }}</h4>
+                                        <p class="text-xs text-slate-500 leading-tight">{{ user.email }}</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <!-- Role Column -->
+                            <td class="py-4 px-6">
+                                @if (user.role === 'PLAYER') {
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider bg-[#DCFCE7] text-[#15803D] uppercase">
+                                    Player
+                                </span>
+                                } @else {
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider bg-[#FFE9D6] text-[#C2410C] uppercase">
+                                    Field Owner
+                                </span>
+                                }
+                            </td>
+
+                            <!-- Status Column -->
+                            <td class="py-4 px-6">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 rounded-full" [ngClass]="{
+                          'bg-emerald-500': user.status === 'Active',
+                          'bg-orange-500': user.status === 'Suspended',
+                          'bg-rose-500': user.status === 'Banned'
+                        }"></span>
+                                    <span class="text-xs font-semibold" [ngClass]="{
+                          'text-[#166534]': user.status === 'Active',
+                          'text-[#A13800]': user.status === 'Suspended',
+                          'text-[#B91C1C]': user.status === 'Banned'
+                        }">{{ user.status }}</span>
+                                </div>
+                            </td>
+
+                            <!-- Join Date Column -->
+                            <td class="py-4 px-6">
+                                <span class="text-xs text-slate-600 font-medium">{{ user.joinDate }}</span>
+                            </td>
+
+                            <!-- Actions Column -->
+                            <td class="py-4 px-6 text-right">
+                                <button (click)="openManagement(user)"
+                                    class="bg-[#136336] hover:bg-[#0c4021] text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm hover:shadow transition-all duration-200">
+                                    Manage
+                                </button>
+                            </td>
+                        </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="5" class="py-12 text-center text-slate-400 font-medium">
+                                No matching users found inside this criteria.
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Card List View (Visible only on mobile screen) -->
+            <div class="block md:hidden">
+                <div class="bg-[#D1F5DD] px-4 py-3 text-[#136336] text-xs font-black uppercase tracking-wider">
+                    Users Profile Directory
+                </div>
+                <div class="divide-y divide-slate-100">
+                    @for (user of paginatedUsers(); track user.id) {
+                    <div class="p-4 space-y-4 hover:bg-slate-50/50 transition-colors">
+                        <!-- Header Row -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                @if (user.avatarUrl) {
+                                <img [src]="user.avatarUrl" [alt]="user.name"
+                                    class="w-10 h-10 rounded-full object-cover">
+                                } @else {
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#D1F5DD] text-[#136336] flex items-center justify-center font-bold text-sm">
+                                    {{ getFallbackAvatar(user.name) }}
+                                </div>
+                                }
+                                <div>
+                                    <h4 class="font-bold text-slate-900 leading-tight">{{ user.name }}</h4>
+                                    <p class="text-xs text-slate-500">{{ user.email }}</p>
+                                </div>
+                            </div>
+                            <button (click)="openManagement(user)"
+                                class="bg-[#136336] text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                                Manage
+                            </button>
+                        </div>
+
+                        <!-- Details Row -->
+                        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-50 text-[11px]">
+                            <div>
+                                <span class="block text-slate-400 uppercase font-semibold text-[9px] mb-0.5">Role</span>
+                                @if (user.role === 'PLAYER') {
+                                <span
+                                    class="inline-block px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[#15803D] font-extrabold uppercase">
+                                    Player
+                                </span>
+                                } @else {
+                                <span
+                                    class="inline-block px-2 py-0.5 rounded-full bg-[#FFE9D6] text-[#C2410C] font-extrabold uppercase">
+                                    Owner
+                                </span>
+                                }
+                            </div>
+                            <div>
+                                <span
+                                    class="block text-slate-400 uppercase font-semibold text-[9px] mb-0.5">Status</span>
+                                <div class="flex items-center space-x-1">
+                                    <span class="w-2 h-2 rounded-full" [ngClass]="{
+                          'bg-emerald-500': user.status === 'Active',
+                          'bg-orange-500': user.status === 'Suspended',
+                          'bg-rose-500': user.status === 'Banned'
+                        }"></span>
+                                    <span class="font-semibold" [ngClass]="{
+                          'text-[#166534]': user.status === 'Active',
+                          'text-[#A13800]': user.status === 'Suspended',
+                          'text-[#B91C1C]': user.status === 'Banned'
+                        }">{{ user.status }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span
+                                    class="block text-slate-400 uppercase font-semibold text-[9px] mb-0.5">Joined</span>
+                                <span class="text-slate-600 font-semibold">{{ user.joinDate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    } @empty {
+                    <div class="py-12 text-center text-slate-400 font-medium text-sm">
+                        No matching users found inside this criteria.
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Bottom Pagination Controls -->
+            <footer
+                class="bg-[#D1F5DD] px-4 py-3 sm:px-6 flex items-center justify-between border-t border-[#D1F5DD]/40 rounded-b-2xl">
+                <div class="text-xs sm:text-sm font-semibold text-[#136336]">
+                    Showing {{ startItemIndex() }}-{{ endItemIndex() }} of {{ totalCount() }} users
+                </div>
+
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <!-- Previous -->
+                    <button (click)="prevPage()" [disabled]="currentPage() === 1"
+                        class="w-8 h-8 rounded-lg bg-white text-[#136336] flex items-center justify-center font-bold hover:bg-slate-50 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Dynamic Pages -->
+                    @for (page of totalPagesArray(); track page) {
+                    <button (click)="setPage(page)" [ngClass]="{
+                    'bg-[#136336] text-white': currentPage() === page,
+                    'bg-white text-[#136336] hover:bg-slate-50': currentPage() !== page
+                  }" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-all shadow-sm">
+                        {{ page }}
+                    </button>
+                    }
+
+                    <!-- Next -->
+                    <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
+                        class="w-8 h-8 rounded-lg bg-white text-[#136336] flex items-center justify-center font-bold hover:bg-slate-50 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- FAB (Floating Action Button) - Create User -->
+    <button (click)="openAddModal()"
+        class="fixed bottom-1 right-3 w-14 h-14 bg-[#136336] hover:bg-[#0d4a27] text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 z-40 focus:outline-none focus:ring-4 focus:ring-[#BCEFCD]"
+        title="Add New User">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+        </svg>
+    </button>
+
+    <!-- Modal: Add New User Form -->
+    @if (showAddUserModal()) {
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+            <!-- Modal Header -->
+            <div class="bg-[#D1F5DD] px-6 py-4 flex items-center justify-between">
+                <h3 class="font-bold text-[#136336] text-lg">Add User Ecosystem Profile</h3>
+                <button (click)="closeAddModal()"
+                    class="text-[#136336]/60 hover:text-[#136336] transition-colors focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Form -->
+            <form (submit)="handleAddUser($event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Full
+                        Name</label>
+                    <input required type="text" name="name" placeholder="e.g. Karim Ahmed"
+                        class="w-full bg-slate-50 border border-slate-200 focus:border-[#136336] focus:bg-white rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-[#136336] transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email
+                        Address</label>
+                    <input required type="email" name="email" placeholder="k.ahmed@example.com"
+                        class="w-full bg-slate-50 border border-slate-200 focus:border-[#136336] focus:bg-white rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-[#136336] transition-all">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Account
+                            Role</label>
+                        <select name="role"
+                            class="w-full bg-slate-50 border border-slate-200 focus:border-[#136336] focus:bg-white rounded-xl px-3 py-2.5 text-sm font-medium focus:outline-none transition-all">
+                            <option value="PLAYER">PLAYER</option>
+                            <option value="FIELD OWNER">FIELD OWNER</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Account
+                            Status</label>
+                        <select name="status"
+                            class="w-full bg-slate-50 border border-slate-200 focus:border-[#136336] focus:bg-white rounded-xl px-3 py-2.5 text-sm font-medium focus:outline-none transition-all">
+                            <option value="Active">Active</option>
+                            <option value="Suspended">Suspended</option>
+                            <option value="Banned">Banned</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex space-x-3">
+                    <button type="button" (click)="closeAddModal()"
+                        class="flex-1 border border-slate-200 text-slate-600 font-bold py-2.5 rounded-xl text-sm hover:bg-slate-50 active:bg-slate-100 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="flex-1 bg-[#136336] hover:bg-[#0c4021] text-white font-bold py-2.5 rounded-xl text-sm shadow-sm transition-colors">
+                        Save User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+
+    <!-- Modal: Manage User Actions -->
+    @if (tempUserForManagement(); as user) {
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div
+            class="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+            <!-- Header section -->
+            <div class="bg-gradient-to-r from-[#D1F5DD] to-[#BCEFCD] p-6 text-center relative">
+                <button (click)="closeManagement()"
+                    class="absolute top-4 right-4 text-[#136336]/60 hover:text-[#136336] focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <!-- User Profile Image / Fallback Avatar -->
+                <div
+                    class="mx-auto w-20 h-20 rounded-full bg-white flex items-center justify-center font-bold text-2xl text-[#136336] shadow-sm mb-3 overflow-hidden ring-4 ring-white/65">
+                    @if (user.avatarUrl) {
+                    <img [src]="user.avatarUrl" [alt]="user.name" class="w-full h-full object-cover">
+                    } @else {
+                    <span>{{ getFallbackAvatar(user.name) }}</span>
+                    }
+                </div>
+                <h3 class="font-extrabold text-[#136336] text-lg leading-tight">{{ user.name }}</h3>
+                <p class="text-xs text-[#136336]/80 font-medium">{{ user.email }}</p>
+            </div>
+
+            <!-- Management Operations -->
+            <div class="p-6 space-y-5">
+                <!-- Quick Role Switcher -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Change User
+                        Role</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button (click)="updateTempUserRole('PLAYER')" [ngClass]="{
+                      'bg-[#DCFCE7] text-[#15803D] ring-2 ring-[#15803D]': user.role === 'PLAYER',
+                      'bg-slate-50 text-slate-600 hover:bg-slate-100': user.role !== 'PLAYER'
+                    }" class="py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition-all">
+                            PLAYER
+                        </button>
+                        <button (click)="updateTempUserRole('FIELD OWNER')" [ngClass]="{
+                      'bg-[#FFE9D6] text-[#C2410C] ring-2 ring-[#C2410C]': user.role === 'FIELD OWNER',
+                      'bg-slate-50 text-slate-600 hover:bg-slate-100': user.role !== 'FIELD OWNER'
+                    }" class="py-2.5 rounded-xl text-xs font-bold tracking-wider uppercase transition-all">
+                            FIELD OWNER
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Status Switcher -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Change Account
+                        Status</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button (click)="updateTempUserStatus('Active')" [ngClass]="{
+                      'bg-emerald-50 text-emerald-700 ring-2 ring-emerald-500': user.status === 'Active',
+                      'bg-slate-50 text-slate-600 hover:bg-slate-100': user.status !== 'Active'
+                    }" class="py-2 rounded-lg text-xs font-bold transition-all">
+                            Active
+                        </button>
+                        <button (click)="updateTempUserStatus('Suspended')" [ngClass]="{
+                      'bg-orange-50 text-orange-700 ring-2 ring-orange-500': user.status === 'Suspended',
+                      'bg-slate-50 text-slate-600 hover:bg-slate-100': user.status !== 'Suspended'
+                    }" class="py-2 rounded-lg text-xs font-bold transition-all">
+                            Suspended
+                        </button>
+                        <button (click)="updateTempUserStatus('Banned')" [ngClass]="{
+                      'bg-rose-50 text-rose-700 ring-2 ring-rose-500': user.status === 'Banned',
+                      'bg-slate-50 text-slate-600 hover:bg-slate-100': user.status !== 'Banned'
+                    }" class="py-2 rounded-lg text-xs font-bold transition-all">
+                            Banned
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Save Changes / Cancel Action Bar -->
+                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100">
+                    <button type="button" (click)="closeManagement()"
+                        class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl transition-all">
+                        Cancel
+                    </button>
+                    <button type="button" (click)="saveManagementChanges()"
+                        class="bg-[#136336] hover:bg-[#0c4021] text-white text-xs font-bold py-3 rounded-xl shadow-sm transition-all">
+                        Save Changes
+                    </button>
+                </div>
+
+                <!-- Delete Action Section -->
+                <div class="pt-2">
+                    <button (click)="deleteUser(user.id)"
+                        class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-bold py-2.5 rounded-xl transition-all">
+                        Delete Profile permanently
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

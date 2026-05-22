@@ -1,0 +1,39 @@
+:host {
+    display: block;
+}
+
+/* Elegant smooth animations for clean UI */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-in {
+    animation-duration: 200ms;
+    animation-fill-mode: both;
+}
+
+.fade-in {
+    animation-name: fadeIn;
+}
+
+.zoom-in {
+    animation-name: zoomIn;
+}

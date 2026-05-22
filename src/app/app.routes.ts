@@ -44,6 +44,8 @@ import { JoinReqComponent } from './shared/components/JoinReq/join-req/join-req.
 import { AdminReviewAppComponent } from './shared/components/AdminReviewApp/admin-review-app/admin-review-app.component';
 import { AdminRevenuesComponent } from './shared/components/AdminRevenues/admin-revenues/admin-revenues.component';
 import { AdminPendingListComponent } from './shared/components/AdminPendingList/admin-pending-list/admin-pending-list.component';
+import { AdminUserManagementDashboardComponent } from './shared/components/AdminUserManagementDashboard/admin-user-management-dashboard/admin-user-management-dashboard.component';
+import { AdminManageCourtsComponent } from './shared/components/AdminManageCourts/admin-manage-courts/admin-manage-courts.component';
 
 export const routes: Routes = [
     {
@@ -182,6 +184,8 @@ export const routes: Routes = [
             { path: 'AdminReviewApp', component: AdminReviewAppComponent, title: 'Admin Review App' },
             { path: 'AdminRevenues', component: AdminRevenuesComponent, title: 'Admin Revenues' },
             { path: 'AdminPendingList', component: AdminPendingListComponent, title: 'Admin Pending List' },
+            { path: 'AdminUserManagement', component: AdminUserManagementDashboardComponent, title: 'Admin User Management' },
+            { path: 'AdminManageCourts', component: AdminManageCourtsComponent, title: 'Admin Manage Courts' },
             { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },

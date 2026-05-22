@@ -1,0 +1,921 @@
+<!-- MAIN WRAPPER -->
+<div class="min-h-screen bg-[#F1F9F3] text-[#0c5c24] font-sans antialiased p-4 sm:p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- ==========================================
+             VIEW 1: STADIUM DIRECTORY DASHBOARD
+             ========================================== -->
+        @if (currentView() === 'list') {
+        <div class="space-y-6 animate-fadeIn">
+            <!-- Header Section -->
+            <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0c5c24] tracking-tight">
+                        Manage Stadiums & Courts
+                    </h1>
+                    <p class="text-gray-600 mt-1 text-sm sm:text-base">
+                        Directory of all active football pitches and their operational status.
+                    </p>
+                </div>
+                <button (click)="openCreateModal()"
+                    class="flex items-center gap-2 bg-[#0c5c24] hover:bg-[#08471b] text-white px-5 py-3 rounded-full font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform active:scale-95 text-sm sm:text-base cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    New Field Listing
+                </button>
+            </header>
+
+            <!-- Controls: Search, Filters & Quick Stats -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+                <!-- Search & Filter Controls -->
+                <div class="lg:col-span-2 bg-[#DFF5E6] rounded-2xl p-3 flex flex-col md:flex-row items-center gap-3">
+                    <div class="relative w-full md:w-72">
+                        <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
+                            placeholder="Search..."
+                            class="w-full pl-10 pr-4 py-2.5 bg-white text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0c5c24] border-none text-sm transition-all shadow-sm" />
+                    </div>
+
+                    <!-- Segmented Control Filters -->
+                    <div
+                        class="flex flex-wrap items-center gap-1.5 w-full md:w-auto md:ml-auto overflow-x-auto no-scrollbar">
+                        @for (tab of tabs; track tab) {
+                        <button (click)="activeTab.set(tab)"
+                            [class]="activeTab() === tab 
+                        ? 'bg-[#0c5c24] text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200' 
+                        : 'text-[#0c5c24] hover:bg-[#cbeed4] px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200'">
+                            {{ tab }}
+                        </button>
+                        }
+                    </div>
+                </div>
+
+                <!-- Total Inventory Metric Card -->
+                <div
+                    class="bg-[#CBEED4] rounded-2xl p-4 flex items-center justify-between shadow-sm border border-[#b2e5be]">
+                    <div class="space-y-1">
+                        <span class="text-[10px] sm:text-xs font-bold text-[#0c5c24] tracking-widest uppercase">
+                            Total Inventory
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0c5c24]">
+                            {{ stadiums().length }} Stadiums
+                        </h2>
+                    </div>
+                    <div class="p-3 bg-[#A5DFB3] rounded-2xl text-[#0c5c24]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stadiums Table / Responsive Cards -->
+            <div class="bg-white rounded-3xl shadow-sm border border-[#e0f2e5] overflow-hidden">
+
+                <!-- Desktop Table View -->
+                <div class="hidden md:block overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="border-b border-[#f1f9f3] text-[11px] font-bold text-[#0c5c24] tracking-widest uppercase bg-[#fcfdfe]">
+                                <th class="py-5 px-6">Stadium Name</th>
+                                <th class="py-5 px-6">Owner Name</th>
+                                <th class="py-5 px-6">Location</th>
+                                <th class="py-5 px-6">Status</th>
+                                <th class="py-5 px-6">Capacity</th>
+                                <th class="py-5 px-6 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#f5fbf7]">
+                            @for (stadium of paginatedStadiums(); track stadium.id) {
+                            <tr class="hover:bg-[#f9fdfa] transition-all duration-150">
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-3">
+                                        <img [src]="stadium.image" [alt]="stadium.name"
+                                            (error)="stadium.image = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=60'"
+                                            class="w-12 h-12 rounded-full object-cover border border-[#e0f2e5]" />
+                                        <div>
+                                            <p class="font-extrabold text-[#0c5c24] text-base leading-tight">
+                                                {{ stadium.name }}
+                                            </p>
+                                            <p class="text-xs text-gray-400 mt-1 font-medium">
+                                                ID: {{ stadium.id }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 font-bold text-gray-700 text-sm">
+                                    {{ stadium.owner }}
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex items-start gap-1.5 text-gray-500 text-xs sm:text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-4 w-4 mt-0.5 text-[#0c5c24] shrink-0" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <div>
+                                            <p class="font-semibold text-gray-700 leading-tight">
+                                                {{ stadium.location.split(',')[0] }}
+                                            </p>
+                                            <p class="text-xs text-gray-400 mt-0.5 font-medium">
+                                                {{ stadium.location.split(',')[1] || '' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <span [class]="getStatusClasses(stadium.status)">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-current mr-1.5"></span>
+                                        {{ stadium.status }}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-6 font-bold text-gray-700 text-sm">
+                                    {{ stadium.capacity }}
+                                </td>
+                                <td class="py-4 px-6 text-right">
+                                    <button (click)="navigateToDetails(stadium.id)"
+                                        class="bg-[#CBEED4] hover:bg-[#A5DFB3] text-[#0c5c24] font-bold text-xs px-4 py-2 rounded-full transition-all duration-200 cursor-pointer">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="6" class="text-center py-12 text-gray-400 font-medium text-sm">
+                                    No matches found. Try another query or change your status filter.
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards View -->
+                <div class="block md:hidden divide-y divide-[#f1f9f3]">
+                    @for (stadium of paginatedStadiums(); track stadium.id) {
+                    <div class="p-4 space-y-4 hover:bg-[#f9fdfa] transition-all duration-150">
+                        <div class="flex items-center gap-3">
+                            <img [src]="stadium.image" [alt]="stadium.name"
+                                (error)="stadium.image = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop&q=60'"
+                                class="w-14 h-14 rounded-full object-cover border border-[#e0f2e5]" />
+                            <div class="flex-1">
+                                <p class="font-extrabold text-[#0c5c24] text-base leading-tight">
+                                    {{ stadium.name }}
+                                </p>
+                                <p class="text-xs text-gray-400 mt-0.5">
+                                    ID: {{ stadium.id }}
+                                </p>
+                            </div>
+                            <span [class]="getStatusClasses(stadium.status)">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current mr-1.5 animate-pulse"></span>
+                                {{ stadium.status }}
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-2.5 gap-x-4 bg-[#f8fcf9] p-3 rounded-xl text-xs">
+                            <div>
+                                <p class="text-gray-400 font-medium">OWNER</p>
+                                <p class="font-bold text-gray-700 mt-0.5">{{ stadium.owner }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 font-medium">CAPACITY</p>
+                                <p class="font-bold text-gray-700 mt-0.5">{{ stadium.capacity }}</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-gray-400 font-medium">LOCATION</p>
+                                <div class="flex items-center gap-1 mt-0.5 text-gray-700 font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-[#0c5c24]"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span>{{ stadium.location }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button (click)="navigateToDetails(stadium.id)"
+                            class="w-full text-center bg-[#CBEED4] hover:bg-[#A5DFB3] text-[#0c5c24] font-extrabold text-sm py-2.5 rounded-xl transition-all duration-200 cursor-pointer">
+                            View Details
+                        </button>
+                    </div>
+                    } @empty {
+                    <div class="text-center py-12 text-gray-400 font-medium text-sm px-4">
+                        No matches found. Try another query or change your status filter.
+                    </div>
+                    }
+                </div>
+
+                <!-- Table Footer Pagination -->
+                <div
+                    class="border-t border-[#f1f9f3] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#fcfdfe]">
+                    <span class="text-sm font-semibold text-gray-500 text-center sm:text-left">
+                        Showing {{ startItemIndex() }}-{{ endItemIndex() }} of {{ filteredStadiums().length }} stadiums
+                    </span>
+
+                    <div class="flex items-center gap-1.5">
+                        <button (click)="prevPage()" [disabled]="currentPage() === 1"
+                            class="w-8 h-8 rounded-full flex items-center justify-center bg-[#CBEED4] hover:bg-[#A5DFB3] text-[#0c5c24] disabled:opacity-40 disabled:hover:bg-[#CBEED4] disabled:cursor-not-allowed transition-all duration-200 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[3]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        @for (page of pageNumbers(); track page) {
+                        <button (click)="currentPage.set(page)"
+                            [class]="currentPage() === page 
+                        ? 'w-8 h-8 rounded-full flex items-center justify-center bg-[#0c5c24] text-white font-bold text-sm shadow-sm' 
+                        : 'w-8 h-8 rounded-full flex items-center justify-center bg-[#CBEED4] hover:bg-[#A5DFB3] text-[#0c5c24] font-bold text-sm transition-all duration-200'">
+                            {{ page }}
+                        </button>
+                        }
+
+                        <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
+                            class="w-8 h-8 rounded-full flex items-center justify-center bg-[#CBEED4] hover:bg-[#A5DFB3] text-[#0c5c24] disabled:opacity-40 disabled:hover:bg-[#CBEED4] disabled:cursor-not-allowed transition-all duration-200 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[3]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Metric Footer Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div
+                    class="relative bg-[#E6F7EB] rounded-3xl p-6 overflow-hidden shadow-sm border border-[#d2edd9] group hover:shadow-md transition-all">
+                    <div class="relative z-10 space-y-4">
+                        <span class="text-xs font-black text-[#0c5c24] tracking-widest uppercase">
+                            Prime Time Utilization
+                        </span>
+                        <div>
+                            <h3 class="text-4xl font-extrabold text-[#0c5c24]">88%</h3>
+                            <div class="flex items-center gap-1 mt-1 text-sm font-bold text-[#0c5c24]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span>+12% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute right-[-10px] bottom-[-20px] text-[#D0F0D8] opacity-60 pointer-events-none group-hover:scale-110 transition-transform duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="0.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div
+                    class="relative bg-[#E6F7EB] rounded-3xl p-6 overflow-hidden shadow-sm border border-[#d2edd9] group hover:shadow-md transition-all">
+                    <div class="relative z-10 space-y-4">
+                        <span class="text-xs font-black text-[#B33E00] tracking-widest uppercase">
+                            Maintenance Required
+                        </span>
+                        <div>
+                            <h3 class="text-4xl font-extrabold text-[#B33E00]">14</h3>
+                            <p class="text-sm font-bold text-gray-500 mt-1">Pitches scheduled for inspection</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute right-[-10px] bottom-[-20px] text-[#D0F0D8] opacity-60 pointer-events-none group-hover:scale-110 transition-transform duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="0.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div
+                    class="relative bg-[#0c5c24] rounded-3xl p-6 overflow-hidden shadow-sm group hover:shadow-md transition-all">
+                    <div class="relative z-10 space-y-4">
+                        <span class="text-xs font-black text-[#A5DFB3] tracking-widest uppercase">
+                            Revenue High
+                        </span>
+                        <div>
+                            <h3 class="text-4xl font-extrabold text-white">EGP 42.5k</h3>
+                            <p class="text-sm font-semibold text-[#A5DFB3] mt-1">Daily record reached today</p>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute right-[-10px] bottom-[-20px] text-[#127a32] opacity-50 pointer-events-none group-hover:scale-110 transition-transform duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="0.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             VIEW 2: COURT MANAGEMENT DETAIL PAGE 
+             (Exactly matching the reference image)
+             ========================================== -->
+        @if (currentView() === 'details' && selectedStadium()) {
+        <div class="space-y-6 animate-fadeIn pb-12">
+
+            <!-- Breadcrumbs / Back button -->
+            <div class="flex items-center justify-between">
+                <button (click)="navigateToList()"
+                    class="inline-flex items-center gap-2 text-[#0c5c24] hover:text-[#08471b] font-bold text-sm bg-white hover:bg-[#DFF5E6] px-4 py-2 rounded-full transition-all border border-[#e0f2e5] cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[3]" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Stadiums
+                </button>
+                <div class="text-xs text-gray-500 font-semibold">
+                    Manage Stadiums & Courts / <span class="text-[#0c5c24] font-extrabold">{{ selectedStadium()?.name
+                        }}</span>
+                </div>
+            </div>
+
+            <!-- Top Grid: Main Image Card and Side Column (Performance Data, Promote Court) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Left Big Image Card with Floating Badges -->
+                <div
+                    class="lg:col-span-2 relative rounded-3xl overflow-hidden shadow-md border border-[#e0f2e5] h-72 sm:h-96 md:h-[420px] group">
+                    <img [src]="selectedStadium()?.image" [alt]="selectedStadium()?.name"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102" />
+                    <!-- Gradient Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#021f0c]/90 via-transparent to-transparent">
+                    </div>
+
+                    <!-- Edit Circle Button (Top Right) -->
+                    <button (click)="showDemoToast('Upload replacement photo functionality triggered.')"
+                        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md flex items-center justify-center text-white transition-all cursor-pointer border border-white/10"
+                        title="Edit Stadium Picture">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l12.519-12.519-5.69-5.69-12.519 12.519 5.69 5.69zm15.459-15.459L21.127.816a1.998 1.998 0 0 0-2.827 0L16.486 2.63l5.69 5.69 1.814-1.814a1.998 1.998 0 0 0 0-2.817z" />
+                        </svg>
+                    </button>
+
+                    <!-- Information Overlaid Bottom Left -->
+                    <div class="absolute bottom-6 left-6 right-6 text-white space-y-2">
+                        <!-- Active Field Badge -->
+                        <div
+                            class="inline-flex items-center px-3 py-1 bg-[#DFF5E6] text-[#0c5c24] text-[10px] font-black tracking-widest uppercase rounded-full">
+                            {{ selectedStadium()?.status }} FIELD
+                        </div>
+                        <!-- Stadium Name -->
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm">
+                            {{ selectedStadium()?.name }}
+                        </h2>
+                        <!-- Location Pin -->
+                        <p class="flex items-center gap-1 text-sm text-[#A5DFB3] font-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            </svg>
+                            {{ selectedStadium()?.location }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar Column -->
+                <div class="space-y-4 flex flex-col justify-between">
+
+                    <!-- Performance Data Card -->
+                    <div
+                        class="bg-[#0c5c24] text-white p-6 rounded-3xl shadow-sm space-y-4 flex flex-col justify-between h-1/2">
+                        <div>
+                            <span class="text-[10px] font-bold text-[#A5DFB3] tracking-widest uppercase">Performance
+                                Data</span>
+                            <div class="flex items-baseline justify-between mt-2">
+                                <h3 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                                    {{ selectedStadium()?.utilization }}%
+                                </h3>
+                                <span class="text-[10px] text-[#A5DFB3] font-bold tracking-wider">UTILIZATION</span>
+                            </div>
+                            <!-- Custom styled progress bar from reference design -->
+                            <div class="w-full bg-white/10 h-2.5 rounded-full mt-3 overflow-hidden">
+                                <div class="bg-[#A5DFB3] h-full rounded-full transition-all duration-1000"
+                                    [style.width.%]="selectedStadium()?.utilization"></div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Bookings Segment -->
+                        <div class="bg-[#09471b] rounded-2xl p-3.5 flex items-center gap-3.5 border border-white/5">
+                            <div class="p-2.5 bg-white/5 rounded-xl text-[#A5DFB3]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-base font-extrabold text-white leading-none">
+                                    {{ selectedStadium()?.upcomingBookings }}
+                                </p>
+                                <p class="text-xs text-[#A5DFB3] font-semibold mt-1">
+                                    Upcoming Bookings
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promote Court Card -->
+                    <div
+                        class="bg-[#CBEED4] p-6 rounded-3xl shadow-sm border border-[#b2e5be] space-y-4 flex flex-col justify-between h-1/2">
+                        <div class="space-y-1.5">
+                            <h4 class="text-lg font-extrabold text-[#0c5c24]">Promote Court</h4>
+                            <p class="text-xs text-gray-600 leading-normal font-medium">
+                                Boost this field to the top of the user discovery page.
+                            </p>
+                        </div>
+
+                        <!-- Toggle Feature Court -->
+                        <div
+                            class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be] shadow-xs">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#B33E00]" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span class="text-xs font-black text-[#0c5c24] tracking-wide">Feature Court</span>
+                            </div>
+
+                            <!-- Modern custom slider switch -->
+                            <button (click)="toggleFeaturedState()"
+                                class="w-12 h-6 rounded-full p-0.5 transition-colors duration-200 focus:outline-none relative cursor-pointer"
+                                [class.bg-[#0c5c24]]="selectedStadium()?.isFeatured"
+                                [class.bg-gray-300]="!selectedStadium()?.isFeatured">
+                                <div class="w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-200"
+                                    [class.translate-x-6]="selectedStadium()?.isFeatured"
+                                    [class.translate-x-0]="!selectedStadium()?.isFeatured"></div>
+                            </button>
+                        </div>
+
+                        <!-- Update Public Profile Button -->
+                        <button (click)="showDemoToast('Public profile successfully updated & synced.')"
+                            class="w-full bg-[#8F3E00] hover:bg-[#7a3400] text-white py-3.5 rounded-full font-black text-xs uppercase tracking-widest shadow-md transition-all active:scale-98 cursor-pointer">
+                            Update Public Profile
+                        </button>
+                    </div>
+
+                    <!-- Simple Account Help Widget -->
+                    <div
+                        class="bg-[#D1EAF7] p-4 rounded-3xl border border-[#b3d4f3] flex items-center gap-3.5 shadow-xs">
+                        <div
+                            class="w-10 h-10 rounded-full bg-[#185A9D] text-white flex items-center justify-center shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-black text-[#185A9D] leading-none">Need Help?</h5>
+                            <p class="text-[11px] text-gray-600 mt-1">Contact your dedicated account manager</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Technical Specs & Amenities Cards Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Technical Specs -->
+                <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-4 shadow-sm">
+                    <h3 class="text-base font-extrabold flex items-center gap-2 text-[#0c5c24]">
+                        <!-- SVG Analytics/Tech icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2" />
+                        </svg>
+                        Technical Specs
+                    </h3>
+
+                    <div class="space-y-2.5">
+                        <!-- Surface Type -->
+                        <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
+                            <span class="text-xs font-semibold text-gray-500">Surface Type</span>
+                            <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.surfaceType }}</span>
+                        </div>
+
+                        <!-- Pitch Size -->
+                        <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
+                            <span class="text-xs font-semibold text-gray-500">Pitch Size</span>
+                            <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.capacity }}
+                                Official</span>
+                        </div>
+
+                        <!-- Lighting -->
+                        <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
+                            <span class="text-xs font-semibold text-gray-500">Lighting</span>
+                            <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.lighting }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Facility Amenities with clean visual block items -->
+                <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-4 shadow-sm">
+                    <h3 class="text-base font-extrabold flex items-center gap-2 text-[#0c5c24]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.238.582 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.176 0l-3.97 2.883c-.783.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.05 10.1c-.778-.573-.38-1.81.582-1.81h4.907a1 1 0 00.95-.69l1.519-4.674z" />
+                        </svg>
+                        Facility Amenities
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- VIP LOUNGE -->
+                        <div
+                            class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase mt-1">VIP
+                                Lounge</span>
+                        </div>
+
+                        <!-- SECURE PARKING -->
+                        <div
+                            class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
+                            <span class="text-xl font-extrabold text-[#0c5c24] leading-none">P</span>
+                            <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase">Secure
+                                Parking</span>
+                        </div>
+
+                        <!-- SHOWERS -->
+                        <div
+                            class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
+                            <!-- Custom Shower Spray SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                            <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase">Showers</span>
+                        </div>
+
+                        <!-- FREE WI-FI -->
+                        <div
+                            class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                            </svg>
+                            <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase">Free
+                                Wi-Fi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Block with full Table Design matches image layout -->
+            <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-extrabold text-[#0c5c24]">Recent Activity</h3>
+                    <button (click)="showDemoToast('View Full History table log triggered.')"
+                        class="text-xs font-black text-[#0c5c24] hover:text-[#08471b] flex items-center gap-1 cursor-pointer">
+                        View Full History
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[3.5]" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Table Content matching image structure -->
+                <div class="overflow-hidden">
+                    <div class="hidden md:block">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-[10px] font-black text-[#0c5c24] tracking-widest uppercase pb-3">
+                                    <th class="pb-4 px-2">User</th>
+                                    <th class="pb-4 px-2">Date & Time</th>
+                                    <th class="pb-4 px-2">Duration</th>
+                                    <th class="pb-4 px-2">Status</th>
+                                    <th class="pb-4 px-2">Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody class="space-y-3">
+                                @for (act of selectedStadium()?.recentActivity; track act.user) {
+                                <!-- Row formatted to look like distinct white block cards exactly matching reference -->
+                                <tr
+                                    class="bg-white border-y-[6px] border-[#CBEED4] first:border-t-0 last:border-b-0 rounded-2xl overflow-hidden transition-all hover:bg-gray-50">
+                                    <td class="py-4 px-4 rounded-l-2xl">
+                                        <div class="flex items-center gap-3">
+                                            <img [src]="act.avatar" [alt]="act.user"
+                                                class="w-10 h-10 rounded-full border border-[#b2e5be] object-cover" />
+                                            <span class="font-bold text-gray-800 text-sm">{{ act.user }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-2 text-xs font-bold text-gray-700">
+                                        {{ act.dateTime }}
+                                    </td>
+                                    <td class="py-4 px-2 text-xs font-bold text-gray-700">
+                                        {{ act.duration }}
+                                    </td>
+                                    <td class="py-4 px-2">
+                                        <span [class]="act.status === 'CONFIRMED' 
+                              ? 'px-3 py-1 rounded-full text-[10px] font-black bg-[#CBFAD5] text-[#0E5C24]' 
+                              : 'px-3 py-1 rounded-full text-[10px] font-black bg-[#FFE5D9] text-[#B33E00]'">
+                                            {{ act.status }}
+                                        </span>
+                                    </td>
+                                    <td class="py-4 px-4 rounded-r-2xl font-black text-gray-800 text-sm">
+                                        {{ act.payment }}
+                                    </td>
+                                </tr>
+                                } @empty {
+                                <tr>
+                                    <td colspan="5" class="text-center py-6 text-xs font-bold text-gray-500">
+                                        No recent booking activity has been recorded for this court.
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Responsive Mobile Activity Stack Cards -->
+                    <div class="block md:hidden space-y-3">
+                        @for (act of selectedStadium()?.recentActivity; track act.user) {
+                        <div class="bg-white p-4 rounded-2xl shadow-xs border border-white space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <img [src]="act.avatar" [alt]="act.user"
+                                        class="w-9 h-9 rounded-full object-cover" />
+                                    <span class="font-bold text-gray-800 text-sm">{{ act.user }}</span>
+                                </div>
+                                <span [class]="act.status === 'CONFIRMED' 
+                          ? 'px-3 py-1 rounded-full text-[10px] font-black bg-[#CBFAD5] text-[#0E5C24]' 
+                          : 'px-3 py-1 rounded-full text-[10px] font-black bg-[#FFE5D9] text-[#B33E00]'">
+                                    {{ act.status }}
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 bg-gray-50 p-2.5 rounded-xl text-xs">
+                                <div>
+                                    <p class="text-gray-400 font-bold">DATE & TIME</p>
+                                    <p class="font-bold text-gray-700 mt-0.5">{{ act.dateTime }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-bold">DURATION</p>
+                                    <p class="font-bold text-gray-700 mt-0.5">{{ act.duration }}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center px-1 pt-1">
+                                <span class="text-xs text-gray-400 font-bold">PAYMENT</span>
+                                <span class="text-sm font-black text-gray-800">{{ act.payment }}</span>
+                            </div>
+                        </div>
+                        } @empty {
+                        <div class="bg-white p-6 rounded-2xl text-center text-xs font-bold text-gray-500">
+                            No recent booking activity has been recorded for this court.
+                        </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        }
+
+    </div>
+</div>
+
+<!-- Create Listing Modal Overlay (Maintained, functional, visually cohesive) -->
+@if (showCreateModal()) {
+<div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-300">
+    <div
+        class="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border border-[#e0f2e5] transform transition-transform duration-300 scale-100 flex flex-col max-h-[90vh]">
+        <div class="bg-[#F1F9F3] p-6 border-b border-[#e0f2e5] flex justify-between items-center">
+            <div>
+                <h3 class="text-xl font-bold text-[#0c5c24]">New Field Listing</h3>
+                <p class="text-xs text-gray-500 mt-1">Create a new active arena profile for the directory.</p>
+            </div>
+            <button (click)="closeCreateModal()"
+                class="w-8 h-8 rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors border border-gray-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-6 space-y-4 overflow-y-auto text-gray-700">
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Stadium Name</label>
+                <input type="text" [(ngModel)]="newStadium.name" placeholder="e.g. Anfield Pro Pitch"
+                    class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Owner Name</label>
+                <input type="text" [(ngModel)]="newStadium.owner" placeholder="e.g. Ahmed Mansour"
+                    class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">City/Area</label>
+                    <input type="text" [(ngModel)]="newStadium.area" placeholder="e.g. Maadi, Cairo"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Sector/Gate</label>
+                    <input type="text" [(ngModel)]="newStadium.sector" placeholder="e.g. Sector 4"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Utilization %</label>
+                    <input type="number" [(ngModel)]="newStadium.utilization" placeholder="e.g. 88"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Pitch Size
+                        Format</label>
+                    <input type="text" [(ngModel)]="newStadium.capacity" placeholder="e.g. 11x11"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Surface Type</label>
+                    <input type="text" [(ngModel)]="newStadium.surfaceType" placeholder="e.g. Professional Turf"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Lighting</label>
+                    <input type="text" [(ngModel)]="newStadium.lighting" placeholder="e.g. LED Floodlights"
+                        class="w-full px-4 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800" />
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-[#0c5c24] uppercase tracking-wider block">Status</label>
+                <select [(ngModel)]="newStadium.status"
+                    class="w-full px-3 py-3 rounded-xl border border-[#cbeed4] focus:outline-none focus:ring-2 focus:ring-[#0c5c24] focus:border-transparent text-sm bg-gray-50 text-gray-800">
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="MAINTENANCE">MAINTENANCE</option>
+                    <option value="UNDER REVIEW">UNDER REVIEW</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="bg-[#F1F9F3] p-6 border-t border-[#e0f2e5] flex gap-3 justify-end">
+            <button (click)="closeCreateModal()"
+                class="px-5 py-2.5 rounded-xl text-gray-500 hover:text-gray-700 font-bold text-sm transition-colors cursor-pointer">
+                Cancel
+            </button>
+            <button (click)="submitCreateListing()"
+                class="px-5 py-2.5 rounded-xl bg-[#0c5c24] hover:bg-[#08471b] text-white font-bold text-sm transition-all shadow-sm hover:shadow cursor-pointer">
+                Save Listing
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ==========================================
+         PROMOTE STADIUM / FEATURED STATUS MODAL
+         (Exactly matching the reference image)
+         ========================================== -->
+@if (showFeatureModal()) {
+<div (click)="closeFeatureModalOnOutsideClick($event)" id="featureModalOverlay"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-fadeIn">
+    <div
+        class="bg-white rounded-[32px] w-full max-w-[520px] shadow-2xl overflow-hidden border border-[#e0f2e5] transform transition-transform duration-300 scale-100 p-8 space-y-6 text-[#0c5c24]">
+        <!-- Top Left Badge Icon -->
+        <div class="w-12 h-12 rounded-2xl bg-[#CBFAD5] flex items-center justify-center text-[#0e5c24]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 20 20">
+                <path
+                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.961 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.53 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+        </div>
+
+        <!-- Header Titles -->
+        <div class="space-y-2">
+            <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight text-gray-900">
+                Promote Stadium (Featured Status)
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium leading-relaxed">
+                Set the timeframe for this stadium to appear at the top of the user discovery feed.
+            </p>
+        </div>
+
+        <!-- Date Fields Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Start Date -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-[#0c5c24] tracking-widest uppercase block">Start Date</label>
+                <div
+                    class="relative flex items-center bg-[#DFF5E6] rounded-2xl px-4 py-3.5 border border-transparent focus-within:border-[#0c5c24] transition-all">
+                    <input type="date" [(ngModel)]="featureStartDate"
+                        class="border-none w-full bg-transparent focus:outline-none text-[#0c5c24] font-extrabold text-sm cursor-pointer" />
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-[#0c5c24] absolute right-4 pointer-events-none" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-[#0c5c24] tracking-widest uppercase block">End Date</label>
+                <div
+                    class="relative flex items-center bg-[#DFF5E6] rounded-2xl px-4 py-3.5 border border-transparent focus-within:border-[#0c5c24] transition-all">
+                    <input type="date" [(ngModel)]="featureEndDate"
+                        class="border-none w-full bg-transparent focus:outline-none text-[#0c5c24] font-extrabold text-sm cursor-pointer" />
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-[#0c5c24] absolute right-4 pointer-events-none" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discovery Boost Active Info Box -->
+        <div class="bg-[#F1F9F3] p-4 rounded-3xl border border-[#e0f2e5] flex items-start gap-3">
+            <div class="p-1 bg-[#0c5c24] rounded-full text-white shrink-0 mt-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="text-xs text-gray-600 font-medium space-y-0.5 leading-normal">
+                <p class="font-extrabold text-gray-900 text-sm">Discovery Boost Active</p>
+                <p>This venue will receive <span class="font-extrabold text-[#0c5c24]">2.4x more visibility</span>
+                    during this period. Estimated user reach: ~4,500 athletes.</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons Layout -->
+        <div class="flex items-center gap-4 pt-2">
+            <button (click)="publishFeaturedStatus()"
+                class="flex-1 bg-[#0c5c24] hover:bg-[#08471b] text-white py-4 px-6 rounded-full font-bold text-sm tracking-wide shadow-md transition-all active:scale-98 cursor-pointer text-center">
+                Confirm & Publish
+            </button>
+            <button (click)="closeFeatureModal()"
+                class="px-6 py-4 rounded-full text-gray-500 hover:text-gray-700 font-bold text-sm transition-all cursor-pointer text-center">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- Simple Toast Notification Overlay -->
+@if (toastMessage()) {
+<div
+    class="fixed bottom-6 right-6 z-50 bg-[#0c5c24] text-white py-3.5 px-6 rounded-2xl shadow-xl border border-[#a5dfb3] animate-slideIn flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#a5dfb3]" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span class="font-bold text-sm">{{ toastMessage() }}</span>
+</div>
+}
