@@ -1,0 +1,52 @@
+/* Scrollbar beauty styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAFDFB;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #BDECC9;
+    border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #80A88B;
+}
+
+/* STRICT: remove horizontal overflow */
+:host {
+    display: block;
+    overflow-x: hidden;
+}
+
+/* Prevent any container from exceeding viewport width */
+.min-h-screen,
+header,
+main,
+section,
+footer,
+div {
+    max-width: 100%;
+}
+
+/* Safe wrapping and flex/grid overflow prevention */
+* {
+    min-width: 0;
+    word-break: break-word;
+}
+
+/* Media safety */
+img,
+svg,
+table {
+    max-width: 100%;
+}
+
+/* Modal safety */
+.fixed.inset-0 {
+    overflow-x: hidden;
+}

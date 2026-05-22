@@ -43,6 +43,7 @@ import { AdminJoinReqComponent } from './shared/components/AdminJoinReq/admin-jo
 import { JoinReqComponent } from './shared/components/JoinReq/join-req/join-req.component';
 import { AdminReviewAppComponent } from './shared/components/AdminReviewApp/admin-review-app/admin-review-app.component';
 import { AdminRevenuesComponent } from './shared/components/AdminRevenues/admin-revenues/admin-revenues.component';
+import { AdminPendingListComponent } from './shared/components/AdminPendingList/admin-pending-list/admin-pending-list.component';
 
 export const routes: Routes = [
     {
@@ -180,6 +181,7 @@ export const routes: Routes = [
             { path: 'JoinReq', component: JoinReqComponent, title: 'Join Requests' },
             { path: 'AdminReviewApp', component: AdminReviewAppComponent, title: 'Admin Review App' },
             { path: 'AdminRevenues', component: AdminRevenuesComponent, title: 'Admin Revenues' },
+            { path: 'AdminPendingList', component: AdminPendingListComponent, title: 'Admin Pending List' },
             { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },

@@ -1,5 +1,6 @@
 import { Component, signal, computed, ChangeDetectionStrategy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 type TxStatus = 'Completed' | 'Processing' | 'Refunded' | 'Available';
 type TxMethod = 'Wallet' | 'InstaPay' | 'Visa';
@@ -24,7 +25,7 @@ type FilterAll<T extends string> = T | 'ALL';
 @Component({
   selector: 'app-admin-revenues',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './admin-revenues.component.html',
   styleUrl: './admin-revenues.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
