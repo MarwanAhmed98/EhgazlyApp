@@ -46,6 +46,8 @@ import { AdminRevenuesComponent } from './shared/components/AdminRevenues/admin-
 import { AdminPendingListComponent } from './shared/components/AdminPendingList/admin-pending-list/admin-pending-list.component';
 import { AdminUserManagementDashboardComponent } from './shared/components/AdminUserManagementDashboard/admin-user-management-dashboard/admin-user-management-dashboard.component';
 import { AdminManageCourtsComponent } from './shared/components/AdminManageCourts/admin-manage-courts/admin-manage-courts.component';
+import { AdminManageTournamentsComponent } from './shared/components/AdminManageTournaments/admin-manage-tournaments/admin-manage-tournaments.component';
+import { AdminTournamentSetupFormComponent } from './shared/components/AdminTournamentSetupForm/admin-tournament-setup-form/admin-tournament-setup-form.component';
 
 export const routes: Routes = [
     {
@@ -186,6 +188,8 @@ export const routes: Routes = [
             { path: 'AdminPendingList', component: AdminPendingListComponent, title: 'Admin Pending List' },
             { path: 'AdminUserManagement', component: AdminUserManagementDashboardComponent, title: 'Admin User Management' },
             { path: 'AdminManageCourts', component: AdminManageCourtsComponent, title: 'Admin Manage Courts' },
+            { path: 'AdminManageTournaments', component: AdminManageTournamentsComponent, title: 'Admin Manage Tournaments' },
+            { path: 'AdminTournamentSetupForm', component: AdminTournamentSetupFormComponent, title: 'Admin Tournament Setup Form' },
             { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
         ]
     },
