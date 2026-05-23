@@ -15,6 +15,9 @@ export class MyBookingsService {
   GetSpecificBooking(bookingId: string): Observable<any> {
     return this.httpClient.get(environments.baseUrl + `/customer/bookings/${bookingId}`)
   }
+  CreateBooking(data: FormData) {
+    return this.httpClient.post(environments.baseUrl + 'customer/bookings', data);
+  }
   CancelBooking(bookingId: string): Observable<any> {
     return this.httpClient.delete(environments.baseUrl + `/customer/bookings/${bookingId}`)
   }

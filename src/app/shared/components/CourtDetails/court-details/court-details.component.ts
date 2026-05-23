@@ -45,12 +45,6 @@ export class CourtDetailsComponent implements OnInit {
       { label: 'VIP Player Lounge', icon: '🛋️' },
     ] as Amenity[],
   };
-
-  // price = 850;
-
-  // readonly dates = ['Oct 24, 2023', 'Oct 25, 2023', 'Oct 26, 2023'];
-  // readonly times = ['20:00 – 21:00', '21:00 – 22:00', '22:00 – 23:00'];
-
   dateIndex = 0;
   timeIndex = 0;
   ngOnInit(): void {
@@ -70,26 +64,6 @@ export class CourtDetailsComponent implements OnInit {
       }
     })
   }
-  // get selectedDate(): string {
-  //   return this.dates[this.dateIndex];
-  // }
-
-  // get selectedTime(): string {
-  //   return this.times[this.timeIndex];
-  // }
-
-  // cycleDate(): void {
-  //   this.dateIndex = (this.dateIndex + 1) % this.dates.length;
-  // }
-
-  // cycleTime(): void {
-  //   this.timeIndex = (this.timeIndex + 1) % this.times.length;
-  // }
-
-  // confirmBooking(): void {
-  //   console.log('Confirm booking', { date: this.selectedDate, time: this.selectedTime, price: this.price });
-  // }
-
   viewAllPhotos(): void {
     console.log('View all photos');
   }

@@ -1,5 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, computed } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
+import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
+import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { IcourtSpecficCourt } from '../../../interfaces/icourt-specfic-court';
 
 type Amenity = { label: string; icon: string };
 
@@ -24,11 +28,16 @@ type Slot = {
 @Component({
   selector: 'app-bookingand-schedule',
   standalone: true,
-  imports: [PlayernavComponent],
+  imports: [PlayernavComponent, RouterLink],
   templateUrl: './bookingand-schedule.component.html',
   styleUrl: './bookingand-schedule.component.scss',
 })
 export class BookingandScheduleComponent implements OnInit, OnDestroy {
+  private readonly customerTimeslotService = inject(CustomerTimeslotService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  SpecificCourt: IcourtSpecficCourt = {} as IcourtSpecficCourt
+  customerTimeSlotsDetails = signal<Icustomertimeslot[]>([]);
+  productId: any;
   venue = {
     name: 'Stadium One Elite',
     location: 'New Cairo, District 5',
@@ -44,7 +53,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
 
   courts: Court[] = [
     {
-      id: 'c1',
+      id: '1',
       name: 'Court 1',
       basePrice: 450,
       amenities: [
@@ -55,7 +64,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       ],
     },
     {
-      id: 'c2',
+      id: '2',
       name: 'Court 2',
       basePrice: 500,
       amenities: [
@@ -66,7 +75,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       ],
     },
     {
-      id: 'c3',
+      id: '3',
       name: 'Court 3',
       basePrice: 380,
       amenities: [
@@ -78,20 +87,59 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // Independent venue slider state (autoplay + manual)
   activeVenueSlide = 0;
   private autoplayTimer: number | null = null;
   private readonly autoplayMs = 4000;
 
-  selectedCourtId = this.courts[0].id;
+  selectedCourtId: number = 1;
 
   selectedDateISO = this.toISO(new Date());
   visibleDates: DateChip[] = this.buildDateChips(new Date(), 6);
 
   selectedSlots: Slot[] = [];
 
+  // Adapt API timeslots to UI Slot model
+  apiSlots = computed<Slot[]>(() => {
+    const base = this.selectedCourt.basePrice;
+    const primeHours = new Set(['18:00', '19:00', '20:00']);
+
+    return this.customerTimeSlotsDetails().map((t) => {
+      const start = (t.start_time || '').slice(0, 5); // "HH:mm"
+      const end = (t.end_time || '').slice(0, 5);
+
+      const isPrime = primeHours.has(start);
+      const price = isPrime ? base + 200 : base;
+
+      const available = (t.status || '').toLowerCase() === 'available';
+
+      return {
+        id: `${t.id}`,
+        label: start && end ? `${this.to12h(start)} – ${this.to12h(end)}` : 'Timeslot',
+        time24: start || '00:00',
+        price,
+        available,
+        isPrime,
+      };
+    }).sort((a, b) => a.time24.localeCompare(b.time24));
+  });
+
   ngOnInit(): void {
     this.startAutoplay();
+    this.fetchTimeslots();
+    this.activatedRoute.paramMap.subscribe({
+      next: (res) => {
+        console.log(res);
+        this.productId = res.get('id');
+        console.log(this.productId);
+        this.customerTimeslotService.GetSpecificCourt(this.productId).subscribe({
+          next: (res) => {
+            this.SpecificCourt = res.data;
+            console.log(this.SpecificCourt);
+          }
+        })
+
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -99,7 +147,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   }
 
   get selectedCourt(): Court {
-    return this.courts.find((c) => c.id === this.selectedCourtId) ?? this.courts[0];
+    return this.courts.find((c) => +c.id === this.selectedCourtId) ?? this.courts[0];
   }
 
   get monthLabel(): string {
@@ -116,7 +164,6 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return this.selectedSlots.reduce((sum, s) => sum + (s.available ? s.price : 0), 0);
   }
 
-  // Autoplay controls
   private startAutoplay(): void {
     this.stopAutoplay();
     const n = this.venue.images.length;
@@ -135,11 +182,9 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   }
 
   private resetAutoplay(): void {
-    // continue normally but restart timing after interaction
     this.startAutoplay();
   }
 
-  // Slider (manual; independent from courts)
   prevVenueSlide(): void {
     const n = this.venue.images.length;
     if (n <= 1) return;
@@ -161,52 +206,17 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     this.resetAutoplay();
   }
 
-  // Court selection (unchanged)
-  selectCourt(id: string): void {
+  selectCourt(id: number): void {
     if (id === this.selectedCourtId) return;
     this.selectedCourtId = id;
     this.selectedSlots = [];
+    this.fetchTimeslots();
   }
 
-  // Date selection
   selectDate(iso: string): void {
     this.selectedDateISO = iso;
     this.selectedSlots = [];
-  }
-
-  // Slots
-  visibleSlots(): Slot[] {
-    const base = this.selectedCourt.basePrice;
-
-    const seed = this.hash(`${this.selectedCourtId}-${this.selectedDateISO}`);
-    const unavailableIdx = new Set<number>([seed % 8, (seed + 3) % 8]);
-
-    const primeIdx = new Set<number>([5, 6]);
-    const labels = [
-      { t: '08:00', l: '08:00 AM' },
-      { t: '09:00', l: '09:00 AM' },
-      { t: '10:00', l: '10:00 AM' },
-      { t: '11:00', l: '11:00 AM' },
-      { t: '16:00', l: '04:00 PM' },
-      { t: '18:00', l: '06:00 PM' },
-      { t: '19:00', l: '07:00 PM' },
-      { t: '20:00', l: '08:00 PM' },
-    ];
-
-    return labels.map((x, idx) => {
-      const isPrime = primeIdx.has(idx);
-      const available = !unavailableIdx.has(idx);
-      const price = isPrime ? base + 200 : base;
-
-      return {
-        id: `${this.selectedCourtId}-${this.selectedDateISO}-${x.t}`,
-        label: x.l,
-        time24: x.t,
-        price,
-        available,
-        isPrime,
-      };
-    });
+    this.fetchTimeslots();
   }
 
   isSelectedSlot(s: Slot): boolean {
@@ -247,7 +257,6 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Utils
   private buildDateChips(start: Date, count: number): DateChip[] {
     const chips: DateChip[] = [];
     const d = new Date(start);
@@ -273,6 +282,25 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   private fromISO(iso: string): Date {
     const [y, m, d] = iso.split('-').map(Number);
     return new Date(y, (m || 1) - 1, d || 1);
+  }
+
+  private to12h(hhmm: string): string {
+    const [hh, mm] = hhmm.split(':').map(Number);
+    const h = hh % 12 || 12;
+    const ap = hh >= 12 ? 'PM' : 'AM';
+    return `${String(h).padStart(2, '0')}:${String(mm ?? 0).padStart(2, '0')} ${ap}`;
+  }
+
+  private fetchTimeslots(): void {
+    this.customerTimeslotService.GetCustomerTimeSlot(this.selectedCourtId, this.selectedDateISO).subscribe({
+      next: (res) => {
+        const list = (res?.data ?? []) as Icustomertimeslot[];
+        this.customerTimeSlotsDetails.set(Array.isArray(list) ? list : []);
+      },
+      error: () => {
+        this.customerTimeSlotsDetails.set([]);
+      },
+    });
   }
 
   private hash(s: string): number {

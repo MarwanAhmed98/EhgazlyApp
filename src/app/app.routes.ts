@@ -89,12 +89,12 @@ export const routes: Routes = [
         title: 'Full Booking Details',
     },
     {
-        path: 'BookingandSchedule',
+        path: 'BookingandSchedule/:id',
         component: BookingandScheduleComponent,
         title: 'Booking and Schedule',
     },
     {
-        path: 'payment',
+        path: 'payment/:selectedCourtId/:selectedSlotsId/:selectedDateISO/:grandTotal/:courtName',
         component: PaymentComponent,
         title: 'Payment',
     },

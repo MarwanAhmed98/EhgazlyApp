@@ -45,7 +45,7 @@
             <div
                 class="relative rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-2xl shadow-emerald-200/30 dark:shadow-none">
                 <div class="relative h-[340px] sm:h-[420px] lg:h-[460px]">
-                    <img [src]="CourtDetails.images[0].url" [alt]="CourtDetails.name"
+                    <img [src]="CourtDetails.images[0]?.url" [alt]="CourtDetails.name"
                         class="absolute inset-0 w-full h-full object-cover" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-emerald-950/75 via-emerald-950/30 to-transparent">
@@ -82,8 +82,8 @@
                                     <span>{{ CourtDetails.address }}</span>
                                 </p>
                             </div>
-
-                            <button routerLink="/BookingandSchedule" type="button" (click)="scrollToBooking()"
+                            <button [routerLink]="['/BookingandSchedule' , this.productId]" type="button"
+                                (click)="scrollToBooking()"
                                 class="w-full lg:w-auto px-10 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-xl shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 Book Now
                             </button>
