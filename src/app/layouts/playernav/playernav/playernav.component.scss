@@ -1,0 +1,9 @@
+.profile-active {
+    background-color: rgba(46, 125, 50, 0.12) !important;
+    border-color: rgba(46, 125, 50, 0.35) !important;
+}
+
+:host-context(.dark) .profile-active {
+    background-color: rgba(46, 125, 50, 0.18) !important;
+    border-color: rgba(46, 125, 50, 0.45) !important;
+}

@@ -16,33 +16,25 @@
 
     <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-10 text-[15px] font-bold text-slate-500 dark:text-slate-300">
-      <a [routerLink]="FriendlyMatchesLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
-      'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'friendly-matches'
-    }" routerLinkActive="text-[#2E7D32]" [routerLinkActiveOptions]="{ exact: true }"
-        (click)="currentTitle = 'Friendly Matches'">
+      <a [routerLink]="FriendlyMatchesLink" class="hover:text-[#2E7D32] transition-colors relative"
+        [ngClass]="{'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'friendly-matches'}">
         Friendly Matches
       </a>
 
-      <a [routerLink]="tournamentsLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
-      'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'tournaments'
-    }" routerLinkActive="text-[#2E7D32]" [routerLinkActiveOptions]="{ exact: true }"
-        (click)="currentTitle = 'Tournaments'">
+      <a [routerLink]="tournamentsLink" class="hover:text-[#2E7D32] transition-colors relative"
+        [ngClass]="{'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'tournaments'}">
         Tournaments
       </a>
 
-      <a [routerLink]="venuesLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
-      'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'venues'
-    }" routerLinkActive="text-[#2E7D32]" [routerLinkActiveOptions]="{ exact: true }" (click)="currentTitle = 'Venues'">
+      <a [routerLink]="venuesLink" class="hover:text-[#2E7D32] transition-colors relative"
+        [ngClass]="{'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'venues'}">
         Courts
       </a>
 
-      <a [routerLink]="myBookingsLink" class="hover:text-[#2E7D32] transition-colors relative" [ngClass]="{
-      'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'my-bookings'
-    }" routerLinkActive="text-[#2E7D32]" [routerLinkActiveOptions]="{ exact: true }"
-        (click)="currentTitle = 'My Bookings'">
+      <a [routerLink]="myBookingsLink" class="hover:text-[#2E7D32] transition-colors relative"
+        [ngClass]="{'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'my-bookings'}">
         My Bookings
       </a>
-
     </div>
 
     <!-- Right icons -->
@@ -51,35 +43,34 @@
       <button
         class="w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 relative">
         <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
-
         <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
       </button>
 
       <!-- Profile -->
-      <div
-        class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+      <div [routerLink]="customerProfileLink" routerLinkActive="profile-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all">
         <img [src]="ProfileDetails.profile_image" alt="Profile Image" class="w-10 h-10 rounded-xl object-cover">
-        <!-- <lucide-icon name="user" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon> -->
-
       </div>
+
       <!-- Mobile button -->
       <button type="button" (click)="openMobileMenu()"
         class="md:hidden w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 transition-all"
         aria-label="Toggle menu">
         <lucide-icon name="menu" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
       </button>
-
     </div>
   </div>
 
+  <!-- Mobile Overlay -->
   <div (click)="closeMobileMenu()"
-    class="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] md:hidden transition-opacity duration-300"
-    [class.opacity-100]="isMobileMenuOpen" [class.opacity-0]="!isMobileMenuOpen"
-    [class.pointer-events-auto]="isMobileMenuOpen" [class.pointer-events-none]="!isMobileMenuOpen">
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden transition-opacity duration-300"
+    [ngClass]="isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'">
   </div>
 
+  <!-- Mobile Sidebar -->
   <aside
-    class="md:hidden fixed top-0 left-0 h-screen w-80 bg-white dark:bg-slate-950 z-[70] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col"
+    class="md:hidden fixed top-0 left-0 h-screen w-[85%] max-w-[320px] bg-white dark:bg-slate-950 z-[100] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col"
     [class.translate-x-0]="isMobileMenuOpen" [class.-translate-x-full]="!isMobileMenuOpen">
 
     <div class="p-6 flex items-center justify-between">
@@ -100,7 +91,18 @@
 
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
 
-      <a [routerLink]="tournamentsLink" (click)="onNavClick('Tournaments')"
+      <!-- Friendly Matches (اضفناه هنا للموبايل) -->
+      <a [routerLink]="FriendlyMatchesLink" (click)="onNavClick()"
+        class="group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200"
+        [ngClass]="active === 'friendly-matches' ? 'bg-emerald-50 text-[#2E7D32]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'">
+        <div class="flex items-center gap-4">
+          <span class="text-xl">⚽</span>
+          <span class="font-bold">Friendly Matches</span>
+        </div>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+      </a>
+
+      <a [routerLink]="tournamentsLink" (click)="onNavClick()"
         class="group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200"
         [ngClass]="active === 'tournaments' ? 'bg-emerald-50 text-[#2E7D32]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'">
         <div class="flex items-center gap-4">
@@ -110,7 +112,7 @@
         <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
       </a>
 
-      <a [routerLink]="venuesLink" (click)="onNavClick('Venues')"
+      <a [routerLink]="venuesLink" (click)="onNavClick()"
         class="group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200"
         [ngClass]="active === 'venues' ? 'bg-emerald-50 text-[#2E7D32]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'">
         <div class="flex items-center gap-4">
@@ -120,7 +122,7 @@
         <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
       </a>
 
-      <a [routerLink]="myBookingsLink" (click)="onNavClick('My Bookings')"
+      <a [routerLink]="myBookingsLink" (click)="onNavClick()"
         class="group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200"
         [ngClass]="active === 'my-bookings' ? 'bg-emerald-50 text-[#2E7D32]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'">
         <div class="flex items-center gap-4">
@@ -138,7 +140,6 @@
         <span>Logout</span>
         <span class="text-lg">➔</span>
       </button>
-
       <p class="text-center text-xs text-slate-400 mt-4 font-medium">Version 1.0.2 • Ehgazly App</p>
     </div>
 

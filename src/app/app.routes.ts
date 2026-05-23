@@ -48,6 +48,7 @@ import { AdminUserManagementDashboardComponent } from './shared/components/Admin
 import { AdminManageCourtsComponent } from './shared/components/AdminManageCourts/admin-manage-courts/admin-manage-courts.component';
 import { AdminManageTournamentsComponent } from './shared/components/AdminManageTournaments/admin-manage-tournaments/admin-manage-tournaments.component';
 import { AdminTournamentSetupFormComponent } from './shared/components/AdminTournamentSetupForm/admin-tournament-setup-form/admin-tournament-setup-form.component';
+import { CustomerProfileComponent } from './shared/components/CustomerProfile/customer-profile/customer-profile.component';
 
 export const routes: Routes = [
     {
@@ -152,6 +153,11 @@ export const routes: Routes = [
         path: 'TournamentsDashboard',
         component: TournamentsDashboardComponent,
         title: 'My Tournaments Dashboard',
+    },
+    {
+        path: 'CustomerProfile',
+        component: CustomerProfileComponent,
+        title: 'My Profile',
     },
     {
         path: 'CourtOwner',
