@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { RouterLink } from "@angular/router";
-
+import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
+import { IfriendlyMatch } from '../../../interfaces/ifriendly-match';
+import { DatePipe, SlicePipe } from '@angular/common';
 type MatchType = 'football' | 'padel' | 'tennis';
 
 type Match = {
@@ -13,7 +15,7 @@ type Match = {
   price: number;
   format: string;
   whenLabel: string;
-  startsAtISO: string; // "YYYY-MM-DDTHH:mm:ss"
+  startsAtISO: string;
   playersCurrent: number;
   playersMax: number;
   isPrime: boolean;
@@ -25,44 +27,31 @@ type FilterMode = 'date' | 'price' | 'all';
 @Component({
   selector: 'app-friendly-match-dashboard',
   standalone: true,
-  imports: [PlayernavComponent, FormsModule, RouterLink],
+  imports: [PlayernavComponent, FormsModule, RouterLink, DatePipe, SlicePipe],
   templateUrl: './friendly-match-dashboard.component.html',
   styleUrl: './friendly-match-dashboard.component.scss',
 })
-export class FriendlyMatchDashboardComponent {
-  // ----------------------------
-  // UI State
-  // ----------------------------
+export class FriendlyMatchDashboardComponent implements OnInit {
+
+  private readonly playerFRiendlyMatchService = inject(PlayerFRiendlyMatchService);
+  AllMatchesDetails: IfriendlyMatch[] = [];
   query = '';
   filtersModalOpen = false;
   filterMode: FilterMode = 'all';
-
-  // ----------------------------
-  // Filter State
-  // ----------------------------
   readonly priceMinBound = 0;
   readonly priceMaxBound = 200;
   readonly priceStep = 5;
-
-  // Slider values (source of truth)
   minPrice = 0;
   maxPrice = 200;
-
-  // Manual inputs (synced with slider)
   minPriceInput: number | null = 0;
   maxPriceInput: number | null = 200;
-
-  // Date filter
-  selectedDateISO: string = ''; // "YYYY-MM-DD" or ""
-
-  // Optional/extendable filters (defined)
+  selectedDateISO: string = '';
   availabilityOnly = false;
   selectedLocations = new Set<string>();
   selectedTypes = new Set<MatchType>();
-
-  // ----------------------------
-  // Data
-  // ----------------------------
+  ngOnInit(): void {
+    this.GetMatches();
+  }
   matches: Match[] = [
     {
       id: 'm1',
@@ -131,20 +120,12 @@ export class FriendlyMatchDashboardComponent {
       availabilityLabel: string;
     }
   > = [];
-
-  // ----------------------------
-  // Price Track UI
-  // ----------------------------
   priceTrackLeft = 0;
   priceTrackRight = 0;
 
   constructor() {
     this.resetAllFilters(false);
   }
-
-  // ----------------------------
-  // Modal + Mode
-  // ----------------------------
   openFilter(mode: FilterMode): void {
     this.filterMode = mode;
     this.filtersModalOpen = true;
@@ -161,10 +142,6 @@ export class FriendlyMatchDashboardComponent {
     this.applyFilters();
     this.closeAllFilters();
   }
-
-  // ----------------------------
-  // Filtering
-  // ----------------------------
   applyFilters(): void {
     const q = this.query.trim().toLowerCase();
 
@@ -194,10 +171,6 @@ export class FriendlyMatchDashboardComponent {
 
     this.filteredMatches = this.availabilityOnly ? result.filter((m) => m.slotsLeft > 0) : result;
   }
-
-  // ----------------------------
-  // Reset / Clear
-  // ----------------------------
   resetAllFilters(closeModal: boolean = false): void {
     this.query = '';
     this.selectedDateISO = '';
@@ -228,10 +201,6 @@ export class FriendlyMatchDashboardComponent {
     this.selectedDateISO = '';
     this.applyFilters();
   }
-
-  // ----------------------------
-  // Price Sync Logic
-  // ----------------------------
   onPriceSliderInput(): void {
     this.minPrice = this.snapToStep(this.clamp(this.minPrice, this.priceMinBound, this.priceMaxBound), this.priceStep);
     this.maxPrice = this.snapToStep(this.clamp(this.maxPrice, this.priceMinBound, this.priceMaxBound), this.priceStep);
@@ -309,10 +278,6 @@ export class FriendlyMatchDashboardComponent {
     this.priceTrackLeft = Math.max(0, Math.min(100, left));
     this.priceTrackRight = Math.max(0, Math.min(100, right));
   }
-
-  // ----------------------------
-  // Helpers
-  // ----------------------------
   private getDateISO(iso: string): string {
     return iso.slice(0, 10);
   }
@@ -335,4 +300,15 @@ export class FriendlyMatchDashboardComponent {
   expandRadius(): void {
     this.resetAllFilters(true);
   }
+  GetMatches(): void {
+    this.playerFRiendlyMatchService.GetAllMatches().subscribe({
+      next: (res) => {
+        this.AllMatchesDetails = res.data;
+        console.log(this.AllMatchesDetails);
+
+      }
+    })
+
+  }
+
 }

@@ -6,13 +6,13 @@ import { environments } from '../../../shared/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayerProfileService {
+export class PlayerFRiendlyMatchService {
 
   constructor(private readonly httpClient: HttpClient) { }
-  GetProfile(): Observable<any> {
-    return this.httpClient.get(environments.baseUrl + '/customer/profile')
+  GetAllMatches(): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + '/customer/matches')
   }
-  UpdateProfile(data: FormData): Observable<any> {
-    return this.httpClient.post(environments.baseUrl + '/customer/profile', data);
+  GetSpecificMatches(id: string): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + `/customer/matches/${id}`)
   }
 }

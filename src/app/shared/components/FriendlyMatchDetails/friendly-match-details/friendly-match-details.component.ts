@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
+import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
+import { ActivatedRoute } from '@angular/router';
+import { ISpecificMatch } from '../../../interfaces/ispecific-match';
+import { DatePipe, SlicePipe } from '@angular/common';
 
 type UIState = 'preJoin' | 'joined';
 type JoinStatus = 'idle' | 'joining';
@@ -17,12 +21,17 @@ type PlayerCard = {
 @Component({
   selector: 'app-friendly-match-details',
   standalone: true,
-  imports: [PlayernavComponent],
+  imports: [PlayernavComponent, DatePipe, SlicePipe],
   templateUrl: './friendly-match-details.component.html',
   styleUrl: './friendly-match-details.component.scss',
 })
-export class FriendlyMatchDetailsComponent {
-  // Data (mocked; replace with API later)
+export class FriendlyMatchDetailsComponent implements OnInit {
+  private readonly playerFRiendlyMatchService = inject(PlayerFRiendlyMatchService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  SpecificMatchesDetails: ISpecificMatch = {} as ISpecificMatch;
+
+
+  MatchId: any;
   match = {
     title: 'Friday Night Blitz 7v7',
     dateLabel: 'Friday, Oct 27',
@@ -34,32 +43,30 @@ export class FriendlyMatchDetailsComponent {
     heroImage: 'https://images.unsplash.com/photo-1434648957308-5e6a859697e8?auto=format&fit=crop&w=1800&q=80',
     mapImage: 'https://images.unsplash.com/photo-1548345680-f5475ea5df84?auto=format&fit=crop&w=1400&q=80',
   };
-
   organizer = {
     name: 'Ziad Ebrahim',
     rating: 4.9,
     matches: 124,
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=256&q=80',
   };
-
   uiState: UIState = 'preJoin';
   joinStatus: JoinStatus = 'idle';
-
-  // Banner state
   bannerDismissed = false;
   bannerKind: BannerKind = 'joined';
-
-  // Match numbers
   spotsLeft = 6;
   rosterCount = 8;
-
-  // Waitlist state (new management)
   isInWaitlist = false;
   waitlistPosition = 0;
   waitlistCount = 0;
-
-  // Cancel modal state
   cancelModalOpen = false;
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe({
+      next: (res) => {
+        this.MatchId = res.get('id')!;
+      }
+    })
+    this.GetSpecificMatch();
+  }
 
   get waitlistFillPct(): number {
     return Math.min(100, Math.max(0, (this.waitlistCount / 10) * 100));
@@ -98,8 +105,6 @@ export class FriendlyMatchDetailsComponent {
         },
       ];
     }
-
-    // "joined" UI in your current design represents FULL / waitlist flow (image 2).
     return [
       {
         id: 'p1',
@@ -140,20 +145,14 @@ export class FriendlyMatchDetailsComponent {
   dismissBanner(): void {
     this.bannerDismissed = true;
   }
-
-  // Keep existing join logic, extend with waitlist flags only
   async onJoinClick(): Promise<void> {
     if (this.joinStatus === 'joining') return;
 
     this.joinStatus = 'joining';
     await new Promise((r) => setTimeout(r, 650));
-
-    // Existing behavior: transition to FULL state (image 2)
     this.uiState = 'joined';
     this.spotsLeft = 0;
     this.rosterCount = this.match.capacity;
-
-    // Set user as in waitlist (new feature)
     this.isInWaitlist = true;
     this.waitlistPosition = 3;
     this.waitlistCount = 2;
@@ -163,8 +162,6 @@ export class FriendlyMatchDetailsComponent {
 
     this.joinStatus = 'idle';
   }
-
-  // ---------- Cancel Waitlist ----------
   openCancelModal(): void {
     if (!this.isInWaitlist) return;
     this.cancelModalOpen = true;
@@ -179,23 +176,21 @@ export class FriendlyMatchDetailsComponent {
       this.closeCancelModal();
       return;
     }
-
-    // Remove user from waitlist
     this.isInWaitlist = false;
-
-    // Update counts (safe bounds)
     this.waitlistCount = Math.max(0, this.waitlistCount - 1);
     this.waitlistPosition = 0;
-
-    // Return UI to preJoin state (cancelled state)
     this.uiState = 'preJoin';
     this.spotsLeft = 6;
     this.rosterCount = 8;
-
-    // Success banner/message
     this.bannerDismissed = false;
     this.bannerKind = 'cancelled';
-
     this.closeCancelModal();
+  }
+  GetSpecificMatch(): void {
+    this.playerFRiendlyMatchService.GetSpecificMatches(this.MatchId).subscribe({
+      next: (res) => {
+        this.SpecificMatchesDetails = res.data
+      }
+    })
   }
 }

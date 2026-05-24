@@ -1,1 +1,216 @@
 <app-playernav></app-playernav>
+
+<div class="profile-root">
+
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+
+    <main class="profile-main">
+        <header class="hero-card">
+            <div class="hero-card__glow"></div>
+
+            <div class="hero-left">
+                <div class="avatar-ring">
+                    <div class="avatar-wrap">
+                        <img [src]="ProfileDetails.profile_image" [alt]="ProfileDetails.name" class="avatar-img" />
+                    </div>
+                    <span class="avatar-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="hero-identity">
+                    <h1 class="hero-name">{{ ProfileDetails.name }}</h1>
+                    <p class="hero-role">{{ PlayerRole }}</p>
+                    <div class="hero-contacts">
+                        <a class="contact-chip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            {{ ProfileDetails.email }}
+                        </a>
+                        <a class="contact-chip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            {{ ProfileDetails.phone }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <button (click)="shareProfile()" class="btn-share">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    Share Profile
+                </button>
+                <button (click)="openEditModal()" aria-label="Edit Profile" class="btn-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <section class="stats-section">
+            <div class="stats-header">
+                <div class="stats-header__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="stats-title">Bookings Overview</h2>
+                    <p class="stats-sub">Your complete booking activity summary</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-card--total">
+                    <div class="stat-card__top">
+                        <span class="stat-label">Total</span>
+                        <div class="stat-dot stat-dot--neutral"></div>
+                    </div>
+                    <span class="stat-value">{{ ProfileDetails.stats.booking_count }}</span>
+                    <span class="stat-desc">All time bookings</span>
+                </div>
+                <div class="stat-card stat-card--active">
+                    <div class="stat-card__top">
+                        <span class="stat-label stat-label--green">Active</span>
+                        <div class="stat-dot stat-dot--green"></div>
+                    </div>
+                    <span class="stat-value stat-value--green">{{ ProfileDetails.stats.active_bookings_count }}</span>
+                    <span class="stat-desc">Currently running</span>
+                </div>
+                <div class="stat-card stat-card--completed">
+                    <div class="stat-card__top">
+                        <span class="stat-label stat-label--blue">Completed</span>
+                        <div class="stat-dot stat-dot--blue"></div>
+                    </div>
+                    <span class="stat-value stat-value--blue">{{ ProfileDetails.stats.completed_bookings_count }}</span>
+                    <span class="stat-desc">Successfully done</span>
+                </div>
+                <div class="stat-card stat-card--cancelled">
+                    <div class="stat-card__top">
+                        <span class="stat-label stat-label--amber">Cancelled</span>
+                        <div class="stat-dot stat-dot--amber"></div>
+                    </div>
+                    <span class="stat-value stat-value--amber">{{ ProfileDetails.stats.cancelled_bookings_count
+                        }}</span>
+                    <span class="stat-desc">By you or host</span>
+                </div>
+                <div class="stat-card stat-card--rejected">
+                    <div class="stat-card__top">
+                        <span class="stat-label stat-label--red">Rejected</span>
+                        <div class="stat-dot stat-dot--red"></div>
+                    </div>
+                    <span class="stat-value stat-value--red">{{ ProfileDetails.stats.rejected_bookings_count }}</span>
+                    <span class="stat-desc">Declined requests</span>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    <div *ngIf="toastMessage()" class="toast animate-slide-up">
+        <div class="toast__inner">
+            <svg xmlns="http://www.w3.org/2000/svg" class="toast__icon" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="toast__msg">{{ toastMessage() }}</span>
+        </div>
+        <button (click)="dismissToast()" class="toast__close">&times;</button>
+    </div>
+    <div *ngIf="isModalOpen()" class="modal-overlay animate-fade-in" (click)="closeModal()">
+        <div class="modal-panel" (click)="$event.stopPropagation()">
+
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Profile</h3>
+                <button (click)="closeModal()" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-avatar-zone">
+                <div class="modal-avatar-preview">
+                    <img [src]="ProfileDetails.profile_image" class="modal-avatar-img" alt="Preview" />
+                </div>
+                <div class="modal-avatar-info">
+                    <p class="modal-avatar-name">{{ ProfileDetails.name }}</p>
+                    <label class="modal-avatar-upload">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="upload-icon" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        Change Photo
+                        <input type="file" accept="image/png, image/jpeg, image/jpg, image/webp"
+                            (change)="onImageFileChange($event)" class="hidden-input" />
+                    </label>
+                    <p class="modal-avatar-hint">JPG, PNG, WEBP accepted</p>
+                </div>
+            </div>
+
+            <div class="modal-divider"></div>
+            <div class="modal-fields">
+
+                <div class="field-group">
+                    <label class="field-label">Email Address</label>
+                    <div class="field-readonly">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="field-icon" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>{{ ProfileDetails.email }}</span>
+                        <span class="field-lock">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Full Name</label>
+                    <input [value]="ProfileDetails.name" (input)="tempName.set($any($event.target).value)" type="text"
+                        placeholder="Your full name" class="field-input" />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Phone Number</label>
+                    <input [value]="ProfileDetails.phone" (input)="tempPhone.set($any($event.target).value)" type="text"
+                        placeholder="e.g. +20 100 000 0000" class="field-input" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeModal()" class="btn-cancel" [disabled]="isUpdating()">
+                    Cancel
+                </button>
+
+                <button (click)="saveChanges()" class="btn-save" [disabled]="isUpdating()">
+                    <ng-container *ngIf="!isUpdating(); else updatingTpl">Save Changes</ng-container>
+                    <ng-template #updatingTpl>Saving...</ng-template>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

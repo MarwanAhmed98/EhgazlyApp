@@ -1,0 +1,182 @@
+<app-playernav></app-playernav>
+<div class="min-h-screen bg-[#D7F5DC] font-sans text-[#0D3B1D] antialiased px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+
+        <!-- Header Section -->
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-[#0B3A1C] mb-1">
+                    Notifications
+                </h1>
+                <p class="text-sm sm:text-base text-[#467154] font-medium">
+                    Stay updated on your matches, bookings, and team activity.
+                </p>
+            </div>
+
+            <!-- Mark All As Read Button -->
+            <button (click)="markAllAsRead()"
+                class="self-start sm:self-center flex items-center gap-1.5 text-sm sm:text-base font-bold text-[#0B3A1C] hover:text-[#062010] hover:underline transition-all cursor-pointer group py-1"
+                [disabled]="unreadCount() === 0" [class.opacity-50]="unreadCount() === 0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:scale-110"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Mark all as read
+            </button>
+        </header>
+
+        <!-- Filter Tabs / Pill Navigation -->
+        <nav class="flex flex-wrap items-center gap-2 mb-8" aria-label="Notification filters">
+            <button (click)="setFilter('all')" [class]="getFilterClass(activeFilter() === 'all')"
+                class="px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 shadow-sm">
+                All
+            </button>
+
+            <button (click)="setFilter('bookings')" [class]="getFilterClass(activeFilter() === 'bookings')"
+                class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm">
+                Bookings
+            </button>
+
+            <button (click)="setFilter('teams')" [class]="getFilterClass(activeFilter() === 'teams')"
+                class="px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-200 shadow-sm">
+                Teams
+                @if (teamsUnreadCount() > 0) {
+                <span
+                    class="bg-[#A5470F] text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                    {{ teamsUnreadCount() }}
+                </span>
+                }
+            </button>
+
+            <button (click)="setFilter('system')" [class]="getFilterClass(activeFilter() === 'system')"
+                class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm">
+                System
+            </button>
+        </nav>
+
+        <!-- Toast Notification Alert (Action Feedbacks) -->
+        @if (toastMessage()) {
+        <div
+            class="mb-4 p-4 rounded-xl bg-[#0B3A1C] text-[#D7F5DC] text-sm font-semibold flex justify-between items-center shadow-lg transition-all animate-bounce">
+            <span>{{ toastMessage() }}</span>
+            <button (click)="toastMessage.set('')" class="text-[#D7F5DC]/70 hover:text-white">✕</button>
+        </div>
+        }
+
+        <!-- Notifications Container List -->
+        <main class="space-y-4">
+            @for (item of filteredNotifications(); track item.id) {
+
+            <div [class]="getCardClasses(item)"
+                class="relative rounded-2xl p-5 md:p-6 transition-all duration-300 hover:shadow-md border border-black/[0.03] overflow-hidden flex flex-col sm:flex-row gap-4 items-start">
+
+                <!-- Left Accent Color strip (For specified active items) -->
+                @if (item.accentColor === 'green') {
+                <div class="absolute left-0 top-0 bottom-0 w-[6px] bg-[#0F7534]"></div>
+                } @else if (item.accentColor === 'blue') {
+                <div class="absolute left-0 top-0 bottom-0 w-[6px] bg-[#0A60B3]"></div>
+                }
+
+                <!-- Icon Wrapper Column -->
+                <div class="flex-shrink-0 z-10">
+                    <div [class]="getIconBackgroundClass(item.iconType)"
+                        class="w-12 h-12 rounded-full flex items-center justify-center shadow-inner">
+                        <!-- Dynamic Inline SVGs for precise look -->
+                        @switch (item.iconType) {
+                        @case ('calendar-check') {
+                        <svg class="w-6 h-6 text-[#1E8A3E]" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <polyline points="9 16 11 18 15 14"></polyline>
+                        </svg>
+                        }
+                        @case ('match') {
+                        <svg class="w-6 h-6 text-[#0A60B3]" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                            </path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                        }
+                        @case ('invite') {
+                        <div
+                            class="w-10 h-10 rounded-full bg-[#1D3524] flex items-center justify-center text-white overflow-hidden">
+                            <!-- Wolf / Team Silhouette Icon -->
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                            </svg>
+                        </div>
+                        }
+                        @case ('calendar-cancel') {
+                        <svg class="w-6 h-6 text-[#A65B20]" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        }
+                        }
+                    </div>
+                </div>
+
+                <!-- Content and Actions Column -->
+                <div class="flex-grow z-10 pr-2 sm:pr-20">
+                    <div class="flex flex-col md:flex-row md:items-baseline justify-between gap-1">
+                        <h3 [class]="item.unread ? 'text-[#0B3A1C]' : 'text-gray-600'"
+                            class="text-base sm:text-lg font-bold tracking-tight">
+                            {{ item.title }}
+                        </h3>
+                    </div>
+
+                    <p [class]="item.unread ? 'text-[#4E6254]' : 'text-gray-500'"
+                        class="text-sm sm:text-base mt-1 leading-relaxed">
+                        {{ item.description }}
+                    </p>
+
+                    <!-- Custom Action Buttons Layout with precise spacings and alignment -->
+                    @if (item.actionButtons.length > 0) {
+                    <div class="flex flex-wrap gap-2.5 mt-4">
+                        @for (btn of item.actionButtons; track btn.text) {
+                        <button (click)="handleAction(btn.action, item)" [class]="getButtonClass(btn.style)"
+                            class="px-5 py-2 text-xs sm:text-sm font-bold rounded-full transition-all duration-200">
+                            {{ btn.text }}
+                        </button>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <!-- Time Element positioning: top-right on desktop/tablet, styled cleanly -->
+                <span
+                    class="text-xs sm:text-sm font-medium text-gray-500/80 self-start sm:absolute sm:top-6 sm:right-6 mt-1 sm:mt-0">
+                    {{ item.time }}
+                </span>
+
+            </div>
+
+            } @empty {
+            <!-- Empty State Illustration -->
+            <div
+                class="bg-white/40 rounded-2xl p-12 text-center flex flex-col items-center justify-center border border-dashed border-[#0B3A1C]/20">
+                <svg class="w-16 h-16 text-[#467154] mb-4 opacity-70" fill="none" stroke="currentColor"
+                    stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0">
+                    </path>
+                </svg>
+                <h3 class="text-lg font-bold text-[#0B3A1C]">All caught up!</h3>
+                <p class="text-[#467154] text-sm mt-1">You have no matching notifications at the moment.</p>
+            </div>
+            }
+        </main>
+    </div>
+</div>

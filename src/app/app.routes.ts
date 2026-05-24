@@ -49,6 +49,7 @@ import { AdminManageCourtsComponent } from './shared/components/AdminManageCourt
 import { AdminManageTournamentsComponent } from './shared/components/AdminManageTournaments/admin-manage-tournaments/admin-manage-tournaments.component';
 import { AdminTournamentSetupFormComponent } from './shared/components/AdminTournamentSetupForm/admin-tournament-setup-form/admin-tournament-setup-form.component';
 import { CustomerProfileComponent } from './shared/components/CustomerProfile/customer-profile/customer-profile.component';
+import { PlayerNotificationComponent } from './shared/components/PlayerNotification/player-notification/player-notification.component';
 
 export const routes: Routes = [
     {
@@ -115,7 +116,7 @@ export const routes: Routes = [
         title: 'Friendly Matches',
     },
     {
-        path: 'FriendlyMatchesDetails',
+        path: 'FriendlyMatchesDetails/:id',
         component: FriendlyMatchDetailsComponent,
         title: 'Friendly Matches Details',
     },
@@ -158,6 +159,11 @@ export const routes: Routes = [
         path: 'CustomerProfile',
         component: CustomerProfileComponent,
         title: 'My Profile',
+    },
+    {
+        path: 'PlayerNotifications',
+        component: PlayerNotificationComponent,
+        title: 'Notifications',
     },
     {
         path: 'CourtOwner',

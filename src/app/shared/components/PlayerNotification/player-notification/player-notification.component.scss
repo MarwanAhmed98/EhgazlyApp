@@ -1,0 +1,8 @@
+/* Custom style hooks for specific background variations from the design */
+.card-item-container {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.card-item-container:hover {
+    transform: translateY(-1px);
+}

@@ -24,8 +24,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly toastService = inject(ToastService);
   private readonly activatedRoute = inject(ActivatedRoute);
-
-  // ===== Booking Summary bindings (HTML uses these) =====
   fieldName: string = '—';
   totalPrice: number = 0;
   courtLabel: string = '—';
@@ -34,8 +32,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   SummaryDetails: Icustomertimeslot[] = [];
   SelectedDate: string | null = null;
-
-  // IDs from URL paramMap
   courtId: number | null = null;
   timeslotId: number | null = null;
 
@@ -45,8 +41,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     payment_method_id: new FormControl<number | null>(null),
     receipt_image: new FormControl<File | null>(null),
   });
-
-  // Keep existing object for other bindings in the page
   booking = {
     field: '—',
     pitch: '—',
@@ -60,22 +54,14 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   receiptFile: File | null = null;
   receiptFileName = '';
-
-  // Upload state
   uploadStatus: UploadStatus = 'idle';
   uploadErrorMessage = '';
   uploadedPreviewUrl: string | null = null;
-
-  // Confirm state
   confirmStatus: ConfirmStatus = 'idle';
   confirmErrorMessage = '';
-
-  // Modal state
   isStatusModalOpen = false;
   modalKind: ModalKind = 'none';
-
   private lastSelectedFile: File | null = null;
-
   private uploadTimer: number | null = null;
   private confirmTimer: number | null = null;
   private closeAnimTimer: number | null = null;
@@ -90,7 +76,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
       }
     })
-    // Retrieve path parameters for courtId, timeslotId, and date
     this.activatedRoute.paramMap.subscribe((pm) => {
       const court = Number(pm.get('selectedCourtId'));
       const slot = Number(pm.get('selectedSlotsId'));
@@ -98,29 +83,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.courtId = Number.isFinite(court) ? court : null;
       this.timeslotId = Number.isFinite(slot) ? slot : null;
       this.SelectedDate = pm.get('selectedDateISO');
-
-      // summary labels
       this.courtLabel = this.courtId ? `Court ${this.courtId}` : '—';
       this.dateLabel = this.formatDateLabel(this.SelectedDate);
       this.timeLabel = this.timeslotId ? `Timeslot ${this.timeslotId}` : '—';
-
-      // keep "booking" object in sync (used elsewhere in header / how-to-pay section)
       this.booking.field = this.fieldName;
       this.booking.total = this.totalPrice;
       this.booking.pitch = this.courtLabel;
       this.booking.dateLabel = this.dateLabel;
       this.booking.timeLabel = this.timeLabel;
-
-      // patch form ids
       this.CreateBookingForm.patchValue({
         court_id: this.courtId,
         timeslot_id: this.timeslotId,
       });
-
-      // set initial payment method id
       this.setPaymentMethodId(this.selectedMethod);
-
-      // load slot times if API is available
       this.GetBookingSummary();
     });
   }
@@ -131,8 +106,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.clearCloseAnimTimer();
     if (this.uploadedPreviewUrl) URL.revokeObjectURL(this.uploadedPreviewUrl);
   }
-
-  // map UI selection -> backend payment_method_id (adjust IDs to match your backend)
   private setPaymentMethodId(method: PaymentMethod): void {
     const id = method === 'instapay' ? 1 : 2;
     this.CreateBookingForm.patchValue({ payment_method_id: id });
@@ -153,8 +126,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.lastSelectedFile = file;
     this.receiptFile = file;
     this.receiptFileName = file.name;
-
-    // keep form control in sync
     this.CreateBookingForm.patchValue({ receipt_image: file });
 
     this.startUpload(file);
@@ -172,8 +143,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     if (this.uploadedPreviewUrl) URL.revokeObjectURL(this.uploadedPreviewUrl);
     this.uploadedPreviewUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
-
-    // Simulated upload (replace with real API)
     this.uploadTimer = window.setTimeout(() => {
       const shouldFail =
         file.size > 5 * 1024 * 1024 ||
@@ -230,8 +199,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     if (this.confirmStatus === 'loading') return;
     if (!this.courtId || !this.timeslotId) return;
     if (!this.receiptFile || this.uploadStatus !== 'success') return;
-
-    // ensure latest ids are on form before submit
     this.CreateBookingForm.patchValue({
       court_id: this.courtId,
       timeslot_id: this.timeslotId,
@@ -246,8 +213,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.toastService.error('Missing required data');
       return;
     }
-
-    // SEND AS FORMDATA (required for file upload)
     const fd = new FormData();
     fd.append('court_id', String(court_id));
     fd.append('timeslot_id', String(timeslot_id));
@@ -351,11 +316,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   GetBookingSummary(): void {
-    // Date from URL param (selectedDateISO)
     this.dateLabel = this.formatDateLabel(this.SelectedDate);
     this.booking.dateLabel = this.dateLabel;
-
-    // If no date or ids, still safe render
     if (!this.courtId || !this.timeslotId || !this.SelectedDate) {
       this.timeLabel = this.timeslotId ? `Timeslot ${this.timeslotId}` : '—';
       this.booking.timeLabel = this.timeLabel;

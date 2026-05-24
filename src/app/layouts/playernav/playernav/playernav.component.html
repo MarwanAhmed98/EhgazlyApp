@@ -40,17 +40,49 @@
     <!-- Right icons -->
     <div class="flex items-center gap-3">
       <!-- Notification -->
-      <button
+      <button routerLink="/PlayerNotifications"
         class="w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 relative">
         <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
         <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
       </button>
 
-      <!-- Profile -->
-      <div [routerLink]="customerProfileLink" routerLinkActive="profile-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all">
-        <img [src]="ProfileDetails.profile_image" alt="Profile Image" class="w-10 h-10 rounded-xl object-cover">
+      <!-- Profile Dropdown -->
+      <div class="relative">
+        <!-- Trigger -->
+        <button type="button" (click)="toggleProfileMenu($event)"
+          class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all"
+          [class.profile-active]="isProfileRoute" aria-haspopup="menu" [attr.aria-expanded]="isProfileMenuOpen">
+          <img [src]="ProfileDetails.profile_image" alt="Profile Image" class="w-10 h-10 rounded-xl object-cover">
+        </button>
+
+        <!-- Dropdown -->
+        <div class="profile-dd" [class.profile-dd--open]="isProfileMenuOpen"
+          [class.profile-dd--closed]="!isProfileMenuOpen" role="menu">
+          <button type="button" class="profile-dd__item" role="menuitem" (click)="goToProfileFromMenu()">
+            <span class="profile-dd__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21a8 8 0 0 0-16 0"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span class="profile-dd__label">Profile</span>
+          </button>
+
+          <div class="profile-dd__sep"></div>
+
+          <button type="button" class="profile-dd__item profile-dd__item--danger" role="menuitem" (click)="Logout()">
+            <span class="profile-dd__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <path d="M16 17l5-5-5-5"></path>
+                <path d="M21 12H9"></path>
+              </svg>
+            </span>
+            <span class="profile-dd__label">Logout</span>
+          </button>
+        </div>
       </div>
 
       <!-- Mobile button -->
@@ -135,7 +167,7 @@
     </nav>
 
     <div class="p-6 mt-auto border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-white/5">
-      <button
+      <button (click)="Logout()"
         class="w-full flex items-center justify-center gap-3 py-4 bg-[#2E7D32] text-white rounded-2xl font-bold shadow-xl shadow-emerald-200/40 hover:bg-[#256329] active:scale-[0.98] transition-all">
         <span>Logout</span>
         <span class="text-lg">➔</span>

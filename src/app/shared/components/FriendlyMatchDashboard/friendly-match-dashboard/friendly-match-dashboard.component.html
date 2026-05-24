@@ -186,14 +186,15 @@
             </div>
             } @else {
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                @for (m of filteredMatches; track m.id) {
+                @for (m of AllMatchesDetails; track m.id) {
                 <article
                     class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] transition-all duration-300 hover:-translate-y-1">
                     <div class="relative h-44">
-                        <img [src]="m.image" [alt]="m.title" class="absolute inset-0 w-full h-full object-cover" />
+                        <img [src]="m.court.maincourt.primary_image" [alt]="m.court.name"
+                            class="absolute inset-0 w-full h-full object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/40 to-transparent"></div>
 
-                        @if (m.isPrime) {
+                        <!-- @if (m.status === 'prime_time') {
                         <span
                             class="absolute left-4 top-4 px-3 py-1.5 rounded-full bg-[#A34700] text-white text-[11px] font-black uppercase tracking-widest">
                             Prime Time
@@ -202,26 +203,26 @@
 
                         <span
                             class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-white/75 text-emerald-950 text-[11px] font-black border border-emerald-200/60">
-                            {{ m.format }}
+                            {{ m. }}
                         </span>
 
                         <span
                             class="absolute right-4 bottom-4 px-3 py-1.5 rounded-full bg-white/75 text-emerald-950 text-[11px] font-black border border-emerald-200/60">
                             {{ m.availabilityLabel }}
-                        </span>
+                        </span> -->
                     </div>
 
-                    <div class="p-6" routerLink="/FriendlyMatchesDetails">
+                    <div class="p-6">
                         <div class="flex items-start justify-between gap-4">
                             <div>
-                                <p class="text-xl font-black tracking-tight text-emerald-950">{{ m.title }}</p>
+                                <p class="text-xl font-black tracking-tight text-emerald-950">{{ m.name }}</p>
                                 <p class="mt-1 text-sm font-semibold text-slate-600 inline-flex items-center gap-2">
-                                    <span>📍</span> {{ m.location }}
+                                    <span>📍</span> {{ m.court.maincourt.address }}
                                 </p>
                             </div>
                             <div class="text-right">
-                                <p class="text-xl font-black text-[#A34700]">{{ m.price }} EGP</p>
-                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-500">Per player
+                                <p class="text-xl font-black text-[#A34700]">{{ m.court.price_per_hour }} EGP</p>
+                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-500">Per Hour
                                 </p>
                             </div>
                         </div>
@@ -229,11 +230,11 @@
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span
                                 class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
-                                🗓️ {{ m.whenLabel }}
+                                🗓️ {{ m.timeslot.date | date:'EEE' }} , {{ m.timeslot.start_time | slice:0:5 }}
                             </span>
                             <span
                                 class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
-                                👥 {{ m.playersLabel }}
+                                👥 {{ m.current_players }} / {{ m.required_players }}
                             </span>
                         </div>
 
@@ -241,32 +242,23 @@
                             <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Lineup
                                 Status</p>
                             <div class="mt-2 h-2 rounded-full bg-emerald-200/60 overflow-hidden">
-                                <div class="h-full bg-[#146A1E]" [style.width.%]="m.fillPct"></div>
+                                <div class="h-full bg-[#146A1E]"
+                                    [style.width.%]="(m.current_players / m.required_players) * 100"></div>
                             </div>
                             <div class="mt-2 flex items-center justify-between">
-                                <p class="text-xs font-black text-emerald-950/70">{{ m.playersCurrent }}/{{ m.playersMax
+                                <p class="text-xs font-black text-emerald-950/70">{{ m.current_players }}/{{
+                                    m.required_players
                                     }} Players</p>
-                                <p class="text-xs font-black text-[#B42318]">{{ m.slotsLeft }} slots left</p>
+                                <p class="text-xs font-black text-[#B42318]">{{ m.spots_left }} slots left</p>
                             </div>
                         </div>
 
                         <div class="mt-6 flex">
-                            <button type="button"
+                            <button [routerLink]="['/FriendlyMatchesDetails', m.id]" type="button"
                                 class="w-full px-6 py-3 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 Details
                             </button>
                         </div>
-
-                        <!-- <div class="mt-6 flex gap-3">
-                            <button type="button"
-                                class="flex-1 px-6 py-3 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                                Join Match →
-                            </button>
-                            <button type="button"
-                                class="px-6 py-3 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                                Details
-                            </button>
-                        </div> -->
                     </div>
                 </article>
                 }

@@ -1,121 +1,164 @@
-// import { Component } from '@angular/core';
-// import { PlayernavComponent } from "../../../../layouts/playernav/playernav/playernav.component";
-
-// @Component({
-//   selector: 'app-customer-profile',
-//   imports: [PlayernavComponent],
-//   templateUrl: './customer-profile.component.html',
-//   styleUrl: './customer-profile.component.scss'
-// })
-// export class CustomerProfileComponent {
-
-// }
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PlayernavComponent } from "../../../../layouts/playernav/playernav/playernav.component";
-import { UpperCasePipe } from '@angular/common';
+import { PlayerProfileService } from '../../../../core/services/PlayerProfile/player-profile.service';
+import { Iplayerprofile } from '../../../interfaces/iplayerprofile';
+import { FormControl, FormGroup } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-customer-profile',
-  imports: [PlayernavComponent, UpperCasePipe],
+  imports: [CommonModule, PlayernavComponent],
   templateUrl: './customer-profile.component.html',
   styleUrl: './customer-profile.component.scss'
 })
-export class CustomerProfileComponent {
-  // --- STATE SIGNALS (Angular 19 style) ---
-  playerName = signal('Ahmed Mansour');
-  playerPosition = signal('striker');
-  playerLocation = signal('Cairo, Egypt');
+export class CustomerProfileComponent implements OnInit {
+  private readonly playerProfileService = inject(PlayerProfileService);
+  ProfileDetails: Iplayerprofile = {} as Iplayerprofile;
+  PlayerRole: string = localStorage.getItem('role') ?? '';
 
-  // Football Identity details
-  matchesPlayed = signal(42);
-  winRate = signal(68);
-  goalsScored = signal(15);
+  UpdateForm: FormGroup = new FormGroup({
+    name: new FormControl(null),
+    phone: new FormControl(null),
+    profile_image: new FormControl<File | null>(null),
+  });
 
-  // Skill Metrics
-  pace = signal(85);
-  shooting = signal(78);
-  passing = signal(62);
-
-  // Teammates details (Image URL left absent representing placeholder to be filled from backend APIs)
-  teammates = signal([
-    { id: 1, name: 'Omar K.' },
-    { id: 2, name: 'Tariq M.' },
-    { id: 3, name: 'Ziad A.' }
-  ]);
-
-  // Modal / Toast display triggers
-  showEditModal = signal(false);
   toastMessage = signal<string | null>(null);
+  isModalOpen = signal(false);
+  isUpdating = signal(false);
 
-  // --- COMPONENT LOGIC & ACTIONS ---
+  tempName = signal('');
+  tempPhone = signal('');
+  tempAvatar = signal(''); // preview url/base64
+  private selectedImageFile: File | null = null;
+
+  ngOnInit(): void {
+    this.GetProfileData();
+  }
+
+  showToast(message: string) {
+    this.toastMessage.set(message);
+    setTimeout(() => this.dismissToast(), 4000);
+  }
+
+  dismissToast() {
+    this.toastMessage.set(null);
+  }
 
   openEditModal() {
-    this.showEditModal.set(true);
+    this.tempName.set((this.ProfileDetails?.name ?? '').toString());
+    this.tempPhone.set((this.ProfileDetails?.phone ?? '').toString());
+    this.tempAvatar.set((this.ProfileDetails?.profile_image ?? '').toString());
+    this.selectedImageFile = null;
+    this.isModalOpen.set(true);
   }
 
-  closeEditModal() {
-    this.showEditModal.set(false);
+  closeModal() {
+    if (this.isUpdating()) return;
+    this.isModalOpen.set(false);
   }
 
-  savePlayerDetails(name: string, location: string, position: string) {
-    if (name.trim()) this.playerName.set(name.trim());
-    if (location.trim()) this.playerLocation.set(location.trim());
-    if (position.trim()) this.playerPosition.set(position.trim());
+  onImageFileChange(event: Event) {
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.[0];
+    if (!file) return;
 
-    this.closeEditModal();
-    this.showToast('Profile updated successfully!');
+    const acceptedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+    if (!acceptedTypes.includes(file.type)) {
+      this.showToast('Upload Failed: Please select a valid JPG, JPEG, PNG, or WEBP image.');
+      element.value = '';
+      return;
+    }
+
+    this.selectedImageFile = file;
+    this.UpdateForm.patchValue({ profile_image: file });
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result) {
+        this.tempAvatar.set(reader.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
   }
 
-  openContactModal() {
-    this.showToast('Contact info loaded (Backend Integration Ready)');
-  }
+  saveChanges() {
+    if (this.isUpdating()) return;
 
-  toggleSettings() {
-    this.showToast('Navigating to full profile parameters...');
+    const cleanName = this.tempName().trim();
+    const cleanPhone = this.tempPhone().trim();
+
+    if (!cleanName || !cleanPhone) {
+      this.showToast('Validation Error: Fields cannot be empty.');
+      return;
+    }
+
+    this.isUpdating.set(true);
+
+    const fd = new FormData();
+    fd.append('name', cleanName);
+    fd.append('phone', cleanPhone);
+    if (this.selectedImageFile) fd.append('profile_image', this.selectedImageFile);
+
+    this.playerProfileService
+      .UpdateProfile(fd)
+      .pipe(finalize(() => this.isUpdating.set(false)))
+      .subscribe({
+        next: (res) => {
+          const updated = (res?.data ?? res?.customer ?? res) as Partial<Iplayerprofile>;
+
+          this.ProfileDetails = {
+            ...this.ProfileDetails,
+            ...(updated as any),
+            name: updated?.name ?? cleanName,
+            phone: updated?.phone ?? cleanPhone,
+            profile_image:
+              (updated as any)?.profile_image ??
+              this.ProfileDetails.profile_image,
+          } as Iplayerprofile;
+
+          // if backend doesn't return image url, keep current preview to avoid UI breaking
+          if (this.selectedImageFile && !((updated as any)?.profile_image)) {
+            this.ProfileDetails.profile_image = this.tempAvatar();
+          }
+
+          this.showToast('Your settings have been saved successfully!');
+          this.closeModal();
+        },
+        error: (err) => {
+          const msg =
+            err?.error?.message ||
+            err?.message ||
+            'Update failed. Please try again.';
+          this.showToast(msg);
+        },
+      });
   }
 
   shareProfile() {
-    // Generate simulated deep link clipboard copy (No alert fallback)
-    const shareLink = `https://sportsaas.com/player/${this.playerName().toLowerCase().replace(/\\s+/g, '-')}`;
-    this.showToast(`Link copied: ${shareLink}`);
-  }
-
-  showAllTeammates() {
-    this.showToast('Loading full roster list...');
-  }
-
-  // Live Skill update binding from range sliders
-  updatePace(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
-    this.pace.set(parseInt(val, 10));
-  }
-
-  updateShooting(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
-    this.shooting.set(parseInt(val, 10));
-  }
-
-  updatePassing(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
-    this.passing.set(parseInt(val, 10));
-  }
-
-  // Simple auto-dismissing toast mechanism
-  private toastTimeout: any;
-  showToast(msg: string) {
-    if (this.toastTimeout) {
-      clearTimeout(this.toastTimeout);
+    const dummyInput = document.createElement('input');
+    document.body.appendChild(dummyInput);
+    dummyInput.value = `Profile details for ${this.ProfileDetails?.name ?? ''}: ${this.ProfileDetails?.phone ?? ''}`;
+    dummyInput.select();
+    try {
+      document.execCommand('copy');
+      this.showToast('Profile info copied to clipboard!');
+    } catch {
+      this.showToast('Unable to copy profile link automatically.');
     }
-    this.toastMessage.set(msg);
-    this.toastTimeout = setTimeout(() => {
-      this.toastMessage.set(null);
-    }, 4000);
+    document.body.removeChild(dummyInput);
   }
 
-  closeToast() {
-    this.toastMessage.set(null);
-    if (this.toastTimeout) {
-      clearTimeout(this.toastTimeout);
-    }
+  onAvatarError(event: any) {
+    event.target.src =
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=256';
+  }
+
+  GetProfileData(): void {
+    this.playerProfileService.GetProfile().subscribe({
+      next: (res) => {
+        this.ProfileDetails = res.data;
+      },
+    });
   }
 }
