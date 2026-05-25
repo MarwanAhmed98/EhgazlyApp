@@ -33,3 +33,9 @@ export interface WorkingHour {
     close_time: string
     is_open: boolean
 }
+export interface ICourt {
+    id: number
+    name: string
+    type?: string
+    maincourt_id?: number
+}

@@ -2,16 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
-
-type Court = {
-  id: string;
-  name: string;
-  meta: string;
-  rating: number;
-  reviews: number;
-  image: string;
-};
+import { VenuesService } from '../../../../core/services/venues/venues.service';
+import { IAllcourts } from '../../../interfaces/iallcourts';
+import { ICourt } from '../../../interfaces/icourt';
+import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
+import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
 
 type DateChip = {
   iso: string;
@@ -35,118 +32,204 @@ type MatchTypeOption = {
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, PlayernavComponent],
   templateUrl: './create-friendly-match.component.html',
-  styleUrls: ['./create-friendly-match.component.scss']
+  styleUrls: ['./create-friendly-match.component.scss'],
 })
 export class CreateFriendlyMatchComponent implements OnInit {
+  private readonly venuesService = inject(VenuesService);
+  private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly router = inject(Router);
+
+  // API data
+  MainCourtsDetails: IAllcourts[] = [];
+  CourtsDetails: ICourt[] = [];
+  TimeDetails: Icustomertimeslot[] = [];
+
+  // selection state
+  selectedMainCourt: IAllcourts | null = null;
+  selectedCourt: ICourt | null = null;
+
+  // REQUIRED state
+  selectedCourtId: number | null = null;
+  selectedDateISO: string | null = null;
+  availableTimeSlots: TimeChip[] = [];
+  selectedTimeSlot: string | null = null;
+
+  // loading/error (times)
+  timeSlotsLoading = false;
+  timeSlotsError = '';
+
+  // UI state
+  venuesOpen = false;
+  courtsOpen = false;
+
+  // loading/error
+  mainCourtsLoading = false;
+  courtsLoading = false;
+  mainCourtsError = '';
+  courtsError = '';
+
+  // search
+  venueSearch = new FormControl<string>('', { nonNullable: true });
 
   submitting = false;
   successOpen = false;
   errorMessage = '';
 
-  courtSearch = new FormControl<string>('', { nonNullable: true });
-
-  courts: Court[] = [
-    {
-      id: 'c1',
-      name: 'Camp Nou Arena',
-      meta: 'Maadi, Cairo • 5v5 & 7v7',
-      rating: 4.8,
-      reviews: 120,
-      image: 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=600&q=80',
-    },
-    {
-      id: 'c2',
-      name: 'The Olympic Hub',
-      meta: 'New Cairo • 11v11 Only',
-      rating: 4.6,
-      reviews: 88,
-      // Use a reliable Unsplash image for the second court
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=600&q=80',
-    },
-  ];
-
   dateOptions: DateChip[] = [];
-  timeOptions: TimeChip[] = [
-    { value: '18:00', isPrime: false },
-    { value: '19:00', isPrime: false },
-    { value: '20:00', isPrime: true },
-    { value: '21:00', isPrime: false },
-    { value: '22:00', isPrime: false },
-    { value: '23:00', isPrime: false },
-  ];
 
   matchTypeOptions: MatchTypeOption[] = [
     { value: '5v5', label: '5v5' },
     { value: '7v7', label: '7v7' },
   ];
 
-  successSummary = { field: 'Camp Nou Arena', time: '20:00 – 21:30' };
+  successSummary = { field: '', time: '' };
 
   readonly CreateMatchForm = new FormGroup({
-    courtId: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    dateISO: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    time: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
+    venueId: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    courtId: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    dateISO: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    time: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     playersNeeded: new FormControl<number>(6, {
       nonNullable: true,
-      validators: [Validators.required, Validators.min(1), Validators.max(20)]
+      validators: [Validators.required, Validators.min(1), Validators.max(20)],
     }),
-    matchType: new FormControl<'5v5' | '7v7'>('5v5', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    title: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)]
-    }),
-    location: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(2)]
-    }),
-    price: new FormControl<number>(150, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(0), Validators.max(9999)]
-    })
+    matchType: new FormControl<'5v5' | '7v7'>('5v5', { nonNullable: true, validators: [Validators.required] }),
+    title: new FormControl<string>('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
+    location: new FormControl<string>('', { nonNullable: true, validators: [Validators.required, Validators.minLength(2)] }),
+    price: new FormControl<number>(150, { nonNullable: true, validators: [Validators.required, Validators.min(0), Validators.max(9999)] }),
   });
 
   ngOnInit(): void {
     this.dateOptions = this.buildNextDates(this.todayISO(), 5);
+    this.GetMainCourtes();
+
+    // IMPORTANT: do NOT call GetTimeAndDate here (needs courtId + selected date)
+    this.resetTimeSlotsState();
   }
 
-  get filteredCourts(): Court[] {
-    const searchTerm = (this.courtSearch.value || '').trim().toLowerCase();
-    if (!searchTerm) return this.courts;
-    return this.courts.filter(court =>
-      `${court.name} ${court.meta}`.toLowerCase().includes(searchTerm)
-    );
+  // time selection enabled only when court + date selected and not loading
+  get timeSelectionEnabled(): boolean {
+    return !!this.selectedCourtId && !!this.selectedDateISO && !this.timeSlotsLoading;
   }
 
-  /** Replaces the broken image with an emoji fallback placeholder */
-  onImgError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.style.display = 'none';
-    // Show the sibling placeholder span
-    const placeholder = img.nextElementSibling as HTMLElement;
-    if (placeholder) {
-      placeholder.style.display = 'flex';
+  // --- derived lists ---
+  get filteredMainCourts(): IAllcourts[] {
+    const t = (this.venueSearch.value || '').trim().toLowerCase();
+    if (!t) return this.MainCourtsDetails;
+    return this.MainCourtsDetails.filter((v) => `${v.name} ${v.address}`.toLowerCase().includes(t));
+  }
+
+  // --- UI toggles ---
+  toggleVenuesOpen(): void {
+    this.venuesOpen = !this.venuesOpen;
+    if (this.venuesOpen && this.MainCourtsDetails.length === 0 && !this.mainCourtsLoading) {
+      this.GetMainCourtes();
     }
   }
 
-  hasError(controlName: string, errorType?: string): boolean {
-    const control = this.CreateMatchForm.get(controlName);
-    if (!control) return false;
-    const isInvalid = control.invalid && (control.touched || control.dirty);
-    if (!errorType) return isInvalid;
-    return isInvalid && control.hasError(errorType);
+  toggleCourtsOpen(): void {
+    this.courtsOpen = !this.courtsOpen;
+  }
+
+  // --- API: stadiums ---
+  GetMainCourtes(): void {
+    this.mainCourtsLoading = true;
+    this.mainCourtsError = '';
+
+    this.venuesService
+      .GetMainCourtes()
+      .pipe(finalize(() => (this.mainCourtsLoading = false)))
+      .subscribe({
+        next: (res) => {
+          this.MainCourtsDetails = res?.data ?? [];
+        },
+        error: (err) => {
+          this.MainCourtsDetails = [];
+          this.mainCourtsError = err?.error?.message ?? 'Failed to load stadiums.';
+        },
+      });
+  }
+
+  // --- stadium selection triggers courts fetch ---
+  selectMainCourt(venue: IAllcourts): void {
+    const prevId = this.CreateMatchForm.get('venueId')?.value;
+    const nextId = String(venue.id);
+
+    this.selectedMainCourt = venue;
+    this.selectedCourt = null;
+
+    // reset courts & selected court immediately (no stale UI)
+    this.CourtsDetails = [];
+    this.courtsError = '';
+
+    // IMPORTANT: changing venue/court context resets date & time
+    this.resetDateAndTimeState();
+
+    // set form values + reset court
+    this.CreateMatchForm.patchValue({ venueId: nextId, courtId: '', dateISO: '', time: '' });
+    this.CreateMatchForm.get('venueId')?.markAsTouched();
+    this.CreateMatchForm.get('venueId')?.markAsDirty();
+
+    if (prevId !== nextId) {
+      this.CreateMatchForm.get('courtId')?.markAsPristine();
+      this.CreateMatchForm.get('courtId')?.markAsUntouched();
+    }
+
+    this.courtsOpen = true;
+    this.venuesOpen = false;
+
+    this.GetCourts(nextId);
+  }
+
+  // --- API: courts ---
+  GetCourts(mainCourtId: string): void {
+    this.courtsLoading = true;
+    this.courtsError = '';
+
+    this.venuesService
+      .GetCourts(mainCourtId)
+      .pipe(finalize(() => (this.courtsLoading = false)))
+      .subscribe({
+        next: (res) => {
+          this.CourtsDetails = res?.data ?? [];
+        },
+        error: (err) => {
+          this.CourtsDetails = [];
+          this.courtsError = err?.error?.message ?? 'Failed to load courts.';
+        },
+      });
+  }
+
+  // --- court selection ---
+  selectCourt(court: ICourt): void {
+    const prevCourtId = this.selectedCourtId;
+
+    this.selectedCourt = court;
+    this.selectedCourtId = Number(court.id);
+
+    this.CreateMatchForm.patchValue({ courtId: String(court.id) });
+    this.CreateMatchForm.get('courtId')?.markAsTouched();
+    this.CreateMatchForm.get('courtId')?.markAsDirty();
+
+    // IMPORTANT: changing court resets date & time slots
+    if (prevCourtId !== this.selectedCourtId) {
+      this.resetDateAndTimeState();
+      this.CreateMatchForm.patchValue({ dateISO: '', time: '' });
+    }
+  }
+
+  // --- required by template ---
+  onSubmit(): void {
+    this.errorMessage = '';
+    this.CreateMatchForm.markAllAsTouched();
+
+    if (this.CreateMatchForm.invalid) {
+      const firstError = document.querySelector('[role="alert"]');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    this.SubmitForm();
   }
 
   dismissError(controlName: string): void {
@@ -158,28 +241,73 @@ export class CreateFriendlyMatchComponent implements OnInit {
     }
   }
 
-  selectCourt(id: string): void {
-    this.CreateMatchForm.patchValue({ courtId: id });
-    this.CreateMatchForm.get('courtId')?.markAsTouched();
-    this.CreateMatchForm.get('courtId')?.markAsDirty();
+  closeSuccess(): void {
+    this.successOpen = false;
   }
 
+  // --- existing flow (keep if you already have it) ---
+  SubmitForm(): void {
+    this.submitting = true;
+
+    setTimeout(() => {
+      this.successSummary.field = this.selectedMainCourt?.name ?? 'Selected Venue';
+
+      const startTime = this.CreateMatchForm.get('time')?.value || '20:00';
+      this.successSummary.time = `${startTime} – ${this.addMinutes(startTime, 90)}`;
+
+      this.successOpen = true;
+      this.submitting = false;
+    }, 900);
+  }
+
+  goToMatches(): void {
+    this.successOpen = false;
+    this.router.navigate(['/matches']);
+  }
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+    const placeholder = img.nextElementSibling as HTMLElement;
+    if (placeholder) placeholder.style.display = 'flex';
+  }
+
+  hasError(controlName: string, errorType?: string): boolean {
+    const control = this.CreateMatchForm.get(controlName);
+    if (!control) return false;
+    const isInvalid = control.invalid && (control.touched || control.dirty);
+    if (!errorType) return isInvalid;
+    return isInvalid && control.hasError(errorType);
+  }
+
+  // ---- Date selection (triggers API call when courtId exists) ----
   selectDate(iso: string): void {
-    this.CreateMatchForm.patchValue({ dateISO: iso });
+    this.selectedDateISO = iso;
+
+    this.CreateMatchForm.patchValue({ dateISO: iso, time: '' });
     this.CreateMatchForm.get('dateISO')?.markAsTouched();
     this.CreateMatchForm.get('dateISO')?.markAsDirty();
+
+    // changing date refreshes time slots + resets selected time
+    this.resetTimeSlotsState();
+
+    if (!this.selectedCourtId) {
+      // safe fallback: prevent API call
+      return;
+    }
+
+    this.GetTimeAndDate(this.selectedCourtId, iso);
   }
 
-  selectTime(value: string): void {
+  // ---- Time selection (ONE slot) ----
+  selectTimeSlot(value: string): void {
+    if (!this.timeSelectionEnabled) return;
+
+    this.selectedTimeSlot = value;
+
     this.CreateMatchForm.patchValue({ time: value });
     this.CreateMatchForm.get('time')?.markAsTouched();
     this.CreateMatchForm.get('time')?.markAsDirty();
-  }
-
-  selectMatchType(value: '5v5' | '7v7'): void {
-    this.CreateMatchForm.patchValue({ matchType: value });
-    this.CreateMatchForm.get('matchType')?.markAsTouched();
-    this.CreateMatchForm.get('matchType')?.markAsDirty();
   }
 
   incrementPlayers(): void {
@@ -196,53 +324,21 @@ export class CreateFriendlyMatchComponent implements OnInit {
     this.CreateMatchForm.get('playersNeeded')?.markAsTouched();
   }
 
-  SubmitForm(): void {
-    this.submitting = true;
-
-    setTimeout(() => {
-      const courtId = this.CreateMatchForm.get('courtId')?.value;
-      const court = this.courts.find(c => c.id === courtId);
-      this.successSummary.field = court?.name ?? 'Camp Nou Arena';
-
-      const startTime = this.CreateMatchForm.get('time')?.value || '20:00';
-      this.successSummary.time = `${startTime} – ${this.addMinutes(startTime, 90)}`;
-
-      this.successOpen = true;
-      this.submitting = false;
-    }, 900);
+  private resetDateAndTimeState(): void {
+    this.selectedDateISO = null;
+    this.resetTimeSlotsState();
   }
 
-  onSubmit(): void {
-    console.log(this.CreateMatchForm.value);
+  private resetTimeSlotsState(): void {
+    this.availableTimeSlots = [];
+    this.selectedTimeSlot = null;
+    this.timeSlotsError = '';
+    this.timeSlotsLoading = false;
 
-    this.errorMessage = '';
-    this.CreateMatchForm.markAllAsTouched();
-
-    if (this.CreateMatchForm.invalid) {
-      const firstError = document.querySelector('[role="alert"]');
-      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-
-    this.SubmitForm();
-  }
-
-  closeSuccess(): void {
-    this.successOpen = false;
-  }
-
-  goToMatches(): void {
-    this.successOpen = false;
-    this.router.navigate(['/matches']);
-  }
-
-  goToDashboard(): void {
-    this.successOpen = false;
-    this.router.navigate(['/dashboard']);
-  }
-
-  goBack(): void {
-    window.history.back();
+    // keep form in sync (prevent stale time)
+    this.CreateMatchForm.patchValue({ time: '' });
+    this.CreateMatchForm.get('time')?.markAsPristine();
+    this.CreateMatchForm.get('time')?.markAsUntouched();
   }
 
   private todayISO(): string {
@@ -266,7 +362,7 @@ export class CreateFriendlyMatchComponent implements OnInit {
         iso: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
         month: currentDate.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
         day: String(currentDate.getDate()).padStart(2, '0'),
-        weekday: currentDate.toLocaleString('en-US', { weekday: 'short' }).toUpperCase()
+        weekday: currentDate.toLocaleString('en-US', { weekday: 'short' }).toUpperCase(),
       });
     }
     return dates;
@@ -278,5 +374,48 @@ export class CreateFriendlyMatchComponent implements OnInit {
     const newHours = Math.floor(totalMinutes / 60) % 24;
     const newMins = totalMinutes % 60;
     return `${String(newHours).padStart(2, '0')}:${String(newMins).padStart(2, '0')}`;
+  }
+
+  // ---- Backend integration: GetTimeAndDate(courtId, selectedDate) ----
+  GetTimeAndDate(courtId: number, selectedDateISO: string): void {
+    this.timeSlotsLoading = true;
+    this.timeSlotsError = '';
+    this.availableTimeSlots = [];
+    this.selectedTimeSlot = null;
+
+    // keep form synced
+    this.CreateMatchForm.patchValue({ time: '' });
+
+    this.customerTimeslotService
+      .GetCustomerTimeSlot(courtId, selectedDateISO)
+      .pipe(finalize(() => (this.timeSlotsLoading = false)))
+      .subscribe({
+        next: (res) => {
+          this.TimeDetails = res?.data ?? [];
+
+          // map backend response -> chips (keep existing look)
+          this.availableTimeSlots = (this.TimeDetails ?? []).map((t: any) => {
+            const value =
+              t?.time ??
+              t?.start_time ??
+              t?.startTime ??
+              t?.slot ??
+              t?.value ??
+              '';
+
+            return {
+              value: String(value),
+              isPrime: !!(t?.isPrime ?? t?.is_prime ?? t?.prime),
+            } satisfies TimeChip;
+          }).filter((x) => !!x.value);
+
+          // if backend doesn't provide prime flag, keep it false (no redesign)
+        },
+        error: (err) => {
+          this.TimeDetails = [];
+          this.availableTimeSlots = [];
+          this.timeSlotsError = err?.error?.message ?? 'Failed to load time slots.';
+        },
+      });
   }
 }

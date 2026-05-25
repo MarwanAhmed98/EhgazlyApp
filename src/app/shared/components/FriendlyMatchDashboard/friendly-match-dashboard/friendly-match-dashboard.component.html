@@ -190,26 +190,11 @@
                 <article
                     class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] transition-all duration-300 hover:-translate-y-1">
                     <div class="relative h-44">
-                        <img [src]="m.court.maincourt.primary_image" [alt]="m.court.name"
+                        <!-- <img [src]="m.court.maincourt.primary_image" [alt]="m.court.name"
+                            class="absolute inset-0 w-full h-full object-cover" /> -->
+                        <img src="/images/SpinnerLogo.png" [alt]="m.court.name"
                             class="absolute inset-0 w-full h-full object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/40 to-transparent"></div>
-
-                        <!-- @if (m.status === 'prime_time') {
-                        <span
-                            class="absolute left-4 top-4 px-3 py-1.5 rounded-full bg-[#A34700] text-white text-[11px] font-black uppercase tracking-widest">
-                            Prime Time
-                        </span>
-                        }
-
-                        <span
-                            class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-white/75 text-emerald-950 text-[11px] font-black border border-emerald-200/60">
-                            {{ m. }}
-                        </span>
-
-                        <span
-                            class="absolute right-4 bottom-4 px-3 py-1.5 rounded-full bg-white/75 text-emerald-950 text-[11px] font-black border border-emerald-200/60">
-                            {{ m.availabilityLabel }}
-                        </span> -->
                     </div>
 
                     <div class="p-6">

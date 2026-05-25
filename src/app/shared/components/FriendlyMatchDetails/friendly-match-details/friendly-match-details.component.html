@@ -332,58 +332,35 @@
 
                         <!-- Primary CTA -->
                         <div class="mt-6 relative">
-                            <div class="transition-all duration-300" [class.opacity-0]="joinStatus !== 'idle'"
-                                [class.pointer-events-none]="joinStatus !== 'idle'">
-                                <button type="button" (click)="onJoinClick()"
-                                    class="w-full px-6 py-4 rounded-2xl font-black text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
-                                    [class]="uiState === 'joined'
-                    ? 'bg-[#F79009] hover:bg-[#DC6803] shadow-[#F79009]/25'
-                    : 'bg-[#146A1E] hover:bg-[#0f5418] shadow-[#2E7D32]/25'">
+                            <div [class.opacity-0]="joinStatus === 'joining'">
+
+                                @if (!isJoined) {
+                                <button type="button" (click)="JoinMatch()"
+                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#146A1E] hover:bg-[#0f5418] shadow-lg">
                                     <span class="inline-flex items-center justify-center gap-3">
-                                        @if (uiState === 'joined') { Join Waitlist } @else { Join Match }
-                                        <span
-                                            class="w-7 h-7 rounded-full bg-white/15 border border-white/15 grid place-items-center">
-                                            @if (uiState === 'joined') { ⌛ } @else { ⚽ }
-                                        </span>
+                                        Join Match ⚽
                                     </span>
                                 </button>
-
-                                <p class="mt-4 text-xs font-semibold text-slate-600 text-center">
-                                    @if (uiState === 'joined') {
-                                    By joining the waitlist, you agree to our <span
-                                        class="underline underline-offset-2">Cancellation Policy</span>.
-                                    } @else {
-                                    By joining, you agree to the <span class="underline underline-offset-2">Fair Play
-                                        Agreement</span>.
-                                    }
-                                </p>
-
-                                <!-- Cancel waitlist (only when user is in waitlist state) -->
-                                @if (isInWaitlist) {
-                                <button type="button" (click)="openCancelModal()"
-                                    class="mt-4 w-full px-6 py-4 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                                    Leave Waitlist
+                                } @else {
+                                <button type="button" (click)="LeaveMatch()"
+                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#B42318] hover:bg-[#8A1F17] shadow-lg">
+                                    <span class="inline-flex items-center justify-center gap-3">
+                                        Leave Match ✕
+                                    </span>
                                 </button>
                                 }
+
                             </div>
 
-                            <!-- Loading overlay -->
-                            <div class="absolute inset-0 grid place-items-center transition-all duration-300"
-                                [class.opacity-100]="joinStatus === 'joining'"
-                                [class.opacity-0]="joinStatus !== 'joining'"
-                                [class.pointer-events-auto]="joinStatus === 'joining'"
-                                [class.pointer-events-none]="joinStatus !== 'joining'">
-                                <div class="w-full">
-                                    <button type="button" disabled
-                                        class="w-full px-6 py-4 rounded-2xl bg-emerald-950/90 text-white font-black shadow-lg inline-flex items-center justify-center gap-3">
-                                        <span
-                                            class="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
-                                        Processing...
-                                    </button>
-                                </div>
+                            @if (joinStatus === 'joining') {
+                            <div class="absolute inset-0 grid place-items-center">
+                                <button disabled
+                                    class="w-full px-6 py-4 rounded-2xl bg-slate-800 text-white font-black">
+                                    Processing...
+                                </button>
                             </div>
+                            }
                         </div>
-
                         <!-- Waitlist bar (only in joined state) -->
                         @if (uiState === 'joined') {
                         <div class="mt-6 rounded-2xl bg-[#FFF7E6] border border-[#FEC84B]/60 p-5 animate-pop-in">

@@ -12,10 +12,17 @@ export class VenuesService {
   GetAllCourts(): Observable<any> {
     return this.httpClient.get(environments.baseUrl + '/customer/maincourts')
   }
+  GetMainCourtes(): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + '/customer/maincourts')
+  }
+  GetCourts(courtId: string): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + `/customer/maincourts/${courtId}/courts?`)
+  }
   GetSpecificCourts(courtId: string): Observable<any> {
     return this.httpClient.get(environments.baseUrl + `/customer/maincourts/${courtId}`)
   }
   GetNearestCourts(latitude: number, longitude: number): Observable<any> {
     return this.httpClient.get(environments.baseUrl + `/customer/maincourts?latitude=${latitude}&longitude=${longitude}`)
   }
+
 }
