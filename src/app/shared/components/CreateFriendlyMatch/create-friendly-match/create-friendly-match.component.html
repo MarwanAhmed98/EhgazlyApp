@@ -151,7 +151,8 @@
                                         <p class="text-base sm:text-lg font-black text-emerald-950 truncate">{{
                                             venue.name }}</p>
                                         <p class="mt-1 text-xs sm:text-sm font-semibold text-emerald-950/60 truncate">{{
-                                            venue.address }}</p>
+                                            venue.address }}
+                                        </p>
                                         <p
                                             class="mt-1 text-[10px] font-black uppercase tracking-widest text-emerald-950/55">
                                             {{ venue.courts_count }} COURTS
@@ -263,8 +264,8 @@
                         class="w-[74px] rounded-[1.5rem] border px-3 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
                         [disabled]="!selectedCourtId" [class.opacity-60]="!selectedCourtId"
                         [class.pointer-events-none]="!selectedCourtId" [class]="CreateMatchForm.get('dateISO')?.value === date.iso
-          ? 'bg-[#146A1E] border-[#146A1E] text-white'
-          : 'bg-white/55 border-emerald-200/60 text-emerald-950'">
+              ? 'bg-[#146A1E] border-[#146A1E] text-white'
+              : 'bg-white/55 border-emerald-200/60 text-emerald-950'">
                         <p class="text-[10px] font-black uppercase tracking-widest opacity-90">{{ date.month }}</p>
                         <p class="mt-1 text-xl font-black leading-none">{{ date.day }}</p>
                         <p class="mt-1 text-[10px] font-black uppercase tracking-widest opacity-90">{{ date.weekday }}
@@ -325,9 +326,8 @@
                             class="rounded-[1.5rem] border px-4 py-4 text-center transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
                             [disabled]="!timeSelectionEnabled" [class.opacity-60]="!timeSelectionEnabled"
                             [class.pointer-events-none]="!timeSelectionEnabled" [class]="selectedTimeSlot === slot.value
-              ? (slot.isPrime ? 'bg-[#FEC84B]/55 border-[#FEC84B]/80 text-emerald-950' : 'bg-[#146A1E] border-[#146A1E] text-white')
-              : 'bg-white/55 border-emerald-200/60 text-emerald-950'">
-
+                ? (slot.isPrime ? 'bg-[#FEC84B]/55 border-[#FEC84B]/80 text-emerald-950' : 'bg-[#146A1E] border-[#146A1E] text-white')
+                : 'bg-white/55 border-emerald-200/60 text-emerald-950'">
                             <p class="text-sm font-black">{{ slot.value }}</p>
 
                             @if (slot.isPrime) {
@@ -366,6 +366,7 @@
                 </div>
                 }
             </section>
+
             <!-- ── 3. PLAYERS NEEDED ── -->
             <section>
                 <div class="flex items-center gap-3">
@@ -422,14 +423,14 @@
                 <div class="md:col-span-2">
                     <label class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Match
                         Title</label>
-                    <input type="text" formControlName="title"
+                    <input type="text" formControlName="matchName"
                         class="mt-2 w-full rounded-2xl bg-white/60 border border-emerald-200/60 px-4 py-4 font-bold outline-none focus:border-emerald-950/60 transition-all"
-                        placeholder="e.g. Friday Night Blitz" [class.border-red-500]="hasError('title')" />
-                    @if (hasError('title')) {
+                        placeholder="e.g. Friday Night Blitz" [class.border-red-500]="hasError('matchName')" />
+                    @if (hasError('matchName')) {
                     <div id="alert-title" class="flex items-center p-4 mt-2 text-red-800 rounded-lg bg-red-50"
                         role="alert">
-                        <div class="ms-3 text-sm font-medium">Title is required (minimum 3 characters).</div>
-                        <button type="button" (click)="dismissError('title')"
+                        <div class="ms-3 text-sm font-medium">Match name is required (minimum 3 characters).</div>
+                        <button type="button" (click)="dismissError('matchName')"
                             class="ms-auto p-1.5 rounded-lg hover:bg-red-200" aria-label="Close">✕</button>
                     </div>
                     }
@@ -438,14 +439,14 @@
                 <div class="md:col-span-3">
                     <label
                         class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Description</label>
-                    <input type="text" formControlName="location"
-                        class="mt-2 w-full rounded-2xl bg-white/60 border border-emerald-200/60 px-4 py-4 font-bold outline-none focus:border-emerald-950/60 transition-all"
-                        placeholder="Enter a description for the match" [class.border-red-500]="hasError('location')" />
-                    @if (hasError('location')) {
-                    <div id="alert-location" class="flex items-center p-4 mt-2 text-red-800 rounded-lg bg-red-50"
+                    <textarea rows="3" formControlName="description"
+                        class="mt-2 w-full rounded-2xl bg-white/60 border border-emerald-200/60 px-4 py-4 font-bold outline-none focus:border-emerald-950/60 transition-all resize-none"
+                        placeholder="Im testing feature" [class.border-red-500]="hasError('description')"></textarea>
+                    @if (hasError('description')) {
+                    <div id="alert-description" class="flex items-center p-4 mt-2 text-red-800 rounded-lg bg-red-50"
                         role="alert">
                         <div class="ms-3 text-sm font-medium">Description is required.</div>
-                        <button type="button" (click)="dismissError('location')"
+                        <button type="button" (click)="dismissError('description')"
                             class="ms-auto p-1.5 rounded-lg hover:bg-red-200" aria-label="Close">✕</button>
                     </div>
                     }
@@ -527,9 +528,16 @@
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-[10px] font-black uppercase tracking-widest text-emerald-950/60">TIME</p>
-                            <p class="text-base font-black text-emerald-950">{{ successSummary.time }}</p>
+                        <div
+                            class="rounded-[1.5rem] border border-emerald-200/60 bg-white/55 px-4 py-4 sm:px-5 sm:py-5 text-center">
+
+                            <p class="text-[10px] sm:text-xs font-black uppercase tracking-widest text-emerald-950/60">
+                                Match Time
+                            </p>
+
+                            <p class="mt-2 text-base sm:text-lg font-black text-emerald-950 break-words">
+                                {{ formattedMatchTime || '--:-- -- - --:-- --' }}
+                            </p>
                         </div>
                         <div class="w-10 h-10 rounded-xl bg-emerald-200/40 flex items-center justify-center text-xl">👥
                         </div>

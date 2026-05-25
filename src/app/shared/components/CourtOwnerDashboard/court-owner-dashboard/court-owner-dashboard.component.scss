@@ -1,8 +1,40 @@
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+:host {
+    display: block;
+    overflow-x: clip;
 }
 
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+/* Premium shadow without changing theme */
+:host ::ng-deep .shadow-sm {
+    box-shadow:
+        0 18px 50px -30px rgba(2, 44, 34, 0.26),
+        0 2px 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+/* Consistent card feel */
+.stat-card,
+.activity-card {
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+    .stat-card:hover,
+    .activity-card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 24px 70px -40px rgba(2, 44, 34, 0.32),
+            0 2px 0 rgba(255, 255, 255, 0.35) inset;
+    }
+}
+
+/* Better mobile balance */
+@media (max-width: 640px) {
+    :host ::ng-deep .rounded-\[2rem\] {
+        border-radius: 1.5rem;
+    }
+}
+
+/* Tap highlight off */
+:host ::ng-deep button {
+    -webkit-tap-highlight-color: transparent;
 }

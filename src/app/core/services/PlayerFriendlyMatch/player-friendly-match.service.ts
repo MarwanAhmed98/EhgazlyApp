@@ -21,5 +21,8 @@ export class PlayerFRiendlyMatchService {
   LeaveMatches(id: string): Observable<any> {
     return this.httpClient.delete(environments.baseUrl + `/customer/matches/${id}/leave`)
   }
+  CreateMatches(data: object): Observable<any> {
+    return this.httpClient.post(environments.baseUrl + '/customer/matches', data)
+  }
 
 }
