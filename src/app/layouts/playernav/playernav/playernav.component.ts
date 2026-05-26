@@ -470,6 +470,7 @@ export class PlayernavComponent implements OnInit, OnDestroy {
   Logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('userId');
     this.router.navigate(['/Login']);
     this.toastService.success('Logged out successfully', 'Ehgazly');
   }

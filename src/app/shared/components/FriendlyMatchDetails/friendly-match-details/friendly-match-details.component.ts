@@ -1,20 +1,22 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ISpecificMatch } from '../../../interfaces/ispecific-match';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { LucideAngularModule } from 'lucide-angular';
 
 type UIState = 'preJoin' | 'joined';
 type JoinStatus = 'idle' | 'joining';
+type DeleteStatus = 'idle' | 'deleting';
 
-type BannerKind = 'joined' | 'waitlist' | 'cancelled';
+type ParticipationState = 'never_joined' | 'joined' | 'left';
 
 @Component({
   selector: 'app-friendly-match-details',
   standalone: true,
-  imports: [PlayernavComponent, DatePipe, SlicePipe],
+  imports: [PlayernavComponent, DatePipe, SlicePipe, LucideAngularModule],
   templateUrl: './friendly-match-details.component.html',
   styleUrl: './friendly-match-details.component.scss',
 })
@@ -22,48 +24,26 @@ export class FriendlyMatchDetailsComponent implements OnInit {
   private readonly playerFRiendlyMatchService = inject(PlayerFRiendlyMatchService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
 
   SpecificMatchesDetails: ISpecificMatch = {} as ISpecificMatch;
 
-  isJoined = false;
+  participationState: ParticipationState = 'never_joined';
+
+  // compute once per session
+  private currentUserId: string | number = 'guest';
+
   MatchId: any;
-
-  // keep your existing objects
-  match = {
-    title: 'Friday Night Blitz 7v7',
-    dateLabel: 'Friday, Oct 27',
-    timeLabel: '20:00 – 21:30',
-    venueLabel: 'Al-Nasr Arena, Pitch 4',
-    address: 'Building 42, District 5, New Cairo',
-    fee: 150,
-    capacity: 14,
-    heroImage: 'https://images.unsplash.com/photo-1434648957308-5e6a859697e8?auto=format&fit=crop&w=1800&q=80',
-    mapImage: 'https://images.unsplash.com/photo-1548345680-f5475ea5df84?auto=format&fit=crop&w=1400&q=80',
-  };
-
-  organizer = {
-    name: 'Ziad Ebrahim',
-    rating: 4.9,
-    matches: 124,
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=256&q=80',
-  };
 
   uiState: UIState = 'preJoin';
   joinStatus: JoinStatus = 'idle';
 
-  bannerDismissed = false;
-  bannerKind: BannerKind = 'joined';
-
-  spotsLeft = 6;
-  rosterCount = 8;
-
-  isInWaitlist = false;
-  waitlistPosition = 0;
-  waitlistCount = 0;
-
-  cancelModalOpen = false;
+  isDeleteModalOpen = false;
+  deleteStatus: DeleteStatus = 'idle';
 
   ngOnInit(): void {
+    this.currentUserId = this.getCurrentUserId();
+
     this.activatedRoute.paramMap.subscribe({
       next: (res) => {
         this.MatchId = res.get('id')!;
@@ -71,137 +51,193 @@ export class FriendlyMatchDetailsComponent implements OnInit {
       },
     });
   }
-  private syncJoinedStateFromAPI(): void {
-    const d = this.SpecificMatchesDetails as any;
-    if (!d) return;
-    if (d.auth_status === 'joined') {
-      this.isJoined = true;
-      return;
-    }
-    const playersList = d.joined_players || [];
-    const currentUserId = 9;
 
-    if (Array.isArray(playersList)) {
-      this.isJoined = playersList.some(p =>
-        Number(p.customer_id) === Number(currentUserId) ||
-        Number(p.id) === Number(currentUserId)
-      );
+  private getCurrentUserId(): string {
+    return localStorage.getItem('userId') ?? 'guest';
+  }
+
+  private leftMatchStorageKey(): string {
+    return `match_left_${this.MatchId}_user_${this.currentUserId}`;
+  }
+
+  private pendingJoinedStorageKey(): string {
+    return `match_pending_join_${this.MatchId}_user_${this.currentUserId}`;
+  }
+
+  private computeParticipationStateFromMatch(match: any): ParticipationState {
+    if (!match) return 'never_joined';
+
+    const rawStatus =
+      match.participation_state ??
+      match.join_state ??
+      match.join_status ??
+      match.participation_status ??
+      match.user_status ??
+      match.auth_status;
+
+    const s = String(rawStatus ?? '').toLowerCase();
+    if (s === 'left' || s === 'leaved' || s === 'left_match' || s === 'cancelled') return 'left';
+    if (s === 'joined') return 'joined';
+
+    if (typeof match.is_joined === 'boolean') return match.is_joined ? 'joined' : 'never_joined';
+
+    const ids = match.joined_player_ids ?? match.participant_ids ?? match.player_ids;
+    if (Array.isArray(ids)) {
+      return ids.some((id: any) => Number(id) === Number(this.currentUserId)) ? 'joined' : 'never_joined';
     }
+
+    const playersList = match.joined_players ?? match.participants ?? match.players;
+    if (Array.isArray(playersList)) {
+      const isIn = playersList.some(
+        (p: any) =>
+          Number(p?.customer_id) === Number(this.currentUserId) ||
+          Number(p?.id) === Number(this.currentUserId) ||
+          Number(p?.user_id) === Number(this.currentUserId),
+      );
+      if (isIn) return 'joined';
+    }
+
+    // LEFT state for CURRENT USER ONLY
+    const storedLeft =
+      localStorage.getItem(this.leftMatchStorageKey()) === 'true';
+
+    if (storedLeft) {
+      return 'left';
+    }
+
+    const pending =
+      localStorage.getItem(this.pendingJoinedStorageKey()) === 'true';
+
+    return pending ? 'joined' : 'never_joined';
+  }
+
+
+  private syncUIStateFromBackend(): void {
+    const d: any = this.SpecificMatchesDetails as any;
+
+    // IMPORTANT
+    const storedLeft =
+      localStorage.getItem(this.leftMatchStorageKey()) === 'true';
+
+    // IF USER LEFT BEFORE
+    // DON'T LET BACKEND OVERRIDE IT
+    if (storedLeft) {
+      this.participationState = 'left';
+    } else {
+      this.participationState =
+        this.computeParticipationStateFromMatch(d);
+    }
+
+    const required = Number(d?.required_players ?? 0);
+    const current = Number(d?.current_players ?? 0);
+
+    this.uiState =
+      required > 0 && current >= required
+        ? 'joined'
+        : 'preJoin';
   }
 
   GetSpecificMatch(): void {
+    this.currentUserId = this.getCurrentUserId(); // أضف السطر ده
+
     this.playerFRiendlyMatchService.GetSpecificMatches(this.MatchId).subscribe({
       next: (res) => {
-        console.log('بيانات الملعب من السيرفر:', res.data);
-        this.SpecificMatchesDetails = res.data;
-        this.syncJoinedStateFromAPI();
+        this.SpecificMatchesDetails = res?.data ?? ({} as ISpecificMatch);
+        this.syncUIStateFromBackend();
+        console.log(res);
+      },
+      error: () => {
+        this.SpecificMatchesDetails = {} as ISpecificMatch;
+        this.participationState = 'never_joined';
+        this.uiState = 'preJoin';
       },
     });
   }
 
   JoinMatch(): void {
     if (this.joinStatus !== 'idle') return;
+    if (this.participationState !== 'never_joined') return;
 
     this.joinStatus = 'joining';
+
     this.playerFRiendlyMatchService.JoinMatches(this.MatchId).subscribe({
       next: (res) => {
-        this.toastService.success(res.message, 'Ehgazly');
-        this.isJoined = true;
-        this.SpecificMatchesDetails = {
-          ...(this.SpecificMatchesDetails as any),
-          current_players: Number((this.SpecificMatchesDetails as any)?.current_players ?? 0) + 1,
-          spots_left: Math.max(0, Number((this.SpecificMatchesDetails as any)?.spots_left ?? 0) - 1),
-        } as ISpecificMatch;
+        this.toastService.success(res?.message ?? 'Joined match', 'Ehgazly');
+        localStorage.removeItem(this.leftMatchStorageKey());
         this.joinStatus = 'idle';
+        this.participationState = 'joined';
         this.GetSpecificMatch();
+
       },
       error: (err) => {
         this.joinStatus = 'idle';
+        localStorage.removeItem(this.pendingJoinedStorageKey());
         this.toastService.error(err?.error?.message ?? 'Failed to join match', 'Ehgazly');
+        this.GetSpecificMatch();
       },
     });
   }
 
   LeaveMatch(): void {
-    if (this.joinStatus !== 'idle') return;
-
-    this.joinStatus = 'joining';
-
     this.playerFRiendlyMatchService.LeaveMatches(this.MatchId).subscribe({
       next: (res) => {
-        this.toastService.success(res.message, 'Ehgazly');
-        this.isJoined = false;
-        const currentPlayers = Number((this.SpecificMatchesDetails as any)?.current_players ?? 0);
-        const requiredPlayers = Number((this.SpecificMatchesDetails as any)?.required_players ?? 0);
-
-        const nextCurrent = Math.max(0, currentPlayers - 1);
-        const nextSpotsLeft = Math.max(0, requiredPlayers - nextCurrent);
-
-        const currentUserId =
-          (this.SpecificMatchesDetails as any)?.current_user_id ??
-          (this.SpecificMatchesDetails as any)?.auth_user_id ??
-          (this.SpecificMatchesDetails as any)?.user_id ??
-          (this.SpecificMatchesDetails as any)?.me?.id ??
-          (this.SpecificMatchesDetails as any)?.currentUser?.id;
-
-        const joinedPlayers: any[] = (this.SpecificMatchesDetails as any)?.joined_players ?? [];
-        const filteredPlayers = Array.isArray(joinedPlayers) && currentUserId != null
-          ? joinedPlayers.filter((p) => Number(p?.id) !== Number(currentUserId))
-          : joinedPlayers;
-
-        this.SpecificMatchesDetails = {
-          ...(this.SpecificMatchesDetails as any),
-          current_players: nextCurrent,
-          spots_left: nextSpotsLeft,
-          joined_players: filteredPlayers,
-        } as ISpecificMatch;
-
-        this.joinStatus = 'idle';
+        this.toastService.success(
+          res?.message ?? 'Left match',
+          'Ehgazly'
+        );
+        localStorage.setItem(this.leftMatchStorageKey(), 'true');
+        this.participationState = 'left';
         this.GetSpecificMatch();
-      },
-      error: (err) => {
-        this.joinStatus = 'idle';
-        this.syncJoinedStateFromAPI();
+        console.log(res);
 
-        this.toastService.error(err?.error?.message ?? 'Failed to leave match', 'Ehgazly');
+      },
+
+      error: (err) => {
+        this.toastService.error(
+          err?.error?.message ?? 'Failed to leave match',
+          'Ehgazly'
+        );
       },
     });
   }
-  get waitlistFillPct(): number {
-    return Math.min(100, Math.max(0, (this.waitlistCount / 10) * 100));
+
+  // ===== Delete match (unchanged) =====
+  openDeleteModal(): void {
+    if (this.deleteStatus === 'deleting') return;
+    this.isDeleteModalOpen = true;
+  }
+
+  closeDeleteModal(): void {
+    if (this.deleteStatus === 'deleting') return;
+    this.isDeleteModalOpen = false;
+  }
+
+  confirmDeleteMatch(): void {
+    const matchId = String(this.MatchId ?? '');
+    if (!matchId) return;
+    if (this.deleteStatus === 'deleting') return;
+
+    this.deleteStatus = 'deleting';
+    this.DeleteMatch(matchId);
+  }
+
+  DeleteMatch(matchId: string): void {
+    this.playerFRiendlyMatchService.DeleteMatches(matchId).subscribe({
+      next: (res) => {
+        this.toastService.success(res?.message ?? 'Match deleted successfully', 'Ehgazly');
+        this.deleteStatus = 'idle';
+        this.isDeleteModalOpen = false;
+        this.router.navigate(['/FriendlyMatches']);
+      },
+      error: (err) => {
+        this.deleteStatus = 'idle';
+        this.toastService.error(err?.error?.message ?? 'Failed to delete match', 'Ehgazly');
+      },
+    });
   }
 
   get slotDots(): number[] {
     if (this.uiState === 'preJoin') return [9, 10, 11, 12, 13, 14];
     return [5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-  }
-
-  dismissBanner(): void {
-    this.bannerDismissed = true;
-  }
-
-  openCancelModal(): void {
-    if (!this.isInWaitlist) return;
-    this.cancelModalOpen = true;
-  }
-
-  closeCancelModal(): void {
-    this.cancelModalOpen = false;
-  }
-
-  confirmCancelWaitlist(): void {
-    if (!this.isInWaitlist) {
-      this.closeCancelModal();
-      return;
-    }
-    this.isInWaitlist = false;
-    this.waitlistCount = Math.max(0, this.waitlistCount - 1);
-    this.waitlistPosition = 0;
-    this.uiState = 'preJoin';
-    this.spotsLeft = 6;
-    this.rosterCount = 8;
-    this.bannerDismissed = false;
-    this.bannerKind = 'cancelled';
-    this.closeCancelModal();
   }
 }

@@ -55,7 +55,7 @@
         class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#A34700]/10 blur-3xl rounded-full pointer-events-none">
     </div>
 
-    <!-- Navbar (kept consistent) -->
+    <!-- Navbar -->
     <app-playernav [active]="'friendly-matches'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
@@ -64,42 +64,40 @@
             <div
                 class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)]">
                 <div class="relative h-[240px] sm:h-[300px] lg:h-[360px]">
-                    <img [src]="match.heroImage" alt="Match banner"
-                        class="absolute inset-0 w-full h-full object-cover" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-emerald-950/70 via-emerald-950/25 to-transparent">
                     </div>
 
                     <div class="absolute left-6 right-6 bottom-6">
-                        <div class="flex items-center gap-3">
-                            <!-- <span
-                                class="px-3 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white"
-                                [class]="uiState === 'joined' ? 'bg-[#B42318]' : 'bg-[#A34700]'">
-                                @if (uiState === 'joined') { Fully Booked } @else { Fast Filling }
-                            </span> -->
-                        </div>
+                        <div class="flex items-center gap-3"></div>
 
                         <h1
                             class="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-white drop-shadow">
-                            {{ SpecificMatchesDetails.court.name }} {{ SpecificMatchesDetails.court.type}}
+                            {{ SpecificMatchesDetails.court.name }} {{ SpecificMatchesDetails.court.type }}
                         </h1>
 
                         <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-emerald-50/90 font-semibold">
                             <span class="inline-flex items-center gap-2">
                                 <span
-                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">📅</span>
+                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
+                                    <lucide-icon name="calendar" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                </span>
                                 {{ SpecificMatchesDetails.timeslot.date | date:'EEE' }} , {{
                                 SpecificMatchesDetails.timeslot.date | date:'MMM d' }}
                             </span>
                             <span class="inline-flex items-center gap-2">
                                 <span
-                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">🕒</span>
-                                {{ SpecificMatchesDetails.timeslot.start_time | slice:0:5}} – {{
+                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
+                                    <lucide-icon name="clock" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                </span>
+                                {{ SpecificMatchesDetails.timeslot.start_time | slice:0:5 }} – {{
                                 SpecificMatchesDetails.timeslot.end_time | slice:0:5 }}
                             </span>
                             <span class="inline-flex items-center gap-2">
                                 <span
-                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">📍</span>
+                                    class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
+                                    <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                </span>
                                 {{ SpecificMatchesDetails.court.maincourt.address }}
                             </span>
                         </div>
@@ -112,79 +110,20 @@
         <section class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in-up" style="animation-delay: 90ms;">
             <!-- Left -->
             <div class="lg:col-span-8 space-y-6">
-                <!-- Banner / Toast -->
-                @if (!bannerDismissed) {
-                <div class="rounded-[1.75rem] border p-5 sm:p-6 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.18)] transition-all duration-300"
-                    [class]="bannerKind === 'waitlist'
-            ? 'bg-[#FFF7E6] border-[#FEC84B]/60'
-            : bannerKind === 'cancelled'
-              ? 'bg-white/70 border-emerald-200/60'
-              : 'bg-[#D1FFD7] border-emerald-200/60'">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-2xl grid place-items-center border" [class]="bannerKind === 'waitlist'
-                  ? 'bg-[#FEF0C7] border-[#FEC84B]/60 text-[#A34700]'
-                  : bannerKind === 'cancelled'
-                    ? 'bg-white/70 border-emerald-200/60 text-emerald-950'
-                    : 'bg-white/70 border-emerald-200/60 text-[#146A1E]'">
-                                @if (bannerKind === 'waitlist') { ⏳ }
-                                @else if (bannerKind === 'cancelled') { ✅ }
-                                @else { ✅ }
-                            </div>
-
-                            <div class="min-w-0">
-                                <p class="text-base sm:text-lg font-black" [class]="bannerKind === 'waitlist'
-                      ? 'text-[#A34700]'
-                      : bannerKind === 'cancelled'
-                        ? 'text-emerald-950'
-                        : 'text-emerald-950'">
-                                    @if (bannerKind === 'waitlist') {
-                                    You're #{{ waitlistPosition }} on the waitlist.
-                                    } @else if (bannerKind === 'cancelled') {
-                                    You're off the waitlist.
-                                    } @else {
-                                    Goal! You have joined the match!
-                                    }
-                                </p>
-                                <p class="mt-1 text-sm font-semibold" [class]="bannerKind === 'waitlist'
-                      ? 'text-[#A34700]/80'
-                      : bannerKind === 'cancelled'
-                        ? 'text-emerald-950/70'
-                        : 'text-emerald-950/70'">
-                                    @if (bannerKind === 'waitlist') {
-                                    We'll notify you if a spot opens up!
-                                    } @else if (bannerKind === 'cancelled') {
-                                    Your join request was cancelled successfully.
-                                    } @else {
-                                    Your spot is secured. See you on the pitch!
-                                    }
-                                </p>
-                            </div>
-                        </div>
-
-                        <button type="button" (click)="dismissBanner()"
-                            class="w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                            ✕
-                        </button>
-                    </div>
-                </div>
-                }
-
                 <!-- Location + Fee/Rules -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Location -->
                     <div
                         class="rounded-[2rem] bg-[#D1FFD7]/70 border border-emerald-200/60 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.16)]">
                         <div class="flex items-center gap-3">
-                            <span
-                                class="w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center">📍</span>
+                            <span class="w-11 h-11 rounded-2xl border border-emerald-200/60 grid place-items-center">
+                                <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                            </span>
                             <p class="text-xl font-black tracking-tight text-emerald-950">Location</p>
                         </div>
 
                         <div class="mt-5 rounded-2xl overflow-hidden border border-emerald-200/60 bg-white/60">
                             <div class="h-44 sm:h-52 bg-emerald-200/25 grid place-items-center relative">
-                                <img [src]="match.mapImage" alt="Map"
-                                    class="absolute inset-0 w-full h-full object-cover opacity-90" />
                                 <button type="button"
                                     class="relative z-10 px-4 py-2 rounded-xl bg-white/80 border border-emerald-200/60 text-emerald-950 font-black text-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center gap-2">
                                     Open in Maps
@@ -205,13 +144,14 @@
                             <div>
                                 <div class="flex items-center gap-3">
                                     <span
-                                        class="w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center">💵</span>
+                                        class="w-11 h-11 rounded-2xl border border-emerald-200/60 grid place-items-center">
+                                        <lucide-icon name="euro" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                    </span>
                                     <p class="text-xl font-black tracking-tight text-emerald-950">Entry Fee</p>
                                 </div>
                                 <p class="mt-3 text-4xl font-black tracking-tight text-emerald-950">
-                                    {{ SpecificMatchesDetails.court.price_per_hour }} <span
-                                        class="text-sm font-black text-emerald-950/70">EGP /
-                                        HOUR</span>
+                                    {{ SpecificMatchesDetails.court.price_per_hour }}
+                                    <span class="text-sm font-black text-emerald-950/70">EGP / HOUR</span>
                                 </p>
                             </div>
                         </div>
@@ -221,21 +161,29 @@
                         <div class="mt-6">
                             <div class="flex items-center gap-3">
                                 <span
-                                    class="w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center">📌</span>
+                                    class="w-11 h-11 rounded-2xl border border-emerald-200/60 grid place-items-center">
+                                    <lucide-icon name="alert-triangle" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                </span>
                                 <p class="text-xl font-black tracking-tight text-emerald-950">Match Rules</p>
                             </div>
 
                             <ul class="mt-4 space-y-3 text-sm font-semibold text-emerald-950/80">
                                 <li class="flex items-start gap-3">
-                                    <span class="mt-0.5">🟠</span>
+                                    <span class="mt-0.5">
+                                        <lucide-icon name="alert-circle" [size]="16" [strokeWidth]="2.5"></lucide-icon>
+                                    </span>
                                     <span>No metal studs allowed. Turf shoes or sneakers only.</span>
                                 </li>
                                 <li class="flex items-start gap-3">
-                                    <span class="mt-0.5">🟠</span>
+                                    <span class="mt-0.5">
+                                        <lucide-icon name="alert-circle" [size]="16" [strokeWidth]="2.5"></lucide-icon>
+                                    </span>
                                     <span>Fair play only. Zero tolerance for aggressive behavior.</span>
                                 </li>
                                 <li class="flex items-start gap-3">
-                                    <span class="mt-0.5">🟠</span>
+                                    <span class="mt-0.5">
+                                        <lucide-icon name="alert-circle" [size]="16" [strokeWidth]="2.5"></lucide-icon>
+                                    </span>
                                     <span>Arrive 15 minutes before kickoff for warm-up.</span>
                                 </li>
                             </ul>
@@ -249,15 +197,15 @@
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-2xl font-black tracking-tight text-emerald-950">Match Roster</p>
-                            <p class="mt-1 text-sm font-semibold text-emerald-950/70">Confirmed players for this session
-                            </p>
+                            <p class="mt-1 text-sm font-semibold text-emerald-950/70">Confirmed players for this
+                                session</p>
                         </div>
 
                         <div class="text-right">
                             <p class="text-2xl font-black"
                                 [class]="uiState === 'joined' ? 'text-[#B42318]' : 'text-emerald-950'">
-                                {{ SpecificMatchesDetails.current_players }}/{{ SpecificMatchesDetails.required_players
-                                }}
+                                {{ SpecificMatchesDetails.current_players }}/{{
+                                SpecificMatchesDetails.required_players }}
                             </p>
                             <p class="text-[11px] font-black uppercase tracking-widest"
                                 [class]="uiState === 'joined' ? 'text-[#B42318]/80' : 'text-emerald-950/60'">
@@ -272,15 +220,10 @@
                             class="rounded-2xl bg-white/60 border border-emerald-200/60 p-4 text-center transition-all duration-300 hover:-translate-y-0.5">
                             <div
                                 class="mx-auto w-16 h-16 rounded-2xl bg-emerald-200/40 border border-emerald-200/60 overflow-hidden grid place-items-center">
-                                <!-- @if (p.avatar) {
-                                <img [src]="p.avatar" alt="Player" class="w-full h-full object-cover" />
-                                } @else {
-                                <span class="text-2xl">👤</span>
-                                } -->
                             </div>
                             <p class="mt-3 text-sm font-black text-emerald-950 truncate">{{ p.name }}</p>
-                            <p class="mt-2 inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
-                                [class]="">
+                            <p
+                                class="mt-2 inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
                                 {{ p.status }}
                             </p>
                         </div>
@@ -292,8 +235,8 @@
                         <span
                             class="w-10 h-10 rounded-full border-2 grid place-items-center text-[11px] font-black transition-all duration-300"
                             [class]="uiState === 'joined'
-                  ? 'border-emerald-950/80 text-emerald-950/80 bg-white/40'
-                  : 'border-emerald-950/20 text-emerald-950/35 bg-white/20'">
+                                ? 'border-emerald-950/80 text-emerald-950/80 bg-white/40'
+                                : 'border-emerald-950/20 text-emerald-950/35 bg-white/20'">
                             #{{ s }}
                         </span>
                         }
@@ -315,8 +258,8 @@
                                         [class]="uiState === 'joined' ? 'bg-[#B42318]' : 'bg-[#146A1E]'"></span>
                                     <p class="text-lg font-black"
                                         [class]="uiState === 'joined' ? 'text-[#B42318]' : 'text-emerald-950'">
-                                        @if (uiState === 'joined') { FULL } @else { {{ SpecificMatchesDetails.spots_left
-                                        }} spots left }
+                                        @if (uiState === 'joined') { FULL } @else { {{
+                                        SpecificMatchesDetails.spots_left }} spots left }
                                     </p>
                                 </div>
                             </div>
@@ -330,22 +273,32 @@
                             </div>
                         </div>
 
-                        <!-- Primary CTA -->
+                        <!-- Primary CTA (FINAL FLOW) -->
                         <div class="mt-6 relative">
                             <div [class.opacity-0]="joinStatus === 'joining'">
 
-                                @if (!isJoined) {
+                                @if (participationState === 'left') {
+                                <div
+                                    class="w-full px-6 py-4 rounded-2xl border border-red-200 bg-red-50 text-center shadow-lg shadow-red-900/10">
+                                    <span
+                                        class="inline-flex items-center justify-center gap-2 text-[#B42318] font-black text-base">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-[#B42318]"></span>
+                                        Left Match
+                                    </span>
+                                </div>
+                                } @else if (participationState === 'never_joined') {
                                 <button type="button" (click)="JoinMatch()"
-                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#146A1E] hover:bg-[#0f5418] shadow-lg">
+                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#146A1E] hover:bg-[#0f5418] shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                     <span class="inline-flex items-center justify-center gap-3">
                                         Join Match ⚽
                                     </span>
                                 </button>
                                 } @else {
                                 <button type="button" (click)="LeaveMatch()"
-                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#B42318] hover:bg-[#8A1F17] shadow-lg">
+                                    class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#B42318] hover:bg-[#8A1F17] shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                     <span class="inline-flex items-center justify-center gap-3">
-                                        Leave Match ✕
+                                        Leave Match
+                                        <lucide-icon name="x" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                     </span>
                                 </button>
                                 }
@@ -361,29 +314,18 @@
                             </div>
                             }
                         </div>
-                        <!-- Waitlist bar (only in joined state) -->
-                        @if (uiState === 'joined') {
-                        <div class="mt-6 rounded-2xl bg-[#FFF7E6] border border-[#FEC84B]/60 p-5 animate-pop-in">
-                            <div class="flex items-center justify-between gap-3">
-                                <p class="text-sm font-black text-[#A34700]">Waitlist</p>
-                                <p class="text-sm font-black text-[#A34700]">{{ waitlistCount }} players waiting</p>
-                            </div>
-                            <div class="mt-3 h-2 rounded-full bg-[#FEC84B]/35 overflow-hidden">
-                                <div class="h-full bg-[#F79009]" [style.width.%]="waitlistFillPct"></div>
-                            </div>
+
+                        <!-- Delete Match -->
+                        <div class="mt-6">
+                            <button type="button" (click)="openDeleteModal()" [disabled]="deleteStatus === 'deleting'"
+                                [class.opacity-70]="deleteStatus === 'deleting'"
+                                class="w-full px-6 py-4 rounded-2xl font-black text-white bg-[#B42318] hover:bg-[#8A1F17] shadow-lg shadow-[#B42318]/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                                @if (deleteStatus === 'deleting') { Deleting... } @else { Delete Match
+                                <lucide-icon name="trash-2" [size]="20" [strokeWidth]="2.5"></lucide-icon> }
+                            </button>
+                            <p class="mt-2 text-xs font-semibold text-slate-600">This action is permanent.</p>
                         </div>
-                        } @else {
-                        <div class="mt-6 rounded-2xl bg-emerald-100/60 border border-emerald-200/60 p-5">
-                            <div class="flex items-center justify-between gap-3">
-                                <p class="text-sm font-black text-emerald-950/70">Waitlist</p>
-                                <p class="text-sm font-black text-emerald-950/50">0 players</p>
-                            </div>
-                            <div
-                                class="mt-3 h-10 rounded-2xl bg-emerald-200/30 border border-emerald-200/60 grid place-items-center text-xs font-black text-emerald-950/35">
-                                Waitlist Full
-                            </div>
-                        </div>
-                        }
+
                     </div>
                 </div>
 
@@ -394,21 +336,19 @@
                         <div class="flex items-center gap-4 min-w-0">
                             <div
                                 class="w-12 h-12 rounded-2xl bg-white/70 border border-emerald-200/60 overflow-hidden grid place-items-center">
-                                <img [src]="organizer.avatar" alt="Organizer" class="w-full h-full object-cover" />
                             </div>
                             <div class="min-w-0">
                                 <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/60">
                                     Organized by</p>
-                                <p class="mt-1 text-base font-black text-emerald-950 truncate">{{
-                                    SpecificMatchesDetails.creator.name }}</p>
-                                <!-- <p class="mt-1 text-xs font-semibold text-emerald-950/70">★ {{ organizer.rating }} ({{
-                                    organizer.matches }} matches)</p> -->
+                                <p class="mt-1 text-base font-black text-emerald-950 truncate">
+                                    {{ SpecificMatchesDetails.creator.name }}
+                                </p>
                             </div>
                         </div>
 
                         <button type="button"
-                            class="w-12 h-12 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                            💬
+                            class="w-12 h-12 rounded-2xl border border-emerald-200/60 grid place-items-center text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                            <lucide-icon name="message-square" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                         </button>
                     </div>
                 </div>
@@ -417,46 +357,50 @@
     </main>
 </div>
 
-<!-- Cancel confirmation modal -->
-<div class="fixed inset-0 z-[95] flex items-center justify-center transition-all duration-300"
-    [class.opacity-100]="cancelModalOpen" [class.opacity-0]="!cancelModalOpen"
-    [class.pointer-events-auto]="cancelModalOpen" [class.pointer-events-none]="!cancelModalOpen" aria-live="polite">
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeCancelModal()"></div>
+<!-- Delete confirmation modal -->
+@if (isDeleteModalOpen) {
+<div class="fixed inset-0 z-[110] flex items-center justify-center transition-all duration-300" aria-live="polite">
 
-    <div class="relative w-[92%] max-w-lg rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 shadow-2xl overflow-hidden transition-all duration-300"
-        [class.scale-100]="cancelModalOpen" [class.scale-95]="!cancelModalOpen" [class.translate-y-0]="cancelModalOpen"
-        [class.translate-y-3]="!cancelModalOpen">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="closeDeleteModal()"></div>
+
+    <div
+        class="relative w-[92%] max-w-lg rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 shadow-2xl overflow-hidden transition-all duration-300 scale-100 translate-y-0">
         <div class="p-7 sm:p-8">
             <div class="flex items-start justify-between gap-4">
                 <div class="flex items-center gap-3">
                     <span
-                        class="w-12 h-12 rounded-2xl bg-[#FEF0C7] border border-[#FEC84B]/60 grid place-items-center text-[#A34700] font-black">!</span>
+                        class="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 grid place-items-center text-[#B42318] font-black">
+                        !
+                    </span>
                     <div>
-                        <p class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950">Cancel Join Request
+                        <p class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                            Delete Match
                         </p>
-                        <p class="mt-1 text-sm font-semibold text-slate-600">
-                            Are you sure you want to cancel your join request?
+                        <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                            Are you sure you want to delete this match?
                         </p>
                     </div>
                 </div>
 
-                <button type="button" (click)="closeCancelModal()"
-                    class="w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                <button type="button" (click)="closeDeleteModal()"
+                    class="w-11 h-11 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 grid place-items-center text-slate-900 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                     ✕
                 </button>
             </div>
 
             <div class="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button type="button" (click)="confirmCancelWaitlist()"
-                    class="px-6 py-4 rounded-2xl bg-[#B42318] hover:bg-[#8A1F17] text-white font-black shadow-lg shadow-[#B42318]/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                    Yes, Cancel
+                <button type="button" (click)="confirmDeleteMatch()" [disabled]="deleteStatus === 'deleting'"
+                    class="px-6 py-4 rounded-2xl bg-[#B42318] hover:bg-[#8A1F17] disabled:opacity-70 text-white font-black shadow-lg shadow-[#B42318]/20 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                    @if (deleteStatus === 'deleting') { Deleting... } @else { Confirm Delete }
                 </button>
 
-                <button type="button" (click)="closeCancelModal()"
-                    class="px-6 py-4 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                    No, Keep Me
+                <button type="button" (click)="closeDeleteModal()" [disabled]="deleteStatus === 'deleting'"
+                    class="px-6 py-4 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200/60 dark:border-slate-800/60 text-slate-900 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70">
+                    Cancel
                 </button>
             </div>
         </div>
     </div>
+
 </div>
+}

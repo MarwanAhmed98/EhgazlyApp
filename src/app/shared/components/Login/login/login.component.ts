@@ -25,6 +25,7 @@ export class LoginComponent {
           console.log(res);
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.user.role);
+          localStorage.setItem('userId', res.user.id);
           if (res.user.role == 'customer') {
             this.router.navigate(['/MyBookings']);
             this.toastService.success(res.message, 'Ehgazly');

@@ -10,6 +10,8 @@ import { ICourt } from '../../../interfaces/icourt';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
 import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
+import { LucideAngularModule } from 'lucide-angular';
+
 
 type DateChip = {
   iso: string;
@@ -31,7 +33,7 @@ type MatchTypeOption = {
 @Component({
   selector: 'app-create-friendly-match',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PlayernavComponent],
+  imports: [ReactiveFormsModule, CommonModule, PlayernavComponent, LucideAngularModule],
   templateUrl: './create-friendly-match.component.html',
   styleUrls: ['./create-friendly-match.component.scss'],
 })
@@ -40,50 +42,31 @@ export class CreateFriendlyMatchComponent implements OnInit {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly matchesService = inject(PlayerFRiendlyMatchService);
   private readonly router = inject(Router);
-
-  // API data
   MainCourtsDetails: IAllcourts[] = [];
   CourtsDetails: ICourt[] = [];
   TimeDetails: Icustomertimeslot[] = [];
-
-  // selection state
   selectedMainCourt: IAllcourts | null = null;
   selectedCourt: ICourt | null = null;
-
-  // REQUIRED state
   selectedCourtId: number | null = null;
   selectedDateISO: string | null = null;
   availableTimeSlots: TimeChip[] = [];
   selectedTimeSlot: string | null = null;
-
-  // backend needs timeslot_id
   selectedTimeslotId: string | null = null;
-
-  // formatted time display
   formattedMatchTime = '';
-
-  // loading/error (times)
   timeSlotsLoading = false;
   timeSlotsError = '';
-
-  // UI state
   venuesOpen = false;
   courtsOpen = false;
-
-  // loading/error
   mainCourtsLoading = false;
   courtsLoading = false;
   mainCourtsError = '';
   courtsError = '';
-
-  // search
   venueSearch = new FormControl<string>('', { nonNullable: true });
-
   submitting = false;
   successOpen = false;
   errorMessage = '';
-
   dateOptions: DateChip[] = [];
+  isMatchCreatedModalOpen = false;
 
   matchTypeOptions: MatchTypeOption[] = [
     { value: '5v5', label: '5v5' },
@@ -520,13 +503,11 @@ export class CreateFriendlyMatchComponent implements OnInit {
       .pipe(finalize(() => (this.submitting = false)))
       .subscribe({
         next: () => {
-          this.successSummary.field =
-            this.selectedMainCourt?.name ?? 'Selected Venue';
+          this.successSummary.field = this.selectedMainCourt?.name ?? 'Selected Venue';
+          this.successSummary.time = this.formattedMatchTime || '--:-- -- - --:-- --';
 
-          this.successSummary.time =
-            this.formattedMatchTime || '--:-- -- - --:-- --';
-
-          this.successOpen = true;
+          // open modal ONLY here
+          this.isMatchCreatedModalOpen = true;
 
           this.CreateMatchForm.patchValue({
             matchName: '',
@@ -536,11 +517,9 @@ export class CreateFriendlyMatchComponent implements OnInit {
           this.CreateMatchForm.get('matchName')?.markAsPristine();
           this.CreateMatchForm.get('description')?.markAsPristine();
         },
-
         error: (err) => {
           this.errorMessage =
-            err?.error?.message ??
-            'Failed to create match. Please try again.';
+            err?.error?.message ?? 'Failed to create match. Please try again.';
         },
       });
   }
@@ -559,11 +538,11 @@ export class CreateFriendlyMatchComponent implements OnInit {
   }
 
   closeSuccess(): void {
-    this.successOpen = false;
+    this.isMatchCreatedModalOpen = false;
   }
 
   goToMatches(): void {
-    this.successOpen = false;
+    this.isMatchCreatedModalOpen = false;
     this.router.navigate(['/FriendlyMatches']);
   }
 

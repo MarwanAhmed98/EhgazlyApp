@@ -484,14 +484,12 @@
 </div>
 
 <!-- ── SUCCESS MODAL ── -->
-<div class="fixed inset-0 z-[100] flex items-center justify-center transition-all duration-300"
-    [class.opacity-100]="successOpen" [class.opacity-0]="!successOpen" [class.pointer-events-auto]="successOpen"
-    [class.pointer-events-none]="!successOpen">
+@if (isMatchCreatedModalOpen) {
+<div class="fixed inset-0 z-[100] flex items-center justify-center transition-all duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-md" (click)="closeSuccess()"></div>
 
-    <div class="relative w-[90%] max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden transition-all duration-500 transform"
-        [class.scale-100]="successOpen" [class.scale-95]="!successOpen" [class.translate-y-0]="successOpen"
-        [class.translate-y-8]="!successOpen">
+    <div
+        class="relative w-[90%] max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden transition-all duration-500 transform scale-100 translate-y-0">
 
         <div class="relative p-8 md:p-12">
             <div class="text-center">
@@ -513,7 +511,8 @@
                 <div class="bg-emerald-50 rounded-2xl p-6 mb-8">
                     <div class="flex items-center justify-between mb-4 pb-4 border-b border-emerald-200">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-[#FEF0C7] flex items-center justify-center text-xl">🏟️
+                            <div class="w-10 h-10 rounded-xl bg-[#FEF0C7] flex items-center justify-center text-xl">
+                                <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                             </div>
                             <div class="text-left">
                                 <p class="text-[10px] font-black uppercase tracking-widest text-emerald-950/60">SELECTED
@@ -530,16 +529,15 @@
                     <div class="flex items-center justify-between">
                         <div
                             class="rounded-[1.5rem] border border-emerald-200/60 bg-white/55 px-4 py-4 sm:px-5 sm:py-5 text-center">
-
                             <p class="text-[10px] sm:text-xs font-black uppercase tracking-widest text-emerald-950/60">
                                 Match Time
                             </p>
-
                             <p class="mt-2 text-base sm:text-lg font-black text-emerald-950 break-words">
                                 {{ formattedMatchTime || '--:-- -- - --:-- --' }}
                             </p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-emerald-200/40 flex items-center justify-center text-xl">👥
+                        <div class="w-10 h-10 rounded-xl bg-emerald-200/40 flex items-center justify-center text-xl">
+                            <lucide-icon name="users" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                         </div>
                     </div>
                 </div>
@@ -563,3 +561,4 @@
         </div>
     </div>
 </div>
+}
