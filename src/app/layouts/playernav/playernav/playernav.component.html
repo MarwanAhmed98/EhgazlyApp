@@ -40,22 +40,169 @@
     <!-- Right icons -->
     <div class="flex items-center gap-3">
       <!-- Notification -->
-      <button routerLink="/PlayerNotifications"
-        class="w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 relative">
-        <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
-        <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-      </button>
+      <div class="relative" #notifWrap>
+        <button #notifBtn type="button" (click)="toggleNotifications($event)"
+          class="w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 relative"
+          aria-haspopup="dialog" [attr.aria-expanded]="isNotificationsOpen">
+          <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
 
-      <!-- Profile Dropdown -->
-      <div class="relative">
-        <!-- Trigger -->
+          @if ((NotificationsDetails?.unread_count ?? 0) > 0) {
+          <span
+            class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[10px] font-black grid place-items-center border-2 border-white dark:border-slate-950">
+            {{ NotificationsDetails.unread_count }}
+          </span>
+          }
+        </button>
+
+        <!-- Notifications Dropdown Panel -->
+        <div #notifPanel class="notif-dd" [class.notif-dd--open]="isNotificationsOpen"
+          [class.notif-dd--closed]="!isNotificationsOpen" [style.left.px]="notifPanelLeft"
+          [style.top.px]="notifPanelTop" [style.transformOrigin]="notifPanelOrigin" role="dialog"
+          aria-label="Notifications">
+
+          <div class="notif-dd__header">
+            <div>
+              <p class="notif-dd__title">Notifications</p>
+              <p class="notif-dd__sub">
+                @if ((NotificationsDetails?.unread_count ?? 0) > 0) {
+                {{ NotificationsDetails.unread_count }} unread
+                } @else {
+                You're all caught up
+                }
+              </p>
+            </div>
+
+            <button type="button" class="notif-dd__close" (click)="closeNotifications()"
+              aria-label="Close notifications">
+              ✕
+            </button>
+          </div>
+
+          <!-- Loading -->
+          @if (notiLoading) {
+          <div class="notif-loading">
+            <div class="notif-loading__row"></div>
+            <div class="notif-loading__row"></div>
+            <div class="notif-loading__row"></div>
+          </div>
+          }
+
+          <!-- Error -->
+          @if (!notiLoading && notiError) {
+          <div class="notif-empty">
+            <p class="notif-empty__title">Couldn't load notifications</p>
+            <p class="notif-empty__desc">{{ notiError }}</p>
+            <button type="button" class="notif-dd__cta mt-3" (click)="GetNoti()">
+              Retry
+            </button>
+          </div>
+          }
+
+          <!-- Tabs -->
+          @if (!notiLoading && !notiError) {
+          <div class="notif-dd__tabs">
+            <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'all'"
+              (click)="setNotifFilter('all')">All</button>
+            <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'booking_confirmed'"
+              (click)="setNotifFilter('booking_confirmed')">Bookings</button>
+            <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'teams'"
+              (click)="setNotifFilter('teams')">Teams</button>
+            <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'system'"
+              (click)="setNotifFilter('system')">System</button>
+          </div>
+
+          <!-- List -->
+          <div class="notif-dd__list scrollbar-hide">
+            @for (item of filteredNavbarNotifications; track item.id) {
+            <button type="button" class="notif-item" [class.is-unread]="!item.is_read"
+              [class.is-marking]="markingReadIds.has(item.id)" [disabled]="markingReadIds.has(item.id)"
+              (click)="onNotificationClick(item)">
+
+              <span class="notif-item__dot" aria-hidden="true"></span>
+
+              <span class="notif-item__icon" [class]="getNotifIconBg(item.type)">
+                @switch (getNotifIcon(item.type)) {
+                @case ('calendar-check') {
+                <svg class="w-4 h-4 text-[#1E8A3E]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <polyline points="9 16 11 18 15 14"></polyline>
+                </svg>
+                }
+                @case ('match') {
+                <svg class="w-4 h-4 text-[#0A60B3]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M2 12h20"></path>
+                </svg>
+                }
+                @case ('invite') {
+                <svg class="w-4 h-4 text-[#0B3A1C]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <path d="M20 8v6"></path>
+                  <path d="M23 11h-6"></path>
+                </svg>
+                }
+                @case ('calendar-cancel') {
+                <svg class="w-4 h-4 text-[#A65B20]" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                }
+                }
+              </span>
+
+              <span class="notif-item__content">
+                <span class="notif-item__title">{{ item.title || 'Notification' }}</span>
+                <span class="notif-item__desc">{{ item.message || '' }}</span>
+                <span class="notif-item__time">{{ formatNotiTime(item.created_at) }}</span>
+              </span>
+
+              @if (markingReadIds.has(item.id)) {
+              <span class="notif-item__spinner" aria-hidden="true"></span>
+              }
+            </button>
+            } @empty {
+            <div class="notif-empty">
+              <p class="notif-empty__title">No notifications yet</p>
+              <p class="notif-empty__desc">We'll let you know when something happens.</p>
+            </div>
+            }
+          </div>
+
+          <!-- Footer -->
+          <div class="notif-dd__footer">
+            <button type="button" class="notif-dd__cta" (click)="MarkAllAsRead()"
+              [disabled]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading"
+              [class.opacity-60]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading">
+              @if (markAllLoading) { Marking... } @else { Mark all as read }
+            </button>
+
+            <!-- <a class="notif-dd__link" routerLink="/PlayerNotifications" (click)="closeNotifications()">
+              View all →
+            </a> -->
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Profile Dropdown (Desktop only) -->
+      <div class="relative hidden md:block">
         <button type="button" (click)="toggleProfileMenu($event)"
           class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all"
           [class.profile-active]="isProfileRoute" aria-haspopup="menu" [attr.aria-expanded]="isProfileMenuOpen">
           <img [src]="ProfileDetails.profile_image" alt="Profile Image" class="w-10 h-10 rounded-xl object-cover">
         </button>
 
-        <!-- Dropdown -->
         <div class="profile-dd" [class.profile-dd--open]="isProfileMenuOpen"
           [class.profile-dd--closed]="!isProfileMenuOpen" role="menu">
           <button type="button" class="profile-dd__item" role="menuitem" (click)="goToProfileFromMenu()">
@@ -122,8 +269,6 @@
     <hr class="border-slate-100 dark:border-slate-800/60 mx-6">
 
     <nav class="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
-
-      <!-- Friendly Matches (اضفناه هنا للموبايل) -->
       <a [routerLink]="FriendlyMatchesLink" (click)="onNavClick()"
         class="group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200"
         [ngClass]="active === 'friendly-matches' ? 'bg-emerald-50 text-[#2E7D32]' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'">
@@ -164,16 +309,30 @@
         <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
       </a>
 
+      <!-- Mobile ONLY: Profile + Logout -->
+      <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+        <button type="button" (click)="goToProfileFromMobile()"
+          class="w-full group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+          <div class="flex items-center gap-4">
+            <span class="text-xl">👤</span>
+            <span class="font-bold">Profile</span>
+          </div>
+          <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        </button>
+
+        <button type="button" (click)="Logout()"
+          class="w-full group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10">
+          <div class="flex items-center gap-4">
+            <span class="text-xl">🚪</span>
+            <span class="font-bold">Logout</span>
+          </div>
+          <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        </button>
+      </div>
     </nav>
 
     <div class="p-6 mt-auto border-t border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-white/5">
-      <button (click)="Logout()"
-        class="w-full flex items-center justify-center gap-3 py-4 bg-[#2E7D32] text-white rounded-2xl font-bold shadow-xl shadow-emerald-200/40 hover:bg-[#256329] active:scale-[0.98] transition-all">
-        <span>Logout</span>
-        <span class="text-lg">➔</span>
-      </button>
-      <p class="text-center text-xs text-slate-400 mt-4 font-medium">Version 1.0.2 • Ehgazly App</p>
+      <p class="text-center text-xs text-slate-400 font-medium">Version 1.0.2 • Ehgazly App</p>
     </div>
-
   </aside>
 </nav>
