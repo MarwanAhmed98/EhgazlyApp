@@ -12,7 +12,7 @@ export class AuthService {
   sendLoginForm(data: object): Observable<any> {
     return this.httpClient.post(`${environments.baseUrl}/login`, data)
   }
-  sendRegisterForm(data: object): Observable<any> {
+  sendRegisterForm(data: any): Observable<any> {
     return this.httpClient.post(`${environments.baseUrl}/signup`, data)
   }
   sendForgetPasswordForm(data: object): Observable<any> {
