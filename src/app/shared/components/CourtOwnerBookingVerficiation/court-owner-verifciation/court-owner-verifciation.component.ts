@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CourtOwnerBokkingService } from '../../../../core/services/CourtOwnerBooking/court-owner-bokking.service';
+import { ActivatedRoute } from '@angular/router';
+import { IcourtOwnerSpecific } from '../../../interfaces/icourt-owner-specific';
+import { LucideAngularModule } from 'lucide-angular';
+
 
 type Summary = {
   playerName: string;
@@ -19,11 +24,17 @@ type VerifyState = 'idle' | 'submitting' | 'done';
 
 @Component({
   selector: 'app-court-owner-verifciation',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './court-owner-verifciation.component.html',
   styleUrl: './court-owner-verifciation.component.scss'
 })
-export class CourtOwnerVerifciationComponent {
+export class CourtOwnerVerifciationComponent implements OnInit {
+  private readonly courtOwnerBookingService = inject(CourtOwnerBokkingService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  SpecificDetails: IcourtOwnerSpecific = {} as IcourtOwnerSpecific;
+
+  MyId: any;
+
   summary: Summary = {
     playerName: 'Ahmed Hassan',
     pitchLocation: 'Bernabeu Main',
@@ -49,6 +60,20 @@ export class CourtOwnerVerifciationComponent {
   rejectReason = '';
 
   verifyState: VerifyState = 'idle';
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe({
+      next: (res) => {
+        console.log(res);
+        this.MyId = res.get('id');
+        console.log(this.MyId);
+        this.courtOwnerBookingService.GetSpecificBookings(this.MyId).subscribe({
+          next: (res) => {
+            this.SpecificDetails = res.data;
+          }
+        })
+      }
+    })
+  }
 
   openConfirmModal(): void {
     this.isConfirmModalOpen = true;
@@ -71,27 +96,5 @@ export class CourtOwnerVerifciationComponent {
   contactPlayer(): void {
     const phoneDigits = this.profile.phone.replace(/[^\d+]/g, '');
     window.location.href = `tel:${phoneDigits}`;
-  }
-
-  confirmBooking(): void {
-    if (this.verifyState === 'submitting') return;
-
-    this.verifyState = 'submitting';
-
-    window.setTimeout(() => {
-      this.verifyState = 'done';
-      this.closeConfirmModal();
-    }, 700);
-  }
-
-  rejectBooking(): void {
-    if (this.rejectReason.trim().length === 0) return;
-
-    this.verifyState = 'submitting';
-
-    window.setTimeout(() => {
-      this.verifyState = 'done';
-      this.closeRejectModal();
-    }, 700);
   }
 }

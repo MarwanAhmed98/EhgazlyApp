@@ -50,6 +50,7 @@ import { AdminManageTournamentsComponent } from './shared/components/AdminManage
 import { AdminTournamentSetupFormComponent } from './shared/components/AdminTournamentSetupForm/admin-tournament-setup-form/admin-tournament-setup-form.component';
 import { CustomerProfileComponent } from './shared/components/CustomerProfile/customer-profile/customer-profile.component';
 import { PlayerNotificationComponent } from './shared/components/PlayerNotification/player-notification/player-notification.component';
+import { CourtOwnerSpecificCourtComponent } from './shared/components/CourtOwnerSpecificCourt/court-owner-specific-court/court-owner-specific-court.component';
 
 export const routes: Routes = [
     {
@@ -171,10 +172,11 @@ export const routes: Routes = [
         children: [
             { path: 'Dashboard', component: CourtOwnerDashboardComponent, title: 'Dashboard' },
             { path: 'CourtOwnerBookings', component: CourtOwnerBookingComponent, title: 'Bookings Management' },
-            { path: 'CourtOwnerBookingsVerification', component: CourtOwnerVerifciationComponent, title: 'Bookings Verification' },
+            { path: 'CourtOwnerBookingsVerification/:id', component: CourtOwnerVerifciationComponent, title: 'Bookings Verification' },
             { path: 'CourtOwnerEarnings', component: CourtOwnerEarningsComponent, title: 'Earnings' },
             { path: 'CourtOwnerHistoricalBookings', component: CourtOwnerHistoricalBookingComponent, title: 'Historical Bookings' },
             { path: 'CourtOwnerManagement', component: CourtOwnerManagementComponent, title: 'Courts Management' },
+            { path: 'SpecificCourtOwner/:id', component: CourtOwnerSpecificCourtComponent, title: 'Specific Court' },
             { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
             { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
             { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },

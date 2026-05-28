@@ -1,18 +1,15 @@
 <div
     class="flex min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans transition-colors duration-300">
 
-    <!-- Overlay -->
     @if (isSideNavOpen) {
     <div (click)="toggleSideNav()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"></div>
     }
 
-    <!-- Side Nav -->
     <aside [class.translate-x-0]="isSideNavOpen" [class.-translate-x-full]="!isSideNavOpen" class="w-72 fixed inset-y-0 left-0 z-50 lg:z-30 transition-transform duration-300 ease-in-out
            bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl
            border-r border-emerald-200/60 dark:border-slate-800/60
            flex flex-col overflow-y-scroll">
 
-        <!-- Brand + Close Button (X) -->
         <div class="px-6 py-6 flex items-center justify-between">
             <div class="flex items-center gap-3 min-w-0">
                 <div
@@ -29,12 +26,10 @@
                hover:bg-emerald-100/70 dark:hover:bg-white/5
                border border-emerald-200/60 dark:border-slate-800/60
                transition-colors">
-                <!-- استبدال SVG الإغلاق -->
                 <lucide-icon name="x" [size]="20" [strokeWidth]="2.5"></lucide-icon>
             </button>
         </div>
 
-        <!-- Nav -->
         <nav class="px-4 pb-6 flex-1 space-y-2">
             @for (item of navItems; track item.key) {
             <a [routerLink]="item.route" (click)="onNavClick(item)"
@@ -50,7 +45,6 @@
                  text-emerald-950/80 dark:text-white/80
                  group-[.bg-emerald-100\\/70]:bg-white/70
                  transition-colors">
-                    <!-- استبدال الـ innerHTML بمكون الأيقونة -->
                     <lucide-icon [name]="item.iconName" [size]="20" [strokeWidth]="2.3"></lucide-icon>
                 </span>
 
@@ -67,7 +61,6 @@
             }
         </nav>
 
-        <!-- Bottom actions -->
         <div class="px-6 py-6 border-t border-emerald-200/60 dark:border-slate-800/60 space-y-3">
             <button type="button" (click)="logout()" class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl border border-red-200/60 dark:border-red-900/30
                bg-red-50/70 dark:bg-red-950/20
@@ -75,7 +68,6 @@
                text-red-600 dark:text-red-300 font-black transition-colors">
                 <span
                     class="w-10 h-10 rounded-2xl grid place-items-center bg-white/60 dark:bg-white/5 border border-red-200/60 dark:border-red-900/30">
-                    <!-- استبدال SVG تسجيل الخروج -->
                     <lucide-icon name="log-out" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                 </span>
                 <span>Logout</span>
@@ -83,9 +75,8 @@
         </div>
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 w-full transition-[margin] duration-300 ease-in-out" [class.lg:ml-72]="isSideNavOpen"
-        [class.lg:ml-0]="!isSideNavOpen">
+    <main class="flex-1 w-full transition-[margin] duration-300 ease-in-out"
+        [ngClass]="{'lg:ml-72': isSideNavOpen, 'lg:ml-0': !isSideNavOpen}">
 
         <header class="sticky top-0 z-20 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl
              border-b border-emerald-200/60 dark:border-slate-800/60">
@@ -96,7 +87,6 @@
                    border border-emerald-200/60 dark:border-slate-800/60
                    text-emerald-950/70 dark:text-white/70
                    hover:bg-emerald-100/70 dark:hover:bg-white/5 transition-colors">
-                        <!-- استبدال SVG القائمة -->
                         <lucide-icon name="menu" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                     </button>
 
@@ -113,10 +103,197 @@
                             class="w-10 h-10 rounded-2xl border border-emerald-200/60 dark:border-slate-800/60 bg-white/60 object-cover"
                             alt="Avatar" />
                     </div>
-                    <!-- Notifications -->
-                    <div routerLink="/CourtOwner/Notifications"
-                        class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer">
-                        <lucide-icon name="bell" [size]="20" class="text-slate-600 dark:text-slate-300"></lucide-icon>
+
+                    <div class="relative" #notifWrap>
+                        <button #notifBtn type="button" (click)="toggleNotifications($event)"
+                            class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all"
+                            aria-haspopup="dialog" [attr.aria-expanded]="isNotificationsOpen">
+                            <lucide-icon name="bell" [size]="20"
+                                class="text-slate-600 dark:text-slate-300"></lucide-icon>
+
+                            @if ((NotificationsDetails?.unread_count ?? 0) > 0) {
+                            <span
+                                class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[10px] font-black grid place-items-center border-2 border-white dark:border-slate-950">
+                                {{ NotificationsDetails.unread_count }}
+                            </span>
+                            }
+                        </button>
+
+                        <div #notifPanel
+                            class="notif-dd absolute right-0 top-full mt-2 w-[360px] max-h-[480px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-slate-800 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-200 ease-in-out origin-top-right"
+                            [class.opacity-0]="!isNotificationsOpen" [class.pointer-events-none]="!isNotificationsOpen"
+                            [class.scale-95]="!isNotificationsOpen" [class.opacity-100]="isNotificationsOpen"
+                            [class.scale-100]="isNotificationsOpen" role="dialog" aria-label="Notifications">
+
+                            <div
+                                class="notif-dd__header flex items-center justify-between px-4 py-3 border-b border-emerald-100 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-900/40">
+                                <div>
+                                    <p
+                                        class="notif-dd__title text-sm font-black tracking-tight text-emerald-950 dark:text-white">
+                                        Notifications</p>
+                                    <p
+                                        class="notif-dd__sub text-xs text-emerald-900/60 dark:text-slate-400 font-medium">
+                                        @if ((NotificationsDetails?.unread_count ?? 0) > 0) {
+                                        {{ NotificationsDetails.unread_count }} unread
+                                        } @else {
+                                        You're all caught up
+                                        }
+                                    </p>
+                                </div>
+                                <button type="button"
+                                    class="notif-dd__close w-7 h-7 rounded-lg grid place-items-center text-emerald-950/50 dark:text-white/40 hover:bg-emerald-100/50 dark:hover:bg-white/5 transition-colors font-bold text-xs"
+                                    (click)="closeNotifications()" aria-label="Close notifications">
+                                    ✕
+                                </button>
+                            </div>
+
+                            @if (notiLoading) {
+                            <div class="notif-loading p-4 space-y-3 animate-pulse flex-1">
+                                <div class="notif-loading__row h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                                <div class="notif-loading__row h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
+                                <div class="notif-loading__row h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
+                            </div>
+                            }
+
+                            @if (!notiLoading && notiError) {
+                            <div class="notif-empty p-6 text-center flex flex-col items-center justify-center flex-1">
+                                <p class="notif-empty__title text-sm font-bold text-red-600 dark:text-red-400">Couldn't
+                                    load notifications</p>
+                                <p class="notif-empty__desc text-xs text-slate-500 dark:text-slate-400 mt-1">{{
+                                    notiError }}</p>
+                                <button type="button"
+                                    class="notif-dd__cta mt-3 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/50 transition-colors"
+                                    (click)="GetNoti()">
+                                    Retry
+                                </button>
+                            </div>
+                            }
+
+                            @if (!notiLoading && !notiError) {
+                            <div
+                                class="notif-dd__tabs flex p-1.5 gap-1 border-b border-emerald-50 dark:border-slate-800/40 bg-slate-50/50 dark:bg-slate-950/20 text-xs font-bold">
+                                <button type="button"
+                                    class="notif-dd__tab flex-1 py-1.5 rounded-xl text-center transition-all" [ngClass]="{
+                                        'bg-white dark:bg-slate-800 shadow-sm text-emerald-900 dark:text-white': notifFilter === 'all',
+                                        'text-emerald-950/55 dark:text-white/55': notifFilter !== 'all'
+                                    }" (click)="setNotifFilter('all')">All</button>
+
+                                <button type="button"
+                                    class="notif-dd__tab flex-1 py-1.5 rounded-xl text-center transition-all" [ngClass]="{
+                                        'bg-white dark:bg-slate-800 shadow-sm text-emerald-900 dark:text-white': notifFilter === 'booking_confirmed',
+                                        'text-emerald-950/55 dark:text-white/55': notifFilter !== 'booking_confirmed'
+                                    }" (click)="setNotifFilter('booking_confirmed')">Bookings</button>
+
+                                <button type="button"
+                                    class="notif-dd__tab flex-1 py-1.5 rounded-xl text-center transition-all" [ngClass]="{
+                                        'bg-white dark:bg-slate-800 shadow-sm text-emerald-900 dark:text-white': notifFilter === 'teams',
+                                        'text-emerald-950/55 dark:text-white/55': notifFilter !== 'teams'
+                                    }" (click)="setNotifFilter('teams')">Teams</button>
+
+                                <button type="button"
+                                    class="notif-dd__tab flex-1 py-1.5 rounded-xl text-center transition-all" [ngClass]="{
+                                        'bg-white dark:bg-slate-800 shadow-sm text-emerald-900 dark:text-white': notifFilter === 'system',
+                                        'text-emerald-950/55 dark:text-white/55': notifFilter !== 'system'
+                                    }" (click)="setNotifFilter('system')">System</button>
+                            </div>
+                            }
+
+                            <div
+                                class="notif-dd__list overflow-y-auto overflow-x-hidden flex-1 divide-y divide-emerald-50/50 dark:divide-slate-800/40 scrollbar-hide">
+                                @for (item of filteredNavbarNotifications; track item.id) {
+                                <button type="button"
+                                    class="notif-item w-full flex items-start gap-3 p-3.5 text-start hover:bg-emerald-50/30 dark:hover:bg-white/5 transition-colors relative disabled:opacity-60"
+                                    [ngClass]="{'bg-emerald-50/20 dark:bg-emerald-950/10': !item.is_read}"
+                                    [disabled]="markingReadIds.has(item.id)" (click)="onNotificationClick(item)">
+
+                                    <span
+                                        class="notif-item__dot w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 flex-shrink-0"
+                                        [class.opacity-0]="item.is_read" aria-hidden="true"></span>
+
+                                    <span
+                                        class="notif-item__icon w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                                        [class]="getNotifIconBg(item.type)">
+                                        @switch (getNotifIcon(item.type)) {
+                                        @case ('calendar-check') {
+                                        <svg class="w-4 h-4 text-[#1E8A3E]" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            <polyline points="9 16 11 18 15 14"></polyline>
+                                        </svg>
+                                        }
+                                        @case ('match') {
+                                        <svg class="w-4 h-4 text-[#0A60B3]" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="M2 12h20"></path>
+                                        </svg>
+                                        }
+                                        @case ('invite') {
+                                        <svg class="w-4 h-4 text-[#0B3A1C]" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <path d="M20 8v6"></path>
+                                            <path d="M23 11h-6"></path>
+                                        </svg>
+                                        }
+                                        @case ('calendar-cancel') {
+                                        <svg class="w-4 h-4 text-[#A65B20]" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                                        </svg>
+                                        }
+                                        }
+                                    </span>
+
+                                    <span class="notif-item__content flex-1 min-w-0 flex flex-col text-start">
+                                        <span
+                                            class="notif-item__title text-xs font-bold text-slate-900 dark:text-white break-words">{{
+                                            item.title || 'Notification' }}</span>
+                                        <span
+                                            class="notif-item__desc text-xs text-slate-600 dark:text-slate-400 mt-0.5 break-words font-medium leading-relaxed">{{
+                                            item.message || '' }}</span>
+                                        <span
+                                            class="notif-item__time text-[10px] text-slate-400 dark:text-slate-500 mt-1 font-semibold">{{
+                                            formatNotiTime(item.created_at) }}</span>
+                                    </span>
+
+                                    @if (markingReadIds.has(item.id)) {
+                                    <span
+                                        class="notif-item__spinner animate-spin w-3.5 h-3.5 border-2 border-emerald-600 border-t-transparent rounded-full ml-auto self-center"
+                                        aria-hidden="true"></span>
+                                    }
+                                </button>
+                                } @empty {
+                                <div
+                                    class="notif-empty p-8 text-center flex flex-col items-center justify-center flex-1">
+                                    <p class="notif-empty__title text-sm font-bold text-slate-700 dark:text-slate-300">
+                                        No notifications yet</p>
+                                    <p class="notif-empty__desc text-xs text-slate-400 dark:text-slate-500 mt-1">We'll
+                                        let you know when something happens.</p>
+                                </div>
+                                }
+                            </div>
+
+                            <div
+                                class="notif-dd__footer p-3 border-t border-emerald-50 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <button type="button"
+                                    class="notif-dd__cta w-full py-2 text-xs font-black tracking-wide uppercase text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition-colors disabled:opacity-40"
+                                    (click)="MarkAllAsRead()"
+                                    [disabled]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading"
+                                    [class.opacity-60]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading">
+                                    @if (markAllLoading) { Marking... } @else { Mark all as read }
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>

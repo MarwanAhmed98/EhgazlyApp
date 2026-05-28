@@ -1,0 +1,82 @@
+// Modern responsive styling – complements Tailwind CSS
+// No global overrides, only page‑specific enhancements
+
+:host {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Improve line clamp for descriptions
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// Custom scrollbar for any overflow (optional)
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+// Hover lift effect for cards (Tailwind can do, but fallback)
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+// Touch-friendly tap highlight removal for mobile
+button,
+a,
+[role="button"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+// Ensure images don't overflow on small screens
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+// Responsive adjustments for very small screens
+@media (max-width: 640px) {
+    .rounded-3xl {
+        border-radius: 1.5rem;
+    }
+
+    .p-6 {
+        padding: 1.25rem;
+    }
+}

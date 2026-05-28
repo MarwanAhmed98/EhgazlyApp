@@ -1,0 +1,83 @@
+--- SCSS --- // Smooth transitions & custom enhancements
+
+:host {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Card hover & interactive polish
+.bg-white\/90,
+.bg-white {
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease;
+}
+
+// Status badge pulse for pending state
+.bg-yellow-100 .animate-pulse {
+    animation: pulse-gentle 1.5s infinite;
+}
+
+@keyframes pulse-gentle {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+// Custom scrollbar (optional)
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e5f0e5;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2c7a3e;
+    border-radius: 10px;
+}
+
+// Responsive touch improvements
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+// Better focus states
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #146a1e;
+    outline-offset: 2px;
+    border-radius: 0.75rem;
+}
+
+// Typography enhancements for mobile
+@media (max-width: 640px) {
+    .text-3xl {
+        font-size: 1.75rem;
+        line-height: 2.2rem;
+    }
+
+    .rounded-2xl {
+        border-radius: 1.25rem;
+    }
+}

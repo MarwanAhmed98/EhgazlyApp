@@ -11,10 +11,8 @@
         </header>
 
         <form [formGroup]="CourtForm" (ngSubmit)="submitForm()" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
             <!-- Left Column: Form Content -->
             <div class="lg:col-span-2 space-y-8">
-
                 <!-- Section: Court Selection -->
                 <section class="bg-white/60 backdrop-blur-sm rounded-[2rem] p-8 border border-green-100 shadow-sm">
                     <div class="flex items-center gap-3 mb-6">
@@ -38,12 +36,14 @@
                             <span class="text-3xl font-black">5A</span>
                             <span class="text-[10px] font-bold uppercase tracking-tighter opacity-70">Five-A-Side</span>
                         </button>
+
                         <button type="button" (click)="selectSize('6A')"
                             [class]="selectedSize === '6A' ? 'bg-[#BBF7D0] border-2 border-[#22C55E]' : 'bg-[#DCFCE7] border-2 border-transparent'"
                             class="flex flex-col items-center justify-center p-6 rounded-2xl transition-all hover:scale-[1.02]">
                             <span class="text-3xl font-black">6A</span>
                             <span class="text-[10px] font-bold uppercase tracking-tighter opacity-70">Six-A-Side</span>
                         </button>
+
                         <button type="button" (click)="selectSize('7A')"
                             [class]="selectedSize === '7A' ? 'bg-[#BBF7D0] border-2 border-[#22C55E]' : 'bg-[#DCFCE7] border-2 border-transparent'"
                             class="flex flex-col items-center justify-center p-6 rounded-2xl transition-all hover:scale-[1.02]">
@@ -73,6 +73,7 @@
                             <label class="text-sm font-bold ml-1">Court Name</label>
                             <input type="text" formControlName="courtName" placeholder="e.g. Bernabeu Main Pitch"
                                 class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all">
+
                             @if (CourtForm.get('courtName')?.invalid && CourtForm.get('courtName')?.touched) {
                             <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
                                 role="alert">
@@ -81,22 +82,18 @@
                                     <path
                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                 </svg>
-
                                 <div>
-                                    @if (CourtForm.get('courtName')?.hasError('required')) {
-                                    <span class="font-semibold">Court Name is required.</span>
-                                    }
-
-                                    @if (CourtForm.get('courtName')?.hasError('minlength')) {
-                                    <span class="font-semibold">
-                                        Court Name must be at least 3 characters.
-                                    </span>
-                                    }
+                                    @if (CourtForm.get('courtName')?.hasError('required')) { <span
+                                        class="font-semibold">Court Name is
+                                        required.</span> }
+                                    @if (CourtForm.get('courtName')?.hasError('minlength')) { <span
+                                        class="font-semibold">Court Name must be
+                                        at least 3 characters.</span> }
                                 </div>
                             </div>
                             }
-
                         </div>
+
                         <div class="space-y-2">
                             <label class="text-sm font-bold ml-1">Hourly Rate (EGP)</label>
                             <div class="relative">
@@ -105,6 +102,7 @@
                                 <input type="number" formControlName="hourlyRate" placeholder="0.00"
                                     class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 pl-12 pr-5 focus:ring-2 focus:ring-green-500 transition-all">
                             </div>
+
                             @if (CourtForm.get('hourlyRate')?.invalid && CourtForm.get('hourlyRate')?.touched) {
                             <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
                                 role="alert">
@@ -113,17 +111,13 @@
                                     <path
                                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                 </svg>
-
                                 <div>
-                                    @if (CourtForm.get('hourlyRate')?.hasError('required')) {
-                                    <span class="font-semibold">Hourly Rate is required.</span>
-                                    }
-
-                                    @if (CourtForm.get('hourlyRate')?.hasError('min')) {
-                                    <span class="font-semibold">
-                                        Hourly Rate must be a positive number.
-                                    </span>
-                                    }
+                                    @if (CourtForm.get('hourlyRate')?.hasError('required')) { <span
+                                        class="font-semibold">Hourly Rate is
+                                        required.</span> }
+                                    @if (CourtForm.get('hourlyRate')?.hasError('min')) { <span
+                                        class="font-semibold">Hourly Rate must be a
+                                        positive number.</span> }
                                 </div>
                             </div>
                             }
@@ -135,6 +129,7 @@
                         <textarea formControlName="description" rows="4"
                             placeholder="Highlight what makes this court special... turf quality, lighting, seating areas etc."
                             class="w-full bg-[#DCFCE7]/60 border-none rounded-[1.5rem] py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all resize-none"></textarea>
+
                         @if (CourtForm.get('description')?.invalid && CourtForm.get('description')?.touched) {
                         <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
                             role="alert">
@@ -143,17 +138,13 @@
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                             </svg>
-
                             <div>
-                                @if (CourtForm.get('description')?.hasError('required')) {
-                                <span class="font-semibold">Description is required.</span>
-                                }
-
-                                @if (CourtForm.get('description')?.hasError('minlength')) {
-                                <span class="font-semibold">
-                                    Description must be at least 20 characters long.
-                                </span>
-                                }
+                                @if (CourtForm.get('description')?.hasError('required')) { <span
+                                    class="font-semibold">Description is
+                                    required.</span> }
+                                @if (CourtForm.get('description')?.hasError('minlength')) { <span
+                                    class="font-semibold">Description must be
+                                    at least 20 characters long.</span> }
                             </div>
                         </div>
                         }
@@ -176,12 +167,59 @@
                         <h2 class="text-2xl font-bold">Location & Access</h2>
                     </div>
 
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold ml-1">Address</label>
+                            <div class="relative">
+                                <input type="text" formControlName="address" placeholder="e.g. Bab Shar, Alex"
+                                    class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all">
+                                @if (geocodingLoading) {
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <svg class="animate-spin h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                }
+                            </div>
+
+                            @if (CourtForm.get('address')?.invalid && CourtForm.get('address')?.touched) {
+                            <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                                role="alert">
+                                <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <div>
+                                    @if (CourtForm.get('address')?.hasError('required')) { <span
+                                        class="font-semibold">Address is
+                                        required.</span> }
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold ml-1">Status</label>
+                            <select formControlName="status"
+                                class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all">
+                                <option value="active">active</option>
+                                <option value="inactive">inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="space-y-2">
                         <label class="text-sm font-bold ml-1">Maps Link (URL)</label>
                         <div class="flex flex-col md:flex-row gap-4">
                             <input type="text" formControlName="mapsLink" placeholder="https://goo.gl/maps/..."
                                 class="flex-1 bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all">
-                            <button type="button"
+                            <button type="button" (click)="previewMap()"
                                 class="bg-[#BBF7D0] px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#86EFAC] transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                     fill="currentColor">
@@ -191,6 +229,7 @@
                                 Preview
                             </button>
                         </div>
+
                         @if (CourtForm.get('mapsLink')?.invalid && CourtForm.get('mapsLink')?.touched) {
                         <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
                             role="alert">
@@ -199,24 +238,87 @@
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                             </svg>
-
                             <div>
-                                @if (CourtForm.get('mapsLink')?.hasError('required')) {
-                                <span class="font-semibold">MapsLink is required.</span>
-                                }
-
-                                @if (CourtForm.get('mapsLink')?.hasError('pattern')) {
-                                <span class="font-semibold">
-                                    mapsLink must be a valid URL.
-                                </span>
-                                }
+                                @if (CourtForm.get('mapsLink')?.hasError('required')) { <span
+                                    class="font-semibold">MapsLink is
+                                    required.</span> }
+                                @if (CourtForm.get('mapsLink')?.hasError('pattern')) { <span
+                                    class="font-semibold">mapsLink must be a valid
+                                    URL.</span> }
                             </div>
                         </div>
                         }
                     </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold ml-1">Latitude</label>
+                            <input type="number" step="any" formControlName="latitude" placeholder="31.197165" readonly
+                                class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all cursor-default opacity-80">
+
+                            @if (CourtForm.get('latitude')?.invalid && CourtForm.get('latitude')?.touched) {
+                            <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                                role="alert">
+                                <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <div>
+                                    @if (CourtForm.get('latitude')?.hasError('required')) { <span
+                                        class="font-semibold">Latitude is
+                                        required.</span> }
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold ml-1">Longitude</label>
+                            <input type="number" step="any" formControlName="longitude" placeholder="29.912058" readonly
+                                class="w-full bg-[#DCFCE7]/60 border-none rounded-xl py-4 px-5 focus:ring-2 focus:ring-green-500 transition-all cursor-default opacity-80">
+
+                            @if (CourtForm.get('longitude')?.invalid && CourtForm.get('longitude')?.touched) {
+                            <div class="flex items-center gap-2 p-3 mt-3 text-sm text-red-700 rounded-xl bg-red-50"
+                                role="alert">
+                                <svg class="shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <div>
+                                    @if (CourtForm.get('longitude')?.hasError('required')) { <span
+                                        class="font-semibold">Longitude is
+                                        required.</span> }
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <label
+                            class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
+                            <input type="checkbox" formControlName="is_verified"
+                                class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
+                            <span class="font-bold text-sm">Is Verified</span>
+                        </label>
+                    </div>
+
+                    @if (successMessage) {
+                    <div class="p-4 rounded-2xl bg-green-50 border border-green-200 text-green-800 font-bold text-sm">
+                        {{ successMessage }}
+                    </div>
+                    }
+
+                    @if (errorMessage) {
+                    <div class="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 font-bold text-sm">
+                        {{ errorMessage }}
+                    </div>
+                    }
                 </section>
 
-                <!-- Section: Amenities -->
+                <!-- Section: Amenities (kept as-is, ignored in payload) -->
                 <section
                     class="bg-white/60 backdrop-blur-sm rounded-[2rem] p-8 border border-green-100 shadow-sm space-y-6">
                     <div class="flex items-center gap-3 mb-2">
@@ -237,30 +339,35 @@
                                 class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
                             <span class="font-bold text-sm">Floodlights</span>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
                             <input type="checkbox" formControlName="parking"
                                 class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
                             <span class="font-bold text-sm">Parking</span>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
                             <input type="checkbox" formControlName="lockerRooms"
                                 class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
                             <span class="font-bold text-sm">Locker Rooms</span>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
                             <input type="checkbox" formControlName="cafe"
                                 class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
                             <span class="font-bold text-sm">Cafe</span>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
                             <input type="checkbox" formControlName="showers"
                                 class="w-5 h-5 rounded border-none text-green-600 focus:ring-green-500">
                             <span class="font-bold text-sm">Showers</span>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 bg-[#DCFCE7]/60 rounded-xl cursor-pointer hover:bg-[#BBF7D0] transition-all">
                             <input type="checkbox" formControlName="wifi"
@@ -269,142 +376,16 @@
                         </label>
                     </div>
                 </section>
-
             </div>
 
-            <!-- Right Column: Gallery & Guidelines -->
-            <div class="space-y-8">
-
-                <!-- Pitch Gallery Card -->
-                <div
-                    class="bg-white/60 backdrop-blur-sm rounded-[2.5rem] p-8 border-2 border-dashed border-green-200 text-center">
-
-                    <div class="w-16 h-16 bg-[#BBF7D0] rounded-full flex items-center justify-center mx-auto mb-6">
-                        @if (galleryUploadStatus === 'uploading') {
-                        <span
-                            class="w-7 h-7 rounded-full border-2 border-green-400 border-t-transparent animate-spin"></span>
-                        } @else {
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-700" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
-                        }
-                    </div>
-
-                    <h3 class="text-xl font-black mb-2">Pitch Gallery</h3>
-
-                    <p class="text-slate-500 text-sm leading-relaxed mb-8">
-                        Drag and drop high-resolution photos of your court. Better photos mean more bookings!
-                    </p>
-
-                    <!-- Upload Area -->
-                    <label class="block cursor-pointer mb-8">
-                        <input type="file" multiple accept="image/*" class="hidden"
-                            (change)="onGalleryFilesSelected($event)" />
-
-                        <div class="grid grid-cols-2 gap-4">
-                            @for (img of galleryImages(); track img.id) {
-                            <div class="aspect-square bg-slate-900 rounded-2xl overflow-hidden relative group">
-                                <img [src]="img.preview" class="w-full h-full object-cover">
-
-                                <div
-                                    class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-
-                                    <button (click)="removeImage(img.id)" type="button"
-                                        class="text-white hover:text-red-400">
-                                        ✕
-                                    </button>
-
-                                </div>
-                            </div>
-                            }
-
-                            <!-- Add Image Box -->
-                            <div
-                                class="aspect-square bg-green-100/50 border-2 border-dashed border-green-300 rounded-2xl flex items-center justify-center hover:bg-green-100 transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-400" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                    </label>
-
-                    <!-- Browse Button -->
-                    <button type="button" (click)="fileInput.click()"
-                        class="w-full bg-[#DCFCE7] border border-green-200 py-4 rounded-2xl font-black text-green-800 hover:bg-[#BBF7D0] transition-all">
-                        Browse Files
-                    </button>
-                    <input #fileInput type="file" multiple accept="image/*" class="hidden"
-                        (change)="onGalleryFilesSelected($event)" />
-
-                    @if (galleryUploadStatus === 'error') {
-                    <p class="text-red-500 text-sm mt-4 font-semibold">{{ galleryError }}</p>
-                    }
-                </div>
-
-                <!-- Owner Guidelines -->
-                <div class="bg-[#DCFCE7] rounded-[2rem] p-8 border border-green-100">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-8 h-8 bg-green-800 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                            i</div>
-                        <h3 class="text-lg font-black uppercase tracking-tight">Owner Guidelines</h3>
-                    </div>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <svg class="h-5 w-5 text-green-700 mt-0.5 shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <p class="text-sm font-medium leading-snug">Ensure pricing is competitive for your area.</p>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="h-5 w-5 text-green-700 mt-0.5 shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <p class="text-sm font-medium leading-snug">Precise maps locations reduce player confusion.
-                            </p>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="h-5 w-5 text-green-700 mt-0.5 shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <p class="text-sm font-medium leading-snug">Mention nearby landmarks in the description.</p>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <!-- Footer Buttons -->
+            <!-- Submit Button Only -->
             <div
-                class="lg:col-span-3 flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-green-100">
-                <button type="button" (click)="discardChanges()"
-                    class="text-sm font-bold text-slate-500 hover:text-red-500 transition-colors">
-                    Discard Changes
+                class="lg:col-span-3 flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-green-100">
+                <button type="submit" [disabled]="isSubmitting || CourtForm.invalid"
+                    class="bg-[#064E3B] px-12 py-4 rounded-2xl font-black text-white hover:bg-[#065F46] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-green-900/20 transition-all hover:-translate-y-0.5 w-full sm:w-auto">
+                    {{ isSubmitting ? 'ADDING...' : 'ADD COURT' }}
                 </button>
-                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <button type="button" (click)="submitForm()"
-                        class="bg-[#BBF7D0] px-10 py-4 rounded-2xl font-black text-green-800 hover:bg-[#86EFAC] transition-all">
-                        Save as Draft
-                    </button>
-                    <button type="submit" [disabled]="CourtForm.invalid"
-                        class="bg-[#064E3B] px-12 py-4 rounded-2xl font-black text-white hover:bg-[#065F46] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-green-900/20 transition-all hover:-translate-y-0.5">
-                        CREATE COURT
-                    </button>
-                </div>
             </div>
-
         </form>
     </div>
 </div>

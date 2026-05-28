@@ -1,26 +1,8 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-court-owner-management',
-//   imports: [],
-//   templateUrl: './court-owner-management.component.html',
-//   styleUrl: './court-owner-management.component.scss'
-// })
-// export class CourtOwnerManagementComponent {
-
-// }
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from "@angular/router";
-
-interface Court {
-  id: string;
-  name: string;
-  image: string;
-  status: 'ACTIVE' | 'MAINTENANCE';
-  bookings: number;
-  revenue: number;
-}
+import { CourtOwnerMainCourtsService } from '../../../../core/services/CourtOwnerMainCourts/court-owner-main-courts.service';
+import { ICourtOwnerMainCourt } from '../../../interfaces/icourt-owner-main-court';
 
 @Component({
   selector: 'app-court-owner-management',
@@ -29,84 +11,62 @@ interface Court {
   styleUrl: './court-owner-management.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourtOwnerManagementComponent {
-  // Placeholder image if specific URL fails
+export class CourtOwnerManagementComponent implements OnInit {
+  private readonly courtOwnerMainCourtsService = inject(CourtOwnerMainCourtsService);
+
+  // State Signals
+  mainCourts = signal<ICourtOwnerMainCourt[]>([]);
+  isDeleteModalOpen = signal<boolean>(false);
+  selectedCourtId = signal<number | null>(null);
+
   readonly fallbackImg = 'https://images.unsplash.com/photo-1529900903110-d02f0acdf33d?q=80&w=800';
 
-  courts = signal<Court[]>([
-    {
-      id: '1',
-      name: 'Main Stadium',
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000',
-      status: 'ACTIVE',
-      bookings: 14,
-      revenue: 1240.00
-    },
-    {
-      id: '2',
-      name: 'Side Court B',
-      image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RhZGl1bXxlbnwwfHwwfHx8MA%3D%3D',
-      status: 'ACTIVE',
-      bookings: 8,
-      revenue: 640.00
-    },
-    {
-      id: '3',
-      name: 'Training Grounds North',
-      image: 'https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1820.jpg?semt=ais_hybrid&w=740&q=80',
-      status: 'MAINTENANCE',
-      bookings: 0,
-      revenue: 0.00
-    }
-  ]);
-  isDeleteModalOpen = signal<boolean>(false);
-  selectedCourtId = signal<string>('1');
+  ngOnInit(): void {
+    this.GetCourt();
+  }
 
   selectedCourt = computed(() =>
-    this.courts().find(c => c.id === this.selectedCourtId()) || this.courts()[0]
+    this.mainCourts().find(c => c.id === this.selectedCourtId()) || this.mainCourts()[0] || null
   );
 
-  selectCourt(id: string) {
-    this.selectedCourtId.set(id);
+  selectCourt(id: number | undefined) {
+    if (id !== undefined) {
+      this.selectedCourtId.set(id);
+    }
   }
 
   handleImgError(event: any) {
     event.target.src = this.fallbackImg;
   }
 
-  formatCurrency(value: number): string {
-    return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-  toggleDeleteModal(isOpen: boolean) {
-    this.isDeleteModalOpen.set(isOpen);
+  formatCurrency(value: number | undefined): string {
+    const val = value ?? 0;
+    return '$' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  confirmDelete() {
-    const currentId = this.selectedCourtId();
-    this.courts.update(prev => prev.filter(c => c.id !== currentId));
-    if (this.courts().length > 0) {
-      this.selectedCourtId.set(this.courts()[0].id);
-    }
-    this.toggleDeleteModal(false);
+  // Modal methods
+  openDeleteModal(): void {
+    this.isDeleteModalOpen.set(true);
   }
 
-  registerFirstCourt() {
-    // Resetting for demo purposes
-    this.courts.set([
-      {
-        id: '1',
-        name: 'New Century Arena',
-        image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000',
-        status: 'ACTIVE',
-        bookings: 0,
-        revenue: 0
-      }
-    ]);
-    this.selectedCourtId.set('1');
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen.set(false);
   }
+
+  confirmDeleteCourt(): void {
+    // Execute the actual DeleteCourt service call
+    this.DeleteCourt();
+    // Close modal after deletion (modal will close on service success)
+  }
+
   downloadCsv() {
-    const header = ["Property Name", "Status", "Bookings", "Revenue"];
-    const rows = this.courts().map(c => [c.name, c.status, c.bookings, c.revenue]);
+    const header = ["Property Name", "Status", "Sub Courts", "Verified"];
+    const rows = this.mainCourts().map(c => [
+      c?.name || 'N/A',
+      c?.status || 'N/A',
+      c?.courts?.length || 0,
+      c?.is_verified ? 'Yes' : 'No'
+    ]);
     const csvContent = [header, ...rows].map(e => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -115,5 +75,40 @@ export class CourtOwnerManagementComponent {
     a.download = 'court_portfolio_export.csv';
     a.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  GetCourt(): void {
+    this.courtOwnerMainCourtsService.GetMainCourt().subscribe({
+      next: (res: any) => {
+        const data = res?.data || [];
+        this.mainCourts.set(data);
+        if (data.length > 0) {
+          this.selectedCourtId.set(data[0].id);
+        }
+      }
+    });
+  }
+
+  DeleteCourt(): void {
+    this.courtOwnerMainCourtsService.DeleteMainCourt(this.selectedCourtId()?.toString() || '').subscribe({
+      next: (res) => {
+        console.log(res);
+        // Update local state after successful deletion
+        const currentId = this.selectedCourtId();
+        this.mainCourts.update(prev => prev.filter(c => c.id !== currentId));
+        if (this.mainCourts().length > 0) {
+          this.selectedCourtId.set(this.mainCourts()[0].id);
+        } else {
+          this.selectedCourtId.set(null);
+        }
+        // Close modal
+        this.closeDeleteModal();
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+        // Optionally keep modal open or show error toast
+        this.closeDeleteModal(); // Close anyway for UX
+      }
+    });
   }
 }

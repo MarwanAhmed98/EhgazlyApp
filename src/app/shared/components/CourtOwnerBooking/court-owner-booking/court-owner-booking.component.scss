@@ -1,0 +1,286 @@
+:host {
+    display: block;
+    scroll-behavior: smooth;
+}
+
+/* Enhanced Dropdown Animation */
+.animate-dropdown {
+    animation: dropdownIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Stat Cards - refined entrance */
+.stat-card {
+    animation: fadeUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) both;
+    backdrop-filter: blur(2px);
+}
+
+.stat-card:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.stat-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.stat-card:nth-child(3) {
+    animation-delay: 0.14s;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Booking cards - smoother entrance */
+section article {
+    animation: cardIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) both;
+}
+
+@for $i from 1 through 20 {
+    section article:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 0.04}s;
+    }
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse animation refined */
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Button enhancements */
+button {
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Hover lift effect for cards */
+.stat-card,
+article,
+.rounded-\[32px\] {
+    will-change: transform;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+/* Modern focus ring */
+*:focus-visible {
+    outline: 2px solid #146A1E;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* Touch-friendly improvements for mobile */
+@media (max-width: 640px) {
+
+    button,
+    .h-8,
+    .h-9,
+    .h-11,
+    [data-card-menu] button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .rounded-full {
+        touch-action: manipulation;
+    }
+
+    .p-5,
+    .p-6,
+    .p-7 {
+        padding: 1rem;
+    }
+
+    .gap-5 {
+        gap: 1rem;
+    }
+
+    article .flex {
+        flex-wrap: wrap;
+    }
+
+    /* Better spacing for player info on mobile */
+    .lg\:w-56,
+    .lg\:w-44,
+    .lg\:w-36 {
+        width: 100%;
+    }
+
+    /* Stack actions on mobile gracefully */
+    .lg\:ml-auto {
+        margin-left: 0;
+        margin-top: 0.75rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Prevent horizontal scroll */
+body,
+.min-h-screen,
+main {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* 3-dot menu - better positioning on small screens */
+@media (max-width: 480px) {
+    .absolute.top-5.right-5 {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .w-52 {
+        width: 200px;
+        right: -8px;
+    }
+}
+
+/* Modal backdrop blur enhancement */
+.backdrop-blur-sm {
+    backdrop-filter: blur(6px);
+    transition: backdrop-filter 0.2s ease;
+}
+
+/* Loading button state improvement */
+button:disabled {
+    opacity: 0.6;
+    transform: none !important;
+    cursor: not-allowed;
+}
+
+/* Subtle text selection */
+::selection {
+    background-color: rgba(20, 106, 30, 0.2);
+    color: #064e3b;
+}
+
+/* Custom scrollbar (modern, clean) */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #146A1E;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0f5017;
+}
+
+/* Smooth transition for all interactive elements */
+a,
+button,
+.stat-card,
+article,
+.rounded-\[32px\] {
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* Better hover effect for segmented buttons */
+// .rounded-full button:not(.bg-\\[\\#146A1E\\]) {
+//     transition: background 0.2s, transform 0.1s;
+// }
+
+// .rounded-full button:not(.bg-\\[\\#146A1E\\]):active {
+//     transform: scale(0.97);
+// }
+
+/* Status badge enhancements */
+span.rounded-full {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(2px);
+}
+
+/* Dropdown menu item hover */
+.w-52 button,
+[data-card-menu] .absolute button {
+    transition: background 0.15s, padding-left 0.2s;
+}
+
+[data-card-menu] .absolute button:hover {
+    padding-left: 1.25rem;
+}
+
+/* Reject modal textarea focus */
+textarea:focus {
+    border-color: #146A1E;
+    box-shadow: 0 0 0 3px rgba(20, 106, 30, 0.2);
+}
+
+/* Loading text animation */
+@keyframes loadingPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+button:disabled span {
+    animation: loadingPulse 1.2s infinite;
+}
+
+/* Ensure images don't overflow */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Improve bottom cards readability on mobile */
+@media (max-width: 640px) {
+    .rounded-\[32px\] .p-8 {
+        padding: 1.5rem;
+    }
+
+    .text-3xl {
+        font-size: 1.75rem;
+    }
+}
