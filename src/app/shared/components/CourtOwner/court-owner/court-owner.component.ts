@@ -83,6 +83,13 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       exact: false,
       iconName: 'clock',
     },
+    {
+      key: 'court-owner-payment',
+      label: 'Payment',
+      route: '/CourtOwner/CourtOwnerPaymnet',
+      exact: false,
+      iconName: 'credit-card',
+    },
   ];
 
   // ==================== NOTIFICATION PROPERTIES ====================
@@ -382,6 +389,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();
+      this.toastService.success('Logged out successfully.', 'Ehgazly');
     }
     this.router.navigate(['/Login']);
   }

@@ -239,7 +239,7 @@
                                 <p class="text-sm font-black tracking-wide opacity-90">{{ s.label }}</p>
                                 <p class="mt-2 text-xl font-black">
                                     @if (s.available) {
-                                    {{ s.price }} EGP
+                                    <!-- {{ s.price }} EGP -->
                                     } @else {
                                     <span class="text-red-700 dark:text-red-300">UNAVAILABLE</span>
                                     }
@@ -248,10 +248,10 @@
 
                             <div class="flex flex-col items-end gap-2">
                                 @if (s.isPrime && s.available) {
-                                <span
+                                <!-- <span
                                     class="px-2.5 py-1 rounded-full bg-[#A34700] text-white text-[10px] font-black uppercase tracking-widest">
                                     PRIME
-                                </span>
+                                </span> -->
                                 }
 
                                 @if (isSelectedSlot(s)) {

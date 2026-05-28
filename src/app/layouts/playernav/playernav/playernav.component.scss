@@ -445,6 +445,8 @@
     text-align: left;
     transition: background-color 140ms ease, border-color 140ms ease, transform 120ms ease;
     touch-action: manipulation;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .notif-item:hover {
@@ -492,6 +494,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    flex: 1;
 }
 
 .notif-item__title {
@@ -532,6 +535,54 @@
     color: rgba(226, 232, 240, 0.5);
 }
 
+/* PAY BUTTON STYLES */
+.pay-btn {
+    display: inline-block;
+    background: #2E7D32;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 1rem;
+    border-radius: 9999px;
+    margin-left: auto;
+    margin-top: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pay-btn:hover {
+    background: #1B5E20;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pay-btn:active {
+    transform: translateY(0);
+}
+
+/* Align button within notification */
+.notif-item .pay-btn {
+    align-self: center;
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 480px) {
+    .pay-btn {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.75rem;
+        white-space: nowrap;
+    }
+
+    .notif-item .pay-btn {
+        margin-left: auto;
+    }
+}
+
+/* Rest of existing styles (empty states, spinners, etc.) */
 .notif-empty {
     padding: 18px 12px;
     text-align: center;

@@ -280,6 +280,15 @@ export class PlayernavComponent implements OnInit, OnDestroy {
       });
   }
 
+  // ===== NEW: Handle Pay button click =====
+  onPayNotification(item: NotiItem): void {
+    // You can implement the actual payment logic here.
+    // For now, we show a toast and close the dropdown.
+    console.log('Pay clicked for notification:', item);
+    this.toastService.info('Payment gateway will open soon.', 'Ehgazly');
+    this.closeNotifications(); // optional: close dropdown after action
+  }
+
   getNotifIcon(type: string): 'calendar-check' | 'match' | 'invite' | 'calendar-cancel' {
     const t = String(type || '').toLowerCase();
     if (t.includes('booking') || t.includes('reservation')) return 'calendar-check';

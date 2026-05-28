@@ -167,6 +167,13 @@
                 <span class="notif-item__time">{{ formatNotiTime(item.created_at) }}</span>
               </span>
 
+              <!-- PAY BUTTON (conditional) -->
+              @if (item.type === 'match_ready') {
+              <span [routerLink]="['/OpenMatchPayment' , item.id]" class="pay-btn" role="button" tabindex="0">
+                Pay
+              </span>
+              }
+
               @if (markingReadIds.has(item.id)) {
               <span class="notif-item__spinner" aria-hidden="true"></span>
               }
@@ -186,10 +193,6 @@
               [class.opacity-60]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading">
               @if (markAllLoading) { Marking... } @else { Mark all as read }
             </button>
-
-            <!-- <a class="notif-dd__link" routerLink="/PlayerNotifications" (click)="closeNotifications()">
-              View all →
-            </a> -->
           </div>
           }
         </div>

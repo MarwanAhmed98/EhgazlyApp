@@ -1,3 +1,4 @@
+import { CourtOwnerPaymnetComponent } from './shared/components/CourtOwnerPayment/court-owner-paymnet/court-owner-paymnet.component';
 import { CourtOwnerSpecificCourtsComponent } from './shared/components/CourtOwnerSpecificCourts/court-owner-specific-courts/court-owner-specific-courts.component';
 import { AdminComponent } from './shared/components/Admin/admin/admin.component';
 import { AddNewCourtComponent } from './shared/components/AddNewCourt/add-new-court/add-new-court.component';
@@ -54,6 +55,7 @@ import { PlayerNotificationComponent } from './shared/components/PlayerNotificat
 import { CourtOwnerSpecificCourtComponent } from './shared/components/CourtOwnerSpecificCourt/court-owner-specific-court/court-owner-specific-court.component';
 import { CourtOwnerCourtsComponent } from './shared/components/CourtOwnerCourts/court-owner-courts/court-owner-courts.component';
 import { CourtOwnerWorkingHoursComponent } from './shared/components/CourtOwnerWorkingHours/court-owner-working-hours/court-owner-working-hours.component';
+import { OpenMatchPaymentComponent } from './shared/components/OpenMatchPayment/open-match-payment/open-match-payment.component';
 
 export const routes: Routes = [
     {
@@ -165,6 +167,16 @@ export const routes: Routes = [
         title: 'My Profile',
     },
     {
+        path: 'CustomerProfile',
+        component: CustomerProfileComponent,
+        title: 'My Profile',
+    },
+    {
+        path: 'OpenMatchPayment/:id',
+        component: OpenMatchPaymentComponent,
+        title: 'Open Match Payment',
+    },
+    {
         path: 'PlayerNotifications',
         component: PlayerNotificationComponent,
         title: 'Notifications',
@@ -191,6 +203,7 @@ export const routes: Routes = [
             { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
             { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
             { path: 'ProfileWorkingHours', component: CourtOwnerWorkingHoursComponent, title: 'Profile Working Hours' },
+            { path: 'CourtOwnerPaymnet', component: CourtOwnerPaymnetComponent, title: 'CourtOwner Paymnet ' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
         ]
     },

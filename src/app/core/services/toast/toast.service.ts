@@ -18,12 +18,18 @@ export class ToastService {
   warning(message: string, title: string = 'Warning') {
     this.show('warning', message, title);
   }
-  private show(type: 'success' | 'error' | 'warning', message: string, title: string) {
+
+  info(message: string, title: string = 'Info') {
+    this.show('info', message, title);
+  }
+
+  private show(type: 'success' | 'error' | 'warning' | 'info', message: string, title: string) {
     let icon = '';
     switch (type) {
       case 'success': icon = 'check_circle_outline'; break;
       case 'error': icon = 'report_gmailerrorred'; break;
       case 'warning': icon = 'warning_amber'; break;
+      case 'info': icon = 'info_outline'; break;
     }
 
     this.snackBar.openFromComponent(ToastAlertComponent, {
