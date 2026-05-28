@@ -1,0 +1,202 @@
+<div class="specific-court-container">
+    <!-- Loading State -->
+    <!-- <div *ngIf="isLoading" class="flex justify-center items-center min-h-[60vh]">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
+    </div> -->
+
+    <!-- Error State with helpful actions -->
+    <!-- <div *ngIf="errorMessage && !isLoading"
+        class="max-w-2xl mx-auto mt-12 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-800 text-center">
+        <div class="w-16 h-16 bg-red-100 dark:bg-red-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Oops! Something went wrong</h3>
+        <p class="text-slate-600 dark:text-slate-300 mb-6">{{ errorMessage }}</p>
+        <button (click)="goBackToCourts()"
+            class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition shadow-md">
+            ← Back to Courts
+        </button>
+    </div> -->
+
+    <!-- Content -->
+    <div *ngIf="courtData" class="max-w-7xl mx-auto space-y-8">
+        <!-- COURT HEADER SECTION -->
+        <div
+            class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
+            <div class="relative h-48 md:h-64 bg-gradient-to-r from-green-900 to-green-700">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/80 to-transparent">
+                    <div class="flex flex-wrap justify-between items-end gap-4">
+                        <div>
+                            <h1 class="text-3xl md:text-5xl font-black text-white drop-shadow-lg">{{ courtData.name }}
+                            </h1>
+                            <p class="text-green-100 mt-2 max-w-2xl">{{ courtData.description }}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span [class]="courtData.status?.toLowerCase() === 'open' 
+                ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' 
+                : 'bg-red-500 text-white shadow-lg shadow-red-500/30'"
+                                class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider backdrop-blur-sm">
+                                {{ courtData.status || 'unknown' }}
+                            </span>
+                            <span [class]="courtData.is_open 
+                ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' 
+                : 'bg-red-500 text-white shadow-lg shadow-red-500/30'"
+                                class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider backdrop-blur-sm">
+                                {{ courtData.is_open ? 'Open Now' : 'Closed' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 md:p-8">
+                <div class="flex flex-wrap gap-4 text-sm">
+                    <div
+                        class="flex items-center gap-2 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-4 py-2 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l5 5a2 2 0 01.586 1.414V19a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                        </svg>
+                        <span class="font-medium">Type:</span> {{ courtData.type }}
+                    </div>
+                    <div
+                        class="flex items-center gap-2 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-4 py-2 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="font-medium">Surface:</span> <span class="capitalize">{{ courtData.surface_type
+                            }}</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-2 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-4 py-2 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="font-medium">Price / Hour:</span> <span
+                            class="font-bold text-green-700 dark:text-green-400">{{ courtData.price_per_hour | currency
+                            }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COURT DETAILS SECTION -->
+        <div
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Court Details
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Court
+                            ID:</span> <span class="text-slate-800 dark:text-white">{{ courtData.id }}</span></div>
+                    <div><span class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Main Court
+                            ID:</span> <span class="text-slate-800 dark:text-white">{{ courtData.maincourt_id }}</span>
+                    </div>
+                    <div><span class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Type:</span>
+                        <span class="text-slate-800 dark:text-white">{{ courtData.type }}</span>
+                    </div>
+                    <div><span
+                            class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Surface:</span>
+                        <span class="capitalize text-slate-800 dark:text-white">{{ courtData.surface_type }}</span>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div><span
+                            class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Price/Hour:</span>
+                        <span class="text-green-700 dark:text-green-400 font-bold">{{ courtData.price_per_hour |
+                            currency }}</span>
+                    </div>
+                    <div><span
+                            class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Created:</span>
+                        <span class="text-slate-800 dark:text-white">{{ courtData.created_at | date:'medium' }}</span>
+                    </div>
+                    <div><span class="font-semibold text-slate-700 dark:text-slate-300 w-32 inline-block">Last
+                            Updated:</span> <span class="text-slate-800 dark:text-white">{{ courtData.updated_at |
+                            date:'medium' }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COURT IMAGES SECTION -->
+        <div
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Court Images
+            </h2>
+            <div *ngIf="courtData.primary_image && courtData.primary_image.length > 0"
+                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div *ngFor="let img of courtData.primary_image; trackBy: trackByIndex"
+                    class="aspect-square rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-700 shadow-sm hover:shadow-md transition cursor-pointer"
+                    (click)="openImage(img.image_url || img)">
+                    <img [src]="img.image_url || img" (error)="handleImageError($event)"
+                        class="w-full h-full object-cover transition-transform hover:scale-105 duration-300">
+                </div>
+            </div>
+            <div *ngIf="!courtData.primary_image || courtData.primary_image.length === 0"
+                class="text-center py-12 bg-slate-50 dark:bg-slate-700/30 rounded-xl">
+                <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-500 mb-3" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-slate-500 dark:text-slate-400 font-medium">No images available for this court.</p>
+            </div>
+        </div>
+
+        <!-- TIMESLOTS SECTION -->
+        <div
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700 mb-8">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Available Timeslots
+            </h2>
+            <div *ngIf="courtData.timeslots && courtData.timeslots.length > 0"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div *ngFor="let slot of courtData.timeslots; trackBy: trackByIndex"
+                    class="bg-slate-50 dark:bg-slate-700/50 rounded-xl p-4 border border-slate-200 dark:border-slate-600 hover:shadow-md transition">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="font-medium text-slate-700 dark:text-slate-200">{{ slot.start_time || '—' }} –
+                                {{ slot.end_time || '—' }}</span>
+                        </div>
+                        <span
+                            [class]="slot.is_available ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'"
+                            class="px-2 py-1 rounded-full text-xs font-medium">
+                            {{ slot.is_available ? 'Available' : 'Booked' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!courtData.timeslots || courtData.timeslots.length === 0"
+                class="text-center py-12 bg-slate-50 dark:bg-slate-700/30 rounded-xl">
+                <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-500 mb-3" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-slate-500 dark:text-slate-400 font-medium">No timeslots defined for this court.</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { CourtOwnerSpecificCourtsComponent } from './shared/components/CourtOwnerSpecificCourts/court-owner-specific-courts/court-owner-specific-courts.component';
 import { AdminComponent } from './shared/components/Admin/admin/admin.component';
 import { AddNewCourtComponent } from './shared/components/AddNewCourt/add-new-court/add-new-court.component';
 import { Component } from '@angular/core';
@@ -51,6 +52,8 @@ import { AdminTournamentSetupFormComponent } from './shared/components/AdminTour
 import { CustomerProfileComponent } from './shared/components/CustomerProfile/customer-profile/customer-profile.component';
 import { PlayerNotificationComponent } from './shared/components/PlayerNotification/player-notification/player-notification.component';
 import { CourtOwnerSpecificCourtComponent } from './shared/components/CourtOwnerSpecificCourt/court-owner-specific-court/court-owner-specific-court.component';
+import { CourtOwnerCourtsComponent } from './shared/components/CourtOwnerCourts/court-owner-courts/court-owner-courts.component';
+import { CourtOwnerWorkingHoursComponent } from './shared/components/CourtOwnerWorkingHours/court-owner-working-hours/court-owner-working-hours.component';
 
 export const routes: Routes = [
     {
@@ -176,6 +179,8 @@ export const routes: Routes = [
             { path: 'CourtOwnerEarnings', component: CourtOwnerEarningsComponent, title: 'Earnings' },
             { path: 'CourtOwnerHistoricalBookings', component: CourtOwnerHistoricalBookingComponent, title: 'Historical Bookings' },
             { path: 'CourtOwnerManagement', component: CourtOwnerManagementComponent, title: 'Courts Management' },
+            { path: 'CourtOwnerCourts', component: CourtOwnerCourtsComponent, title: 'Courts ' },
+            { path: 'CourtOwnerSpecific/:mainCourtId/:id', component: CourtOwnerSpecificCourtsComponent, title: 'Specific Court' },
             { path: 'SpecificCourtOwner/:id', component: CourtOwnerSpecificCourtComponent, title: 'Specific Court' },
             { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
             { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
@@ -185,6 +190,7 @@ export const routes: Routes = [
             { path: 'Billing&Payments', component: CourtOwnerBillingComponent, title: 'Billing & Payments' },
             { path: 'PaymentInstructions', component: PaymentInstructionsComponent, title: 'Payment Instructions' },
             { path: 'ProfilePayment', component: ProfofPaymentComponent, title: 'Profile Payment' },
+            { path: 'ProfileWorkingHours', component: CourtOwnerWorkingHoursComponent, title: 'Profile Working Hours' },
             { path: '', redirectTo: 'Dashboard', pathMatch: 'full' }
         ]
     },

@@ -66,13 +66,22 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       iconName: 'calendar-days',
     },
     { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconName: 'trending-up' },
-    { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin' },
+    { key: 'courts', label: 'Main Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin-house' },
+    { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerCourts', exact: false, iconName: 'map-pin' },
+
     {
       key: 'manage-court-schedule',
       label: 'Manage Court Schedule',
       route: '/CourtOwner/ManageCourtSchedule',
       exact: false,
       iconName: 'calendar-clock',
+    },
+    {
+      key: 'profile-working-hours',
+      label: 'Working Hours',
+      route: '/CourtOwner/ProfileWorkingHours',
+      exact: false,
+      iconName: 'clock',
     },
   ];
 
