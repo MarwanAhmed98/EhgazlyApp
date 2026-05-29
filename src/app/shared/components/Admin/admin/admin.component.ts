@@ -3,6 +3,7 @@ import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LucideAngularModule } from 'lucide-angular';
+import { ToastService } from '../../../../core/services/toast/toast.service';
 
 type NavItem = {
   key: string;
@@ -22,7 +23,7 @@ type NavItem = {
 export class AdminComponent {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
-
+  private readonly toastService = inject(ToastService);
   isSideNavOpen = true;
   isDarkMode = (typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark') ?? false;
   currentTitle = 'Dashboard';
@@ -86,8 +87,12 @@ export class AdminComponent {
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.clear();
+      // localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('userId');
     }
-    this.router.navigate(['/login']);
+    this.router.navigate(['/Login']);
+    this.toastService.success('Logged out successfully', 'Ehgazly');
   }
 }

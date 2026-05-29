@@ -8,11 +8,15 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
 
-type PaymentMethod = 'instapay' | 'wallets';
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
-
 type ConfirmStatus = 'idle' | 'loading' | 'success' | 'error';
 type ModalKind = 'none' | 'uploadSuccess' | 'uploadError' | 'confirmSuccess' | 'confirmError';
+
+interface PaymentMethod {
+  id: number;
+  type: string;
+  identifier: string;
+}
 
 @Component({
   selector: 'app-payment',
@@ -26,6 +30,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly venuesService = inject(VenuesService);
+
   fieldName: string = '—';
   totalPrice: number = 0;
   courtLabel: string = '—';
@@ -36,14 +41,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
   courtId: number | null = null;
   MaincourtId: number | null = null;
   timeslotId: number | null = null;
-  paymentMethod: any;
-  paymenttype: any;
+
+  // Dynamic payment properties
+  paymentMethods: PaymentMethod[] = [];
+  selectedPaymentMethod: PaymentMethod | null = null;
+  transferAddress: string = '';
+
   CreateBookingForm: FormGroup = new FormGroup({
     court_id: new FormControl<number | null>(null),
     timeslot_id: new FormControl<number | null>(null),
     payment_method_id: new FormControl<number | null>(null),
     receipt_image: new FormControl<File | null>(null),
   });
+
   booking = {
     field: '—',
     pitch: '—',
@@ -51,9 +61,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     timeLabel: '—',
     total: 0,
   };
-
-  selectedMethod: PaymentMethod = 'instapay';
-  payAddress = 'ehgazly@instapay';
 
   receiptFile: File | null = null;
   receiptFileName = '';
@@ -76,9 +83,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.fieldName = res.get('courtName')!;
         this.totalPrice = Number(res.get('grandTotal')!);
         console.log(this.fieldName, this.totalPrice);
-
       }
-    })
+    });
     this.activatedRoute.paramMap.subscribe((pm) => {
       const court = Number(pm.get('selectedCourtId'));
       const slot = Number(pm.get('selectedSlotsId'));
@@ -98,7 +104,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
         court_id: this.courtId,
         timeslot_id: this.timeslotId,
       });
-      this.setPaymentMethodId(this.selectedMethod);
       this.GetBookingSummary();
     });
     this.GetSpecificCourt();
@@ -110,15 +115,33 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.clearCloseAnimTimer();
     if (this.uploadedPreviewUrl) URL.revokeObjectURL(this.uploadedPreviewUrl);
   }
-  private setPaymentMethodId(method: PaymentMethod): void {
-    const id = method === 'instapay' ? 1 : 2;
-    this.CreateBookingForm.patchValue({ payment_method_id: id });
+
+  // Dynamic payment method label mapping
+  getPaymentLabel(type: string): string {
+    if (type === 'instapay') return 'Instapay';
+    if (['vodafone_cash', 'etisalat_cash', 'orange_cash', 'we_pay'].includes(type)) {
+      return 'Digital Wallet';
+    }
+    return type;
   }
 
-  selectMethod(method: PaymentMethod): void {
-    this.selectedMethod = method;
-    this.payAddress = method === 'instapay' ? 'ehgazly@instapay' : 'Ehgazly Wallet';
-    this.setPaymentMethodId(method);
+  // Selection handler
+  onPaymentMethodSelect(method: PaymentMethod): void {
+    this.selectedPaymentMethod = method;
+    this.transferAddress = method.identifier;
+    this.CreateBookingForm.patchValue({ payment_method_id: method.id });
+  }
+
+  // Updated copy method using dynamic transferAddress
+  async copyPayAddress(): Promise<void> {
+    if (!this.transferAddress) return;
+    try {
+      await navigator.clipboard.writeText(this.transferAddress);
+      console.log('Copied:', this.transferAddress);
+      this.toastService.success('Address copied');
+    } catch (e) {
+      console.error('Copy failed', e);
+    }
   }
 
   onFileSelected(event: Event): void {
@@ -295,15 +318,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
   }
 
-  async copyPayAddress(): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(this.payAddress);
-      console.log('Copied:', this.payAddress);
-    } catch (e) {
-      console.error('Copy failed', e);
-    }
-  }
-
   private formatDateLabel(iso: string | null): string {
     if (!iso) return '—';
     const d = new Date(iso);
@@ -350,17 +364,26 @@ export class PaymentComponent implements OnInit, OnDestroy {
       },
     });
   }
+
   GetSpecificCourt(): void {
     this.venuesService.GetSpecCourts(this.MaincourtId!, this.courtId!).subscribe({
       next: (res) => {
         console.log(res.data);
         const methods = res.data.maincourt.payment_methods;
-        this.paymentMethod = methods.map((m: any) => m.identifier);
-        console.log(this.paymentMethod);
-        const types = res.data.maincourt.payment_methods;
-        this.paymenttype = methods.map((m: any) => m.type);
-        console.log(this.paymenttype);
+        // Map API response to PaymentMethod array
+        this.paymentMethods = methods.map((m: any) => ({
+          id: m.id,               // ensure API provides 'id'
+          type: m.type,
+          identifier: m.identifier
+        }));
+        // Optionally select the first method by default
+        if (this.paymentMethods.length > 0) {
+          this.onPaymentMethodSelect(this.paymentMethods[0]);
+        }
       },
+      error: (err) => {
+        console.error('Failed to load payment methods', err);
+      }
     });
   }
 }

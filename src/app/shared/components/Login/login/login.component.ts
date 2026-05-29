@@ -30,10 +30,15 @@ export class LoginComponent {
             this.router.navigate(['/MyBookings']);
             this.toastService.success(res.message, 'Ehgazly');
           }
+          else if (res.user.role == 'admin') {
+            this.router.navigate(['/Admin']);
+            this.toastService.success(res.message, 'Ehgazly');
+          }
           else {
             this.router.navigate(['/CourtOwner']);
             this.toastService.success(res.message, 'Ehgazly');
           }
+
         },
         error: (error) => {
           console.error(error);
