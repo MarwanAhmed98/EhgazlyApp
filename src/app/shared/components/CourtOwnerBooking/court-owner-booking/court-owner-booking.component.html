@@ -179,11 +179,12 @@
                           : (b.status === 'confirmed' ? 'bg-emerald-600' : 'bg-orange-700')">
                     </div>
 
-                    <div [routerLink]="['/CourtOwner/CourtOwnerBookingsVerification', b.id]"
+                    <div
                         class="flex-1 p-5 sm:p-7 flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-7 overflow-visible">
 
                         <!-- Player -->
-                        <div class="flex items-center gap-4 min-w-0 flex-1 lg:flex-none lg:w-56">
+                        <div [routerLink]="['/CourtOwner/CourtOwnerBookingsVerification', b.id]"
+                            class="flex items-center gap-4 min-w-0 flex-1 lg:flex-none lg:w-56">
                             <div
                                 class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-100 border-[3px] border-emerald-200/70 overflow-hidden shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
                                 <img [src]="b.player.avatarUrl" [alt]="b.player.name"

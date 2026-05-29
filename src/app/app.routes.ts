@@ -102,7 +102,7 @@ export const routes: Routes = [
         title: 'Booking and Schedule',
     },
     {
-        path: 'payment/:selectedCourtId/:selectedSlotsId/:selectedDateISO/:grandTotal/:courtName',
+        path: 'payment/:selectedCourtId/:selectedSlotsId/:selectedDateISO/:grandTotal/:courtName/:MainCourtId',
         component: PaymentComponent,
         title: 'Payment',
     },

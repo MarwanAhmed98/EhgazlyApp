@@ -6,6 +6,7 @@ import { MyBookingsService } from '../../../../core/services/MyBookings/my-booki
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
+import { VenuesService } from '../../../../core/services/venues/venues.service';
 
 type PaymentMethod = 'instapay' | 'wallets';
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
@@ -24,17 +25,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly toastService = inject(ToastService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly venuesService = inject(VenuesService);
   fieldName: string = '—';
   totalPrice: number = 0;
   courtLabel: string = '—';
   dateLabel: string = '—';
   timeLabel: string = '—';
-
   SummaryDetails: Icustomertimeslot[] = [];
   SelectedDate: string | null = null;
   courtId: number | null = null;
+  MaincourtId: number | null = null;
   timeslotId: number | null = null;
-
+  paymentMethod: any;
+  paymenttype: any;
   CreateBookingForm: FormGroup = new FormGroup({
     court_id: new FormControl<number | null>(null),
     timeslot_id: new FormControl<number | null>(null),
@@ -79,7 +82,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap.subscribe((pm) => {
       const court = Number(pm.get('selectedCourtId'));
       const slot = Number(pm.get('selectedSlotsId'));
-
+      this.MaincourtId = Number(pm.get('MainCourtId'));
       this.courtId = Number.isFinite(court) ? court : null;
       this.timeslotId = Number.isFinite(slot) ? slot : null;
       this.SelectedDate = pm.get('selectedDateISO');
@@ -98,6 +101,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.setPaymentMethodId(this.selectedMethod);
       this.GetBookingSummary();
     });
+    this.GetSpecificCourt();
   }
 
   ngOnDestroy(): void {
@@ -343,6 +347,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
       error: () => {
         this.timeLabel = `Timeslot ${this.timeslotId}`;
         this.booking.timeLabel = this.timeLabel;
+      },
+    });
+  }
+  GetSpecificCourt(): void {
+    this.venuesService.GetSpecCourts(this.MaincourtId!, this.courtId!).subscribe({
+      next: (res) => {
+        console.log(res.data);
+        const methods = res.data.maincourt.payment_methods;
+        this.paymentMethod = methods.map((m: any) => m.identifier);
+        console.log(this.paymentMethod);
+        const types = res.data.maincourt.payment_methods;
+        this.paymenttype = methods.map((m: any) => m.type);
+        console.log(this.paymenttype);
       },
     });
   }

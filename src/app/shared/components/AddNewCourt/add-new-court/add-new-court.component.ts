@@ -40,7 +40,6 @@ export class AddNewCourtComponent implements OnDestroy {
   CourtForm: FormGroup = new FormGroup({
     courtSize: new FormControl('5A', [Validators.required]),
     courtName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    hourlyRate: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
     description: new FormControl('', [Validators.required, Validators.minLength(20)]),
     mapsLink: new FormControl('', [Validators.required, Validators.pattern('https?://.*')]),
     amenities: new FormGroup({

@@ -12,7 +12,7 @@ export class CustomerTimeslotService {
   GetCustomerTimeSlot(courtId: number, selectedDate: string): Observable<any> {
     return this.httpClient.get(environments.baseUrl + `/customer/courts/${courtId}/timeslots?date=${selectedDate}`)
   }
-  GetSpecificCourt(mainCourtId: number): Observable<any> {
-    return this.httpClient.get(environments.baseUrl + `/customer/maincourts/${mainCourtId}/courts/1`)
+  GetSingleCourt(mainCourtId: number, courtId: number): Observable<any> {
+    return this.httpClient.get(`${environments.baseUrl}/customer/maincourts/${mainCourtId}/courts/${courtId}`);
   }
 }

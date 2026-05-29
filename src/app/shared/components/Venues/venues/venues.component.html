@@ -1,8 +1,6 @@
-<!-- Main Wrapper -->
 <div
     class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
 
-    <!-- Typography (match Login page) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -28,7 +26,6 @@
         }
     </style>
 
-    <!-- Background Glow Elements -->
     <div
         class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
     </div>
@@ -36,13 +33,11 @@
         class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
     </div>
 
-    <!-- Navbar -->
     <app-playernav [active]="'venues'" [venuesLink]="'/venues'" [tournamentsLink]="'/tournaments'"
         [myBookingsLink]="'/MyBookings'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
         @if (view === 'permission') {
-        <!-- Permission Screen -->
         <section class="min-h-[70vh] grid place-items-center animate-fade-in-up">
             <div class="w-full max-w-xl">
                 <div
@@ -86,9 +81,7 @@
             </div>
         </section>
         } @else if (view === 'all') {
-        <!-- All Stadiums -->
         <section class="animate-fade-in-up">
-            <!-- Info Banner -->
             @if (!dismissedBanner) {
             <div
                 class="mb-8 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 px-5 py-4 flex items-start justify-between gap-4">
@@ -126,7 +119,6 @@
             </div>
             }
 
-            <!-- Title + Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                 <div>
                     <h1 class="text-4xl sm:text-5xl font-black tracking-tighter leading-tight">
@@ -163,7 +155,7 @@
 
                     <button type="button" (click)="cycleSort()"
                         class="px-5 py-3 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-emerald-100 font-black text-sm shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                        {{ sortLabel }}
+                        Sort
                     </button>
 
                     <button type="button" (click)="toggleFilters()"
@@ -173,9 +165,8 @@
                 </div>
             </div>
 
-            <!-- Grid Cards -->
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @for (s of visibleStadiums(); track s.id) {
+                @for (s of paginatedData(); track s.id) {
                 <article [routerLink]="['/VenuesDetails', s.id]"
                     class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/40 dark:shadow-none transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
                     [style.animation-delay.ms]="70 + (s.index * 55)">
@@ -216,16 +207,6 @@
                         </div>
 
                         <div class="mt-5 flex items-end justify-between gap-4">
-                            <!-- <div>
-                                <p
-                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                                    Starting From</p>
-                                <p class="mt-1 text-emerald-950 dark:text-white font-black text-lg">
-                                    EGP {{ s.pricePerHour }}<span
-                                        class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
-                                </p>
-                            </div> -->
-
                             <button type="button" (click)="openStadium(s)"
                                 class="w-12 h-12 rounded-2xl bg-emerald-200/70 hover:bg-emerald-200 border border-emerald-200/60 dark:border-emerald-900/40 transition-all duration-300 grid place-items-center group-hover:-translate-y-0.5 active:translate-y-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950"
@@ -242,7 +223,6 @@
             </div>
         </section>
         } @else {
-        <!-- Nearby Stadiums -->
         <section class="animate-fade-in-up">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div>
@@ -256,59 +236,9 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="flex items-center justify-start lg:justify-end">
-                    <div
-                        class="inline-flex p-1.5 rounded-full bg-emerald-100/70 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
-                        <button type="button" (click)="setNearbyView('list')"
-                            class="px-6 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="nearbyView === 'list'
-                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
-                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
-                            ≡&nbsp;&nbsp;List View
-                        </button>
-                        <button type="button" (click)="setNearbyView('map')"
-                            class="px-6 py-2.5 rounded-full text-sm font-black transition-all duration-300" [class]="nearbyView === 'map'
-                  ? 'bg-[#146A1E] text-white shadow-lg shadow-emerald-900/20'
-                  : 'text-emerald-900/70 dark:text-emerald-100/70 hover:bg-white/50 dark:hover:bg-white/5'">
-                            ⌖&nbsp;&nbsp;Map View
-                        </button>
-                    </div>
-                </div>
             </div>
-
-            <!-- Radius -->
-            <div
-                class="mt-8 rounded-[2rem] bg-emerald-100/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-8">
-                <div class="flex items-center justify-between gap-4">
-                    <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">Radius Distance</p>
-                    <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">{{ radiusKm }}km</p>
-                </div>
-
-                <input type="range" min="1" max="50" step="1" [(ngModel)]="radiusKm" (input)="recomputeNearby()"
-                    class="mt-4 w-full accent-[#146A1E]" />
-
-                <div
-                    class="mt-3 flex items-center justify-between text-[10px] font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">
-                    <span>1km</span><span>5km</span><span>10km</span><span>20km</span><span>50km</span>
-                </div>
-            </div>
-
-            @if (nearbyView === 'map') {
-            <div
-                class="mt-8 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-2xl shadow-slate-200/40 dark:shadow-none">
-                <div class="aspect-[16/9] grid place-items-center">
-                    <div class="text-center px-8">
-                        <p class="text-lg font-black text-emerald-950 dark:text-white">Map View</p>
-                        <p class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-400">
-                            Map rendering is not enabled in this demo. Switch back to List View.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            } @else {
-            <!-- Nearby list cards -->
             <div class="mt-8 space-y-6">
-                @for (s of nearbyStadiums(); track s.id) {
+                @for (s of paginatedData(); track s.id) {
                 <article
                     class="group grid grid-cols-1 lg:grid-cols-12 bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-25px_rgba(2,44,34,0.25)] hover:shadow-[0_30px_70px_-30px_rgba(2,44,34,0.35)] transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
                     [style.animation-delay.ms]="70 + (s.index * 55)">
@@ -317,22 +247,6 @@
                         <img [src]="s.image" [alt]="s.name" class="absolute inset-0 w-full h-full object-cover"
                             loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent"></div>
-
-                        <div
-                            class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/85 backdrop-blur-xl border border-white/40 text-emerald-950 text-xs font-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#146A1E]" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M13 19a9 9 0 1 0-9-9" />
-                                <path d="M9 15l-3 3 3 3" />
-                            </svg>
-                            <span>{{ s.distanceKm.toFixed(1) }} km</span>
-                        </div>
-
-                        <div
-                            class="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#A34700]/95 border border-white/10 text-white text-[11px] font-black uppercase tracking-widest">
-                            Walking Distance
-                        </div>
                     </div>
 
                     <div class="lg:col-span-7 p-7 sm:p-9 flex flex-col gap-6">
@@ -400,16 +314,6 @@
                         </div>
 
                         <div class="flex items-end justify-between gap-6 pt-2">
-                            <!-- <div>
-                                <p
-                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                                    Starts from</p>
-                                <p class="mt-1 text-emerald-950 dark:text-white font-black text-2xl">
-                                    {{ s.pricePerHour }} EGP<span
-                                        class="text-sm font-bold text-slate-600 dark:text-slate-400">/hr</span>
-                                </p>
-                            </div> -->
-
                             <button [routerLink]="['/VenuesDetails', s.id]" type="button" (click)="book(s)"
                                 class="px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 BOOK FIELD
@@ -419,8 +323,49 @@
                 </article>
                 }
             </div>
-            }
         </section>
+        }
+
+        @if (view !== 'permission' && stadiums.length > itemsPerPage) {
+        <nav class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 animate-fade-in-up">
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                Showing <span class="text-emerald-950 dark:text-white">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
+                to <span class="text-emerald-950 dark:text-white">{{ Math.min(currentPage * itemsPerPage, (view ===
+                    'all' ? visibleStadiums().length : nearbyStadiums().length)) }}</span>
+                of <span class="text-emerald-950 dark:text-white">{{ view === 'all' ? visibleStadiums().length :
+                    nearbyStadiums().length }}</span> venues
+            </p>
+
+            <div class="flex items-center gap-2">
+                <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"
+                    class="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="flex items-center gap-1">
+                    @for (page of [].constructor(totalPages()); track $index) {
+                    <button (click)="currentPage = $index + 1"
+                        [class]="$index + 1 === currentPage 
+                                ? 'bg-emerald-700 text-white border-emerald-700' 
+                                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'"
+                        class="w-10 h-10 rounded-xl border font-black text-sm transition-all">
+                        {{ $index + 1 }}
+                    </button>
+                    }
+                </div>
+
+                <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages()"
+                    class="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
         }
     </main>
 </div>

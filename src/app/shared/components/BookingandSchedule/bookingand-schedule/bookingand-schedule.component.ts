@@ -1,21 +1,14 @@
-import { Component, inject, OnDestroy, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, computed, WritableSignal } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IcourtSpecficCourt } from '../../../interfaces/icourt-specfic-court';
+import { VenuesService } from '../../../../core/services/venues/venues.service';
+import { ICustomerSpecificCourt } from '../../../interfaces/icustomer-specific-court';
 
 type Amenity = { label: string; icon: string };
-
-type Court = {
-  id: string;
-  name: string;
-  amenities: Amenity[];
-  basePrice: number;
-};
-
 type DateChip = { iso: string; dow: string; day: number };
-
 type Slot = {
   id: string;
   label: string;
@@ -34,10 +27,15 @@ type Slot = {
 })
 export class BookingandScheduleComponent implements OnInit, OnDestroy {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
+  private readonly venuesService = inject(VenuesService);
   private readonly activatedRoute = inject(ActivatedRoute);
-  SpecificCourt: IcourtSpecficCourt = {} as IcourtSpecficCourt
+
+  SpecificCourt: IcourtSpecficCourt = {} as IcourtSpecficCourt;
+  customerspecificCourts = signal<ICustomerSpecificCourt[]>([]);
   customerTimeSlotsDetails = signal<Icustomertimeslot[]>([]);
   productId: any;
+  paymentMethod: any;
+
   venue = {
     name: 'Stadium One Elite',
     location: 'New Cairo, District 5',
@@ -51,108 +49,156 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     ],
   };
 
-  courts: Court[] = [
-    {
-      id: '1',
-      name: 'Court 1',
-      basePrice: 450,
-      amenities: [
-        { label: 'Showers', icon: '🚿' },
-        { label: 'Parking', icon: '🅿️' },
-        { label: 'Lockers', icon: '🧳' },
-        { label: 'FIFA Pro Grass', icon: '🌿' },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Court 2',
-      basePrice: 500,
-      amenities: [
-        { label: 'Showers', icon: '🚿' },
-        { label: 'Parking', icon: '🅿️' },
-        { label: 'Lockers', icon: '🧳' },
-        { label: 'Pro Lighting', icon: '💡' },
-      ],
-    },
-    {
-      id: '3',
-      name: 'Court 3',
-      basePrice: 380,
-      amenities: [
-        { label: 'Parking', icon: '🅿️' },
-        { label: 'Lockers', icon: '🧳' },
-        { label: 'Wi‑Fi', icon: '📶' },
-        { label: 'Lounge', icon: '🛋️' },
-      ],
-    },
-  ];
-
   activeVenueSlide = 0;
   private autoplayTimer: number | null = null;
   private readonly autoplayMs = 4000;
-
-  selectedCourtId: number = 1;
-
+  selectedCourtId: WritableSignal<number | string> = signal(0);
   selectedDateISO = this.toISO(new Date());
   visibleDates: DateChip[] = this.buildDateChips(new Date(), 6);
-
   selectedSlots: Slot[] = [];
 
-  // Adapt API timeslots to UI Slot model
+  selectedCourt = computed(() => {
+    const courts = this.customerspecificCourts();
+    const id = this.selectedCourtId();
+    return courts.find(c => String(c.id) === String(id)) ?? null;
+  });
+
+  amenitiesForSelectedCourt = computed<Amenity[]>(() => {
+    const court = this.selectedCourt();
+    if (!court) return [];
+    return [
+      { label: 'Parking', icon: '🅿️' },
+      { label: 'Showers', icon: '🚿' },
+      { label: 'Lockers', icon: '🧳' },
+      { label: court.surface_type === 'Grass' ? 'FIFA Pro Grass' : 'Pro Lighting', icon: court.surface_type === 'Grass' ? '🌿' : '💡' },
+    ];
+  });
+
   apiSlots = computed<Slot[]>(() => {
-    const base = this.selectedCourt.basePrice;
-    const primeHours = new Set(['18:00', '19:00', '20:00']);
+    const court = this.selectedCourt();
+    if (!court) return [];
+    const backendPrice = Number(court.price_per_hour);
+    if (isNaN(backendPrice)) return [];
 
-    return this.customerTimeSlotsDetails().map((t) => {
-      const start = (t.start_time || '').slice(0, 5); // "HH:mm"
-      const end = (t.end_time || '').slice(0, 5);
-
-      const isPrime = primeHours.has(start);
-      const price = isPrime ? base + 200 : base;
-
-      const available = (t.status || '').toLowerCase() === 'available';
-
-      return {
-        id: `${t.id}`,
-        label: start && end ? `${this.to12h(start)} – ${this.to12h(end)}` : 'Timeslot',
-        time24: start || '00:00',
-        price,
-        available,
-        isPrime,
-      };
-    }).sort((a, b) => a.time24.localeCompare(b.time24));
+    return this.customerTimeSlotsDetails()
+      .map((t) => {
+        const start = (t.start_time || '').slice(0, 5);
+        const end = (t.end_time || '').slice(0, 5);
+        const price = backendPrice;
+        const available = (t.status || '').toLowerCase() === 'available';
+        return {
+          id: `${t.id}`,
+          label: start && end ? `${this.to12h(start)} – ${this.to12h(end)}` : 'Timeslot',
+          time24: start || '00:00',
+          price: price,
+          available,
+          isPrime: new Set(['18:00', '19:00', '20:00']).has(start),
+        };
+      })
+      .sort((a, b) => a.time24.localeCompare(b.time24));
   });
 
   ngOnInit(): void {
     this.startAutoplay();
-    this.fetchTimeslots();
-    this.activatedRoute.paramMap.subscribe({
-      next: (res) => {
-        console.log(res);
-        this.productId = res.get('id');
-        console.log(this.productId);
-        this.customerTimeslotService.GetSpecificCourt(this.productId).subscribe({
-          next: (res) => {
-            this.SpecificCourt = res.data;
-            console.log(this.SpecificCourt);
-          }
-        })
-
+    this.activatedRoute.paramMap.subscribe((res) => {
+      this.productId = res.get('id');
+      if (this.productId) {
+        this.venuesService.GetSpecificCourts(this.productId).subscribe({
+          next: (res) => { this.SpecificCourt = res.data; },
+          error: (err) => console.error('Failed to load maincourt details', err),
+        });
+        this.GetCourt();
       }
-    })
+    });
   }
 
   ngOnDestroy(): void {
     this.stopAutoplay();
   }
 
-  get selectedCourt(): Court {
-    return this.courts.find((c) => +c.id === this.selectedCourtId) ?? this.courts[0];
+  GetCourt(): void {
+    if (!this.productId) return;
+    this.venuesService.GetCourts(this.productId).subscribe({
+      next: (res) => {
+        const courts = (res.data || []) as ICustomerSpecificCourt[];
+        this.customerspecificCourts.set(courts);
+        if (courts.length > 0 && this.selectedCourtId() === 0) {
+          this.selectedCourtId.set(courts[0].id);
+          this.fetchTimeslots();
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load courts', err);
+        this.customerspecificCourts.set([]);
+      },
+    });
+  }
+  GetSpecCourt(courtId: string | number): void {
+    if (!this.productId || !courtId) return;
+    this.venuesService.GetSpecCourts(this.productId, courtId).subscribe({
+      next: (res) => {
+        console.log('Specific court details loaded:', res.data);
+        this.paymentMethod = res.data.maincourt.payment_methods.identifier;
+      }
+    });
+  }
+  selectCourt(id: number | string): void {
+    if (String(id) === String(this.selectedCourtId())) return;
+    const courtExists = this.customerspecificCourts().some(c => String(c.id) === String(id));
+    if (!courtExists) return;
+    this.selectedCourtId.set(id);
+    this.selectedSlots = [];
+    this.fetchTimeslots();
+    this.GetSpecCourt(id);
   }
 
-  get monthLabel(): string {
-    const d = this.fromISO(this.selectedDateISO);
-    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  private fetchTimeslots(): void {
+    const court = this.selectedCourt();
+    if (!court) return;
+    const courtId = Number(court.id);
+    if (isNaN(courtId)) return;
+    this.customerTimeslotService
+      .GetCustomerTimeSlot(courtId, this.selectedDateISO)
+      .subscribe({
+        next: (res) => {
+          const list = (res?.data ?? []) as Icustomertimeslot[];
+          this.customerTimeSlotsDetails.set(Array.isArray(list) ? list : []);
+        },
+        error: (err) => {
+          console.error('Failed to load timeslots', err);
+          this.customerTimeSlotsDetails.set([]);
+        },
+      });
+  }
+
+  selectDate(iso: string): void {
+    this.selectedDateISO = iso;
+    this.selectedSlots = [];
+    this.fetchTimeslots();
+  }
+
+  isSelectedSlot(s: Slot): boolean {
+    return this.selectedSlots.some(x => x.id === s.id);
+  }
+
+  selectSlot(s: Slot): void {
+    if (!s.available) return;
+    const exists = this.isSelectedSlot(s);
+    if (exists) {
+      this.selectedSlots = this.selectedSlots.filter(x => x.id !== s.id);
+    } else {
+      this.selectedSlots = [...this.selectedSlots, s].sort((a, b) => a.time24.localeCompare(b.time24));
+    }
+  }
+
+  slotClass(s: Slot): string {
+    if (!s.available) {
+      return 'bg-red-100/70 dark:bg-red-950/20 border-red-200/70 dark:border-red-900/40 text-red-900/70 dark:text-red-200/70';
+    }
+    if (this.isSelectedSlot(s)) {
+      return 'bg-[#146A1E] border-emerald-900/30 text-white shadow-lg shadow-emerald-900/15';
+    }
+    return 'bg-emerald-100/60 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-white hover:bg-emerald-100';
   }
 
   get totalDurationLabel(): string {
@@ -164,11 +210,15 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return this.selectedSlots.reduce((sum, s) => sum + (s.available ? s.price : 0), 0);
   }
 
+  get monthLabel(): string {
+    const d = this.fromISO(this.selectedDateISO);
+    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  }
+
   private startAutoplay(): void {
     this.stopAutoplay();
     const n = this.venue.images.length;
     if (n <= 1) return;
-
     this.autoplayTimer = window.setInterval(() => {
       this.activeVenueSlide = (this.activeVenueSlide + 1) % n;
     }, this.autoplayMs);
@@ -206,67 +256,12 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     this.resetAutoplay();
   }
 
-  selectCourt(id: number): void {
-    if (id === this.selectedCourtId) return;
-    this.selectedCourtId = id;
-    this.selectedSlots = [];
-    this.fetchTimeslots();
-  }
-
-  selectDate(iso: string): void {
-    this.selectedDateISO = iso;
-    this.selectedSlots = [];
-    this.fetchTimeslots();
-  }
-
-  isSelectedSlot(s: Slot): boolean {
-    return this.selectedSlots.some((x) => x.id === s.id);
-  }
-
-  selectSlot(s: Slot): void {
-    if (!s.available) return;
-
-    const exists = this.isSelectedSlot(s);
-    if (exists) {
-      this.selectedSlots = this.selectedSlots.filter((x) => x.id !== s.id);
-      return;
-    }
-
-    this.selectedSlots = [...this.selectedSlots, s].sort((a, b) => a.time24.localeCompare(b.time24));
-  }
-
-  slotClass(s: Slot): string {
-    if (!s.available) {
-      return 'bg-red-100/70 dark:bg-red-950/20 border-red-200/70 dark:border-red-900/40 text-red-900/70 dark:text-red-200/70 opacity-100';
-    }
-
-    if (this.isSelectedSlot(s)) {
-      return 'bg-[#146A1E] border-emerald-900/30 text-white shadow-lg shadow-emerald-900/15';
-    }
-
-    return 'bg-emerald-100/60 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/40 text-emerald-950 dark:text-white hover:bg-emerald-100';
-  }
-
-  confirmBooking(): void {
-    console.log('Confirm booking', {
-      venue: this.venue.name,
-      court: this.selectedCourt.name,
-      date: this.selectedDateISO,
-      slots: this.selectedSlots,
-      total: this.grandTotal,
-    });
-  }
-
   private buildDateChips(start: Date, count: number): DateChip[] {
     const chips: DateChip[] = [];
     const d = new Date(start);
     for (let i = 0; i < count; i++) {
       const iso = this.toISO(d);
-      chips.push({
-        iso,
-        dow: d.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase(),
-        day: d.getDate(),
-      });
+      chips.push({ iso, dow: d.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase(), day: d.getDate() });
       d.setDate(d.getDate() + 1);
     }
     return chips;
@@ -291,21 +286,4 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return `${String(h).padStart(2, '0')}:${String(mm ?? 0).padStart(2, '0')} ${ap}`;
   }
 
-  private fetchTimeslots(): void {
-    this.customerTimeslotService.GetCustomerTimeSlot(this.selectedCourtId, this.selectedDateISO).subscribe({
-      next: (res) => {
-        const list = (res?.data ?? []) as Icustomertimeslot[];
-        this.customerTimeSlotsDetails.set(Array.isArray(list) ? list : []);
-      },
-      error: () => {
-        this.customerTimeSlotsDetails.set([]);
-      },
-    });
-  }
-
-  private hash(s: string): number {
-    let h = 0;
-    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-    return h;
-  }
 }

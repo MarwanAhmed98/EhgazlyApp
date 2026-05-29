@@ -3,11 +3,12 @@ import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core'
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { VenuesService } from '../../../../core/services/venues/venues.service';
+import { LucideAngularModule } from 'lucide-angular';
 type VenueSpec = { label: string; value: string; icon: string };
 type Amenity = { label: string; icon: string };
 @Component({
   selector: 'app-court-details',
-  imports: [PlayernavComponent, RouterLink],
+  imports: [PlayernavComponent, RouterLink, LucideAngularModule],
   templateUrl: './court-details.component.html',
   styleUrl: './court-details.component.scss'
 })
