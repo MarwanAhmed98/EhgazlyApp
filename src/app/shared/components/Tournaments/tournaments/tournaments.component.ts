@@ -1,40 +1,34 @@
-
-import { Component } from '@angular/core';
-import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { TournamentsService } from '../../../../core/services/Tournaments/tournaments.service';
+import { ICustomerTournaments } from '../../../interfaces/icustomer-tournaments';
+import { LucideAngularModule } from 'lucide-angular';
 
 type FilterKey = 'all' | 'upcoming' | 'professional' | 'amateur';
 
-type TournamentCard = {
-  id: string;
-  title: string;
-  location: string;
-  dateRange: string;
-  timeLabel: string;
-  feeEGP: number;
-  image: string;
-
-  tag?: string; // e.g. LIMITED SLOTS, CORPORATE
-  tagStyle?: 'warning' | 'success';
-
-  category: FilterKey; // quick categorization for demo
-  showPlus?: boolean;  // for the 3rd card vibe
-};
 @Component({
   selector: 'app-tournaments',
-  imports: [PlayernavComponent, RouterLink],
+  standalone: true,
+  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, PlayernavComponent, RouterLink, LucideAngularModule],
   templateUrl: './tournaments.component.html',
-  styleUrl: './tournaments.component.scss'
+  styleUrls: ['./tournaments.component.scss']
 })
-export class TournamentsComponent {
-  constructor(private readonly router: Router) { }
+export class TournamentsComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly tournamentsService = inject(TournamentsService);
+  private readonly router = inject(Router);
 
+
+  // Featured static section remains unchanged
   featured = {
     titleLine1: "CHAMPION'S",
     titleLine2: 'LEAGUE 2024',
     description: 'The biggest amateur football event in Egypt. Register your team and claim the cup.',
-    image:
-      'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RhZGl1bXxlbnwwfHwwfHx8MA%3D%3D',
+    image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?fm=jpg&q=60&w=3000&auto=format&fit=crop'
   };
 
   filters: { key: FilterKey; label: string }[] = [
@@ -47,58 +41,60 @@ export class TournamentsComponent {
   activeFilter: FilterKey = 'all';
   search = '';
 
-  tournaments: TournamentCard[] = [
-    {
-      id: 't1',
-      title: 'Ehgazly Summer Cup',
-      location: 'Cairo Stadium, Heliopolis',
-      dateRange: 'Oct 15 - Oct 20',
-      timeLabel: '06:00 PM onwards',
-      feeEGP: 500,
-      image:
-        'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1400&q=80',
-      tag: 'LIMITED SLOTS',
-      tagStyle: 'warning',
-      category: 'amateur',
-    },
-    {
-      id: 't2',
-      title: 'Alexandria Pro League',
-      location: 'Sporting Club, Alexandria',
-      dateRange: 'Nov 02 - Nov 12',
-      timeLabel: '04:00 PM onwards',
-      feeEGP: 850,
-      image:
-        'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1400&q=80',
-      category: 'professional',
-    },
-    {
-      id: 't3',
-      title: 'Corporate Kickoff 5x5',
-      location: 'New Cairo Sports Hub',
-      dateRange: 'Dec 01 - Dec 03',
-      timeLabel: '07:00 PM onwards',
-      feeEGP: 1200,
-      image:
-        'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1400&q=80',
-      tag: 'CORPORATE',
-      tagStyle: 'success',
-      category: 'upcoming',
-      showPlus: true,
-    },
-  ];
+  // Real tournaments from API
+  allTournaments: ICustomerTournaments[] = [];
 
-  get visibleTournaments(): TournamentCard[] {
-    const q = this.search.trim().toLowerCase();
+  ngOnInit(): void {
+    this.getAllTournaments();
+  }
 
-    return this.tournaments.filter((t) => {
-      const matchesFilter = this.activeFilter === 'all' ? true : t.category === this.activeFilter;
-      const matchesSearch = !q
-        ? true
-        : `${t.title} ${t.location}`.toLowerCase().includes(q);
-
-      return matchesFilter && matchesSearch;
+  getAllTournaments(): void {
+    this.tournamentsService.GetAllTournaments().subscribe({
+      next: (response: any) => {
+        // Adjust based on actual API response structure
+        this.allTournaments = response?.data || response || [];
+      },
+      error: (err) => {
+        console.error('Error loading tournaments', err);
+        this.toastService.error('Failed to load tournaments');
+        this.allTournaments = [];
+      }
     });
+  }
+
+  get visibleTournaments(): ICustomerTournaments[] {
+    let filtered = [...this.allTournaments];
+
+    // Filter by status (mock mapping: upcoming = start_date > today, professional/amateur = from category if exists; else use default)
+    if (this.activeFilter !== 'all') {
+      const today = new Date();
+      filtered = filtered.filter(t => {
+        if (this.activeFilter === 'upcoming') {
+          return new Date(t.start_date) > today;
+        }
+        // For professional/amateur - if backend provides a category field, use it. Otherwise fallback to prize pool threshold.
+        if (this.activeFilter === 'professional') {
+          return t.total_prize_pool >= 10000;
+        }
+        if (this.activeFilter === 'amateur') {
+          return t.total_prize_pool < 10000;
+        }
+        return true;
+      });
+    }
+
+    // Search by name, venue, or address
+    if (this.search.trim()) {
+      const term = this.search.toLowerCase();
+      filtered = filtered.filter(t =>
+        t.name?.toLowerCase().includes(term) ||
+        t.maincourt?.name?.toLowerCase().includes(term) ||
+        t.maincourt?.address?.toLowerCase().includes(term) ||
+        t.description?.toLowerCase().includes(term)
+      );
+    }
+
+    return filtered;
   }
 
   setFilter(key: FilterKey): void {
@@ -110,18 +106,6 @@ export class TournamentsComponent {
   }
 
   joinFeatured(): void {
-    // wire to your real flow later
-    // eslint-disable-next-line no-alert
-    alert('Join Tournament flow goes here.');
-  }
-
-  viewDetails(id: string): void {
-    // keep consistent routing style in your project
-    this.router.navigate(['/tournaments', id]);
-  }
-
-  quickAdd(id: string): void {
-    // quick action from plus button
-    this.viewDetails(id);
+    this.toastService.info('Join Tournament feature coming soon');
   }
 }

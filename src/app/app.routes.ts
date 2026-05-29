@@ -142,7 +142,7 @@ export const routes: Routes = [
         title: 'Tournaments',
     },
     {
-        path: 'TournamentsDetails',
+        path: 'TournamentsDetails/:id',
         component: TournamentsDetailsComponent,
         title: 'Tournaments Details',
     },
@@ -223,7 +223,7 @@ export const routes: Routes = [
             { path: 'AdminManageCourts', component: AdminManageCourtsComponent, title: 'Admin Manage Courts' },
             { path: 'AdminManageTournaments', component: AdminManageTournamentsComponent, title: 'Admin Manage Tournaments' },
             { path: 'AdminTournamentSetupForm', component: AdminTournamentSetupFormComponent, title: 'Admin Tournament Setup Form' },
-            { path: '', redirectTo: 'AdminDashboard', pathMatch: 'full' }
+            { path: '', redirectTo: 'UserDirectory', pathMatch: 'full' }
         ]
     },
 

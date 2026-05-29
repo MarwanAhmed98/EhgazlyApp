@@ -2,8 +2,8 @@
     <!-- Header Section -->
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-            <h1 class="text-4xl font-black text-[#064E3B] tracking-tight">User Directory</h1>
-            <p class="text-slate-600 mt-1">Manage and monitor all platform participants from a single interface.</p>
+            <h1 class="text-4xl font-black text-[#064E3B] tracking-tight">Booking Overview</h1>
+            <p class="text-slate-600 mt-1">Monitor all court reservations and customer activity.</p>
         </div>
         <div class="flex items-center gap-3">
             <button (click)="exportCsv()"
@@ -14,14 +14,6 @@
                 </svg>
                 Export CSV
             </button>
-            <button (click)="openAddUser()"
-                class="flex-1 md:flex-none px-6 py-2.5 bg-[#166534] text-white font-semibold rounded-full hover:bg-[#14532D] transition-all shadow-lg shadow-green-900/10 flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
-                Add User
-            </button>
         </div>
     </header>
 
@@ -30,39 +22,97 @@
         <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
             <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Users</span>
             <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black text-[#064E3B]">{{ totalUsers() }}</span>
-                <span class="text-xs font-bold text-[#166534] flex items-center">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                    12%
-                </span>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_users ?? 0 }}</span>
             </div>
         </div>
 
         <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Field Owners</span>
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Customers</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ totalFieldOwners() }}</span>
-                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Active business partners</p>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_customers ?? 0 }}</span>
             </div>
         </div>
 
         <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Active Players</span>
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Court Owners</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ totalPlayers() }}</span>
-                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Booked in last 30 days</p>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_courtowners ?? 0 }}</span>
+                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Pending: {{ dashboardData()?.pending_owners ??
+                    0 }}</p>
             </div>
         </div>
 
         <div
             class="bg-[#FEF9C3]/50 p-6 rounded-2xl border border-[#FEF08A] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#854D0E] uppercase tracking-widest">Pending Verif.</span>
+            <span class="text-[10px] font-bold text-[#854D0E] uppercase tracking-widest">Pending Owners</span>
             <div>
-                <span class="text-3xl font-black text-[#854D0E]">{{ totalPending() }}</span>
-                <p class="text-[10px] text-[#854D0E]/70 font-medium mt-1">Requires manual review</p>
+                <span class="text-3xl font-black text-[#854D0E]">{{ dashboardData()?.pending_owners ?? 0 }}</span>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Main Courts</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_maincourts ?? 0 }}</span>
+                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Verified: {{
+                    dashboardData()?.verified_maincourts ?? 0 }}</p>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Pending Main Courts</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.pending_maincourts ?? 0 }}</span>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Bookings</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_bookings ?? 0 }}</span>
+                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Pending: {{ dashboardData()?.pending_bookings
+                    ?? 0 }}</p>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Confirmed / Completed</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.confirmed_bookings ?? 0 }} / {{
+                    dashboardData()?.completed_bookings ?? 0 }}</span>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Revenue</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_revenue ?? 0 | currency
+                    }}</span>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total App Earnings</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_app_earnings ?? 0 | currency
+                    }}</span>
+            </div>
+        </div>
+
+        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Pending Owner Payments</span>
+            <div>
+                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.pending_owner_payments ?? 0
+                    }}</span>
+            </div>
+        </div>
+
+        <div
+            class="bg-[#FEF9C3]/50 p-6 rounded-2xl border border-[#FEF08A] flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#854D0E] uppercase tracking-widest">Unread Notifications</span>
+            <div>
+                <span class="text-3xl font-black text-[#854D0E]">{{ dashboardData()?.unread_notifications_count ?? 0
+                    }}</span>
             </div>
         </div>
     </section>
@@ -77,26 +127,19 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input type="text" placeholder="Search by name, email, or user ID..." [value]="searchTerm()"
+                <input type="text" placeholder="Search by booking ID, customer name, or court..." [value]="searchTerm()"
                     (input)="setSearch(($any($event.target).value))"
                     class="w-full pl-12 pr-4 py-3 bg-[#F0FDF4] border-none rounded-xl text-sm focus:ring-2 focus:ring-[#166534] transition-all outline-none">
             </div>
 
             <div class="flex flex-wrap w-full lg:w-auto gap-3">
-                <select [value]="roleFilter()" (change)="setRoleFilter(($any($event.target).value))"
-                    class="flex-1 lg:flex-none px-4 py-3 bg-[#DCFCE7] border-none rounded-xl text-sm font-medium text-[#166534] outline-none cursor-pointer">
-                    <option value="ALL">All Roles</option>
-                    <option value="PLAYER">PLAYER</option>
-                    <option value="FIELD OWNER">FIELD OWNER</option>
-                    <option value="STAFF">STAFF</option>
-                </select>
-
                 <select [value]="statusFilter()" (change)="setStatusFilter(($any($event.target).value))"
                     class="flex-1 lg:flex-none px-4 py-3 bg-[#DCFCE7] border-none rounded-xl text-sm font-medium text-[#166534] outline-none cursor-pointer">
-                    <option value="ALL">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Suspended">Suspended</option>
+                    <option value="ALL">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="rejected">Rejected / Cancelled</option>
                 </select>
 
                 <button (click)="resetFilters()"
@@ -114,216 +157,65 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white">
-                        <th class="px-8 py-6">User</th>
-                        <th class="px-6 py-6 text-center">Role</th>
+                        <th class="px-8 py-6">Booking ID</th>
+                        <th class="px-6 py-6">Customer</th>
+                        <th class="px-6 py-6">Email</th>
+                        <th class="px-6 py-6">Phone</th>
+                        <th class="px-6 py-6">Main Stadium</th>
+                        <th class="px-6 py-6">Total Price</th>
                         <th class="px-6 py-6 text-center">Status</th>
-                        <th class="px-6 py-6">Joined Date</th>
-                        <th class="px-6 py-6 text-right">Actions</th>
+                        <th class="px-6 py-6">Booking Date</th>
                     </tr>
                 </thead>
-
                 <tbody class="divide-y divide-slate-50">
-                    @for (user of displayedUsers(); track user.userId) {
+                    @for (booking of displayedBookings(); track booking.id) {
                     <tr class="hover:bg-slate-50/50 transition-colors group">
-                        <td class="px-8 py-5">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-xs font-bold text-slate-600">
-                                    @if (user.avatar) {
-                                    <img [src]="user.avatar" class="w-full h-full object-cover">
-                                    } @else {
-                                    {{ getInitials(user.name) }}
-                                    }
-                                </div>
-                                <div>
-                                    <div class="font-bold text-slate-900 leading-tight">{{ user.name }}</div>
-                                    <div class="text-[11px] text-slate-400 mt-0.5">
-                                        ID: <span class="uppercase">{{ user.userId }}</span> • {{ user.email }}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-
+                        <td class="px-8 py-5 font-bold text-slate-900">#{{ booking.id }}</td>
+                        <td class="px-6 py-5 font-medium text-slate-800">{{ booking.customer.name }}</td>
+                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.customer.email }}</td>
+                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.customer.phone }}</td>
+                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.maincourt.name }}</td>
+                        <td class="px-6 py-5 font-bold text-[#166534]">{{ booking.total_price | currency }}</td>
                         <td class="px-6 py-5 text-center">
-                            <span [class]="getRoleClass(user.role)"
+                            <span [class]="getStatusClass(booking.status)"
                                 class="inline-block px-3 py-1 rounded-full text-[9px] font-black tracking-widest">
-                                {{ user.role }}
+                                {{ booking.status | uppercase }}
                             </span>
                         </td>
-
-                        <td class="px-6 py-5 text-center">
-                            <div class="flex items-center justify-center gap-2">
-                                <span [class]="getStatusDotClass(user.status)" class="w-1.5 h-1.5 rounded-full"></span>
-                                <span class="text-xs font-semibold text-slate-700">{{ user.status }}</span>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-5 text-xs font-medium text-slate-500">
-                            {{ user.joinedDate }}
-                        </td>
-
-                        <td class="px-6 py-5 text-right">
-                            <div class="relative inline-flex items-center justify-end">
-                                <button type="button" (click)="toggleRowMenu(user.userId, $event)"
-                                    class="opacity-0 group-hover:opacity-100 p-2 text-slate-400 hover:text-slate-600 transition-all rounded-xl hover:bg-slate-100">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                    </svg>
-                                </button>
-
-                                @if (openMenuUserId() === user.userId) {
-                                <div class="row-menu absolute right-0 top-12 z-[70] w-52 bg-white border border-slate-100 rounded-2xl shadow-2xl shadow-slate-200/50 overflow-hidden"
-                                    (click)="$event.stopPropagation()">
-                                    <button type="button" (click)="openEditUser(user)"
-                                        class="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors">
-                                        Edit
-                                    </button>
-
-                                    <button type="button" (click)="openUserReport(user)"
-                                        class="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors">
-                                        View Details
-                                    </button>
-
-                                    <button type="button" (click)="toggleActive(user)"
-                                        class="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors">
-                                        @if (user.status === 'Active') { Mark as Inactive } @else { Mark as Active }
-                                    </button>
-
-                                    <div class="h-px bg-slate-100"></div>
-
-                                    <button type="button" (click)="deleteUser(user)"
-                                        class="w-full text-left px-4 py-3 text-xs font-black text-red-600 hover:bg-red-50 transition-colors">
-                                        Delete
-                                    </button>
-                                </div>
-                                }
-                            </div>
-                        </td>
+                        <td class="px-6 py-5 text-xs font-medium text-slate-500">{{ booking.created_at |
+                            date:'mediumDate' }}</td>
                     </tr>
                     }
                 </tbody>
             </table>
         </div>
 
-        <!-- Edit Modal -->
-        @if (isEditUserOpen()) {
-        <div class="fixed inset-0 z-[85] flex items-center justify-center p-4 sm:p-6">
-            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeEditUser()"></div>
-
-            <div
-                class="relative w-full max-w-xl bg-white rounded-[28px] border border-slate-100 shadow-2xl overflow-hidden max-h-[85vh] my-4 flex flex-col">
-                <div class="p-6 sm:p-7 border-b border-slate-50 flex items-start justify-between gap-4">
-                    <div class="min-w-0">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Edit</p>
-                        <h3 class="text-xl sm:text-2xl font-black text-[#064E3B] truncate">Edit User</h3>
-                        <p class="mt-1 text-xs font-semibold text-slate-500 truncate">{{ editUserUserId() }}</p>
-                    </div>
-
-                    <button type="button" (click)="closeEditUser()"
-                        class="w-10 h-10 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-600 grid place-items-center transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <form class="p-6 sm:p-7 overflow-y-auto overscroll-contain" (ngSubmit)="submitEditUser()" novalidate>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="sm:col-span-2">
-                            <label class="text-xs font-black text-slate-600">Name</label>
-                            <input type="text" [value]="editUserName()"
-                                (input)="editUserName.set(($any($event.target).value))"
-                                class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7] focus:ring-2 focus:ring-[#166534] outline-none">
-                            @if (editUserErrors().name) {
-                            <p class="mt-2 text-xs font-black text-red-600">{{ editUserErrors().name }}</p>
-                            }
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label class="text-xs font-black text-slate-600">Email</label>
-                            <input type="email" [value]="editUserEmail()"
-                                (input)="editUserEmail.set(($any($event.target).value))"
-                                class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7] focus:ring-2 focus:ring-[#166534] outline-none">
-                            @if (editUserErrors().email) {
-                            <p class="mt-2 text-xs font-black text-red-600">{{ editUserErrors().email }}</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-black text-slate-600">Role</label>
-                            <select [value]="editUserRole()" (change)="editUserRole.set(($any($event.target).value))"
-                                class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#DCFCE7] border border-[#DCFCE7] text-[#166534] font-black outline-none cursor-pointer">
-                                <option value="PLAYER">PLAYER</option>
-                                <option value="FIELD OWNER">FIELD OWNER</option>
-                                <option value="STAFF">STAFF</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-black text-slate-600">Status</label>
-                            <select [value]="editUserStatus()"
-                                (change)="editUserStatus.set(($any($event.target).value))"
-                                class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#DCFCE7] border border-[#DCFCE7] text-[#166534] font-black outline-none cursor-pointer">
-                                <option value="Active">Active</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Suspended">Suspended</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
-                        <button type="button" (click)="closeEditUser()"
-                            class="flex-1 px-6 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-black transition-colors">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                            class="flex-1 px-6 py-3 rounded-2xl bg-[#166534] hover:bg-[#14532D] text-white font-black transition-colors">
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        }
-
         <!-- Mobile List View -->
         <div class="md:hidden divide-y divide-slate-100">
-            @for (user of displayedUsers(); track user.userId) {
+            @for (booking of displayedBookings(); track booking.id) {
             <div class="p-6 flex flex-col gap-4">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-slate-600">
-                            @if (user.avatar) {
-                            <img [src]="user.avatar" class="w-full h-full object-cover">
-                            } @else {
-                            {{ getInitials(user.name) }}
-                            }
-                        </div>
-                        <div>
-                            <div class="font-bold text-slate-900 leading-tight">{{ user.name }}</div>
-                            <div class="text-[11px] text-slate-400 uppercase tracking-tighter">{{ user.userId }}</div>
-                        </div>
+                    <div>
+                        <div class="font-bold text-slate-900">Booking #{{ booking.id }}</div>
+                        <div class="text-[11px] text-slate-400">{{ booking.customer.name }}</div>
                     </div>
-                    <span [class]="getRoleClass(user.role)"
+                    <span [class]="getStatusClass(booking.status)"
                         class="px-3 py-1 rounded-full text-[8px] font-black tracking-widest">
-                        {{ user.role }}
+                        {{ booking.status | uppercase }}
                     </span>
                 </div>
-                <div class="flex items-center justify-between text-sm">
-                    <div class="flex items-center gap-2">
-                        <span [class]="getStatusDotClass(user.status)" class="w-1.5 h-1.5 rounded-full"></span>
-                        <span class="text-xs font-semibold text-slate-700">{{ user.status }}</span>
-                    </div>
-                    <div class="text-[10px] font-bold text-slate-400 uppercase">{{ user.joinedDate }}</div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div class="text-slate-500">Email:</div>
+                    <div>{{ booking.customer.email }}</div>
+                    <div class="text-slate-500">Phone:</div>
+                    <div>{{ booking.customer.phone }}</div>
+                    <div class="text-slate-500">Main Stadium:</div>
+                    <div>{{ booking.maincourt.name }}</div>
+                    <div class="text-slate-500">Price:</div>
+                    <div class="font-bold text-[#166534]">{{ booking.total_price | currency }}</div>
+                    <div class="text-slate-500">Date:</div>
+                    <div>{{ booking.created_at | date:'mediumDate' }}</div>
                 </div>
-
-                <button type="button" (click)="openUserReport(user)"
-                    class="w-full px-4 py-3 rounded-xl bg-[#DCFCE7] text-[#166534] font-black text-sm hover:bg-[#BBF7D0] transition-colors">
-                    View Report
-                </button>
             </div>
             }
         </div>
@@ -332,24 +224,24 @@
         <div class="p-6 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
             <div class="text-xs text-slate-500 font-medium">
                 Showing <span class="text-slate-900 font-bold">{{ shownCountLabel() }}</span> of <span
-                    class="text-slate-900 font-bold">{{ totalUsers() }}</span> users
+                    class="text-slate-900 font-bold">{{ totalBookingsCount() }}</span> bookings
             </div>
             <div class="flex items-center gap-1">
-                <button class="p-2 text-slate-300 hover:text-slate-500 disabled:opacity-30" disabled>
+                <button (click)="previousPage()" [disabled]="currentPage() === 1"
+                    class="p-2 text-slate-400 hover:text-slate-600 disabled:opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
-                <button
-                    class="w-8 h-8 rounded-lg bg-[#166534] text-white text-xs font-bold shadow-md shadow-green-900/20">1</button>
-                <button
-                    class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-600 text-xs font-bold transition-colors">2</button>
-                <button
-                    class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-600 text-xs font-bold transition-colors">3</button>
-                <span class="px-2 text-slate-300">...</span>
-                <button
-                    class="w-10 h-8 rounded-lg hover:bg-slate-100 text-slate-600 text-xs font-bold transition-colors">1248</button>
-                <button class="p-2 text-slate-400 hover:text-slate-600">
+                @for (page of pageNumbers(); track page) {
+                <button (click)="goToPage(page)"
+                    [class]="page === currentPage() ? 'bg-[#166534] text-white shadow-md shadow-green-900/20' : 'hover:bg-slate-100 text-slate-600'"
+                    class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">
+                    {{ page }}
+                </button>
+                }
+                <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
+                    class="p-2 text-slate-400 hover:text-slate-600 disabled:opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
@@ -357,182 +249,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Growth Insight Banner -->
-    <footer
-        class="max-w-7xl mx-auto mt-8 bg-[#14532D] p-6 rounded-[24px] flex flex-col md:flex-row items-center justify-between gap-4 text-white relative overflow-hidden group">
-        <div
-            class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full transition-transform group-hover:scale-125">
-        </div>
-
-        <div class="flex items-center gap-5 relative z-10">
-            <div class="w-12 h-12 rounded-2xl bg-[#DCFCE7]/20 flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-[#DCFCE7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
-            <div>
-                <h4 class="font-black text-lg">Growth Insight</h4>
-                <p class="text-[#DCFCE7]/70 text-sm max-w-2xl">
-                    Registration is up by 14% this month compared to last. Most new users are coming from tournament
-                    referrals.
-                </p>
-            </div>
-        </div>
-        <button type="button" (click)="openGrowthReport()"
-            class="w-full md:w-auto px-10 py-3 bg-[#DCFCE7] text-[#14532D] font-black rounded-full hover:bg-white transition-all transform active:scale-95 shadow-lg shadow-black/10 relative z-10 whitespace-nowrap">
-            View Report
-        </button>
-    </footer>
-
-    <!-- Report Modal -->
-    @if (isReportOpen()) {
-    <div class="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeReport()"></div>
-
-        <div class="relative w-full max-w-2xl sm:max-w-2xl bg-white rounded-[28px] border border-slate-100 shadow-2xl overflow-hidden
-           max-h-[85vh] sm:max-h-[80vh] my-4 flex flex-col">
-            <div class="p-6 sm:p-7 border-b border-slate-50 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Report</p>
-                    <h3 class="text-xl sm:text-2xl font-black text-[#064E3B] truncate">
-                        {{ reportTitle() }}
-                    </h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500">
-                        {{ reportSubtitle() }}
-                    </p>
-                </div>
-
-                <button type="button" (click)="closeReport()"
-                    class="w-10 h-10 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-600 grid place-items-center transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="p-6 sm:p-7 overflow-y-auto overscroll-contain">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-5 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7]">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-[#166534]/70">User ID</p>
-                        <p class="mt-2 text-sm font-black text-slate-800 break-words">{{ reportUserId() }}</p>
-                    </div>
-                    <div class="p-5 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7]">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-[#166534]/70">Role</p>
-                        <p class="mt-2 text-sm font-black text-slate-800 break-words">{{ reportRole() }}</p>
-                    </div>
-                    <div class="p-5 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7]">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-[#166534]/70">Status</p>
-                        <p class="mt-2 text-sm font-black text-slate-800 break-words">{{ reportStatus() }}</p>
-                    </div>
-                    <div class="p-5 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7]">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-[#166534]/70">Joined</p>
-                        <p class="mt-2 text-sm font-black text-slate-800 break-words">{{ reportJoined() }}</p>
-                    </div>
-                </div>
-
-                <div class="mt-5 p-5 rounded-2xl bg-[#DCFCE7] border border-[#BBF7D0]">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-[#166534]">Summary</p>
-                    <p class="mt-2 text-sm font-semibold text-[#064E3B] leading-relaxed break-words">
-                        {{ reportSummary() }}
-                    </p>
-                </div>
-
-                <div class="mt-6 flex flex-col sm:flex-row gap-3">
-                    <button type="button" (click)="closeReport()"
-                        class="flex-1 px-6 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-black transition-colors">
-                        Close
-                    </button>
-                    <button type="button" (click)="exportCsv()"
-                        class="flex-1 px-6 py-3 rounded-2xl bg-[#166534] hover:bg-[#14532D] text-white font-black transition-colors">
-                        Export Current CSV
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    }
-
-    <!-- Add User Modal -->
-    @if (isAddUserOpen()) {
-    <div class="fixed inset-0 z-[85] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeAddUser()"></div>
-
-        <div
-            class="relative w-full max-w-xl bg-white rounded-[28px] border border-slate-100 shadow-2xl overflow-hidden">
-            <div class="p-6 sm:p-7 border-b border-slate-50 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Create</p>
-                    <h3 class="text-xl sm:text-2xl font-black text-[#064E3B]">Add User</h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500">Add a new user to the directory.</p>
-                </div>
-
-                <button type="button" (click)="closeAddUser()"
-                    class="w-10 h-10 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-600 grid place-items-center transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <form class="p-6 sm:p-7" (ngSubmit)="submitAddUser()" novalidate>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="sm:col-span-2">
-                        <label class="text-xs font-black text-slate-600">Name</label>
-                        <input type="text" [value]="newUserName()"
-                            (input)="newUserName.set(($any($event.target).value))"
-                            class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7] focus:ring-2 focus:ring-[#166534] outline-none">
-                        @if (addUserErrors().name) {
-                        <p class="mt-2 text-xs font-black text-red-600">{{ addUserErrors().name }}</p>
-                        }
-                    </div>
-
-                    <div class="sm:col-span-2">
-                        <label class="text-xs font-black text-slate-600">Email</label>
-                        <input type="email" [value]="newUserEmail()"
-                            (input)="newUserEmail.set(($any($event.target).value))"
-                            class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#F0FDF4] border border-[#DCFCE7] focus:ring-2 focus:ring-[#166534] outline-none">
-                        @if (addUserErrors().email) {
-                        <p class="mt-2 text-xs font-black text-red-600">{{ addUserErrors().email }}</p>
-                        }
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-black text-slate-600">Role</label>
-                        <select [value]="newUserRole()" (change)="newUserRole.set(($any($event.target).value))"
-                            class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#DCFCE7] border border-[#DCFCE7] text-[#166534] font-black outline-none cursor-pointer">
-                            <option value="PLAYER">PLAYER</option>
-                            <option value="FIELD OWNER">FIELD OWNER</option>
-                            <option value="STAFF">STAFF</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-black text-slate-600">Status</label>
-                        <select [value]="newUserStatus()" (change)="newUserStatus.set(($any($event.target).value))"
-                            class="mt-2 w-full px-4 py-3 rounded-2xl bg-[#DCFCE7] border border-[#DCFCE7] text-[#166534] font-black outline-none cursor-pointer">
-                            <option value="Active">Active</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Suspended">Suspended</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex flex-col sm:flex-row gap-3">
-                    <button type="button" (click)="closeAddUser()"
-                        class="flex-1 px-6 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-black transition-colors">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                        class="flex-1 px-6 py-3 rounded-2xl bg-[#166534] hover:bg-[#14532D] text-white font-black transition-colors">
-                        Add User
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    }
 </div>

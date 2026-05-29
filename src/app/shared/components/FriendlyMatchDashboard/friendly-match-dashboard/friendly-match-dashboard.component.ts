@@ -7,7 +7,6 @@ import { IfriendlyMatch } from '../../../interfaces/ifriendly-match';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
-
 type FilterMode = 'date' | 'price' | 'all';
 
 @Component({
@@ -20,11 +19,9 @@ type FilterMode = 'date' | 'price' | 'all';
 export class FriendlyMatchDashboardComponent implements OnInit {
   private readonly playerFRiendlyMatchService = inject(PlayerFRiendlyMatchService);
 
-  // ===================== API DATA (SOURCE OF TRUTH) =====================
-  allMatches: IfriendlyMatch[] = [];          // original API data
-  filteredMatches: IfriendlyMatch[] = [];     // filtered results
-
-  // keep if used elsewhere (optional)
+  // ===================== API DATA =====================
+  allMatches: IfriendlyMatch[] = [];
+  filteredMatches: IfriendlyMatch[] = [];
   AllMatchesDetails: IfriendlyMatch[] = [];
 
   // ===================== FILTER STATE =====================
@@ -32,19 +29,18 @@ export class FriendlyMatchDashboardComponent implements OnInit {
   filtersModalOpen = false;
   filterMode: FilterMode = 'all';
 
+  // ✅ FIXED: Expanded price range to cover all API prices (0 - 1200 EGP)
   readonly priceMinBound = 0;
-  readonly priceMaxBound = 200;
-  readonly priceStep = 5;
+  readonly priceMaxBound = 1200;
+  readonly priceStep = 50;
 
   minPrice = 0;
-  maxPrice = 200;
+  maxPrice = 1200;
 
   minPriceInput: number | null = 0;
-  maxPriceInput: number | null = 200;
+  maxPriceInput: number | null = 1200;
 
   selectedDateISO: string = '';
-
-  // (keep for future UI; safe no-op if not used in HTML)
   availabilityOnly = false;
 
   // UI helpers
@@ -63,7 +59,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
   openFilter(mode: FilterMode): void {
     this.filterMode = mode;
     this.filtersModalOpen = true;
-
     this.syncManualInputsFromSlider();
     this.recalcPriceTrack();
   }
@@ -77,39 +72,31 @@ export class FriendlyMatchDashboardComponent implements OnInit {
     this.closeAllFilters();
   }
 
-  // ===================== FILTERING (ALWAYS FROM API DATA) =====================
+  // ===================== FILTERING =====================
   applyFilters(): void {
     const q = (this.query || '').trim().toLowerCase();
-
     const base = Array.isArray(this.allMatches) ? this.allMatches : [];
 
     let result = base
       .filter((m) => {
-        // Search by stadium/area + match name (safe)
         if (!q) return true;
-
         const matchName = String((m as any)?.name ?? '');
         const address = String((m as any)?.court?.maincourt?.address ?? '');
         const courtName = String((m as any)?.court?.name ?? '');
-
         const hay = `${matchName} ${courtName} ${address}`.toLowerCase();
         return hay.includes(q);
       })
       .filter((m) => {
-        // Price range (safe)
         const price = Number((m as any)?.court?.price_per_hour ?? 0);
         if (!Number.isFinite(price)) return false;
         return price >= this.minPrice && price <= this.maxPrice;
       })
       .filter((m) => {
-        // Date filter (safe)
         if (!this.selectedDateISO) return true;
-
         const dateISO = String((m as any)?.timeslot?.date ?? '').slice(0, 10);
         return dateISO === this.selectedDateISO;
       });
 
-    // optional availability filter (based on spots_left if available)
     if (this.availabilityOnly) {
       result = result.filter((m) => Number((m as any)?.spots_left ?? 0) > 0);
     }
@@ -206,7 +193,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
 
     this.minPrice = min;
     this.maxPrice = max;
-
     this.minPriceInput = this.minPrice;
     this.maxPriceInput = this.maxPrice;
   }
@@ -220,7 +206,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
     const range = this.priceMaxBound - this.priceMinBound || 1;
     const left = ((this.minPrice - this.priceMinBound) / range) * 100;
     const right = 100 - ((this.maxPrice - this.priceMinBound) / range) * 100;
-
     this.priceTrackLeft = Math.max(0, Math.min(100, left));
     this.priceTrackRight = Math.max(0, Math.min(100, right));
   }
@@ -249,12 +234,8 @@ export class FriendlyMatchDashboardComponent implements OnInit {
     this.playerFRiendlyMatchService.GetAllMatches().subscribe({
       next: (res) => {
         const data: IfriendlyMatch[] = res?.data ?? [];
-
-        // preserve original API data + keep filtered in sync
         this.allMatches = Array.isArray(data) ? data : [];
-        this.AllMatchesDetails = this.allMatches; // if used elsewhere
-
-        // apply current filters to NEW api data
+        this.AllMatchesDetails = this.allMatches;
         this.applyFilters();
       },
       error: () => {

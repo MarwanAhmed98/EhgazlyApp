@@ -35,8 +35,14 @@ export class LoginComponent {
             this.toastService.success(res.message, 'Ehgazly');
           }
           else {
-            this.router.navigate(['/CourtOwner']);
-            this.toastService.success(res.message, 'Ehgazly');
+            if (res.user.status == 'pending') {
+              this.router.navigate(['/Login']);
+              this.toastService.warning('Your account is Pending approval.', 'Ehgazly');
+            }
+            else {
+              this.router.navigate(['/CourtOwner']);
+              this.toastService.success(res.message, 'Ehgazly');
+            }
           }
 
         },

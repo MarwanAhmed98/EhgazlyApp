@@ -60,4 +60,30 @@ export class PlayerFullBookingComponent implements OnInit {
       }
     })
   }
+  downloadReceipt(): void {
+    const imageUrl = this.bookingDetails.receipt_image_url;
+    if (!imageUrl) return;
+
+    fetch(imageUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+
+        // Extract original extension or default to png
+        const extension = imageUrl.split('.').pop()?.split(/[?#]/)[0] || 'png';
+        link.download = `receipt-${this.bookingDetails.id}.${extension}`;
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch(err => {
+        console.error('Download failed', err);
+        // Fallback: try opening in new tab if blob fetch fails (CORS)
+        window.open(imageUrl, '_blank');
+      });
+  }
 }

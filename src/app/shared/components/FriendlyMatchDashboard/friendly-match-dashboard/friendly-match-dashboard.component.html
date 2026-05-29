@@ -193,8 +193,6 @@
                 <article
                     class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] transition-all duration-300 hover:-translate-y-1">
                     <div class="relative h-44">
-                        <!-- <img [src]="m.court.maincourt.primary_image" [alt]="m.court.name"
-                            class="absolute inset-0 w-full h-full object-cover" /> -->
                         <img src="/images/SpinnerLogo.png" [alt]="m.court.name"
                             class="absolute inset-0 w-full h-full object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/40 to-transparent"></div>
@@ -298,17 +296,19 @@
             <div class="space-y-6">
                 <h3 class="text-sm font-bold text-emerald-950">Price Range (EGP)</h3>
 
-                <!-- Slider -->
+                <!-- Slider Track -->
                 <div class="h-2 bg-emerald-200/60 rounded-full relative">
                     <div class="absolute h-full bg-[#146A1E] rounded-full" [style.left.%]="priceTrackLeft"
                         [style.right.%]="priceTrackRight"></div>
                 </div>
 
-                <input type="range" min="0" max="200" step="5" [(ngModel)]="minPrice" (input)="onPriceSliderInput()"
-                    class="w-full accent-[#146A1E]" />
+                <!-- Min Slider -->
+                <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
+                    [(ngModel)]="minPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
 
-                <input type="range" min="0" max="200" step="5" [(ngModel)]="maxPrice" (input)="onPriceSliderInput()"
-                    class="w-full accent-[#146A1E]" />
+                <!-- Max Slider -->
+                <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
+                    [(ngModel)]="maxPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
 
                 <!-- Manual Inputs -->
                 <div class="grid grid-cols-2 gap-4">
@@ -333,7 +333,6 @@
             @if (filterMode === 'date') {
             <div class="space-y-6">
                 <h3 class="text-sm font-bold text-emerald-950">Select Date</h3>
-
                 <input type="date" [(ngModel)]="selectedDateISO" (change)="applyFilters()"
                     class="w-full p-4 rounded-xl border border-emerald-200 font-bold text-emerald-950" />
             </div>
@@ -343,7 +342,7 @@
             @if (filterMode === 'all') {
             <div class="grid md:grid-cols-2 gap-6">
 
-                <!-- PRICE -->
+                <!-- PRICE SECTION -->
                 <div class="space-y-4">
                     <h3 class="text-sm font-bold text-emerald-950">Price</h3>
 
@@ -352,28 +351,25 @@
                             [style.right.%]="priceTrackRight"></div>
                     </div>
 
-                    <input type="range" min="0" max="200" step="5" [(ngModel)]="minPrice" (input)="onPriceSliderInput()"
-                        class="w-full accent-[#146A1E]" />
+                    <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
+                        [(ngModel)]="minPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
 
-                    <input type="range" min="0" max="200" step="5" [(ngModel)]="maxPrice" (input)="onPriceSliderInput()"
-                        class="w-full accent-[#146A1E]" />
+                    <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
+                        [(ngModel)]="maxPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
 
-                    <!-- Manual Inputs ALSO HERE -->
                     <div class="grid grid-cols-2 gap-3">
                         <input type="number" [(ngModel)]="minPriceInput" (input)="onPriceManualInput('min')"
                             (blur)="onPriceManualBlur('min')"
                             class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
-
                         <input type="number" [(ngModel)]="maxPriceInput" (input)="onPriceManualInput('max')"
                             (blur)="onPriceManualBlur('max')"
                             class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
                     </div>
                 </div>
 
-                <!-- DATE -->
+                <!-- DATE SECTION -->
                 <div class="space-y-4">
                     <h3 class="text-sm font-bold text-emerald-950">Date</h3>
-
                     <input type="date" [(ngModel)]="selectedDateISO" (change)="applyFilters()"
                         class="w-full p-4 rounded-xl border border-emerald-200 font-bold text-emerald-950" />
                 </div>
@@ -384,7 +380,8 @@
 
         <!-- Footer -->
         <div class="flex justify-between items-center px-6 py-5 border-t border-emerald-200/60">
-            <button (click)="resetAllFilters()" class="text-sm font-bold text-emerald-950/70 hover:text-emerald-950">
+            <button (click)="resetAllFilters(true)"
+                class="text-sm font-bold text-emerald-950/70 hover:text-emerald-950">
                 Reset Filters
             </button>
 

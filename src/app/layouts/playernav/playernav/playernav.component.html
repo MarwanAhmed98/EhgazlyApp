@@ -169,7 +169,7 @@
 
               <!-- PAY BUTTON (conditional) -->
               @if (item.type === 'match_ready') {
-              <span [routerLink]="['/OpenMatchPayment' , item.id]" class="pay-btn" role="button" tabindex="0">
+              <span [routerLink]="['/OpenMatchPayment' , item.match_id]" class="pay-btn" role="button" tabindex="0">
                 Pay
               </span>
               }

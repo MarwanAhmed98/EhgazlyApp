@@ -35,12 +35,12 @@ export class AdminComponent {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
   }
   navItems: NavItem[] = [
-    { key: 'dashboard', label: 'Operations', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
-    { key: 'user-directory', label: 'User Management', route: '/Admin/UserDirectory', exact: false, iconName: 'users' },
+    // { key: 'dashboard', label: 'Operations', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
+    { key: 'user-directory', label: 'Admin Dashboard', route: '/Admin/UserDirectory', exact: false, iconName: 'layout-grid' },
     { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
     { key: 'revenues', label: 'Revenues', route: '/Admin/AdminRevenues', exact: false, iconName: 'dollar-sign' },
-    { key: 'manage-all-users', label: 'Manage All Users', route: '/Admin/AdminUserManagement', exact: false, iconName: 'user' },
-    // { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin' },
+    { key: 'manage-all-users', label: 'Manage Owners', route: '/Admin/AdminUserManagement', exact: false, iconName: 'user' },
+    { key: 'manage-tournaments', label: 'Tournaments Management', route: '/Admin/AdminManageTournaments', exact: false, iconName: 'trophy' },
     // { key: 'manage-court-schedule', label: 'Manage Court Schedule', route: '/CourtOwner/ManageCourtSchedule', exact: false, iconName: 'calendar-clock' },
     // { key: 'Financial', label: 'Financial', route: '/CourtOwner/Financials', exact: false, iconName: 'banknote' },
   ];

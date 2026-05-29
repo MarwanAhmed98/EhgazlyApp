@@ -10,4 +10,5 @@ export interface Notification {
     type: string
     is_read: boolean
     created_at: string
+    match_id: number
 }

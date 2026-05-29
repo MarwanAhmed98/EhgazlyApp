@@ -1,5 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
 
 type RevenueView = 'weekly' | 'monthly';
 
@@ -18,7 +20,9 @@ type ChartPoint = {
   styleUrl: './admin-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly adminDashboardService = inject(AdminDashboardService);
   // Toggle
   revenueView = signal<RevenueView>('weekly');
 
@@ -64,7 +68,9 @@ export class AdminDashboardComponent {
 
     return points;
   });
-
+  ngOnInit(): void {
+    this.GetDashboardOverview();
+  }
   setRevenueView(view: RevenueView): void {
     this.revenueView.set(view);
     this.clearTooltip();
@@ -204,5 +210,12 @@ export class AdminDashboardComponent {
     if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
     if (n >= 1_000) return `${(n / 1_000).toFixed(0)}k`;
     return `${n}`;
+  }
+  GetDashboardOverview(): void {
+    this.adminDashboardService.DashboardOverview().subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    })
   }
 }
