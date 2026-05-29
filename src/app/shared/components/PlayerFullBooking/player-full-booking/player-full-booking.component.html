@@ -48,15 +48,9 @@
                     <p class="mt-2 text-slate-600 dark:text-slate-400 font-semibold">
                         Review your pitch reservation information
                     </p>
-
-                    <!-- <div
-                        class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-200/70 text-emerald-950 border border-emerald-300/60">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-                        <span class="text-xs font-black uppercase tracking-widest">Paid</span>
-                    </div> -->
                 </div>
 
-                <div class="flex items-center gap-2 shrink-0">
+                <!-- <div class="flex items-center gap-2 shrink-0">
                     <button type="button"
                         class="w-11 h-11 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-white/5 backdrop-blur-xl hover:bg-white transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
                         aria-label="Share">
@@ -80,7 +74,7 @@
                             <circle cx="5" cy="12" r="1.2" />
                         </svg>
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -161,19 +155,27 @@
                     </div>
 
                     <div
-                        class="mt-6 rounded-3xl bg-emerald-100/70 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 sm:p-6 flex items-center gap-4">
-                        <span
-                            class="w-11 h-11 rounded-2xl bg-white/70 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-center shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#146A1E]" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11z" />
-                                <circle cx="12" cy="10" r="2" />
-                            </svg>
-                        </span>
-                        <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">
-                            {{ bookingDetails.court.maincourt.address }}
-                        </p>
+                        class="mt-6 rounded-3xl bg-emerald-100/70 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 sm:p-6">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span
+                                class="w-11 h-11 rounded-2xl bg-white/70 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-center shrink-0">
+                                <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+
+                            </span>
+                            <p class="text-sm font-black text-emerald-950 dark:text-emerald-100">
+                                {{ bookingDetails.court.maincourt.address }}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="w-11 h-11 rounded-2xl bg-white/70 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-center shrink-0">
+                                <lucide-icon name="file-type-corner" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                            </span>
+                            <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                {{ bookingDetails.court.type}}
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -195,28 +197,9 @@
 
             <div
                 class="mt-4 rounded-[2rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-xl shadow-emerald-200/30 dark:shadow-none bg-white/60 dark:bg-white/5 backdrop-blur-xl">
-                <div
-                    class="relative w-full aspect-[16/10] sm:aspect-[16/9] bg-gradient-to-br from-[#ffb44a] via-[#f59e0b] to-[#0ea5a4]">
+                <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center p-4">
                     <img [src]="bookingDetails.receipt_image_url" alt="Receipt preview"
-                        class="absolute inset-0 w-full h-full object-cover opacity-25" />
-                    <div class="absolute inset-0 flex items-center justify-center p-6">
-                        <div
-                            class="relative w-[72%] max-w-[360px] aspect-[9/19] rounded-[2.2rem] bg-slate-950/70 border border-white/15 shadow-2xl overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent"></div>
-                            <img [src]="bookingDetails.receipt_image_url" alt="Receipt phone mock"
-                                alt="Receipt phone mock"
-                                class="absolute inset-0 w-full h-full object-cover opacity-35" />
-                            <div class="absolute inset-x-0 top-0 h-10 bg-black/25"></div>
-                            <div class="absolute inset-x-10 top-16 h-3 rounded-full bg-white/50"></div>
-                            <div class="absolute inset-x-10 top-24 h-3 rounded-full bg-white/20"></div>
-                            <div class="absolute inset-x-10 top-32 h-3 rounded-full bg-white/20"></div>
-                            <div class="absolute inset-x-10 top-44 h-10 rounded-2xl bg-white/15 border border-white/15">
-                            </div>
-                            <div
-                                class="absolute inset-x-10 bottom-12 h-10 rounded-2xl bg-white/20 border border-white/15">
-                            </div>
-                        </div>
-                    </div>
+                        class="absolute inset-0 w-full h-full object-cover" />
                 </div>
             </div>
 
@@ -231,19 +214,7 @@
                     </svg>
                     Download Receipt
                 </button>
-
-                <!-- <button type="button"
-                    class="w-full bg-emerald-200/70 hover:bg-emerald-200 text-emerald-950 dark:text-emerald-100 font-black py-4 rounded-2xl border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-                        <path d="M8 9h8" />
-                        <path d="M8 13h5" />
-                    </svg>
-                    Contact Venue
-                </button> -->
-
-                <button type="button"
+                <button (click)="CancelBooking()" type="button"
                     class="w-full py-3 text-sm font-black text-red-600 hover:text-red-700 transition-colors inline-flex items-center justify-center gap-2">
                     <span
                         class="w-6 h-6 rounded-full bg-red-100 text-red-700 inline-flex items-center justify-center border border-red-200">

@@ -1,9 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PlayernavComponent } from "../../../../layouts/playernav/playernav/playernav.component";
 import { MyBookingsService } from '../../../../core/services/MyBookings/my-bookings.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IspecificBookings } from '../../../interfaces/ispecific-bookings';
 import { DatePipe } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+
 type BookingDetails = {
   id: string;
   code: string;
@@ -18,26 +21,18 @@ type BookingDetails = {
 
 @Component({
   selector: 'app-player-full-booking',
-  imports: [PlayernavComponent, DatePipe],
+  imports: [PlayernavComponent, DatePipe, LucideAngularModule],
   templateUrl: './player-full-booking.component.html',
   styleUrl: './player-full-booking.component.scss'
 })
 export class PlayerFullBookingComponent implements OnInit {
   private readonly myBookingsService = inject(MyBookingsService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
+
   productId: any;
-  bookingDetails: IspecificBookings = {} as IspecificBookings
-  // booking: BookingDetails = {
-  //   id: 'EHG-88291',
-  //   code: 'EHG-88291',
-  //   title: 'Anfield Pro Pitch',
-  //   status: 'paid',
-  //   dateLabel: 'Saturday, 28 Oct 2024',
-  //   timeLabel: '08:00 PM – 09:00 PM',
-  //   amount: 350,
-  //   location: 'New Cairo, District 5 Sports Hub',
-  //   receiptImage: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1400&q=80',
-  // };
+  bookingDetails: IspecificBookings = {} as IspecificBookings;
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
       next: (res) => {
@@ -56,23 +51,13 @@ export class PlayerFullBookingComponent implements OnInit {
       }
     })
   }
-  // downloadReceipt() {
-  //   console.log('Download receipt', this.booking.id);
-  // }
-
-  // contactVenue() {
-  //   console.log('Contact venue', this.booking.id);
-  // }
-
-  // cancelBooking() {
-  //   console.log('Cancel booking', this.booking.id);
-  // }
-
-  // share() {
-  //   console.log('Share booking', this.booking.id);
-  // }
-
-  // more() {
-  //   console.log('More actions', this.booking.id);
-  // }
+  CancelBooking(): void {
+    this.myBookingsService.CancelBooking(this.productId).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.toastService.success(res.message || 'Booking cancelled successfully');
+        this.router.navigate(['/MyBookings']);
+      }
+    })
+  }
 }
