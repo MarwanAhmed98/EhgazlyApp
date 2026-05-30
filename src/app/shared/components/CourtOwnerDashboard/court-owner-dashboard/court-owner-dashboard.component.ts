@@ -2,6 +2,7 @@ import { OnwerDashboardService } from './../../../../core/services/OwnerDashboar
 import { Component, ChangeDetectionStrategy, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ICourtOwnerDashboard } from '../../../interfaces/icourt-owner-dashboard';
+import { LucideAngularModule } from 'lucide-angular';
 
 type DashboardResponse = {
   success: boolean;
@@ -11,7 +12,7 @@ type DashboardResponse = {
 
 @Component({
   selector: 'app-court-owner-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './court-owner-dashboard.component.html',
   styleUrl: './court-owner-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

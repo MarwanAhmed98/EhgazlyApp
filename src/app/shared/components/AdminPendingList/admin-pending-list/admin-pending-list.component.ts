@@ -1,8 +1,16 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Add for ngModel
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AdminManageOwnerPaymentsService } from '../../../../core/services/AdminManageOwnerPayments/admin-manage-owner-payments.service';
+import { IAdminManageOwnerPayments } from '../../../interfaces/iadmin-manage-owner-payments';
+import { HttpClient } from '@angular/common/http'; // For direct API call if needed
+import { environments } from '../../../../shared/environment';
+import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
+import { IAdminDashboard } from '../../../interfaces/iadmin-dashboard';
 
 interface Transaction {
-  id: string;
+  id: number | string;
   ownerName: string;
   ownerAvatar: string;
   venue: string;
@@ -12,121 +20,24 @@ interface Transaction {
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
   isSuspicious?: boolean;
   suspicionReason?: string;
+  receiptImageUrl?: string;
+  notes?: string;
 }
 
 @Component({
   selector: 'app-admin-pending-list',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // add FormsModule
   templateUrl: './admin-pending-list.component.html',
   styleUrl: './admin-pending-list.component.scss'
 })
-export class AdminPendingListComponent {
-  transactions = signal<Transaction[]>([
-    {
-      id: '#TXN-9921-A',
-      ownerName: 'Ahmed Mansour',
-      ownerAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      venue: 'Maadi Sports Hub',
-      dateSubmitted: 'Oct 24, 2023 • 14:20',
-      dateObj: new Date('2023-10-24T14:20:00'),
-      amount: 1250.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-8842-B',
-      ownerName: 'Sara El-Din',
-      ownerAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      venue: 'The Arena Giza',
-      dateSubmitted: 'Oct 24, 2023 • 11:05',
-      dateObj: new Date('2023-10-24T11:05:00'),
-      amount: 8400.00,
-      status: 'PENDING',
-      isSuspicious: true,
-      suspicionReason: 'Location mismatch with standard user IP'
-    },
-    {
-      id: '#TXN-7731-C',
-      ownerName: 'Khaled Ibrahim',
-      ownerAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
-      venue: 'Champions Court',
-      dateSubmitted: 'Oct 23, 2023 • 18:45',
-      dateObj: new Date('2023-10-23T18:45:00'),
-      amount: 450.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-1102-D',
-      ownerName: 'Layla Zaki',
-      ownerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      venue: 'Heliopolis Padel Center',
-      dateSubmitted: 'Oct 23, 2023 • 15:10',
-      dateObj: new Date('2023-10-23T15:10:00'),
-      amount: 2100.00,
-      status: 'PENDING',
-      isSuspicious: true,
-      suspicionReason: 'Mismatched receipt metadata, suspicious timestamp difference'
-    },
-    {
-      id: '#TXN-4059-E',
-      ownerName: 'Sherif Fayed',
-      ownerAvatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150',
-      venue: 'Katameya Club',
-      dateSubmitted: 'Oct 22, 2023 • 09:30',
-      dateObj: new Date('2023-10-22T09:30:00'),
-      amount: 6700.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-3829-F',
-      ownerName: 'Mariam Aly',
-      ownerAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
-      venue: 'Smouha Club',
-      dateSubmitted: 'Oct 21, 2023 • 16:45',
-      dateObj: new Date('2023-10-21T16:45:00'),
-      amount: 3200.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-2940-G',
-      ownerName: 'Youssef Soliman',
-      ownerAvatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
-      venue: 'Palm Hills Club',
-      dateSubmitted: 'Oct 20, 2023 • 12:15',
-      dateObj: new Date('2023-10-20T12:15:00'),
-      amount: 9500.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-1849-H',
-      ownerName: 'Nour El-Sherbini',
-      ownerAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-      venue: 'Black Ball Sporting',
-      dateSubmitted: 'Oct 19, 2023 • 11:22',
-      dateObj: new Date('2023-10-19T11:22:00'),
-      amount: 4500.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-5928-I',
-      ownerName: 'Tarek Momen',
-      ownerAvatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150',
-      venue: 'Zayed Sports City',
-      dateSubmitted: 'Oct 18, 2023 • 08:15',
-      dateObj: new Date('2023-10-18T08:15:00'),
-      amount: 5100.00,
-      status: 'PENDING'
-    },
-    {
-      id: '#TXN-6612-J',
-      ownerName: 'Hania El-Hammamy',
-      ownerAvatar: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=150',
-      venue: 'Gezira Club',
-      dateSubmitted: 'Oct 17, 2023 • 13:40',
-      dateObj: new Date('2023-10-17T13:40:00'),
-      amount: 1150.00,
-      status: 'PENDING'
-    }
-  ]);
+export class AdminPendingListComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly adminManageOwnerPaymentsService = inject(AdminManageOwnerPaymentsService);
+  private readonly adminDashboardService = inject(AdminDashboardService);
+  DashboardDetails: IAdminDashboard = {} as IAdminDashboard;
+  private readonly http = inject(HttpClient);
+
+  transactions = signal<Transaction[]>([]);
 
   currentFilter = signal<'all' | '24h' | '7d' | 'high'>('all');
   searchQuery = signal<string>('');
@@ -138,19 +49,77 @@ export class AdminPendingListComponent {
   toastMessage = signal<string | null>(null);
   toastType = signal<'success' | 'error' | 'info'>('success');
 
+  // Rejection modal state
+  showRejectModal = signal<boolean>(false);
+  rejectionReason = signal<string>('');
+  rejectionValidationError = signal<string | null>(null);
+  pendingRejectTxId = signal<number | string | null>(null);
+
+  ngOnInit(): void {
+    this.getAllPayments();
+    this.GetAllDshboard();
+  }
+
+  getAllPayments(): void {
+    this.adminManageOwnerPaymentsService.ShowAllPayments().subscribe({
+      next: (res) => {
+        const payments: IAdminManageOwnerPayments[] = res.data || [];
+        const mapped = payments.map(payment => this.mapPaymentToTransaction(payment));
+        this.transactions.set(mapped);
+      },
+      error: (err) => {
+        console.error('Failed to load payments', err);
+        this.triggerToast('Failed to load payment requests', 'error');
+      }
+    });
+  }
+
+  private mapPaymentToTransaction(payment: IAdminManageOwnerPayments): Transaction {
+    const createdDate = new Date(payment.created_at);
+    const formattedDate = this.formatDate(createdDate, 'MMM d, y • HH:mm');
+    const ownerName = payment.owner?.name || 'Unknown Owner';
+    const ownerAvatar = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(ownerName)}&backgroundColor=135824&textColor=ffffff`;
+    const statusUpper = (payment.status || 'pending').toUpperCase() as 'PENDING' | 'APPROVED' | 'REJECTED';
+    const amountNum = parseFloat(payment.amount) || 0;
+    const venue = payment.payment_type ? `Payment via ${payment.payment_type.replace('_', ' ').toUpperCase()}` : 'Online Transfer';
+
+    return {
+      id: payment.id,
+      ownerName: ownerName,
+      ownerAvatar: ownerAvatar,
+      venue: venue,
+      dateSubmitted: formattedDate,
+      dateObj: createdDate,
+      amount: amountNum,
+      status: statusUpper,
+      isSuspicious: false,
+      suspicionReason: '',
+      receiptImageUrl: payment.receipt_image_url || undefined,
+      notes: payment.notes
+    };
+  }
+
+  private formatDate(date: Date, format: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(date).replace(',', ' •');
+  }
+
   filteredTransactions = computed(() => {
     let list = this.transactions();
 
     const q = this.searchQuery().toLowerCase().trim();
     if (q) {
       list = list.filter(tx =>
-        tx.id.toLowerCase().includes(q) ||
+        tx.id.toString().toLowerCase().includes(q) ||
         tx.ownerName.toLowerCase().includes(q) ||
         tx.venue.toLowerCase().includes(q)
       );
     }
 
-    const now = new Date('2023-10-25T12:00:00');
+    const now = new Date();
     const filter = this.currentFilter();
 
     if (filter === '24h') {
@@ -235,25 +204,65 @@ export class AdminPendingListComponent {
     this.showAuditTool.set(true);
   }
 
-  approveTransaction(txId: string) {
-    this.transactions.update(prev =>
-      prev.map(tx => tx.id === txId ? { ...tx, status: 'APPROVED' as const } : tx)
-    );
-    this.closeReceipt();
-    this.triggerToast(`Transaction ${txId} has been successfully verified & approved.`, 'success');
+  approveTransaction(txId: number | string) {
+    this.adminManageOwnerPaymentsService.ApprovePayments(txId).subscribe({
+      next: () => {
+        this.transactions.update(prev =>
+          prev.map(tx => tx.id === txId ? { ...tx, status: 'APPROVED' } : tx)
+        );
+        this.closeReceipt();
+        this.triggerToast(`Transaction ${txId} has been successfully verified & approved.`, 'success');
+      },
+      error: (err) => {
+        console.error('Approve failed', err);
+        this.triggerToast(`Failed to approve transaction ${txId}.`, 'error');
+      }
+    });
   }
 
-  rejectTransaction(txId: string) {
-    this.transactions.update(prev =>
-      prev.map(tx => tx.id === txId ? { ...tx, status: 'REJECTED' as const } : tx)
-    );
-    this.closeReceipt();
-    this.showAuditTool.set(false);
-    this.triggerToast(`Transaction ${txId} has been flagged & rejected.`, 'error');
+  // New method to open reject modal
+  openRejectModal(txId: number | string) {
+    this.pendingRejectTxId.set(txId);
+    this.rejectionReason.set('');
+    this.rejectionValidationError.set(null);
+    this.showRejectModal.set(true);
   }
 
-  triggerActionNotification(msg: string, type: 'success' | 'error' | 'info' = 'success') {
-    this.triggerToast(msg, type);
+  closeRejectModal() {
+    this.showRejectModal.set(false);
+    this.pendingRejectTxId.set(null);
+    this.rejectionReason.set('');
+    this.rejectionValidationError.set(null);
+  }
+
+  confirmReject() {
+    const reason = this.rejectionReason().trim();
+    if (!reason) {
+      this.rejectionValidationError.set('Rejection reason is required.');
+      return;
+    }
+
+    const txId = this.pendingRejectTxId();
+    if (!txId) return;
+
+    // Call reject API with body containing rejection_reason
+    const url = `${environments.baseUrl}/admin/owner-payments/${txId}/reject`;
+    this.http.put(url, { rejection_reason: reason }).subscribe({
+      next: () => {
+        // Update UI
+        this.transactions.update(prev =>
+          prev.map(tx => tx.id === txId ? { ...tx, status: 'REJECTED' } : tx)
+        );
+        this.closeRejectModal();
+        this.closeReceipt();
+        this.showAuditTool.set(false);
+        this.triggerToast(`Transaction ${txId} has been rejected.`, 'error');
+      },
+      error: (err) => {
+        console.error('Reject failed', err);
+        this.triggerToast(`Failed to reject transaction ${txId}.`, 'error');
+      }
+    });
   }
 
   triggerToast(message: string, type: 'success' | 'error' | 'info' = 'success') {
@@ -289,5 +298,14 @@ export class AdminPendingListComponent {
     document.body.removeChild(link);
 
     this.triggerToast("CSV Download initiated successfully!", 'success');
+  }
+  GetAllDshboard(): void {
+    this.adminDashboardService.DashboardOverview().subscribe({
+      next: (res) => {
+        console.log(res.data);
+        this.DashboardDetails = res.data;
+
+      }
+    })
   }
 }

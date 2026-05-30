@@ -42,7 +42,7 @@
                 <div class="min-w-0">
                     <p class="text-xs font-bold uppercase tracking-wider text-[#51765A]">Total Pending</p>
                     <h2 class="text-2xl md:text-3xl font-extrabold text-[#135824] tracking-tight break-words">
-                        {{ totalPendingAmount() | number:'1.2-2' }} <span class="text-lg font-bold">EGP</span>
+                        {{ DashboardDetails.pending_owner_payments }}
                     </h2>
                 </div>
                 <div class="bg-[#B4EAC1] text-[#135824] p-3 rounded-xl shrink-0">
@@ -306,91 +306,6 @@
             </div>
 
         </div>
-
-        <!-- Lower Highlights Block (Grid Layout) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- Automate Batch Approvals Card -->
-            <div
-                class="bg-[#D1F3DB] rounded-[2rem] p-8 border border-[#BDECC9] flex flex-col justify-between shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
-                <div
-                    class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-4 translate-y-4">
-                    <svg class="w-48 h-48 text-[#135824]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-
-                <div class="space-y-4 z-10">
-                    <h4 class="text-2xl font-black text-[#0E3A1A] leading-tight">Automate Batch<br>Approvals</h4>
-                    <p class="text-sm font-semibold text-[#40684C] leading-relaxed">
-                        Review all transactions from trusted verified owners with a single click. Reduce processing time
-                        by 80%.
-                    </p>
-                </div>
-
-                <button (click)="triggerActionNotification('Batch approval system setup is launching soon!', 'info')"
-                    class="text-sm font-bold text-[#135824] inline-flex items-center gap-2 mt-8 hover:underline group-hover:translate-x-1 transition-transform z-10 self-start">
-                    Learn how it works
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Suspicious Activity Flagging Card -->
-            <div
-                class="bg-[#0B5C26] lg:col-span-2 rounded-[2rem] p-8 text-white relative overflow-hidden flex flex-col md:flex-row justify-between gap-8 shadow-sm hover:shadow-md transition-all">
-
-                <div class="space-y-5 flex-1 flex flex-col justify-between">
-                    <div>
-                        <span
-                            class="inline-block bg-[#1B8A40] text-xs font-bold tracking-widest px-3 py-1.5 rounded-full mb-4">
-                            PRO TIP
-                        </span>
-                        <h4 class="text-2xl md:text-3xl font-black leading-tight">Suspicious Activity<br>Flagging</h4>
-                        <p class="text-sm font-medium text-[#A0DCB4] mt-3 leading-relaxed max-w-md">
-                            Our system has flagged <span class="font-extrabold text-white underline decoration-wavy">2
-                                transactions</span> with mismatched receipt metadata. We recommend manual review for all
-                            high-value items.
-                        </p>
-                    </div>
-
-                    <button (click)="openAuditTool()"
-                        class="bg-[#8E3205] hover:bg-[#772802] active:scale-95 text-white font-bold text-sm px-6 py-3 rounded-full transition-all self-start shadow-md hover:shadow-lg flex items-center gap-2">
-                        Open Audit Tool
-                    </button>
-                </div>
-
-                <div
-                    class="w-full md:w-64 bg-[#07471B] rounded-2xl p-6 flex flex-col items-center justify-center relative overflow-hidden border border-[#166E34] self-stretch min-h-[180px]">
-
-                    <div class="absolute -top-3 -right-3 bg-[#E05E1A] p-2.5 rounded-full shadow-lg transform rotate-12">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                    </div>
-
-                    <div class="bg-[#1C8A40] p-4 rounded-full text-white shadow-inner mb-3">
-                        <svg class="w-12 h-12 text-[#9BF8B9]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                    </div>
-
-                    <p class="text-xs font-bold text-[#A0DCB4] tracking-wide text-center">AI Security Guard Active</p>
-                    <div
-                        class="flex items-center gap-1.5 mt-2 bg-[#053112] px-3 py-1 rounded-full border border-[#0D5723]">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span class="text-[10px] font-bold text-emerald-300">SCANNING 24/7</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
     </main>
 </div>
 
@@ -458,6 +373,16 @@
                 }
             </div>
 
+            <!-- Receipt Image Section (dynamic if exists) -->
+            @if (selectedReceipt()?.receiptImageUrl) {
+            <div class="border border-[#D1EAD9] rounded-2xl p-3 bg-[#F4FAF5]">
+                <p class="text-[10px] font-bold uppercase tracking-wider text-[#51765A] mb-2">Receipt Image</p>
+                <img [src]="selectedReceipt()?.receiptImageUrl" alt="Payment receipt"
+                    class="w-full rounded-xl border border-[#BDECC9] object-contain max-h-48 mx-auto" />
+            </div>
+            }
+
+            <!-- Action buttons: show ONLY for PENDING status -->
             <div
                 class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
@@ -466,16 +391,18 @@
                             class="text-sm font-bold">EGP</span></p>
                 </div>
 
+                @if (selectedReceipt()?.status === 'PENDING') {
                 <div class="flex w-full sm:w-auto flex-col gap-2">
                     <button (click)="approveTransaction(selectedReceipt()!.id)"
                         class="w-full sm:w-auto bg-[#135824] hover:bg-[#0c3c18] text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md">
                         Approve Payment
                     </button>
-                    <button (click)="rejectTransaction(selectedReceipt()!.id)"
+                    <button (click)="openRejectModal(selectedReceipt()!.id)"
                         class="w-full sm:w-auto bg-red-700 hover:bg-red-800 text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md">
                         Flag & Reject
                     </button>
                 </div>
+                }
             </div>
 
         </div>
@@ -538,7 +465,8 @@
                     class="text-right flex md:flex-col items-start md:items-end justify-between md:justify-center gap-2 w-full md:w-auto">
                     <span class="text-xl font-black text-[#8E3205]">{{ stx.amount | number:'1.2-2' }} EGP</span>
                     <div class="flex gap-2 flex-wrap justify-end">
-                        <button (click)="rejectTransaction(stx.id)"
+                        <!-- Updated to open reject modal -->
+                        <button (click)="openRejectModal(stx.id)"
                             class="bg-[#8E3205] hover:bg-red-800 text-white px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all shadow-sm">
                             Decline & Hold
                         </button>
@@ -561,6 +489,49 @@
             </button>
         </div>
 
+    </div>
+</div>
+}
+
+<!-- REJECTION REASON MODAL (NEW) -->
+@if (showRejectModal()) {
+<div class="fixed inset-0 bg-[#0E3A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-[#CDEFE0] my-6">
+        <div class="bg-[#135824] text-white p-5 relative">
+            <button (click)="closeRejectModal()"
+                class="absolute top-3 right-3 text-emerald-200 hover:text-white bg-[#0e441b] p-1.5 rounded-full transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <span class="text-xs font-bold tracking-widest bg-[#1B8A40] text-white px-3 py-1 rounded-full">REJECT
+                PAYMENT</span>
+            <h4 class="text-xl font-black mt-2">Rejection Reason</h4>
+            <p class="text-xs text-emerald-200 mt-0.5">Required for audit trail</p>
+        </div>
+
+        <div class="p-5 space-y-4">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#51765A] mb-1">Reason *</label>
+                <textarea [(ngModel)]="rejectionReason" rows="3"
+                    class="w-full bg-[#F4FAF5] border border-[#D1EAD9] rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#135824] focus:border-transparent"
+                    placeholder="Enter why this payment is being rejected..."></textarea>
+                @if (rejectionValidationError()) {
+                <p class="text-xs text-red-600 mt-1 font-semibold">{{ rejectionValidationError() }}</p>
+                }
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button (click)="confirmReject()"
+                    class="bg-red-700 hover:bg-red-800 text-white font-bold text-sm py-2.5 px-5 rounded-xl transition-all shadow-md w-full sm:w-auto">
+                    Confirm Reject
+                </button>
+                <button (click)="closeRejectModal()"
+                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-sm py-2.5 px-5 rounded-xl transition-all w-full sm:w-auto">
+                    Cancel
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 }

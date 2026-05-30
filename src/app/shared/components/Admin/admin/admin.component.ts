@@ -1,9 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, PLATFORM_ID, ViewChild, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, finalize, Subscription } from 'rxjs';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AdminNotiService } from '../../../../core/services/AdminNoti/admin-noti.service';
+import { INotifications, Notification as NotiItem } from '../../../../shared/interfaces/inotifications';
 
 type NavItem = {
   key: string;
@@ -20,79 +22,254 @@ type NavItem = {
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly platformId = inject(PLATFORM_ID); // ✅ FIXED: PLATFORM_ID now imported
   private readonly toastService = inject(ToastService);
+  private readonly adminNotiService = inject(AdminNotiService);
+  private readonly elRef = inject(ElementRef<HTMLElement>);
+
   isSideNavOpen = true;
-  isDarkMode = (typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark') ?? false;
   currentTitle = 'Dashboard';
   header = { breadcrumbRoot: 'Ehgazly' };
-  brand = { name: 'Ehgazly', logoUrl: '/assets/images/logo.png' };
+  brand = { name: 'Ehgazly' };
   userName: string = (typeof localStorage !== 'undefined' && localStorage.getItem('UserName')) || 'User';
+
+  navItems: NavItem[] = [
+    { key: 'user-directory', label: 'Admin Dashboard', route: '/Admin/UserDirectory', exact: false, iconName: 'layout-grid' },
+    { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
+    { key: 'manage-all-users', label: 'Manage Owners', route: '/Admin/AdminUserManagement', exact: false, iconName: 'user' },
+    { key: 'manage-owners-payment', label: 'Manage Owners Payment', route: '/Admin/AdminPendingList', exact: false, iconName: 'credit-card' },
+    { key: 'manage-tournaments', label: 'Tournaments Management', route: '/Admin/AdminManageTournaments', exact: false, iconName: 'trophy' },
+  ];
 
   get avatarUrl(): string {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
   }
-  navItems: NavItem[] = [
-    // { key: 'dashboard', label: 'Operations', route: '/Admin/AdminDashboard', exact: true, iconName: 'layout-grid' },
-    { key: 'user-directory', label: 'Admin Dashboard', route: '/Admin/UserDirectory', exact: false, iconName: 'layout-grid' },
-    { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
-    { key: 'revenues', label: 'Revenues', route: '/Admin/AdminRevenues', exact: false, iconName: 'dollar-sign' },
-    { key: 'manage-all-users', label: 'Manage Owners', route: '/Admin/AdminUserManagement', exact: false, iconName: 'user' },
-    { key: 'manage-tournaments', label: 'Tournaments Management', route: '/Admin/AdminManageTournaments', exact: false, iconName: 'trophy' },
-    // { key: 'manage-court-schedule', label: 'Manage Court Schedule', route: '/CourtOwner/ManageCourtSchedule', exact: false, iconName: 'calendar-clock' },
-    // { key: 'Financial', label: 'Financial', route: '/CourtOwner/Financials', exact: false, iconName: 'banknote' },
-  ];
+
+  // Notification properties
+  NotificationsDetails: INotifications = {
+    notifications: [],
+    unread_count: 0,
+  };
+  notiLoading = false;
+  notiError = '';
+  readonly markingReadIds = new Set<number>();
+  markAllLoading = false;
+  isNotificationsOpen = false;
+  notifFilter: 'all' | 'booking_confirmed' | 'teams' | 'system' = 'all';
+
+  // ✅ REMOVED: notifPanelLeft, notifPanelTop, notifPanelOrigin
+  // Panel is now positioned via CSS only (right: 0, top: calc(100% + 10px))
+  // anchored to the #notifWrap relative container — no JS positioning needed
+
+  @ViewChild('notifBtn', { read: ElementRef }) notifBtn?: ElementRef<HTMLElement>;
+  @ViewChild('notifPanel', { read: ElementRef }) notifPanel?: ElementRef<HTMLElement>;
+  private notiSub?: Subscription;
+
+  get filteredNavbarNotifications(): NotiItem[] {
+    const list = this.NotificationsDetails?.notifications ?? [];
+    if (this.notifFilter === 'all') return list;
+    return list.filter(n => String(n.type || '').toLowerCase() === this.notifFilter);
+  }
 
   ngOnInit(): void {
     this.applyTheme();
     this.updateTitleByRoute(this.router.url);
-
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        this.updateTitleByRoute(e.urlAfterRedirects);
+      .subscribe(e => this.updateTitleByRoute(e.urlAfterRedirects));
+    this.GetNoti();
+  }
+
+  ngOnDestroy(): void {
+    this.notiSub?.unsubscribe();
+  }
+
+  // ==================== NOTIFICATION METHODS ====================
+
+  GetNoti(): void {
+    this.notiSub?.unsubscribe();
+    this.notiLoading = true;
+    this.notiError = '';
+    this.notiSub = this.adminNotiService.GetNotifications()
+      .pipe(finalize(() => (this.notiLoading = false)))
+      .subscribe({
+        next: (res) => {
+          const data = res?.data ?? res;
+          this.NotificationsDetails = {
+            notifications: data?.notifications ?? [],
+            unread_count: Number(data?.unread_count ?? 0),
+          };
+        },
+        error: (err) => {
+          this.NotificationsDetails = { notifications: [], unread_count: 0 };
+          this.notiError = err?.error?.message ?? 'Please try again.';
+        },
       });
   }
 
-  toggleSideNav(): void { this.isSideNavOpen = !this.isSideNavOpen; }
-  closeSideNav(): void { this.isSideNavOpen = false; }
+  toggleNotifications(ev: Event): void {
+    ev.stopPropagation();
+    this.isNotificationsOpen = !this.isNotificationsOpen;
+    if (this.isNotificationsOpen) {
+      this.GetNoti();
+    }
+  }
 
+  closeNotifications(): void {
+    this.isNotificationsOpen = false;
+  }
+
+  // ✅ REMOVED: positionNotificationsPanel() — no longer needed
+  // Panel uses CSS positioning: position absolute, right: 0, top: calc(100% + 10px)
+
+  setNotifFilter(filterValue: 'all' | 'booking_confirmed' | 'teams' | 'system'): void {
+    this.notifFilter = filterValue;
+  }
+
+  onNotificationClick(item: NotiItem): void {
+    const id = Number(item?.id);
+    if (!Number.isFinite(id)) return;
+    if (item.is_read) return;
+    this.MarkAsRead(id);
+  }
+
+  MarkAsRead(notificationId: number): void {
+    if (!Number.isFinite(notificationId)) return;
+    if (this.markingReadIds.has(notificationId)) return;
+    const list = this.NotificationsDetails?.notifications ?? [];
+    const target = list.find(n => n.id === notificationId);
+    if (!target || target.is_read) return;
+
+    this.markingReadIds.add(notificationId);
+    this.adminNotiService.MarkAsRead(notificationId)
+      .pipe(finalize(() => this.markingReadIds.delete(notificationId)))
+      .subscribe({
+        next: () => {
+          const nextNotifications = this.NotificationsDetails.notifications.map(n =>
+            n.id === notificationId ? { ...n, is_read: true } : n
+          );
+          const nextUnread = Math.max(0, this.NotificationsDetails.unread_count - 1);
+          this.NotificationsDetails = {
+            ...this.NotificationsDetails,
+            notifications: nextNotifications,
+            unread_count: nextUnread,
+          };
+        },
+        error: (err) => {
+          this.toastService.error(err?.error?.message ?? 'Failed to mark as read.', 'Ehgazly');
+        },
+      });
+  }
+
+  MarkAllAsRead(): void {
+    const unread = Number(this.NotificationsDetails?.unread_count ?? 0);
+    if (unread === 0) return;
+    if (this.markAllLoading) return;
+
+    this.markAllLoading = true;
+    this.adminNotiService.MarkAllAsRead()
+      .pipe(finalize(() => (this.markAllLoading = false)))
+      .subscribe({
+        next: () => {
+          const nextNotifications = this.NotificationsDetails.notifications.map(n => ({ ...n, is_read: true }));
+          this.NotificationsDetails = {
+            ...this.NotificationsDetails,
+            notifications: nextNotifications,
+            unread_count: 0,
+          };
+        },
+        error: (err) => {
+          this.toastService.error(err?.error?.message ?? 'Failed to mark all as read.', 'Ehgazly');
+        },
+      });
+  }
+
+  getNotifIcon(type: string): 'calendar-check' | 'match' | 'invite' | 'calendar-cancel' {
+    const t = String(type || '').toLowerCase();
+    if (t.includes('booking') || t.includes('reservation')) return 'calendar-check';
+    if (t.includes('match')) return 'match';
+    if (t.includes('team') || t.includes('invite')) return 'invite';
+    if (t.includes('cancel')) return 'calendar-cancel';
+    return 'match';
+  }
+
+  getNotifIconBg(type: string): string {
+    const icon = this.getNotifIcon(type);
+    switch (icon) {
+      case 'calendar-check': return 'bg-[#E3F9E5]';
+      case 'match': return 'bg-[#EAF4FF]';
+      case 'invite': return 'bg-[#C6F1CD]/70';
+      case 'calendar-cancel': return 'bg-[#FDF1E6]';
+      default: return 'bg-slate-100';
+    }
+  }
+
+  formatNotiTime(iso: string): string {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const diff = Date.now() - d.getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    if (days === 1) return 'Yesterday';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  // ==================== ADMIN UI METHODS ====================
+
+  toggleSideNav(): void {
+    this.isSideNavOpen = !this.isSideNavOpen;
+  }
+  closeSideNav(): void {
+    this.isSideNavOpen = false;
+  }
   onNavClick(item: NavItem): void {
     this.currentTitle = item.label;
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches) {
       this.isSideNavOpen = false;
     }
   }
-
-  toggleDarkMode(): void {
-    this.isDarkMode = !this.isDarkMode;
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-    }
-    this.applyTheme();
-  }
-
   private applyTheme(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (this.isDarkMode) document.documentElement.classList.add('dark');
+    const isDark = localStorage.getItem('theme') === 'dark';
+    if (isDark) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
   }
-
   private updateTitleByRoute(url: string): void {
-    const item = this.navItems.find((n) => (n.exact ? url === n.route : url.startsWith(n.route)));
+    const item = this.navItems.find(n => n.exact ? url === n.route : url.startsWith(n.route));
     if (item) this.currentTitle = item.label;
   }
-
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // localStorage.clear();
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('userId');
     }
     this.router.navigate(['/Login']);
     this.toastService.success('Logged out successfully', 'Ehgazly');
+  }
+
+  // ==================== HOST LISTENERS ====================
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as Node | null;
+    if (!target) return;
+    if (!this.elRef.nativeElement.contains(target)) {
+      this.closeNotifications();
+    }
+  }
+
+  // ✅ REMOVED: onResize() and onScroll() — no JS positioning to recalculate
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeNotifications();
   }
 }

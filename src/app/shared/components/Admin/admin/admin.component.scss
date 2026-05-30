@@ -1,0 +1,420 @@
+// ==============================================
+// Admin Notification Dropdown Styles
+// ✅ FIXED: Panel uses position:absolute inside
+//    a relative container — no JS positioning,
+//    no overflow, no horizontal scrollbar.
+//    Dark mode uses .dark class (not prefers-color-scheme)
+//    to match the app's applyTheme() toggle.
+// ==============================================
+
+// ✅ KEY FIX: The #notifWrap div in the template has
+//    position:relative (via Tailwind class="relative")
+//    The panel is position:absolute inside it,
+//    anchored to right:0 so it never overflows the viewport.
+
+.notif-dd {
+    position: absolute;
+    top: calc(100% + 10px); // ✅ sits just below the bell button
+    right: 0; // ✅ aligned to the right edge — never overflows
+    width: 380px;
+    max-width: calc(100vw - 1rem); // ✅ safety clamp on very small screens
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    transform: scale(0.95);
+    transform-origin: top right; // ✅ animates from the top-right corner (bell icon)
+
+    // ✅ FIXED dark mode: uses .dark class instead of @media prefers-color-scheme
+    :global(html.dark) & {
+        background: rgba(15, 23, 42, 0.92);
+        border-color: rgba(30, 41, 59, 0.8);
+    }
+
+    &--open {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+
+    &--closed {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.95);
+    }
+
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+
+        :global(html.dark) & {
+            border-bottom-color: rgba(30, 41, 59, 0.8);
+        }
+    }
+
+    &__title {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #0f172a;
+        margin: 0;
+
+        :global(html.dark) & {
+            color: #f1f5f9;
+        }
+    }
+
+    &__sub {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #475569;
+        margin: 0.2rem 0 0;
+
+        :global(html.dark) & {
+            color: #94a3b8;
+        }
+    }
+
+    &__close {
+        background: transparent;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: #64748b;
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        transition: all 0.2s;
+
+        &:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        :global(html.dark) & {
+            color: #94a3b8;
+
+            &:hover {
+                background: #1e293b;
+                color: #f1f5f9;
+            }
+        }
+    }
+
+    &__tabs {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        overflow-x: auto;
+        scrollbar-width: none; // ✅ hide tabs scrollbar — they always fit
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        :global(html.dark) & {
+            border-bottom-color: rgba(30, 41, 59, 0.8);
+        }
+    }
+
+    &__tab {
+        background: transparent;
+        border: none;
+        padding: 0.4rem 0.9rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.75rem;
+        cursor: pointer;
+        color: #475569;
+        white-space: nowrap;
+        transition: all 0.2s;
+
+        &:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        &.is-active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        :global(html.dark) & {
+            color: #cbd5e1;
+
+            &:hover {
+                background: #1e293b;
+                color: white;
+            }
+
+            &.is-active {
+                background: #2e7d32;
+            }
+        }
+    }
+
+    &__list {
+        max-height: 420px;
+        overflow-y: auto;
+        overflow-x: hidden; // ✅ prevent any inner content from causing x-scroll
+        padding: 0.5rem 0;
+    }
+
+    &__footer {
+        padding: 0.75rem 1rem;
+        border-top: 1px solid rgba(16, 185, 129, 0.2);
+        text-align: center;
+
+        :global(html.dark) & {
+            border-top-color: rgba(30, 41, 59, 0.8);
+        }
+    }
+
+    &__cta {
+        background: transparent;
+        border: none;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #2e7d32;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        transition: all 0.2s;
+
+        &:hover:not(:disabled) {
+            background: #e8f5e9;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        :global(html.dark) & {
+            color: #4caf50;
+
+            &:hover:not(:disabled) {
+                background: #1e2a1e;
+            }
+        }
+    }
+}
+
+// ==================== Notification item ====================
+
+.notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    position: relative;
+
+    &:hover {
+        background: #f8fafc;
+
+        :global(html.dark) & {
+            background: #1e293b;
+        }
+    }
+
+    &.is-unread {
+        background: #f0fdf4;
+
+        :global(html.dark) & {
+            background: #0f2a1f;
+        }
+    }
+
+    &__dot {
+        width: 8px;
+        height: 8px;
+        background: #2e7d32;
+        border-radius: 50%;
+        margin-top: 6px;
+        flex-shrink: 0;
+        opacity: 0;
+
+        .is-unread & {
+            opacity: 1;
+        }
+    }
+
+    &__icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1rem;
+        flex-shrink: 0;
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0; // ✅ prevents text from pushing the panel wider
+    }
+
+    &__title {
+        font-weight: 800;
+        font-size: 0.85rem;
+        color: #0f172a;
+        display: block;
+        margin-bottom: 0.2rem;
+        white-space: nowrap; // ✅ prevent long titles from expanding panel
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        :global(html.dark) & {
+            color: #f1f5f9;
+        }
+    }
+
+    &__desc {
+        font-size: 0.75rem;
+        color: #475569;
+        display: block;
+        margin-bottom: 0.25rem;
+        line-height: 1.4;
+        white-space: nowrap; // ✅ prevent long descriptions from expanding panel
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        :global(html.dark) & {
+            color: #cbd5e1;
+        }
+    }
+
+    &__time {
+        font-size: 0.65rem;
+        font-weight: 500;
+        color: #94a3b8;
+
+        :global(html.dark) & {
+            color: #64748b;
+        }
+    }
+
+    &__spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #e2e8f0;
+        border-top-color: #2e7d32;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-left: auto;
+        align-self: center;
+        flex-shrink: 0;
+    }
+}
+
+// ==================== Loading skeleton ====================
+
+.notif-loading {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    &__row {
+        height: 48px;
+        background: #f1f5f9;
+        border-radius: 1rem;
+        animation: pulse 1.5s infinite;
+
+        :global(html.dark) & {
+            background: #1e293b;
+        }
+    }
+}
+
+// ==================== Empty state ====================
+
+.notif-empty {
+    padding: 2rem 1.5rem;
+    text-align: center;
+
+    &__title {
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+
+        :global(html.dark) & {
+            color: #f1f5f9;
+        }
+    }
+
+    &__desc {
+        font-size: 0.75rem;
+        color: #64748b;
+
+        :global(html.dark) & {
+            color: #94a3b8;
+        }
+    }
+}
+
+// ==================== Custom scrollbar ====================
+
+.scrollbar-hide {
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    :global(html.dark) & {
+        &::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    }
+}
+
+// ==================== Animations ====================
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
