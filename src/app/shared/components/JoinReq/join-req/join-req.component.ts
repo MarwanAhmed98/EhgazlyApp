@@ -1,415 +1,229 @@
-import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AdminManageCourtsService } from '../../../../core/services/AdminManageCourts/admin-manage-courts.service';
+import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
+import { IAdminDashboard } from '../../../interfaces/iadmin-dashboard';
+import { IAdminMainCourts } from '../../../interfaces/iadmin-main-courts';
+import { environments } from '../../../../shared/environment';
 import { RouterLink } from "@angular/router";
-
-interface JoinRequest {
-  id: string;
-  ownerName: string;
-  initials: string;
-  phoneNumber: string;
-  location: string;
-  proofStatus: 'Uploaded' | 'Pending';
-  date: string; // e.g. "Oct 24, 2023"
-  avatarColor: string;
-  status?: 'PENDING' | 'REVIEWED';
-}
-
-type TicketStatus = 'OPEN' | 'CLOSED';
-
-type LegalTicket = {
-  ticketId: string;
-  title: string;
-  body: string;
-  createdAt: string;
-  status: TicketStatus;
-};
-
-type InstantAccessStatus = 'NEW' | 'IN_REVIEW' | 'APPROVED';
-
-// MonthKey = "YYYY-MM"
-type MonthKey = string;
 
 @Component({
   selector: 'app-join-req',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './join-req.component.html',
   styleUrl: './join-req.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class JoinReqComponent {
-  // -----------------------
-  // ORIGINAL DATA (source of truth)
-  // -----------------------
-  private readonly originalRequests = signal<JoinRequest[]>([
-    {
-      id: '1',
-      ownerName: 'Ahmed Kamel',
-      initials: 'AK',
-      phoneNumber: '+20 123 4567890',
-      location: 'Cairo, Maadi',
-      proofStatus: 'Uploaded',
-      date: 'Oct 24, 2023',
-      avatarColor: 'bg-[#d1f2d9] text-[#1a4d2e]',
-      status: 'PENDING',
-    },
-    {
-      id: '2',
-      ownerName: 'Mahmoud Saeed',
-      initials: 'MS',
-      phoneNumber: '+20 111 222 3333',
-      location: 'Alexandria, Smouha',
-      proofStatus: 'Pending',
-      date: 'Oct 25, 2023',
-      avatarColor: 'bg-[#ffdbc2] text-[#8a421a]',
-      status: 'PENDING',
-    },
-    {
-      id: '3',
-      ownerName: 'Ramy Emad',
-      initials: 'RE',
-      phoneNumber: '+20 155 777 8888',
-      location: 'Giza, Sheikh Zayed',
-      proofStatus: 'Uploaded',
-      date: 'Oct 26, 2023',
-      avatarColor: 'bg-blue-100 text-blue-700',
-      status: 'PENDING',
-    },
-    {
-      id: '4',
-      ownerName: 'Sara Hassan',
-      initials: 'SH',
-      phoneNumber: '+20 100 999 0000',
-      location: 'Cairo, New Cairo',
-      proofStatus: 'Uploaded',
-      date: 'Oct 26, 2023',
-      avatarColor: 'bg-emerald-100 text-emerald-700',
-      status: 'PENDING',
-    },
-  ]);
+export class JoinReqComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly adminManageCourtsService = inject(AdminManageCourtsService);
+  private readonly adminDashboardService = inject(AdminDashboardService);
+  private readonly http = inject(HttpClient);
 
-  // FILTERED DATA (display)
-  private readonly filteredData = signal<JoinRequest[]>(this.cloneList(this.originalRequests()));
+  // Dashboard data
+  dashboardData = signal<IAdminDashboard | null>(null);
+  totalMainCourts = computed(() => this.dashboardData()?.total_maincourts ?? 0);
+  verifiedMainCourts = computed(() => this.dashboardData()?.verified_maincourts ?? 0);
+  pendingMainCourts = computed(() => this.dashboardData()?.pending_maincourts ?? 0);
 
-  // Keep compatibility if template still references requests()
-  requests = computed(() => this.filteredData());
-  filteredRequests = computed(() => this.filteredData());
-  originalCount = computed(() => this.originalRequests().length);
+  // Courts data
+  allCourts = signal<IAdminMainCourts[]>([]);
 
-  // -----------------------
-  // Search + Filters
-  // -----------------------
-  searchTerm = signal<string>('');
-  locationFilter = signal<string>('ALL'); // exact location string or ALL
+  // Filters
+  searchTerm = signal('');
+  locationFilter = signal('ALL');
 
-  // Date filter: NO preselected month by default
-  selectedMonth = signal<MonthKey>(''); // "" means "All data"
-  isMonthPickerOpen = signal<boolean>(false);
-  monthPickerYear = signal<number>(new Date().getFullYear());
+  // Pagination
+  currentPage = signal(1);
+  readonly pageSize = 10;
 
-  availableLocations = computed(() => {
-    const uniq = new Set(this.originalRequests().map((r) => r.location));
-    return Array.from(uniq).sort((a, b) => a.localeCompare(b));
-  });
+  // Filtered dataset (no pagination applied)
+  filteredCourts = computed(() => {
+    let courts = this.allCourts();
+    const term = this.searchTerm().toLowerCase();
+    const location = this.locationFilter();
 
-  monthPickerLabel = computed(() => `${this.monthPickerYear()}`);
-
-  monthGrid = computed(() => {
-    const y = this.monthPickerYear();
-    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return labels.map((label, idx) => {
-      const m = String(idx + 1).padStart(2, '0');
-      return { key: `${y}-${m}`, label };
-    });
-  });
-
-  // Keep same UI text; when no month selected show a neutral label
-  monthRangeLabel = computed(() => {
-    const key = (this.selectedMonth() ?? '').trim();
-    if (!key) return 'App Date';
-
-    const [yStr, mStr] = key.split('-');
-    const y = Number(yStr);
-    const m = Number(mStr); // 1..12
-    const start = new Date(y, m - 1, 1);
-    const end = new Date(y, m, 0);
-    return `${this.formatShortDate(start)} - ${this.formatShortDate(end)}`;
-  });
-
-  constructor() {
-    effect(() => {
-      this.originalRequests();
-      this.searchTerm();
-      this.locationFilter();
-      this.selectedMonth();
-      this.recomputeFilteredData();
-    });
-
-    // Keep year sync only AFTER a month is selected
-    effect(() => {
-      const key = (this.selectedMonth() ?? '').trim();
-      if (!key) return;
-
-      const [yStr] = key.split('-');
-      const y = Number(yStr);
-      if (!Number.isNaN(y)) this.monthPickerYear.set(y);
-    });
-  }
-
-  setSearch(v: string): void {
-    this.searchTerm.set(v ?? '');
-  }
-
-  setLocationFilter(v: string): void {
-    this.locationFilter.set(v ?? 'ALL');
-  }
-
-  // Date filter UI actions
-  toggleMonthPicker(): void {
-    this.isMonthPickerOpen.set(!this.isMonthPickerOpen());
-  }
-
-  shiftMonthPickerYear(deltaYears: number): void {
-    this.monthPickerYear.set(this.monthPickerYear() + deltaYears);
-  }
-
-  setMonthFilter(monthKey: MonthKey): void {
-    this.selectedMonth.set(monthKey);
-    this.isMonthPickerOpen.set(false);
-  }
-
-  // Optional reset hook (if you add a reset button later)
-  clearMonthFilter(): void {
-    this.selectedMonth.set('');
-    this.isMonthPickerOpen.set(false);
-  }
-
-  private recomputeFilteredData(): void {
-    const src = this.cloneList(this.originalRequests());
-    const term = this.normalize(this.searchTerm());
-    const loc = this.locationFilter();
-    const month = (this.selectedMonth() ?? '').trim(); // "" => no date filter
-
-    let out = src;
-
-    // Location filter
-    if (loc && loc !== 'ALL') out = out.filter((r) => r.location === loc);
-
-    // Month filter (only after user selects)
-    if (month) {
-      out = out.filter((r) => this.toMonthKey(this.parseUiDate(r.date)) === month);
-    }
-
-    // Search across relevant fields
     if (term) {
-      out = out.filter((r) => {
-        const hay = `${r.ownerName} ${r.phoneNumber} ${r.location} ${r.proofStatus} ${r.date} ${r.id}`.toLowerCase();
-        return hay.includes(term);
-      });
+      courts = courts.filter(c =>
+        c.name.toLowerCase().includes(term) ||
+        c.owner.name.toLowerCase().includes(term) ||
+        c.address.toLowerCase().includes(term)
+      );
     }
 
-    this.filteredData.set(out);
-  }
+    if (location && location !== 'ALL') {
+      courts = courts.filter(c => c.address.toLowerCase().includes(location.toLowerCase()));
+    }
 
-  // -----------------------
-  // Stats
-  // -----------------------
-  totalPending = computed(() => this.originalRequests().filter((r) => (r.status ?? 'PENDING') === 'PENDING').length);
-
-  reviewedToday = computed(() => {
-    const todayKey = this.toDateKey(new Date());
-    return this.originalRequests().filter(
-      (r) => (r.status ?? 'PENDING') === 'REVIEWED' && this.toDateKey(this.parseUiDate(r.date)) === todayKey,
-    ).length;
+    return courts;
   });
 
-  // -----------------------
-  // Review Application Modal
-  // -----------------------
-  isReviewOpen = signal(false);
-  activeRequestId = signal<string | null>(null);
-
-  activeRequest = computed(() => {
-    const id = this.activeRequestId();
-    if (!id) return null;
-    return this.originalRequests().find((r) => r.id === id) ?? null;
+  // Total pages based on filtered dataset
+  totalPages = computed(() => {
+    const total = this.filteredCourts().length;
+    return total === 0 ? 1 : Math.ceil(total / this.pageSize);
   });
 
-  activeRequestOwner = computed(() => this.activeRequest()?.ownerName ?? '');
-  activeRequestLocation = computed(() => this.activeRequest()?.location ?? '');
-  activeRequestPhone = computed(() => this.activeRequest()?.phoneNumber ?? '');
-  activeRequestProof = computed(() => this.activeRequest()?.proofStatus ?? '');
-  activeRequestDate = computed(() => this.activeRequest()?.date ?? '');
-  activeRequestStatus = computed(() => this.activeRequest()?.status ?? 'PENDING');
-
-  reviewApplication(req: JoinRequest): void {
-    this.activeRequestId.set(req.id);
-    this.isReviewOpen.set(true);
-  }
-
-  toggleRequestStatus(): void {
-    const id = this.activeRequestId();
-    if (!id) return;
-
-    this.originalRequests.set(
-      this.originalRequests().map((r) => {
-        if (r.id !== id) return { ...r };
-        const next: JoinRequest['status'] = (r.status ?? 'PENDING') === 'PENDING' ? 'REVIEWED' : 'PENDING';
-        return { ...r, status: next };
-      }),
-    );
-  }
-
-  markReviewed(): void {
-    const id = this.activeRequestId();
-    if (!id) return;
-
-    this.originalRequests.set(this.originalRequests().map((r) => (r.id === id ? { ...r, status: 'REVIEWED' } : { ...r })));
-
-    this.isReviewOpen.set(false);
-    this.activeRequestId.set(null);
-  }
-
-  // -----------------------
-  // Instant Access Request
-  // -----------------------
-  isInstantAccessOpen = signal(false);
-
-  instantAccessTitle = signal('Elite Sports Hub');
-  instantAccessSubtitle = signal('Priority applicant • Fast-track verification');
-  instantAccessStatus = signal<InstantAccessStatus>('NEW');
-
-  openInstantAccessRequest(): void {
-    this.isInstantAccessOpen.set(true);
-  }
-
-  advanceInstantAccessStatus(): void {
-    const s = this.instantAccessStatus();
-    const next: InstantAccessStatus = s === 'NEW' ? 'IN_REVIEW' : s === 'IN_REVIEW' ? 'APPROVED' : 'APPROVED';
-    this.instantAccessStatus.set(next);
-  }
-
-  // -----------------------
-  // Legal tickets
-  // -----------------------
-  private readonly originalTickets = signal<LegalTicket[]>([
-    {
-      ticketId: 'LT-1021',
-      title: 'Ownership deed unclear (Maadi)',
-      body: 'The submitted ownership document is partially obscured. Please request a clearer scan and a secondary proof (utility bill or tax card).',
-      createdAt: 'Today, 10:20',
-      status: 'OPEN',
-    },
-    {
-      ticketId: 'LT-1014',
-      title: 'Verification dispute (Smouha)',
-      body: 'Applicant claims prior approval but record is missing. Cross-check national ID and venue registry entry.',
-      createdAt: 'Yesterday, 16:05',
-      status: 'OPEN',
-    },
-    {
-      ticketId: 'LT-0998',
-      title: 'Legal follow-up needed (New Cairo)',
-      body: 'Complex ownership is under a company name. Confirm authorized signatory and attach commercial register extract.',
-      createdAt: 'Oct 22, 2023',
-      status: 'CLOSED',
-    },
-  ]);
-
-  tickets = computed(() => this.cloneList(this.originalTickets()));
-
-  isLegalTicketsOpen = signal(false);
-  isTicketOpen = signal(false);
-
-  activeTicketId = signal<string>('');
-  activeTicket = computed(() => {
-    const id = this.activeTicketId();
-    if (!id) return null;
-    return this.originalTickets().find((t) => t.ticketId === id) ?? null;
+  // Paginated slice for display
+  pagedCourts = computed(() => {
+    const page = this.currentPage();
+    const start = (page - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredCourts().slice(start, end);
   });
 
-  activeTicketTitle = computed(() => this.activeTicket()?.title ?? '');
-  activeTicketBody = computed(() => this.activeTicket()?.body ?? '');
-  activeTicketCreated = computed(() => this.activeTicket()?.createdAt ?? '');
-  activeTicketStatus = computed(() => this.activeTicket()?.status ?? 'OPEN');
+  // Showing X–Y info text
+  showingFrom = computed(() => {
+    if (this.filteredCourts().length === 0) return 0;
+    return (this.currentPage() - 1) * this.pageSize + 1;
+  });
 
-  openLegalTickets(): void {
-    this.isLegalTicketsOpen.set(true);
+  showingTo = computed(() => {
+    return Math.min(this.currentPage() * this.pageSize, this.filteredCourts().length);
+  });
+
+  // Visible page numbers with ellipsis (-1 = ellipsis)
+  visiblePages = computed(() => {
+    const total = this.totalPages();
+    const current = this.currentPage();
+    const pages: number[] = [];
+
+    if (total <= 7) {
+      for (let i = 1; i <= total; i++) pages.push(i);
+      return pages;
+    }
+
+    pages.push(1);
+
+    if (current > 3) pages.push(-1); // left ellipsis
+
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+
+    for (let i = start; i <= end; i++) pages.push(i);
+
+    if (current < total - 2) pages.push(-1); // right ellipsis
+
+    pages.push(total);
+
+    return pages;
+  });
+
+  // Manage menu
+  activeManageMenuId = signal<number | null>(null);
+
+  // Suspend modal
+  suspendModalOpen = signal(false);
+  suspendReason = signal('');
+  suspendReasonError = signal('');
+  selectedCourtForSuspend = signal<IAdminMainCourts | null>(null);
+
+  // Available locations from courts
+  availableLocations = computed(() => {
+    const locations = new Set<string>();
+    this.allCourts().forEach(court => {
+      if (court.address) locations.add(court.address.split(',')[0]?.trim() || court.address);
+    });
+    return Array.from(locations).sort();
+  });
+
+  ngOnInit(): void {
+    this.loadDashboard();
+    this.loadCourts();
   }
 
-  openTicket(t: LegalTicket): void {
-    this.activeTicketId.set(t.ticketId);
-    this.isTicketOpen.set(true);
+  loadDashboard(): void {
+    this.adminDashboardService.DashboardOverview().subscribe({
+      next: (res) => {
+        this.dashboardData.set(res.data);
+      }
+    });
   }
 
-  closeTicket(): void {
-    this.isTicketOpen.set(false);
-    this.activeTicketId.set('');
+  loadCourts(): void {
+    this.adminManageCourtsService.ShowAllCourts().subscribe({
+      next: (res) => {
+        this.allCourts.set(res.data);
+        this.currentPage.set(1);
+      },
+    });
   }
 
-  toggleTicketStatus(): void {
-    const id = this.activeTicketId();
-    if (!id) return;
-
-    this.originalTickets.set(
-      this.originalTickets().map((t) => {
-        if (t.ticketId !== id) return { ...t };
-        const next: TicketStatus = t.status === 'OPEN' ? 'CLOSED' : 'OPEN';
-        return { ...t, status: next };
-      }),
-    );
+  setSearch(value: string): void {
+    this.searchTerm.set(value);
+    this.currentPage.set(1);
   }
 
-  // -----------------------
-  // Close modals
-  // -----------------------
-  closeAllModals(): void {
-    this.isReviewOpen.set(false);
-    this.isInstantAccessOpen.set(false);
-    this.isLegalTicketsOpen.set(false);
-    this.isTicketOpen.set(false);
-    this.activeRequestId.set(null);
-    this.activeTicketId.set('');
+  setLocationFilter(value: string): void {
+    this.locationFilter.set(value);
+    this.currentPage.set(1);
   }
 
-  // -----------------------
-  // Utilities
-  // -----------------------
-  private cloneList<T>(list: T[]): T[] {
-    return list.map((x) => ({ ...(x as any) }));
+  goToPage(page: number): void {
+    const total = this.totalPages();
+    if (page < 1 || page > total) return;
+    this.currentPage.set(page);
   }
 
-  private normalize(s: string): string {
-    return (s ?? '').trim().toLowerCase();
+  toggleManageMenu(courtId: number): void {
+    if (this.activeManageMenuId() === courtId) {
+      this.activeManageMenuId.set(null);
+    } else {
+      this.activeManageMenuId.set(courtId);
+    }
   }
 
-  private parseUiDate(label: string): Date {
-    const d = new Date(label);
-    if (!Number.isNaN(d.getTime())) return d;
-
-    const normalized = label.trim().replace(/,/g, '').replace(/\s+/g, ' ').toLowerCase();
-    const parts = normalized.split(' ');
-    const mon = (parts[0] ?? '').slice(0, 3);
-    const day = Number(parts[1]);
-    const year = Number(parts[2]);
-    const monthIndex = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'].indexOf(mon);
-    return new Date(year, Math.max(0, monthIndex), day);
+  verifyCourt(court: IAdminMainCourts): void {
+    this.adminManageCourtsService.VerifyCourt(court.id).subscribe({
+      next: () => {
+        const updatedCourts = this.allCourts().map(c =>
+          c.id === court.id ? { ...c, is_verified: true } : c
+        );
+        this.allCourts.set(updatedCourts);
+        this.activeManageMenuId.set(null);
+        this.toastService.success('Court verified successfully');
+      },
+    });
   }
 
-  private toMonthKey(d: Date): MonthKey {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    return `${y}-${m}`;
+  openSuspendModal(court: IAdminMainCourts): void {
+    this.selectedCourtForSuspend.set(court);
+    this.suspendReason.set('');
+    this.suspendReasonError.set('');
+    this.suspendModalOpen.set(true);
+    this.activeManageMenuId.set(null);
   }
 
-  private toDateKey(d: Date): string {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${dd}`;
+  closeSuspendModal(): void {
+    this.suspendModalOpen.set(false);
+    this.selectedCourtForSuspend.set(null);
+    this.suspendReason.set('');
+    this.suspendReasonError.set('');
   }
 
-  private formatShortDate(d: Date): string {
-    const mon = d.toLocaleString(undefined, { month: 'short' });
-    return `${mon} ${d.getDate()}`;
+  confirmSuspend(): void {
+    const reason = this.suspendReason().trim();
+    if (!reason) {
+      this.suspendReasonError.set('Suspension reason is required.');
+      return;
+    }
+
+    const court = this.selectedCourtForSuspend();
+    if (!court) return;
+
+    this.http.put(`${environments.baseUrl}/admin/maincourts/${court.id}/suspend`, { suspension_reason: reason })
+      .subscribe({
+        next: () => {
+          const updatedCourts = this.allCourts().map(c =>
+            c.id === court.id ? { ...c, status: 'inactive' } : c
+          );
+          this.allCourts.set(updatedCourts);
+          this.closeSuspendModal();
+          this.toastService.success('Court suspended successfully');
+        },
+      });
   }
 }

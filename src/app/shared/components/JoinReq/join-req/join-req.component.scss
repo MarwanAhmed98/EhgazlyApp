@@ -15,3 +15,9 @@
     background: #c1e8cc;
     border-radius: 10px;
 }
+
+/* Ensure no horizontal page scroll */
+html,
+body {
+    overflow-x: hidden;
+}

@@ -28,13 +28,8 @@ export class CourtOwnerEarningsComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly datePipe = inject(DatePipe);
-
   FinancialDetails: ICourtOwnerFinancialData | null = null;
-
-  // Local report download
   downloadLoading = false;
-
-  // Withdraw modal
   withdrawModalOpen = false;
   withdrawLoading = false;
 
@@ -47,14 +42,10 @@ export class CourtOwnerEarningsComponent implements OnInit {
     receipt_image: new FormControl<File | null>(null, { validators: [Validators.required] }),
     notes: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
   });
-
-  // Eye/View details modal
   detailsModalOpen = false;
   selectedPayment: PaymentHistory | null = null;
 
   detailsRows: Array<{ key: string; label: string; value: string; type: DetailsRowType }> = [];
-
-  // Kept from your component
   activeTab = signal('weekly');
 
   trendPath = computed(() => {
@@ -85,8 +76,6 @@ export class CourtOwnerEarningsComponent implements OnInit {
       },
     });
   }
-
-  /* ---------------- Local Report Download ---------------- */
   downloadReportLocal(): void {
     if (this.downloadLoading) return;
 
@@ -145,8 +134,6 @@ export class CourtOwnerEarningsComponent implements OnInit {
       this.cdr.markForCheck();
     }
   }
-
-  /* ---------------- Withdraw ---------------- */
   onWithdrawFunds(): void {
     this.withdrawModalOpen = true;
     this.receiptError = null;

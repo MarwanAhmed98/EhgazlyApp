@@ -24,7 +24,7 @@ type NavItem = {
 })
 export class AdminComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly platformId = inject(PLATFORM_ID); // ✅ FIXED: PLATFORM_ID now imported
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly toastService = inject(ToastService);
   private readonly adminNotiService = inject(AdminNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
@@ -37,17 +37,16 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   navItems: NavItem[] = [
     { key: 'user-directory', label: 'Admin Dashboard', route: '/Admin/UserDirectory', exact: false, iconName: 'layout-grid' },
-    { key: 'analytics', label: 'Analytics', route: '/Admin/AdminJoinReq', exact: false, iconName: 'bar-chart' },
     { key: 'manage-all-users', label: 'Manage Owners', route: '/Admin/AdminUserManagement', exact: false, iconName: 'user' },
     { key: 'manage-owners-payment', label: 'Manage Owners Payment', route: '/Admin/AdminPendingList', exact: false, iconName: 'credit-card' },
+    { key: 'manage-courts', label: 'Manage Courts', route: '/Admin/ManageCourts', exact: false, iconName: 'map-pin' },
     { key: 'manage-tournaments', label: 'Tournaments Management', route: '/Admin/AdminManageTournaments', exact: false, iconName: 'trophy' },
+    { key: 'financials', label: 'Financials', route: '/Admin/AdminJoinReq', exact: false, iconName: 'dollar-sign' },
   ];
 
   get avatarUrl(): string {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
   }
-
-  // Notification properties
   NotificationsDetails: INotifications = {
     notifications: [],
     unread_count: 0,
@@ -58,10 +57,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   markAllLoading = false;
   isNotificationsOpen = false;
   notifFilter: 'all' | 'booking_confirmed' | 'teams' | 'system' = 'all';
-
-  // ✅ REMOVED: notifPanelLeft, notifPanelTop, notifPanelOrigin
-  // Panel is now positioned via CSS only (right: 0, top: calc(100% + 10px))
-  // anchored to the #notifWrap relative container — no JS positioning needed
 
   @ViewChild('notifBtn', { read: ElementRef }) notifBtn?: ElementRef<HTMLElement>;
   @ViewChild('notifPanel', { read: ElementRef }) notifPanel?: ElementRef<HTMLElement>;
@@ -85,8 +80,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.notiSub?.unsubscribe();
   }
-
-  // ==================== NOTIFICATION METHODS ====================
 
   GetNoti(): void {
     this.notiSub?.unsubscribe();
@@ -120,10 +113,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   closeNotifications(): void {
     this.isNotificationsOpen = false;
   }
-
-  // ✅ REMOVED: positionNotificationsPanel() — no longer needed
-  // Panel uses CSS positioning: position absolute, right: 0, top: calc(100% + 10px)
-
   setNotifFilter(filterValue: 'all' | 'booking_confirmed' | 'teams' | 'system'): void {
     this.notifFilter = filterValue;
   }
@@ -220,9 +209,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (days === 1) return 'Yesterday';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
-
-  // ==================== ADMIN UI METHODS ====================
-
   toggleSideNav(): void {
     this.isSideNavOpen = !this.isSideNavOpen;
   }
@@ -255,8 +241,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.toastService.success('Logged out successfully', 'Ehgazly');
   }
 
-  // ==================== HOST LISTENERS ====================
-
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as Node | null;
@@ -265,9 +249,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.closeNotifications();
     }
   }
-
-  // ✅ REMOVED: onResize() and onScroll() — no JS positioning to recalculate
-
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeNotifications();

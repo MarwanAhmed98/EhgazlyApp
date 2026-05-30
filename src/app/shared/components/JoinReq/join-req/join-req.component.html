@@ -1,30 +1,29 @@
-<div class="min-h-screen bg-[#e2f7e6] p-4 md:p-8 font-sans text-slate-800">
+<div class="min-h-screen bg-[#e2f7e6] p-4 md:p-8 font-sans text-slate-800 overflow-x-hidden">
     <!-- Header Section -->
     <header class="mb-8">
-        <h1 class="text-3xl font-bold text-[#1a4d2e] mb-1">Join Requests Management</h1>
-        <p class="text-[#4b7c52]">Review and verify new field owner applications for Ehgazly.</p>
+        <h1 class="text-3xl font-bold text-[#1a4d2e] mb-1">Manage Courts</h1>
+        <p class="text-[#4b7c52]">View and manage all main courts, verify ownership, and control status.</p>
     </header>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div class="bg-white rounded-2xl p-6 border-b-4 border-green-700 flex justify-between items-center shadow-sm">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Total Pending Requests</p>
-                <h2 class="text-4xl font-bold text-[#1a4d2e]">{{ totalPending() }}</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Total Courts</p>
+                <h2 class="text-4xl font-bold text-[#1a4d2e]">{{ totalMainCourts() }}</h2>
             </div>
             <div class="bg-[#d1f2d9] p-3 rounded-xl">
                 <svg class="w-6 h-6 text-[#1a4d2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-                    </path>
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
         </div>
 
         <div class="bg-white rounded-2xl p-6 border-b-4 border-blue-500 flex justify-between items-center shadow-sm">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Reviewed Today</p>
-                <h2 class="text-4xl font-bold text-blue-600">{{ reviewedToday() }}</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Verified Courts</p>
+                <h2 class="text-4xl font-bold text-blue-600">{{ verifiedMainCourts() }}</h2>
             </div>
             <div class="bg-blue-50 p-3 rounded-xl text-blue-500">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -37,8 +36,8 @@
 
         <div class="bg-white rounded-2xl p-6 border-b-4 border-orange-800 flex justify-between items-center shadow-sm">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Avg. Response Time</p>
-                <h2 class="text-4xl font-bold text-orange-900">4h</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Pending Verification</p>
+                <h2 class="text-4xl font-bold text-orange-900">{{ pendingMainCourts() }}</h2>
             </div>
             <div class="bg-orange-100 p-3 rounded-xl text-orange-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,140 +57,98 @@
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </span>
-            <input type="text" placeholder="Search by owner name or field..." [value]="searchTerm()"
-                (input)="setSearch(($any($event.target).value))"
+            <input type="text" placeholder="Search by court name, owner, or address..." [value]="searchTerm()"
+                (input)="setSearch($any($event.target).value)"
                 class="w-full pl-10 pr-4 py-3 bg-white border-none rounded-xl focus:ring-2 focus:ring-green-500 shadow-sm">
         </div>
 
         <div class="flex gap-4">
-            <select [value]="locationFilter()" (change)="setLocationFilter(($any($event.target).value))"
+            <select [value]="locationFilter()" (change)="setLocationFilter($any($event.target).value)"
                 class="bg-white border-none rounded-xl px-4 py-3 shadow-sm min-w-[140px] appearance-none cursor-pointer">
-                <option value="ALL">Location</option>
+                <option value="ALL">All Locations</option>
                 @for (loc of availableLocations(); track loc) {
                 <option [value]="loc">{{ loc }}</option>
                 }
             </select>
-
-            <!-- Date Filter (Month Picker Popover) -->
-            <div class="relative">
-                <button type="button" (click)="toggleMonthPicker()"
-                    class="bg-white border-none rounded-xl px-4 py-3 shadow-sm pl-4 pr-10 flex items-center gap-2 min-w-[170px] justify-between">
-                    <span class="text-sm font-semibold text-slate-700">{{ monthRangeLabel() }}</span>
-                    <span class="text-slate-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                    </span>
-                </button>
-
-                @if (isMonthPickerOpen()) {
-                <div
-                    class="absolute right-0 top-14 z-30 bg-white rounded-2xl shadow-lg border border-slate-100 p-3 w-[260px]">
-                    <div class="flex items-center justify-between mb-2">
-                        <button type="button" (click)="shiftMonthPickerYear(-1)"
-                            class="p-2 bg-green-50 rounded-xl hover:bg-green-100 text-[#1a4d2e]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                        </button>
-
-                        <div class="text-sm font-black text-[#1a4d2e]">{{ monthPickerLabel() }}</div>
-
-                        <button type="button" (click)="shiftMonthPickerYear(1)"
-                            class="p-2 bg-green-50 rounded-xl hover:bg-green-100 text-[#1a4d2e]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="m9 18 6-6-6-6" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2">
-                        @for (m of monthGrid(); track m.key) {
-                        <button type="button" (click)="setMonthFilter(m.key)"
-                            class="bg-green-50 px-3 py-2 rounded-xl text-xs font-semibold text-[#1a4d2e] hover:bg-green-100"
-                            [class.bg-white]="m.key === selectedMonth()" [class.shadow-sm]="m.key === selectedMonth()">
-                            {{ m.label }}
-                        </button>
-                        }
-                    </div>
-                </div>
-                }
-            </div>
         </div>
     </div>
 
     <!-- Table Section -->
     <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-8">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full table-auto border-collapse min-w-[800px]">
                 <thead>
                     <tr class="text-[10px] md:text-xs font-bold text-[#4b7c52] uppercase tracking-widest bg-[#f0faf2]">
-                        <th class="px-6 py-4">Owner Name</th>
-                        <th class="px-6 py-4">Phone Number</th>
-                        <th class="px-6 py-4">Location</th>
-                        <th class="px-6 py-4">Proof of Ownership</th>
-                        <th class="px-6 py-4">Application Date</th>
-                        <th class="px-6 py-4 text-center">Actions</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Main Court Name</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Owner</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Email</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Phone</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Address</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Courts Count</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Status</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4">Verification</th>
+                        <th class="px-4 py-3 md:px-6 md:py-4 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    @for (req of filteredRequests(); track req.id) {
+                    @for (court of pagedCourts(); track court.id) {
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 font-bold text-[#1a4d2e] text-sm md:text-base">{{
+                            court.name }}</td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-700">{{ court.owner.name }}</td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 break-all">{{ court.owner.email }}
+                        </td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500">{{ court.owner.phone }}</td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 break-words">{{ court.address }}
+                        </td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm font-semibold text-slate-700">{{ court.courts_count
+                            }}</td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]" class="px-4 py-3 md:px-6 md:py-4">
+                            <span
+                                [class]="court.status === 'active' ? 'bg-[#d1f2d9] text-[#1a4d2e]' : 'bg-[#ffdbc2] text-[#8a421a]'"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                                {{ court.status === 'active' ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]" class="px-4 py-3 md:px-6 md:py-4">
+                            <span
+                                [class]="court.is_verified ? 'bg-[#d1f2d9] text-[#1a4d2e]' : 'bg-[#ffdbc2] text-[#8a421a]'"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                                {{ court.is_verified ? 'Verified' : 'Pending Verification' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 md:px-6 md:py-4 text-center relative">
+                            <div class="relative">
+                                <button (click)="toggleManageMenu(court.id)"
+                                    class="bg-[#1a4d2e] text-white px-4 py-1.5 md:px-5 md:py-2 rounded-full text-xs font-bold hover:bg-[#143a23] transition-all shadow-sm whitespace-nowrap">
+                                    Manage
+                                </button>
+                                @if (activeManageMenuId() === court.id) {
                                 <div
-                                    [class]="'w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs ' + req.avatarColor">
-                                    {{ req.initials }}
+                                    class="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-lg border border-slate-100 z-10">
+                                    <div class="py-1">
+                                        @if (!court.is_verified) {
+                                        <button (click)="verifyCourt(court)"
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-green-50 transition-colors">
+                                            Verify
+                                        </button>
+                                        }
+                                        @if (court.status === 'active') {
+                                        <button (click)="openSuspendModal(court)"
+                                            class="block w-full text-left px-4 py-2 text-sm text-orange-700 hover:bg-orange-50 transition-colors">
+                                            Suspend
+                                        </button>
+                                        }
+                                    </div>
                                 </div>
-                                <span class="font-bold text-[#1a4d2e]">{{ req.ownerName }}</span>
+                                }
                             </div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ req.phoneNumber }}</td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-1 text-sm text-slate-500">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                {{ req.location }}
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            @if (req.proofStatus === 'Uploaded') {
-                            <span
-                                class="inline-flex items-center gap-1 px-3 py-1 bg-[#d1f2d9] text-[#1a4d2e] rounded-full text-xs font-bold">
-                                <svg class="w-3 h-3 bg-[#1a4d2e] text-white rounded-full p-0.5" fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
-                                    </path>
-                                </svg>
-                                File Uploaded
-                            </span>
-                            } @else {
-                            <span
-                                class="inline-flex items-center gap-1 px-3 py-1 bg-[#ffdbc2] text-[#8a421a] rounded-full text-xs font-bold">
-                                <span
-                                    class="w-3 h-3 bg-[#8a421a] rounded-full flex items-center justify-center text-white text-[8px] font-bold">...</span>
-                                Pending Upload
-                            </span>
-                            }
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ req.date }}</td>
-                        <td class="px-6 py-4 text-center">
-                            <button routerLink="/Admin/AdminReviewApp" type="button" (click)="reviewApplication(req)"
-                                class="bg-[#1a4d2e] text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-[#143a23] transition-all shadow-sm">
-                                Review Application
-                            </button>
                         </td>
                     </tr>
                     }
@@ -201,314 +158,74 @@
 
         <!-- Pagination -->
         <div
-            class="px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white border-t border-slate-100">
-            <p class="text-xs text-[#4b7c52] font-medium">Showing {{ filteredRequests().length }} of {{ originalCount()
-                }} requests</p>
-            <div class="flex gap-2">
-                <button class="p-2 text-slate-400 hover:text-[#1a4d2e] disabled:opacity-30" disabled><svg
-                        class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white border-t border-slate-100">
+            <p class="text-xs text-[#4b7c52] font-medium">
+                Showing {{ showingFrom() }}–{{ showingTo() }} of {{ filteredCourts().length }} courts
+            </p>
+            <div class="flex gap-2 items-center">
+                <!-- Previous -->
+                <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1"
+                    class="p-2 text-slate-400 hover:text-[#1a4d2e] disabled:opacity-30 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                         </path>
-                    </svg></button>
-                <button class="w-8 h-8 rounded-full bg-[#96e2a6] text-[#1a4d2e] font-bold text-xs">1</button>
-                <button class="w-8 h-8 rounded-full hover:bg-slate-100 text-slate-500 font-bold text-xs">2</button>
-                <button class="w-8 h-8 rounded-full hover:bg-slate-100 text-slate-500 font-bold text-xs">3</button>
-                <button class="p-2 text-slate-400 hover:text-[#1a4d2e]"><svg class="w-4 h-4" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Priority Banner -->
-        <div
-            class="lg:col-span-2 relative overflow-hidden rounded-3xl bg-[#0d2a17] text-white p-8 h-64 md:h-72 shadow-xl">
-            <div class="absolute inset-0 opacity-20 pointer-events-none"
-                style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px;">
-            </div>
-            <div class="absolute right-0 top-0 w-1/2 h-full opacity-30 pointer-events-none">
-                <div
-                    class="w-full h-full bg-[linear-gradient(90deg,transparent_45%,#fff_45%,#fff_55%,transparent_55%),linear-gradient(0deg,transparent_45%,#fff_45%,#fff_55%,transparent_55%)] bg-[length:40px_40px]">
-                </div>
-            </div>
-
-            <div class="relative z-10 flex flex-col justify-between h-full">
-                <div>
-                    <span
-                        class="inline-block bg-[#a64010] text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase">Priority
-                        Review</span>
-                    <h3 class="text-4xl font-extrabold mb-2">Elite Sports Hub</h3>
-                    <p class="text-slate-300 max-w-sm">New application for a 5-pitch complex in 6th of October City.
-                        High revenue potential.</p>
-                </div>
-                <button type="button" (click)="openInstantAccessRequest()"
-                    class="bg-white text-[#0d2a17] px-8 py-3 rounded-xl font-bold w-fit hover:bg-slate-100 transition-all">
-                    Instant Access Request
+                    </svg>
                 </button>
-            </div>
 
-            <div class="absolute right-20 bottom-10 w-32 h-32 border-2 border-white/20 rounded-full"></div>
-        </div>
+                <!-- Page numbers -->
+                @for (page of visiblePages(); track page) {
+                @if (page === -1) {
+                <span class="w-8 h-8 flex items-center justify-center text-slate-400 text-xs">…</span>
+                } @else {
+                <button (click)="goToPage(page)" [class]="page === currentPage()
+                                ? 'w-8 h-8 rounded-full bg-[#96e2a6] text-[#1a4d2e] font-bold text-xs'
+                                : 'w-8 h-8 rounded-full hover:bg-slate-100 text-slate-500 font-bold text-xs'">
+                    {{ page }}
+                </button>
+                }
+                }
 
-        <!-- Application Support Card -->
-        <div class="bg-[#ade8bd] rounded-3xl p-8 border-l-8 border-[#8a421a] flex flex-col justify-between shadow-sm">
-            <div>
-                <h3 class="text-2xl font-extrabold text-[#1a4d2e] mb-3">Application Support</h3>
-                <p class="text-[#4b7c52] text-sm leading-relaxed mb-6">
-                    Need help with verifying complex ownership documents? Reach out to the Ehgazly legal team.
-                </p>
-            </div>
-
-            <div>
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="flex -space-x-3">
-                        <div class="w-10 h-10 rounded-full border-2 border-[#ade8bd] bg-white opacity-60"></div>
-                        <div class="w-10 h-10 rounded-full border-2 border-[#ade8bd] bg-white opacity-80"></div>
-                        <div class="w-10 h-10 rounded-full border-2 border-[#ade8bd] bg-[#4ade80]"></div>
-                    </div>
-                    <span class="text-[#1a4d2e] font-bold text-xs uppercase tracking-tighter">3 agents online</span>
-                </div>
-
-                <button type="button" (click)="openLegalTickets()"
-                    class="flex items-center gap-2 text-[#8a421a] font-bold hover:underline">
-                    Open Legal Tickets
+                <!-- Next -->
+                <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()"
+                    class="p-2 text-slate-400 hover:text-[#1a4d2e] disabled:opacity-30 disabled:cursor-not-allowed">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Review Application Modal -->
-    @if (isReviewOpen()) {
+    <!-- Suspend Reason Modal -->
+    @if (suspendModalOpen()) {
     <div class="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeAllModals()"></div>
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeSuspendModal()"></div>
 
-        <div
-            class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] my-4 flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-[#4b7c52]">Application</p>
-                    <h3 class="text-xl font-extrabold text-[#1a4d2e] truncate">{{ activeRequestOwner() }}</h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500 truncate">{{ activeRequestLocation() }}</p>
-                </div>
-
-                <button type="button" (click)="closeAllModals()"
-                    class="w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 grid place-items-center text-slate-600 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
+            <div class="p-6 border-b border-slate-100">
+                <h3 class="text-xl font-extrabold text-[#1a4d2e]">Suspend Court</h3>
+                <p class="mt-1 text-sm text-slate-500">Provide a reason for suspension.</p>
             </div>
 
-            <div class="p-6 overflow-y-auto overscroll-contain">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Phone</p>
-                        <p class="mt-2 text-sm font-extrabold text-slate-800 break-words">{{ activeRequestPhone() }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Proof</p>
-                        <p class="mt-2 text-sm font-extrabold text-slate-800">{{ activeRequestProof() }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Date</p>
-                        <p class="mt-2 text-sm font-extrabold text-slate-800">{{ activeRequestDate() }}</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Status</p>
-                        <div class="mt-2 flex items-center gap-3">
-                            <span class="text-sm font-extrabold text-slate-800">{{ activeRequestStatus() }}</span>
-                            <button type="button" (click)="toggleRequestStatus()"
-                                class="px-4 py-2 rounded-full bg-[#d1f2d9] text-[#1a4d2e] text-xs font-bold hover:bg-[#bfecc9] transition-colors">
-                                Toggle Status
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="p-6">
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#4b7c52] mb-2">
+                    Suspension Reason
+                </label>
+                <textarea [(ngModel)]="suspendReason" rows="4" placeholder="Enter detailed reason for suspension..."
+                    class="w-full px-4 py-3 bg-[#f0faf2] border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none resize-none"></textarea>
+                @if (suspendReasonError()) {
+                <p class="mt-2 text-xs text-red-600">{{ suspendReasonError() }}</p>
+                }
             </div>
 
             <div class="p-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
-                <button type="button" (click)="closeAllModals()"
+                <button type="button" (click)="closeSuspendModal()"
                     class="flex-1 px-6 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold transition-colors">
-                    Close
+                    Cancel
                 </button>
-                <button type="button" (click)="markReviewed()"
+                <button type="button" (click)="confirmSuspend()"
                     class="flex-1 px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] text-white font-bold transition-colors">
-                    Mark Reviewed
-                </button>
-            </div>
-        </div>
-    </div>
-    }
-
-    <!-- Instant Access Request Modal -->
-    @if (isInstantAccessOpen()) {
-    <div class="fixed inset-0 z-[81] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeAllModals()"></div>
-
-        <div
-            class="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] my-4 flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-[#4b7c52]">Instant Access</p>
-                    <h3 class="text-xl font-extrabold text-[#1a4d2e] truncate">{{ instantAccessTitle() }}</h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500">{{ instantAccessSubtitle() }}</p>
-                </div>
-
-                <button type="button" (click)="closeAllModals()"
-                    class="w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 grid place-items-center text-slate-600 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="p-6 overflow-y-auto overscroll-contain">
-                <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Request Status</p>
-                    <div class="mt-2 flex items-center justify-between gap-3">
-                        <span class="text-sm font-extrabold text-slate-800">{{ instantAccessStatus() }}</span>
-                        <button type="button" (click)="advanceInstantAccessStatus()"
-                            class="px-4 py-2 rounded-full bg-[#d1f2d9] text-[#1a4d2e] text-xs font-bold hover:bg-[#bfecc9] transition-colors">
-                            Update Status
-                        </button>
-                    </div>
-                </div>
-
-                <div class="mt-4 p-4 rounded-xl bg-[#ffdbc2] border border-slate-100">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-[#8a421a]">Notes</p>
-                    <p class="mt-2 text-sm font-semibold text-[#8a421a] leading-relaxed">
-                        Priority applicant flagged for expedited verification. Confirm ownership evidence and approve
-                        fast-track if eligible.
-                    </p>
-                </div>
-            </div>
-
-            <div class="p-6 border-t border-slate-100">
-                <button type="button" (click)="closeAllModals()"
-                    class="w-full px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] text-white font-bold transition-colors">
-                    Done
-                </button>
-            </div>
-        </div>
-    </div>
-    }
-
-    <!-- Legal Tickets Modal -->
-    @if (isLegalTicketsOpen()) {
-    <div class="fixed inset-0 z-[82] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeAllModals()"></div>
-
-        <div
-            class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] my-4 flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-[#4b7c52]">Legal Tickets</p>
-                    <h3 class="text-xl font-extrabold text-[#1a4d2e]">Open Tickets</h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500">Manage verification support requests.</p>
-                </div>
-
-                <button type="button" (click)="closeAllModals()"
-                    class="w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 grid place-items-center text-slate-600 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="p-6 overflow-y-auto overscroll-contain">
-                <div class="space-y-3">
-                    @for (t of tickets(); track t.ticketId) {
-                    <div
-                        class="p-4 rounded-xl border border-slate-100 bg-[#f0faf2] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div class="min-w-0">
-                            <p class="text-xs font-extrabold text-[#1a4d2e] truncate">{{ t.title }}</p>
-                            <p class="text-[11px] text-slate-500 mt-1">Ticket #{{ t.ticketId }} • {{ t.createdAt }}</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
-                                [class]="t.status === 'OPEN' ? 'bg-[#ffdbc2] text-[#8a421a]' : 'bg-[#d1f2d9] text-[#1a4d2e]'">
-                                {{ t.status }}
-                            </span>
-                            <button type="button" (click)="openTicket(t)"
-                                class="px-4 py-2 rounded-full bg-white border border-slate-200 text-[#1a4d2e] text-xs font-bold hover:bg-slate-50 transition-colors">
-                                Open
-                            </button>
-                        </div>
-                    </div>
-                    }
-                </div>
-            </div>
-
-            <div class="p-6 border-t border-slate-100">
-                <button type="button" (click)="closeAllModals()"
-                    class="w-full px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] text-white font-bold transition-colors">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-    }
-
-    <!-- Ticket Details Modal -->
-    @if (isTicketOpen()) {
-    <div class="fixed inset-0 z-[83] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeTicket()"></div>
-
-        <div
-            class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] my-4 flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex items-start justify-between gap-4">
-                <div class="min-w-0">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-[#4b7c52]">Ticket</p>
-                    <h3 class="text-xl font-extrabold text-[#1a4d2e] truncate">{{ activeTicketTitle() }}</h3>
-                    <p class="mt-1 text-xs font-semibold text-slate-500">#{{ activeTicketId() }} • {{
-                        activeTicketCreated() }}</p>
-                </div>
-
-                <button type="button" (click)="closeTicket()"
-                    class="w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 grid place-items-center text-slate-600 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="p-6 overflow-y-auto overscroll-contain">
-                <div class="p-4 rounded-xl bg-[#f0faf2] border border-slate-100">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Details</p>
-                    <p class="mt-2 text-sm font-semibold text-slate-800 leading-relaxed">{{ activeTicketBody() }}</p>
-                </div>
-
-                <div class="mt-4 flex items-center justify-between gap-3">
-                    <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
-                        [class]="activeTicketStatus() === 'OPEN' ? 'bg-[#ffdbc2] text-[#8a421a]' : 'bg-[#d1f2d9] text-[#1a4d2e]'">
-                        {{ activeTicketStatus() }}
-                    </span>
-                    <button type="button" (click)="toggleTicketStatus()"
-                        class="px-4 py-2 rounded-full bg-[#d1f2d9] text-[#1a4d2e] text-xs font-bold hover:bg-[#bfecc9] transition-colors">
-                        Toggle Status
-                    </button>
-                </div>
-            </div>
-
-            <div class="p-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
-                <button type="button" (click)="closeTicket()"
-                    class="flex-1 px-6 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold transition-colors">
-                    Close
-                </button>
-                <button type="button" (click)="closeAllModals()"
-                    class="flex-1 px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] text-white font-bold transition-colors">
-                    Done
+                    Confirm Suspend
                 </button>
             </div>
         </div>

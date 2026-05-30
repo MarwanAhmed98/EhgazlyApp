@@ -1,3 +1,87 @@
- :host {
-     display: block;
- }
+:host {
+    display: block;
+}
+
+body:has(.fixed.inset-0) {
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+// Improved Payment History Table & Scrollbar Styling
+
+// Custom scrollbar for table wrapper
+.overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #B7EBB7 #E2F7DE;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #E2F7DE;
+        border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #B7EBB7;
+        border-radius: 20px;
+
+        &:hover {
+            background: #8B4000;
+        }
+    }
+}
+
+// Table row hover and transition enhancements
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+// Improved status badge inner elements (existing colors preserved)
+span[class*="rounded-full"] {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    line-height: 1.2;
+}
+
+// Receipt button icon alignment
+button svg {
+    stroke-width: 2;
+}
+
+// Modal receipt image enhancement (optional, but keeps consistency)
+.bg-\[#B7EBB7\]\/30 {
+    background-color: rgba(183, 235, 183, 0.3);
+}
+
+// Responsive adjustments for small screens
+@media (max-width: 768px) {
+    .py-4 {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .px-4 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    td .flex-col span.text-\[11px\] {
+        font-size: 10px;
+    }
+
+    .text-xs {
+        font-size: 0.7rem;
+    }
+}
+
+// Ensure modal backdrop and content remain consistent (no changes)
+.fixed.inset-0 {
+    backdrop-filter: blur(2px);
+}
