@@ -1,0 +1,313 @@
+<div class="min-h-screen bg-[#F0FDF4] text-[#133c1d] font-sans antialiased p-4 md:p-8">
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Loading State -->
+        @if (!SpecDetails.id) {
+        <div class="flex items-center justify-center py-20">
+            <div class="text-center">
+                <div
+                    class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#165a21] border-t-transparent">
+                </div>
+                <p class="mt-4 text-[#416248] font-semibold">Loading tournament details...</p>
+            </div>
+        </div>
+        }
+
+        <!-- Tournament Content -->
+        @if (SpecDetails.id) {
+        <!-- Hero Section with Cover Image -->
+        <div class="relative rounded-3xl overflow-hidden shadow-lg bg-[#165a21]">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a2e14] via-[#165a21]/60 to-transparent z-10"></div>
+            @if (SpecDetails.primary_image?.url) {
+            <img [src]="SpecDetails.primary_image.url" [alt]="SpecDetails.name"
+                class="w-full h-64 md:h-96 object-cover object-center">
+            } @else {
+            <div
+                class="w-full h-64 md:h-96 bg-gradient-to-br from-[#1b5e20] to-[#2e7d32] flex items-center justify-center">
+                <svg class="w-24 h-24 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11.172a2 2 0 011.414.586l2.828 2.828A2 2 0 0121 7.828V19a2 2 0 01-2 2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M15 21v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4" />
+                </svg>
+            </div>
+            }
+            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20">
+                <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <span
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide shadow-sm"
+                        [ngClass]="{
+                            'bg-[#d0f6cc] text-[#165a21] border border-[#a1e29b]': SpecDetails.status === 'open',
+                            'bg-[#e2f1ff] text-[#1d63b8] border border-[#b8daff]': SpecDetails.status === 'ongoing',
+                            'bg-[#f3f4f6] text-[#4b5563] border border-[#d1d5db]': SpecDetails.status === 'finished',
+                            'bg-[#fee2e2] text-[#b91c1c] border border-[#fecaca]': SpecDetails.status === 'cancelled'
+                        }">
+                        <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                            'bg-[#165a21]': SpecDetails.status === 'open',
+                            'bg-[#1d63b8]': SpecDetails.status === 'ongoing',
+                            'bg-[#6b7280]': SpecDetails.status === 'finished',
+                            'bg-[#b91c1c]': SpecDetails.status === 'cancelled'
+                        }"></span>
+                        {{ SpecDetails.status | titlecase }}
+                    </span>
+                    <span
+                        class="text-white/80 text-xs font-bold bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">ID:
+                        {{ SpecDetails.id }}</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-black text-white drop-shadow-lg">{{ SpecDetails.name }}</h1>
+                <div class="flex flex-wrap gap-4 mt-4 text-white/90 text-sm font-semibold">
+                    <div class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>Team Size: {{ SpecDetails.team_size }}</div>
+                    <div class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2-3 .895-3 2 1.343 2 3 2" />
+                        </svg>Entry Fee: ${{ SpecDetails.entry_fee }}</div>
+                    <div class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2-3 .895-3 2 1.343 2 3 2" />
+                        </svg>Total Prize Pool: ${{ SpecDetails.total_prize_pool }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview & Stats Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left: Overview -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>Overview</h2>
+                    <div class="prose prose-sm max-w-none text-[#133c1d]/80 mb-4">{{ SpecDetails.description || 'No
+                        description provided.' }}</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#addfa7]">
+                        <div><span class="block text-xs font-bold text-[#416248] uppercase">Important Note</span>
+                            <p class="mt-1 text-sm">{{ SpecDetails.important_note || 'No additional notes.' }}</p>
+                        </div>
+                        <div><span class="block text-xs font-bold text-[#416248] uppercase">Start Date</span>
+                            <p class="mt-1 text-sm font-semibold">{{ SpecDetails.start_date | date:'fullDate' }}</p>
+                        </div>
+                        <div><span class="block text-xs font-bold text-[#416248] uppercase">End Date</span>
+                            <p class="mt-1 text-sm font-semibold">{{ SpecDetails.end_date | date:'fullDate' }}</p>
+                        </div>
+                        <div><span class="block text-xs font-bold text-[#416248] uppercase">Created / Updated</span>
+                            <p class="mt-1 text-sm">{{ SpecDetails.created_at | date:'MMM d, y' }} • {{
+                                SpecDetails.updated_at | date:'MMM d, y' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Venue Information -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>Venue</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-[#F0FDF4] rounded-xl p-4 border border-[#d0f6cc]">
+                            <p class="text-[11px] font-black uppercase tracking-wider text-[#416248]">Main Court</p>
+                            <p class="font-bold text-[#133c1d] mt-1">{{ SpecDetails.maincourt?.name || '—' }}</p>
+                            <p class="text-xs text-[#416248] mt-0.5">{{ SpecDetails.maincourt?.address || '—' }}</p>
+                        </div>
+                        <div class="bg-[#F0FDF4] rounded-xl p-4 border border-[#d0f6cc]">
+                            <p class="text-[11px] font-black uppercase tracking-wider text-[#416248]">Court</p>
+                            <p class="font-bold text-[#133c1d] mt-1">{{ SpecDetails.court?.name || '—' }}</p>
+                            <p class="text-xs text-[#416248] mt-0.5">Type: {{ SpecDetails.court?.type || '—' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prizes Section -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2-3 .895-3 2 1.343 2 3 2" />
+                        </svg>Prize Pool</h2>
+                    @if (SpecDetails.prizes && SpecDetails.prizes.length > 0) {
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @for (prize of SpecDetails.prizes; track prize.position) {
+                        <div
+                            class="bg-gradient-to-br from-[#fef9e3] to-[#fff7e6] rounded-2xl p-4 border border-[#fde68a] flex items-center justify-between">
+                            <div><span class="text-xs font-black uppercase text-[#b45309]">{{ prize.position }}</span>
+                                <p class="font-extrabold text-[#78350f]">{{ prize.title }}</p>
+                            </div>
+                            <div class="text-right"><span class="text-xs text-[#b45309] font-bold">PRIZE</span>
+                                <p class="text-xl font-black text-[#92400e]">${{ prize.prize_money }}</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div class="text-center py-8 bg-[#F0FDF4] rounded-2xl">
+                        <p class="text-[#416248] font-semibold">No prizes announced yet.</p>
+                    </div>
+                    }
+                </div>
+
+                <!-- Schedule -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>Schedule</h2>
+                    @if (SpecDetails.schedule && SpecDetails.schedule.length > 0) {
+                    <div class="space-y-3">
+                        @for (item of SpecDetails.schedule; track $index) {
+                        <div
+                            class="flex flex-wrap items-center justify-between p-4 bg-[#F0FDF4] rounded-xl border border-[#d0f6cc]">
+                            <div><span class="text-xs font-black uppercase text-[#416248]">Stage</span>
+                                <p class="font-bold">{{ item.stage_name }}</p>
+                            </div>
+                            <div><span class="text-xs font-black uppercase text-[#416248]">Date</span>
+                                <p class="font-semibold">{{ item.scheduled_date | date:'MMM d, y' }}</p>
+                            </div>
+                            <div><span class="text-xs font-black uppercase text-[#416248]">Time</span>
+                                <p class="font-semibold">{{ item.scheduled_time }}</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div class="text-center py-8 bg-[#F0FDF4] rounded-2xl">
+                        <p class="text-[#416248] font-semibold">Schedule not released yet.</p>
+                    </div>
+                    }
+                </div>
+
+                <!-- Reserved Timeslots -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>Reserved Timeslots</h2>
+                    @if (SpecDetails.timeslots && SpecDetails.timeslots.length > 0) {
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#DCFCE7] text-[#165a21]">
+                                <tr>
+                                    <th class="p-3 rounded-l-xl">Date</th>
+                                    <th class="p-3">Start</th>
+                                    <th class="p-3">End</th>
+                                    <th class="p-3 rounded-r-xl">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#addfa7]">
+                                @for (slot of SpecDetails.timeslots; track $index) {
+                                <tr class="hover:bg-[#F0FDF4]">
+                                    <td class="p-3">{{ slot.date | date:'MMM d, y' }}</td>
+                                    <td class="p-3">{{ slot.start_time }}</td>
+                                    <td class="p-3">{{ slot.end_time }}</td>
+                                    <td class="p-3"><span
+                                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#d0f6cc] text-[#165a21]">{{
+                                            slot.status || 'Reserved' }}</span></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    } @else {
+                    <div class="text-center py-8 bg-[#F0FDF4] rounded-2xl">
+                        <p class="text-[#416248] font-semibold">No timeslots defined.</p>
+                    </div>
+                    }
+                </div>
+
+                <!-- Teams Section -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
+                    <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>Teams ({{ SpecDetails.current_teams }}/{{ SpecDetails.max_teams }})</h2>
+                    @if (SpecDetails.teams && SpecDetails.teams.length > 0) {
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        @for (team of SpecDetails.teams; track $index) {
+                        <div class="bg-[#F0FDF4] rounded-xl p-3 border border-[#d0f6cc] flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#165a21] text-white flex items-center justify-center font-bold">
+                                {{ team.name?.charAt(0) || 'T' }}</div>
+                            <div>
+                                <p class="font-bold">{{ team.name }}</p>
+                                <p class="text-xs text-[#416248]">Captain: {{ team.captain_name || '—' }}</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div class="text-center py-12 bg-[#F0FDF4] rounded-2xl"><svg
+                            class="w-12 h-12 mx-auto text-[#416248]/40 mb-3" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <p class="text-[#416248] font-bold">No teams have joined this tournament yet.</p>
+                        <p class="text-xs text-[#416248]/70 mt-1">Be the first to register!</p>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Right: Statistics Cards -->
+            <div class="space-y-6">
+                <div class="bg-gradient-to-br from-[#165a21] to-[#1d6e2a] rounded-3xl p-6 text-white shadow-md">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-80">Max Teams</p>
+                    <h3 class="text-4xl font-black mt-1">{{ SpecDetails.max_teams }}</h3>
+                </div>
+                <div
+                    class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3] flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase text-[#416248]">Current Teams</p>
+                        <p class="text-3xl font-black text-[#133c1d]">{{ SpecDetails.current_teams }}</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3] flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase text-[#416248]">Confirmed Teams</p>
+                        <p class="text-3xl font-black text-[#133c1d]">{{ SpecDetails.confirmed_teams_count || 0 }}</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div
+                    class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3] flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase text-[#416248]">Spots Left</p>
+                        <p class="text-3xl font-black text-[#133c1d]">{{ SpecDetails.spots_left ||
+                            (SpecDetails.max_teams - SpecDetails.current_teams) }}</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

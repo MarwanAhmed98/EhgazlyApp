@@ -1,0 +1,64 @@
+:host {
+    display: block;
+}
+
+// Image gallery hover effect
+.aspect-square {
+    position: relative;
+    cursor: pointer;
+
+    img {
+        transition: transform 0.25s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.05);
+    }
+}
+
+// Modal background animation
+.fixed.inset-0 {
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// Smooth scrollbar for tables
+.overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #BCEFCD #EAF7EE;
+
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #EAF7EE;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #BCEFCD;
+        border-radius: 10px;
+    }
+}
+
+// Responsive table cell padding
+@media (max-width: 768px) {
+
+    th,
+    td {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        font-size: 0.75rem;
+    }
+}

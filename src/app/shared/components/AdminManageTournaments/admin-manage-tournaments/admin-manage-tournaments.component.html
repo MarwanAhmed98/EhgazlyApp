@@ -1,8 +1,6 @@
-<div class="min-h-screen bg-[#e7f9e5] text-[#133c1d] font-sans antialiased p-4 md:p-8">
-    <!-- Outer Wrapper (Saves layout bounds) -->
+<div class="min-h-screen bg-[#F0FDF4] text-[#133c1d] font-sans antialiased p-4 md:p-8">
     <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- Header Section -->
+        <!-- Header Section (unchanged functionality) -->
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div class="space-y-1">
                 <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#113919]">
@@ -12,24 +10,18 @@
                     Control the pitch, manage the glory, and track every match.
                 </p>
             </div>
-
-            <!-- Quick Actions & Search -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <!-- Search Input Wrapper -->
                 <div class="relative flex-1 sm:w-64">
                     <span
                         class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#1b5e20]/60">
-                        <!-- Search Icon SVG -->
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </span>
                     <input type="text" placeholder="Search tournaments..." (input)="onSearchInput($event)"
-                        class="w-full pl-11 pr-4 py-3 bg-[#bbf0b5] placeholder-[#416248]/70 text-[#113919] font-semibold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#165a21] focus:bg-[#a9e8a2] transition-all text-sm" />
+                        class="w-full pl-11 pr-4 py-3 bg-[#DCFCE7] placeholder-[#416248]/70 text-[#113919] font-semibold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#165a21] focus:bg-[#a9e8a2] transition-all text-sm" />
                 </div>
-
-                <!-- Create Button -->
                 <button routerLink="/Admin/AdminTournamentSetupForm"
                     class="flex items-center justify-center gap-2 px-6 py-3 bg-[#9b3d0b] hover:bg-[#803106] text-white font-bold rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-[0.98] text-sm tracking-wide">
                     <svg class="w-5 h-5 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,16 +32,14 @@
             </div>
         </header>
 
-        <!-- Stats Overview Cards -->
+        <!-- Stats Cards (unchanged) -->
         <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Live Now -->
             <div
                 class="bg-[#165a21] text-white p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
                 <div>
                     <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-90 uppercase">LIVE NOW</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ liveCount() }}</h3>
                 </div>
-                <!-- Soccer Icon background -->
                 <span
                     class="absolute right-4 bottom-4 text-white/20 transition-transform duration-300 group-hover:scale-110">
                     <svg class="w-10 h-10 md:w-12 md:h-12" fill="currentColor" viewBox="0 0 24 24">
@@ -58,10 +48,8 @@
                     </svg>
                 </span>
             </div>
-
-            <!-- Registration -->
             <div
-                class="bg-[#bdf0b7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
                 <div>
                     <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">REGISTRATION</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ registrationCount() }}</h3>
@@ -74,10 +62,8 @@
                     </svg>
                 </span>
             </div>
-
-            <!-- Total Teams -->
             <div
-                class="bg-[#bdf0b7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
                 <div>
                     <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">TOTAL TEAMS</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ totalTeamsSum() }}</h3>
@@ -86,17 +72,15 @@
                     class="absolute right-4 bottom-4 text-[#133c1d]/15 transition-transform duration-300 group-hover:scale-110">
                     <svg class="w-10 h-10 md:w-12 md:h-12" fill="currentColor" viewBox="0 0 24 24">
                         <path
-                            d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.44 1.72 4.44 4 4.88V19H5v2h14v-2h-2v-4.12c2.28-.44 4-2.44 4-4.88V7c0-1.1-.9-2-2-2fcM5 10V7h2v3H5zm14 0h-2V7h2v3z" />
+                            d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.44 1.72 4.44 4 4.88V19H5v2h14v-2h-2v-4.12c2.28-.44 4-2.44 4-4.88V7c0-1.1-.9-2-2-2zM5 10V7h2v3H5zm14 0h-2V7h2v3z" />
                     </svg>
                 </span>
             </div>
-
-            <!-- Prize Pools -->
             <div
-                class="bg-[#bdf0b7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
                 <div>
                     <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">PRIZE POOLS</p>
-                    <h3 class="text-3xl md:text-4xl font-black mt-1">$45k</h3>
+                    <h3 class="text-3xl md:text-4xl font-black mt-1">${{ totalPrizeSum() }}</h3>
                 </div>
                 <span
                     class="absolute right-4 bottom-4 text-[#133c1d]/15 transition-transform duration-300 group-hover:scale-110">
@@ -108,50 +92,40 @@
             </div>
         </section>
 
-        <!-- Main Workspace Area -->
-        <main class="bg-[#cef0c9] rounded-3xl p-4 md:p-6 shadow-sm border border-[#b8ebb3]">
-            <!-- Filter Controls Row -->
+        <!-- Main Table Area (Improved UI) -->
+        <main class="rounded-3xl p-4 md:p-6 shadow-sm border border-[#b8ebb3]">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#addfa7]">
-                <!-- Custom Styled Status Tabs -->
-                <div class="flex flex-wrap items-center bg-[#bbf0b5] p-1.5 rounded-full w-fit">
+                <div class="flex flex-wrap items-center bg-[#DCFCE7] p-1.5 rounded-full w-fit">
                     <button (click)="setTab('all')" [class.bg-[#165a21]]="currentTab() === 'all'"
                         [class.text-white]="currentTab() === 'all'" [class.text-[#133c1d]]="currentTab() !== 'all'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">
-                        All
-                    </button>
-                    <button (click)="setTab('active')" [class.bg-[#165a21]]="currentTab() === 'active'"
-                        [class.text-white]="currentTab() === 'active'"
-                        [class.text-[#133c1d]]="currentTab() !== 'active'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">
-                        Active
-                    </button>
-                    <button (click)="setTab('upcoming')" [class.bg-[#165a21]]="currentTab() === 'upcoming'"
-                        [class.text-white]="currentTab() === 'upcoming'"
-                        [class.text-[#133c1d]]="currentTab() !== 'upcoming'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">
-                        Upcoming
-                    </button>
-                    <button (click)="setTab('completed')" [class.bg-[#165a21]]="currentTab() === 'completed'"
-                        [class.text-white]="currentTab() === 'completed'"
-                        [class.text-[#133c1d]]="currentTab() !== 'completed'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">
-                        Completed
-                    </button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">All</button>
+                    <button (click)="setTab('open')" [class.bg-[#165a21]]="currentTab() === 'open'"
+                        [class.text-white]="currentTab() === 'open'" [class.text-[#133c1d]]="currentTab() !== 'open'"
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Open</button>
+                    <button (click)="setTab('ongoing')" [class.bg-[#165a21]]="currentTab() === 'ongoing'"
+                        [class.text-white]="currentTab() === 'ongoing'"
+                        [class.text-[#133c1d]]="currentTab() !== 'ongoing'"
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Ongoing</button>
+                    <button (click)="setTab('finished')" [class.bg-[#165a21]]="currentTab() === 'finished'"
+                        [class.text-white]="currentTab() === 'finished'"
+                        [class.text-[#133c1d]]="currentTab() !== 'finished'"
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Finished</button>
+                    <button (click)="setTab('cancelled')" [class.bg-[#165a21]]="currentTab() === 'cancelled'"
+                        [class.text-white]="currentTab() === 'cancelled'"
+                        [class.text-[#133c1d]]="currentTab() !== 'cancelled'"
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Cancelled</button>
                 </div>
-
-                <!-- Advanced Filters & Export Actions -->
                 <div class="flex items-center gap-3">
                     <button (click)="toggleAdvancedFilters()"
-                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#dff9db] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
+                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                         </svg>
                         <span>Advanced Filters</span>
                     </button>
-
                     <button (click)="exportData()"
-                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#dff9db] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
+                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -160,460 +134,360 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Collapsible Advanced Filters Drawer -->
             @if (showAdvancedFilters()) {
             <div
-                class="bg-[#bbf0b5]/50 border-b border-[#addfa7] p-4 rounded-xl mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-all animate-fadeIn">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Tournament
-                        Type</label>
-                    <select (change)="onTypeFilterChange($event)"
-                        class="w-full bg-[#dff9db] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
-                        <option value="all">All Types</option>
-                        <option value="Professional">Professional</option>
-                        <option value="Amateur">Amateur</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Team Slots
-                        Available</label>
-                    <select (change)="onSlotsFilterChange($event)"
-                        class="w-full bg-[#dff9db] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
+                class="/50 border-b border-[#addfa7] p-4 rounded-xl mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-all animate-fadeIn">
+                <div><label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Team
+                        Size</label><select (change)="onTeamSizeFilterChange($event)"
+                        class="w-full bg-[#DCFCE7] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
+                        <option value="all">All Sizes</option>
+                        <option value="5v5">5v5</option>
+                        <option value="6v6">6v6</option>
+                        <option value="11v11">11v11</option>
+                    </select></div>
+                <div><label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Team Slots
+                        Available</label><select (change)="onSlotsFilterChange($event)"
+                        class="w-full bg-[#DCFCE7] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
                         <option value="any">Any Capacity</option>
                         <option value="not-full">Has Open Slots</option>
                         <option value="full">Fully Registered</option>
-                    </select>
-                </div>
-                <div class="sm:col-span-2 md:col-span-1 flex items-end">
-                    <button (click)="resetFilters()"
-                        class="w-full py-2 bg-[#165a21] text-white hover:bg-[#113c1c] text-xs font-bold rounded-lg transition-colors">
-                        Clear All Filters
-                    </button>
-                </div>
+                    </select></div>
+                <div class="sm:col-span-2 md:col-span-1 flex items-end"><button (click)="resetFilters()"
+                        class="w-full py-2 bg-[#165a21] text-white hover:bg-[#113c1c] text-xs font-bold rounded-lg transition-colors">Clear
+                        All Filters</button></div>
             </div>
             }
 
-            <!-- Desktop & Tablet Table (Hidden on Mobile) -->
-            <div class="hidden md:block overflow-x-auto mt-4">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr
-                            class="text-[11px] lg:text-xs font-extrabold tracking-wider text-[#416248] uppercase border-b border-[#addfa7]/50">
-                            <th class="py-4 pl-2 pr-4 w-[35%]">TOURNAMENT NAME</th>
-                            <th class="py-4 px-4 w-[15%]">TYPE</th>
-                            <th class="py-4 px-4 w-[18%]">DURATION</th>
-                            <th class="py-4 px-4 w-[15%]">TEAMS</th>
-                            <th class="py-4 px-4 w-[12%]">STATUS</th>
-                            <th class="py-4 pl-4 pr-2 text-right w-[10%]">ACTIONS</th>
+            <!-- Desktop Table with improved styling -->
+            <div class="hidden md:block overflow-x-auto mt-6">
+                <table class="w-full text-left border-separate border-spacing-0">
+                    <thead class="sticky top-0 z-10">
+                        <tr class="bg-[#f0faf2] rounded-t-xl">
+                            <th
+                                class="py-5 pl-4 pr-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase rounded-tl-xl">
+                                TOURNAMENT</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                MAIN COURT</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                COURT</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                TEAM SIZE</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">MAX
+                            </th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                CURRENT</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                FEES
+                            </th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                STATUS</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
+                                START</th>
+                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">END
+                            </th>
+                            <th
+                                class="py-5 pr-4 pl-3 text-right text-[11px] font-extrabold tracking-wider text-[#416248] uppercase rounded-tr-xl">
+                                ACTIONS</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-[#addfa7]/35">
+                    <tbody class="divide-y divide-[#addfa7]/40">
                         @for (item of filteredTournaments(); track item.id) {
-                        <tr class="hover:bg-[#b9e5b5]/30 transition-colors duration-150">
-                            <!-- Name & Logo -->
-                            <td class="py-4 pl-2 pr-4 flex items-center gap-4">
-                                <!-- Simulated Logo Design with beautiful styles -->
-                                <div
-                                    class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#1b5e20] to-[#2e7d32] shadow-sm flex-shrink-0 flex items-center justify-center border border-white/20">
-                                    @if (item.image) {
-                                    <img [src]="item.image" [alt]="item.name"
-                                        class="w-full h-full object-cover rounded-xl" />
-                                    } @else {
-                                    <span class="text-white font-black text-sm">{{
-                                        item.name.substring(0,2).toUpperCase() }}</span>
-                                    }
-                                </div>
-                                <div class="min-w-0">
-                                    <h4 class="font-extrabold text-sm lg:text-base text-[#113919] truncate">{{ item.name
-                                        }}</h4>
-                                    <p class="text-[10px] lg:text-xs font-bold text-[#416248]/80 mt-0.5">ID: {{ item.id
-                                        }}</p>
-                                </div>
-                            </td>
-
-                            <!-- Type Tag -->
-                            <td class="py-4 px-4">
-                                <span [class.bg-[#bdf0b7]]="item.type === 'Professional'"
-                                    [class.text-[#165a21]]="item.type === 'Professional'"
-                                    [class.bg-[#d3ebd0]]="item.type === 'Amateur'"
-                                    [class.text-[#416248]]="item.type === 'Amateur'"
-                                    class="px-3 py-1 rounded-full text-[10px] lg:text-xs font-extrabold uppercase tracking-wider inline-block">
-                                    {{ item.type }}
-                                </span>
-                            </td>
-
-                            <!-- Duration Details -->
-                            <td class="py-4 px-4">
-                                <div class="text-xs lg:text-sm font-extrabold text-[#113919] leading-tight">
-                                    {{ item.startDate }} –
-                                    <br class="hidden lg:inline" />
-                                    {{ item.endDate }}
-                                </div>
-                                <span
-                                    class="text-[9px] lg:text-[10px] font-bold text-[#416248]/80 uppercase tracking-wide">
-                                    {{ item.season }}
-                                </span>
-                            </td>
-
-                            <!-- Team Occupancy Progress Bar -->
-                            <td class="py-4 px-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="relative w-24 h-2.5 bg-[#addfa7]/60 rounded-full overflow-hidden">
-                                        <!-- Filled Bar -->
-                                        <div [style.width.%]="(item.currentTeams / item.maxTeams) * 100"
-                                            [class.bg-[#165a21]]="item.currentTeams === item.maxTeams"
-                                            [class.bg-[#9b3d0b]]="item.currentTeams !== item.maxTeams"
-                                            class="h-full rounded-full transition-all duration-500"></div>
+                        <tr class="group hover:bg-[#b9e5b5]/40 transition-all duration-200 ease-in-out">
+                            <td class="py-4 pl-4 pr-3">
+                                <div [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                    class="flex items-center gap-4">
+                                    <div
+                                        class="relative w-12 h-12 rounded-xl bg-gradient-to-br  shadow-sm flex-shrink-0 flex items-center justify-center border border-white/20">
+                                        @if (item.primary_image?.url) { <img [src]="item.primary_image.url"
+                                            [alt]="item.name" class="w-full h-full object-cover rounded-xl" /> }
+                                        @else { <span class="text-white font-black text-sm">{{
+                                            item.name.substring(0,2).toUpperCase() }}</span> }
                                     </div>
-                                    <span class="text-xs font-black text-[#113919] whitespace-nowrap">
-                                        {{ item.currentTeams }}/{{ item.maxTeams }}
-                                    </span>
+                                    <div class="min-w-0">
+                                        <h4 class="font-extrabold text-sm lg:text-base text-[#113919] truncate">{{
+                                            item.name }}</h4>
+                                        <p class="text-[10px] lg:text-xs font-bold text-[#416248]/80 mt-0.5">ID: {{
+                                            item.id }}</p>
+                                    </div>
                                 </div>
                             </td>
-
-                            <!-- Status Pill -->
-                            <td class="py-4 px-4">
-                                <span [ngClass]="{
-                          'bg-[#d0f6cc] text-[#165a21] border-[#a1e29b]': item.status === 'Active',
-                          'bg-[#e2f1ff] text-[#1d63b8] border-[#b8daff]': item.status === 'Upcoming',
-                          'bg-[#f0e4fc] text-[#8e44ad] border-[#debcfc]': item.status === 'Completed'
-                        }" class="px-3 py-1 rounded-full text-[10px] lg:text-xs font-bold tracking-wide border inline-flex items-center gap-1.5">
-                                    <span [class.bg-[#165a21]]="item.status === 'Active'"
-                                        [class.bg-[#1d63b8]]="item.status === 'Upcoming'"
-                                        [class.bg-[#8e44ad]]="item.status === 'Completed'"
-                                        class="w-1.5 h-1.5 rounded-full"></span>
-                                    {{ item.status }}
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d]">{{ item.maincourt?.name || '-' }}
+                            </td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d]">{{ item.court?.name || '-' }}
+                            </td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="py-4 px-3"><span
+                                    class="inline-flex items-center px-2.5 py-1  rounded-full text-xs font-black text-[#165a21]">{{
+                                    item.team_size }}</span></td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919]">{{ item.max_teams }}</td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919]">{{ item.current_teams }}</td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919]">${{ item.entry_fee }}</td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="py-4 px-3">
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] lg:text-xs font-extrabold tracking-wide shadow-sm"
+                                    [ngClass]="{
+                                        'bg-[#d0f6cc] text-[#165a21] border border-[#a1e29b]': item.status === 'open',
+                                        'bg-[#e2f1ff] text-[#1d63b8] border border-[#b8daff]': item.status === 'ongoing',
+                                        'bg-[#f3f4f6] text-[#4b5563] border border-[#d1d5db]': item.status === 'finished',
+                                        'bg-[#fee2e2] text-[#b91c1c] border border-[#fecaca]': item.status === 'cancelled'
+                                    }">
+                                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                                            'bg-[#165a21]': item.status === 'open',
+                                            'bg-[#1d63b8]': item.status === 'ongoing',
+                                            'bg-[#6b7280]': item.status === 'finished',
+                                            'bg-[#b91c1c]': item.status === 'cancelled'
+                                        }"></span>
+                                    {{ item.status | titlecase }}
                                 </span>
                             </td>
-
-                            <!-- Actions Button -->
-                            <td class="py-4 pl-4 pr-2 text-right">
-                                @if (item.status === 'Completed') {
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 text-sm font-semibold">{{ item.start_date | date:'MMM d, y' }}</td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 text-sm font-semibold">{{ item.end_date | date:'MMM d, y' }}</td>
+                            <td class="py-4 pr-4 pl-3 text-right">
+                                @if (item.status === 'finished' || item.status === 'cancelled') {
                                 <button (click)="openViewModal(item)"
-                                    class="px-4 py-2 bg-[#bbf0b5] hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-full transition-all duration-150">
-                                    VIEW RESULTS
-                                </button>
+                                    class="px-4 py-2  hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow">VIEW
+                                    RESULTS</button>
                                 } @else {
                                 <button (click)="openManageModal(item)"
-                                    class="px-4 py-2 bg-[#165a21] hover:bg-[#113c1c] text-white text-xs font-black rounded-full transition-all duration-150">
-                                    MANAGE
-                                </button>
+                                    class="px-4 py-2 bg-[#1a4d2e] hover:bg-[#113c1c] text-white text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow">MANAGE</button>
                                 }
                             </td>
                         </tr>
                         } @empty {
                         <tr>
-                            <td colspan="6" class="py-12 text-center text-[#416248] font-bold">
-                                No matching tournaments found.
-                            </td>
+                            <td colspan="11" class="py-12 text-center text-[#416248] font-bold">No matching tournaments
+                                found.</td>
                         </tr>
                         }
                     </tbody>
                 </table>
             </div>
 
-            <!-- Mobile Cards Layout (Shown only on Mobile Screens) -->
+            <!-- Mobile cards (unchanged layout) -->
             <div class="block md:hidden mt-4 space-y-4">
                 @for (item of filteredTournaments(); track item.id) {
                 <div class="bg-[#dff9db]/60 border border-[#bbf0b5] p-4 rounded-2xl space-y-4 shadow-sm">
-                    <!-- Top details: logo, name, status, type -->
-                    <div class="flex items-start gap-3">
+                    <div [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="flex items-start gap-3">
                         <div
-                            class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#1b5e20] to-[#2e7d32] flex-shrink-0 flex items-center justify-center border border-white/20">
-                            @if (item.image) {
-                            <img [src]="item.image" [alt]="item.name" class="w-full h-full object-cover rounded-xl" />
-                            } @else {
-                            <span class="text-white font-black text-sm">{{ item.name.substring(0,2).toUpperCase()
-                                }}</span>
-                            }
+                            class="relative w-12 h-12 rounded-xl bg-gradient-to-br flex-shrink-0 flex items-center justify-center border border-white/20">
+                            @if (item.primary_image?.url) { <img [src]="item.primary_image.url" [alt]="item.name"
+                                class="w-full h-full object-cover rounded-xl" /> }
+                            @else { <span class="text-white font-black text-sm">{{
+                                item.name.substring(0,2).toUpperCase() }}</span> }
                         </div>
                         <div class="min-w-0 flex-1">
                             <h4 class="font-extrabold text-base text-[#113919] leading-tight">{{ item.name }}</h4>
                             <p class="text-[10px] font-bold text-[#416248]/80 mt-0.5">ID: {{ item.id }}</p>
-                            <div class="flex flex-wrap items-center gap-2 mt-2">
-                                <span [class.bg-[#bdf0b7]]="item.type === 'Professional'"
-                                    [class.text-[#165a21]]="item.type === 'Professional'"
-                                    [class.bg-[#d3ebd0]]="item.type === 'Amateur'"
-                                    [class.text-[#416248]]="item.type === 'Amateur'"
-                                    class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider">
-                                    {{ item.type }}
-                                </span>
-                                <span [ngClass]="{
-                          'bg-[#d0f6cc] text-[#165a21] border-[#a1e29b]': item.status === 'Active',
-                          'bg-[#e2f1ff] text-[#1d63b8] border-[#b8daff]': item.status === 'Upcoming',
-                          'bg-[#f0e4fc] text-[#8e44ad] border-[#debcfc]': item.status === 'Completed'
-                        }" class="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wide border flex items-center gap-1">
-                                    {{ item.status }}
-                                </span>
-                            </div>
+                            <div class="flex flex-wrap items-center gap-2 mt-2"><span
+                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide border"
+                                    [ngClass]="{'bg-[#d0f6cc] text-[#165a21]': item.status === 'open','bg-[#e2f1ff] text-[#1d63b8]': item.status === 'ongoing','bg-[#f3f4f6] text-[#4b5563]': item.status === 'finished','bg-[#fee2e2] text-[#b91c1c]': item.status === 'cancelled'}">{{
+                                    item.status | titlecase }}</span></div>
                         </div>
                     </div>
-
-                    <!-- Mid details: duration & progress bar -->
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#addfa7]/40 text-xs">
+                    <div [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                        class="grid grid-cols-2 gap-2 pt-2 border-t border-[#addfa7]/40 text-xs">
                         <div>
-                            <span
-                                class="block text-[10px] font-extrabold text-[#416248] uppercase tracking-wide">Duration</span>
-                            <p class="font-bold text-[#113919] mt-0.5">{{ item.startDate }} - {{ item.endDate }}</p>
-                            <span class="text-[9px] font-bold text-[#416248]/80 uppercase">{{ item.season }}</span>
+                            <span class="block text-[10px] font-extrabold text-[#416248] uppercase">Main Court</span>
+                            <p class="font-bold">{{ item.maincourt?.name || '-' }}</p>
                         </div>
-                        <div>
-                            <span class="block text-[10px] font-extrabold text-[#416248] uppercase tracking-wide">Teams
-                                Filling</span>
-                            <div class="flex items-center gap-2 mt-1.5">
-                                <div class="relative w-full h-2 bg-[#addfa7]/60 rounded-full overflow-hidden">
-                                    <div [style.width.%]="(item.currentTeams / item.maxTeams) * 100"
-                                        [class.bg-[#165a21]]="item.currentTeams === item.maxTeams"
-                                        [class.bg-[#9b3d0b]]="item.currentTeams !== item.maxTeams"
-                                        class="h-full rounded-full"></div>
-                                </div>
-                                <span class="text-[11px] font-black text-[#113919] whitespace-nowrap">{{
-                                    item.currentTeams }}/{{ item.maxTeams }}</span>
-                            </div>
+                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Court</span>
+                            <p class="font-bold">{{ item.court?.name || '-' }}</p>
+                        </div>
+                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Team Size</span>
+                            <p class="font-bold">{{ item.team_size }}</p>
+                        </div>
+                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Entry Fee</span>
+                            <p class="font-bold">${{ item.entry_fee }}</p>
+                        </div>
+                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Teams</span>
+                            <p class="font-bold">{{ item.current_teams }}/{{ item.max_teams }}</p>
+                        </div>
+                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Dates</span>
+                            <p class="font-bold">{{ item.start_date | date:'MMM d' }} - {{ item.end_date | date:'MMM d'
+                                }}</p>
                         </div>
                     </div>
-
-                    <!-- Actions row -->
                     <div class="pt-2 border-t border-[#addfa7]/40">
-                        @if (item.status === 'Completed') {
-                        <button (click)="openViewModal(item)"
-                            class="w-full py-2.5 bg-[#bbf0b5] hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-xl transition-all duration-150">
-                            VIEW RESULTS
-                        </button>
-                        } @else {
-                        <button (click)="openManageModal(item)"
-                            class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white text-xs font-black rounded-xl transition-all duration-150">
-                            MANAGE TOURNAMENT
-                        </button>
-                        }
+                        @if (item.status === 'finished' || item.status === 'cancelled') { <button
+                            (click)="openViewModal(item)"
+                            class="w-full py-2.5  hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-xl transition-all">VIEW
+                            RESULTS</button> }
+                        @else { <button (click)="openManageModal(item)"
+                            class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white text-xs font-black rounded-xl transition-all">MANAGE
+                            TOURNAMENT</button> }
                     </div>
                 </div>
-                } @empty {
-                <div class="py-8 text-center text-[#416248] font-bold bg-[#dff9db]/30 rounded-2xl">
-                    No matching tournaments found.
-                </div>
-                }
+                } @empty { <div class="py-8 text-center text-[#416248] font-bold bg-[#dff9db]/30 rounded-2xl">No
+                    matching tournaments found.</div> }
             </div>
         </main>
     </div>
 
-    <!-- READ-ONLY View Results Modal -->
+    <!-- Centered Modal for View (READ-ONLY) - Updated colors -->
     @if (viewTournament(); as tournament) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-        <div
-            class="bg-[#e7f9e5] border-2 border-[#addfa7] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl animate-scaleUp">
-            <!-- Modal Header -->
-            <div class="bg-[#165a21] p-6 text-white flex items-center justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-widest font-extrabold opacity-75">Historical Records</span>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300"
+        (click)="closeViewModal()">
+        <div class="bg-[#F0FDF4] border border-[#b8ebb3] rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-100 opacity-100"
+            (click)="$event.stopPropagation()">
+            <div class="bg-[#165a21] p-6 text-white sticky top-0 z-10 flex items-center justify-between rounded-t-3xl">
+                <div><span class="text-xs uppercase tracking-widest font-extrabold opacity-75">Historical Records</span>
                     <h3 class="text-xl font-black mt-1">{{ tournament.name }}</h3>
                 </div>
                 <button (click)="closeViewModal()"
-                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all">
-                    <svg class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all"><svg
+                        class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    </svg></button>
             </div>
-
-            <!-- Modal Content (Read-Only) -->
             <div class="p-6 space-y-4 text-sm">
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <span class="block text-xs font-bold text-[#416248] uppercase tracking-wider">Tournament
-                            ID</span>
-                        <p class="font-extrabold text-[#113919] mt-0.5">{{ tournament.id }}</p>
+                    <div><span class="block text-xs font-bold text-[#416248] uppercase">ID</span>
+                        <p class="font-extrabold text-[#133c1d]">{{ tournament.id }}</p>
                     </div>
-                    <div>
-                        <span class="block text-xs font-bold text-[#416248] uppercase tracking-wider">Status</span>
+                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Status</span>
                         <span
-                            class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-[#f0e4fc] text-[#8e44ad] text-xs font-bold rounded-full border border-[#debcfc] mt-0.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#8e44ad]"></span>
-                            {{ tournament.status }}
-                        </span>
+                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-[#DCFCE7] text-[#165a21]">{{
+                            tournament.status | titlecase }}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs font-bold text-[#416248] uppercase tracking-wider">League
-                            Category</span>
-                        <p class="font-extrabold text-[#113919] mt-0.5">{{ tournament.type }}</p>
+                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Team Size</span>
+                        <p class="text-[#133c1d]">{{ tournament.team_size }}</p>
                     </div>
-                    <div>
-                        <span class="block text-xs font-bold text-[#416248] uppercase tracking-wider">Duration
-                            Timeline</span>
-                        <p class="font-extrabold text-[#113919] mt-0.5">{{ tournament.startDate }} – {{
-                            tournament.endDate }}</p>
+                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Entry Fee</span>
+                        <p class="text-[#133c1d]">${{ tournament.entry_fee }}</p>
                     </div>
                 </div>
-
-                <div class="pt-3 border-t border-[#addfa7]/50">
-                    <span class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-2">Final Bracket
-                        Occupancy</span>
-                    <div class="relative w-full h-3.5 bg-[#addfa7]/60 rounded-full overflow-hidden">
-                        <div class="w-full h-full bg-[#165a21] rounded-full"></div>
-                    </div>
-                    <p class="text-[11px] font-bold text-[#416248]/80 mt-1.5">
-                        This tournament concluded with all {{ tournament.maxTeams }} teams participating. Historical
-                        bracket data is locked for security archives.
-                    </p>
+                <div class="pt-3 border-t border-[#addfa7]"><span
+                        class="block text-xs font-bold text-[#416248] uppercase">Important Note</span>
+                    <p class="text-sm mt-1 text-[#133c1d]">{{ tournament.important_note || 'No additional notes.' }}</p>
                 </div>
-
-                <!-- Read-Only Results Action -->
-                <div class="pt-4 border-t border-[#addfa7]/50 flex flex-col gap-2">
+                <div class="pt-4 border-t border-[#addfa7] flex flex-col gap-2">
                     <button (click)="downloadArchiveReport(tournament)"
-                        class="w-full py-2.5 bg-[#165a21] text-white font-extrabold rounded-full hover:bg-[#113c1c] transition-all text-xs tracking-wider">
-                        DOWNLOAD ACCREDITED ARCHIVE REPORT
-                    </button>
+                        class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white font-extrabold rounded-full transition-all text-xs shadow-md">DOWNLOAD
+                        ACCREDITED ARCHIVE REPORT</button>
                     <button (click)="closeViewModal()"
-                        class="w-full py-2.5 bg-transparent border-2 border-[#165a21] text-[#165a21] hover:bg-[#165a21]/10 font-extrabold rounded-full transition-all text-xs tracking-wider">
-                        CLOSE REPORT VIEW
-                    </button>
+                        class="w-full py-2.5 bg-transparent border-2 border-[#165a21] text-[#165a21] hover:bg-[#165a21]/10 font-extrabold rounded-full transition-all text-xs">CLOSE
+                        REPORT VIEW</button>
                 </div>
             </div>
         </div>
     </div>
     }
 
-    <!-- EDITABLE Management Modal -->
+    <!-- Centered Manage Modal - Updated colors -->
     @if (manageTournament(); as tournament) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-        <div
-            class="bg-[#e7f9e5] border-2 border-[#addfa7] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl animate-scaleUp">
-            <!-- Modal Header -->
-            <div class="bg-[#165a21] p-6 text-white flex items-center justify-between">
-                <div>
-                    <span class="text-xs uppercase tracking-widest font-extrabold opacity-75">Control & Editing
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300"
+        (click)="closeManageModal()">
+        <div class="bg-[#F0FDF4] border border-[#b8ebb3] rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-100 opacity-100"
+            (click)="$event.stopPropagation()">
+            <div class="bg-[#165a21] p-6 text-white sticky top-0 z-10 flex items-center justify-between rounded-t-3xl">
+                <div><span class="text-xs uppercase tracking-widest font-extrabold opacity-75">Control & Editing
                         Desk</span>
-                    <h3 class="text-xl font-black mt-1">Configure {{ editFormValues.name }}</h3>
+                    <h3 class="text-xl font-black mt-1">Configure {{ tournament.name }}</h3>
                 </div>
                 <button (click)="closeManageModal()"
-                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all">
-                    <svg class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all"><svg
+                        class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    </svg></button>
             </div>
-
-            <!-- Modal Content (Interactive Form) -->
-            <div class="p-6 space-y-4 text-sm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Tournament Name -->
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Tournament
-                            Name</label>
-                        <input type="text" [(ngModel)]="editFormValues.name"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
+            <div class="p-6 space-y-6">
+                <!-- Update Tournament Section -->
+                <div class="space-y-4">
+                    <h4
+                        class="text-sm font-black text-[#165a21] uppercase tracking-wider border-b border-[#addfa7] pb-2">
+                        Update Tournament Details</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2"><label
+                                class="block text-xs font-bold text-[#416248] uppercase mb-1">Tournament Name</label>
+                            <input type="text" [(ngModel)]="editFormValues.name"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] focus:border-transparent text-[#133c1d] font-semibold transition-all" />
+                        </div>
+                        <div class="md:col-span-2"><label
+                                class="block text-xs font-bold text-[#416248] uppercase mb-1">Description</label>
+                            <textarea [(ngModel)]="editFormValues.description" rows="2"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] focus:border-transparent text-[#133c1d] font-semibold transition-all"></textarea>
+                        </div>
+                        <div><label class="block text-xs font-bold text-[#416248] uppercase mb-1">Team Size</label>
+                            <select [(ngModel)]="editFormValues.team_size"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] text-[#133c1d] font-semibold transition-all">
+                                <option value="5v5">5v5</option>
+                                <option value="6v6">6v6</option>
+                                <option value="11v11">11v11</option>
+                            </select>
+                        </div>
+                        <div><label class="block text-xs font-bold text-[#416248] uppercase mb-1">Max Teams</label>
+                            <input type="number" [(ngModel)]="editFormValues.max_teams"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] text-[#133c1d] font-semibold transition-all" />
+                        </div>
+                        <div><label class="block text-xs font-bold text-[#416248] uppercase mb-1">Entry Fee ($)</label>
+                            <input type="text" [(ngModel)]="editFormValues.entry_fee"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] text-[#133c1d] font-semibold transition-all" />
+                        </div>
+                        <div class="md:col-span-2"><label
+                                class="block text-xs font-bold text-[#416248] uppercase mb-1">Important Note</label>
+                            <textarea [(ngModel)]="editFormValues.important_note" rows="2"
+                                class="w-full p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] text-[#133c1d] font-semibold transition-all"></textarea>
+                        </div>
                     </div>
+                    <button (click)="saveTournamentChanges()"
+                        class="w-full py-3 bg-[#165a21] hover:bg-[#113c1c] text-white font-extrabold rounded-xl transition-all text-sm shadow-md hover:shadow-lg">UPDATE
+                        TOURNAMENT</button>
+                </div>
 
-                    <!-- Type -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">League
-                            Type</label>
-                        <select [(ngModel)]="editFormValues.type"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]">
-                            <option value="Professional">Professional</option>
-                            <option value="Amateur">Amateur</option>
+                <!-- Update Status Section -->
+                <div class="space-y-3 border-t border-[#addfa7] pt-4">
+                    <h4 class="text-sm font-black text-[#165a21] uppercase tracking-wider">Change Tournament Status</h4>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <select #statusSelect
+                            class="flex-1 p-2.5 bg-white border border-[#a2e09a] rounded-xl focus:ring-2 focus:ring-[#165a21] text-[#133c1d] font-semibold text-sm transition-all">
+                            <option value="open">Open</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="finished">Finished</option>
+                            <option value="cancelled">Cancelled</option>
                         </select>
-                    </div>
-
-                    <!-- Status -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Active
-                            Status</label>
-                        <select [(ngModel)]="editFormValues.status"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]">
-                            <option value="Active">Active</option>
-                            <option value="Upcoming">Upcoming</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <!-- Start Date representation -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Start
-                            Timeline</label>
-                        <input type="text" [(ngModel)]="editFormValues.startDate" placeholder="e.g. Oct 12"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
-                    </div>
-
-                    <!-- End Date representation -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">End
-                            Timeline</label>
-                        <input type="text" [(ngModel)]="editFormValues.endDate" placeholder="e.g. Nov 30"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
-                    </div>
-
-                    <!-- Current registered teams count -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Registered
-                            Teams</label>
-                        <input type="number" [(ngModel)]="editFormValues.currentTeams"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
-                    </div>
-
-                    <!-- Max capacity teams limit -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Max Capacity
-                            limit</label>
-                        <input type="number" [(ngModel)]="editFormValues.maxTeams"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
-                    </div>
-
-                    <!-- Season tag title -->
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-bold text-[#416248] uppercase tracking-wider mb-1">Season Tag /
-                            League description</label>
-                        <input type="text" [(ngModel)]="editFormValues.season"
-                            class="w-full p-2.5 bg-[#dff9db] border border-[#a2e09a] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#165a21] font-semibold text-[#113919]" />
+                        <button (click)="updateTournamentStatus(tournament.id, statusSelect.value)"
+                            class="px-5 py-2.5 bg-[#9b3d0b] hover:bg-[#803106] text-white font-bold rounded-xl transition-all text-sm shadow-md">CHANGE
+                            STATUS</button>
                     </div>
                 </div>
 
-                <!-- Management & Structural Operations Footer Actions -->
-                <div class="pt-4 border-t border-[#addfa7]/50 flex flex-col gap-2">
-                    <div class="flex gap-2 w-full">
-                        <button (click)="saveTournamentChanges()"
-                            class="flex-1 py-3 bg-[#165a21] text-white font-extrabold rounded-full hover:bg-[#113c1c] transition-all text-xs tracking-wider">
-                            SAVE CHANGES
-                        </button>
-                        <button (click)="closeManageModal()"
-                            class="flex-1 py-3 bg-[#bbf0b5] text-[#113919] font-extrabold rounded-full hover:bg-[#97e38e] transition-all text-xs tracking-wider">
-                            CANCEL
-                        </button>
-                    </div>
-
-                    <button (click)="deleteTournament(tournament)"
-                        class="w-full py-3 mt-1 bg-red-700 hover:bg-red-800 text-white font-black rounded-full transition-all text-xs tracking-wider flex items-center justify-center gap-2 shadow-sm">
+                <!-- Delete Section -->
+                <div class="border-t border-[#addfa7] pt-4">
+                    <button (click)="confirmDelete(tournament)"
+                        class="w-full py-3 bg-red-700 hover:bg-red-800 text-white font-black rounded-xl transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M14.74 9l-.34 9m-4.72 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                         </svg>
-                        <span>DELETE TOURNAMENT SYSTEM</span>
+                        <span>DELETE TOURNAMENT</span>
                     </button>
                 </div>
+                <button (click)="closeManageModal()"
+                    class="w-full py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] text-[#133c1d] font-extrabold rounded-xl transition-all text-sm shadow-sm">CANCEL</button>
             </div>
         </div>
     </div>
     }
-    <!-- Custom Toast notification with dynamic color variants (Success and Danger/Delete) -->
+
+    <!-- Toast Notification (unchanged) -->
     @if (toastMessage()) {
-    <div [ngClass]="{
-            'bg-[#165a21] border-white/20': toastType() === 'success',
-            'bg-red-700 border-red-500/30': toastType() === 'danger'
-          }"
+    <div [ngClass]="{'bg-[#165a21] border-white/20': toastType() === 'success', 'bg-red-700 border-red-500/30': toastType() === 'danger'}"
         class="fixed bottom-6 right-6 z-50 text-white px-6 py-4 rounded-2xl shadow-2xl border flex items-center gap-3 animate-slideIn max-w-sm">
-        @if (toastType() === 'success') {
-        <svg class="w-5 h-5 text-emerald-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
-            viewBox="0 0 24 24">
+        @if (toastType() === 'success') { <svg class="w-5 h-5 text-emerald-300 flex-shrink-0" fill="none"
+            stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        } @else {
-        <svg class="w-5 h-5 text-red-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
+        </svg> }
+        @else { <svg class="w-5 h-5 text-red-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-        }
+        </svg> }
         <span class="font-bold text-xs md:text-sm tracking-wide">{{ toastMessage() }}</span>
     </div>
     }

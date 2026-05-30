@@ -2,286 +2,341 @@
     <div class="max-w-6xl mx-auto pb-24">
 
         <!-- HEADER SECTION -->
-        <header class="mb-8">
-            <h1 class="text-4xl sm:text-5xl font-black italic tracking-tight text-[#0A3D25] flex items-center gap-2">
-                Setup <span class="text-[#10B981] not-italic">New Tournament</span>
+        <header class="mb-10">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 text-[#10B981] text-xs font-bold uppercase tracking-wider mb-4">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                New Event
+            </div>
+            <h1
+                class="text-3xl sm:text-5xl font-black tracking-tight text-[#0A3D25] flex flex-wrap items-baseline gap-2">
+                Setup <span class="text-[#10B981]">New Tournament</span>
             </h1>
-            <p class="mt-2 text-sm sm:text-base text-[#1E293B]/80 font-medium max-w-2xl leading-relaxed">
+            <p class="mt-3 text-sm sm:text-base text-[#1E293B]/80 font-medium max-w-2xl leading-relaxed">
                 Define the stage for glory. Fill in the details to launch your next high-stakes football event on
                 Ehgazly.
             </p>
         </header>
 
         <!-- FORM CONTAINER -->
-        <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-            <!-- LEFT COLUMN (Basic Info & Marketing Assets) -->
-            <div class="lg:col-span-7 flex flex-col gap-6">
+            <!-- LEFT COLUMN -->
+            <div class="lg:col-span-7 flex flex-col gap-8">
 
                 <!-- BASIC INFO CARD -->
                 <div
-                    class="bg-white rounded-[24px] p-6 shadow-sm border border-[#E2E8F0]/40 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-[#E8FBF2] flex items-center justify-center text-[#10B981]">
-                            <!-- Pencil/Edit Document SVG Icon -->
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-[#0F172A]">Basic Info</h2>
-                    </div>
+                    class="bg-white rounded-3xl shadow-sm border border-[#E2E8F0]/60 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-7">
+                            <div
+                                class="w-11 h-11 rounded-full bg-[#E8FBF2] flex items-center justify-center text-[#10B981] shadow-sm">
+                                <lucide-icon name="square-pen" [size]="20" [strokeWidth]="2.5"></lucide-icon>
 
-                    <!-- Input Fields -->
-                    <div class="space-y-5">
-                        <div>
-                            <label class="block text-sm font-semibold text-[#334155] mb-2">Tournament Name</label>
-                            <input type="text" formControlName="name" placeholder="e.g., Giza Summer Cup"
-                                class="w-full px-4 py-3.5 bg-[#DCFCE7]/60 border-0 rounded-[14px] text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all"
-                                [class.ring-2]="isFieldInvalid('name')" [class.ring-red-400]="isFieldInvalid('name')" />
-                            <div *ngIf="isFieldInvalid('name')"
-                                class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold animate-fade-in">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a1 1 0 11.001 2H10a1 1 0 010-2zm0 6a1 1 0 100 2h.01a1 1 0 100-2H10z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span>This field is required</span>
                             </div>
+                            <h2 class="text-xl font-bold text-[#0F172A]">Basic Info</h2>
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-semibold text-[#334155] mb-2">Description</label>
-                            <textarea rows="6" formControlName="description"
-                                placeholder="Tell the teams about the atmosphere, the level of competition, and what makes this cup unique..."
-                                class="w-full px-4 py-3.5 bg-[#DCFCE7]/60 border-0 rounded-[18px] text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all resize-none leading-relaxed"></textarea>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Tournament Name</label>
+                                <input type="text" formControlName="name" placeholder="e.g., Giza Summer Cup"
+                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 border border-[#D1F5DD] rounded-xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all"
+                                    [class.ring-2]="isFieldInvalid('name')"
+                                    [class.ring-red-400]="isFieldInvalid('name')" />
+                                <div *ngIf="isFieldInvalid('name')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold animate-fade-in">
+                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a1 1 0 11.001 2H10a1 1 0 010-2zm0 6a1 1 0 100 2h.01a1 1 0 100-2H10z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <span>This field is required</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Description</label>
+                                <textarea rows="6" formControlName="description"
+                                    placeholder="Tell the teams about the atmosphere, the level of competition, and what makes this cup unique..."
+                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 border border-[#D1F5DD] rounded-xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all resize-none leading-relaxed"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- MARKETING ASSETS CARD -->
                 <div
-                    class="bg-[#E8FBF2]/80 rounded-[24px] p-6 border border-[#22C55E]/20 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center text-white">
-                            <!-- Megaphone SVG Icon -->
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-[#0A3D25]">Marketing Assets</h2>
-                    </div>
-
-                    <div class="space-y-4">
-
-                        <!-- Upload error -->
-                        <div *ngIf="posterErrorMessage()"
-                            class="flex items-center gap-2 text-xs font-semibold text-[#B42318] bg-white/70 border border-red-200 rounded-2xl px-4 py-3">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12" />
-                            </svg>
-                            <span class="break-words">{{ posterErrorMessage() }}</span>
+                    class="bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-7">
+                            <div
+                                class="w-11 h-11 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-md">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-[#0A3D25]">Marketing Assets</h2>
                         </div>
 
-                        <div class="relative">
-
-                            <!-- Default + Uploading -->
-                            <div *ngIf="posterUploadStatus() === 'idle' || posterUploadStatus() === 'uploading'"
-                                (dragover)="onPosterDragOver($event)" (dragleave)="onPosterDragLeave()"
-                                (drop)="onPosterDrop($event)"
-                                class="relative border-2 border-dashed rounded-[20px] p-8 flex flex-col items-center justify-center text-center transition-all duration-300 bg-[#E8FBF2]/30 min-h-[220px]"
-                                [class.border-[#10B981]]="posterIsDragging() || posterUploadStatus() === 'uploading'"
-                                [class.bg-white]="posterIsDragging() || !!posterPreviewUrl() || posterUploadStatus() === 'uploading'"
-                                [class.opacity-90]="posterUploadStatus() === 'uploading'">
-
-                                <input type="file" id="posterUpload" class="hidden"
-                                    accept=".jpg,.jpeg,.png,.webp,image/*" (change)="onPosterFileSelected($event)"
-                                    [disabled]="posterUploadStatus() === 'uploading'" />
-
-                                <div class="mb-4">
-                                    <div *ngIf="posterUploadStatus() === 'uploading'"
-                                        class="w-16 h-16 rounded-full bg-[#10B981]/15 border border-[#10B981]/20 grid place-items-center">
-                                        <span
-                                            class="w-7 h-7 rounded-full border-2 border-[#0A3D25]/25 border-t-[#0A3D25] animate-spin"></span>
-                                    </div>
-
-                                    <div *ngIf="posterUploadStatus() !== 'uploading' && !posterPreviewUrl()"
-                                        class="w-16 h-16 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-sm">
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                                        </svg>
-                                    </div>
-
-                                    <!-- Preview (full image visible) -->
-                                    <div *ngIf="posterPreviewUrl() && posterUploadStatus() !== 'uploading'"
-                                        class="w-24 h-28 sm:w-28 sm:h-32 rounded-xl overflow-hidden border border-[#10B981]/20 shadow-md bg-white flex items-center justify-center">
-                                        <img [src]="posterPreviewUrl()!" class="w-full h-full object-contain bg-white"
-                                            alt="Tournament Poster" />
-                                    </div>
-                                </div>
-
-                                <p class="text-base font-bold text-[#0F172A] mb-1">
-                                    <ng-container *ngIf="posterUploadStatus() === 'uploading'; else posterIdleTitle">
-                                        Uploading...
-                                    </ng-container>
-                                    <ng-template #posterIdleTitle>
-                                        {{ posterFileName() ? (posterFileName()) : 'Drop your Tournament Poster here' }}
-                                    </ng-template>
-                                </p>
-
-                                <p class="text-xs text-[#64748B] font-medium mb-5">
-                                    Recommended size: 1080x1350px (JPG, PNG, WEBP). Max 5MB.
-                                </p>
-
-                                <div class="flex flex-col sm:flex-row items-center gap-3">
-                                    <label for="posterUpload"
-                                        class="cursor-pointer px-5 py-2.5 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-[24px] shadow-sm transition-all duration-200">
-                                        Browse Files
-                                    </label>
-
-                                    <button *ngIf="posterFileName() && posterUploadStatus() !== 'uploading'"
-                                        type="button" (click)="removePosterUpload()"
-                                        class="px-5 py-2.5 bg-white/70 hover:bg-white active:scale-95 text-[#0A3D25] font-bold text-sm rounded-[24px] border border-[#10B981]/20 transition-all duration-200">
-                                        Remove
-                                    </button>
-                                </div>
-
-                                <p class="mt-4 text-[11px] font-black uppercase tracking-widest text-[#64748B]">
-                                    JPG, JPEG, PNG, WEBP (MAX 5MB)
-                                </p>
+                        <div class="space-y-5">
+                            <div *ngIf="posterErrorMessage()"
+                                class="flex items-center gap-2 text-xs font-semibold text-[#B42318] bg-white/80 border border-red-200 rounded-2xl px-4 py-3">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                <span class="break-words">{{ posterErrorMessage() }}</span>
                             </div>
 
-                            <!-- Success -->
-                            <div *ngIf="posterUploadStatus() === 'success'"
-                                class="animate-pop-in rounded-[20px] overflow-hidden border border-[#10B981]/20 bg-white/70">
-                                <div class="p-5 sm:p-6 flex items-start justify-between gap-4">
-                                    <div class="flex items-start gap-4 min-w-0">
-                                        <div
-                                            class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0">
-                                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M20 6 9 17l-5-5" />
+                            <div class="relative">
+                                <div *ngIf="posterUploadStatus() === 'idle' || posterUploadStatus() === 'uploading'"
+                                    (dragover)="onPosterDragOver($event)" (dragleave)="onPosterDragLeave()"
+                                    (drop)="onPosterDrop($event)"
+                                    class="relative border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-300 bg-white/50 min-h-[240px]"
+                                    [class.border-[#10B981]]="posterIsDragging() || posterUploadStatus() === 'uploading'"
+                                    [class.bg-white]="posterIsDragging() || !!posterPreviewUrl() || posterUploadStatus() === 'uploading'"
+                                    [class.opacity-80]="posterUploadStatus() === 'uploading'">
+
+                                    <input type="file" id="posterUpload" class="hidden"
+                                        accept=".jpg,.jpeg,.png,.webp,image/*" (change)="onPosterFileSelected($event)"
+                                        [disabled]="posterUploadStatus() === 'uploading'" />
+
+                                    <div class="mb-5">
+                                        <div *ngIf="posterUploadStatus() === 'uploading'"
+                                            class="w-16 h-16 rounded-full bg-[#10B981]/15 border border-[#10B981]/20 grid place-items-center">
+                                            <span
+                                                class="w-7 h-7 rounded-full border-2 border-[#0A3D25]/25 border-t-[#0A3D25] animate-spin"></span>
+                                        </div>
+                                        <div *ngIf="posterUploadStatus() !== 'uploading' && !posterPreviewUrl()"
+                                            class="w-20 h-20 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-md">
+                                            <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                                             </svg>
                                         </div>
-                                        <div class="min-w-0">
-                                            <p class="text-base sm:text-lg font-black text-[#0A3D25]">Upload Complete
-                                            </p>
-                                            <p class="mt-1 text-sm font-semibold text-[#64748B]">
-                                                Your tournament poster has been uploaded successfully.
-                                            </p>
+                                        <div *ngIf="posterPreviewUrl() && posterUploadStatus() !== 'uploading'"
+                                            class="w-28 h-32 rounded-xl overflow-hidden border border-[#10B981]/30 shadow-md bg-white">
+                                            <img [src]="posterPreviewUrl()!"
+                                                class="w-full h-full object-contain bg-white" alt="Tournament Poster" />
                                         </div>
                                     </div>
 
-                                    <button type="button" (click)="removePosterUpload()"
-                                        class="px-4 py-2 rounded-xl bg-white/60 border border-[#10B981]/20 text-[#0A3D25] font-black text-sm transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                                        Remove
-                                    </button>
+                                    <p class="text-base font-bold text-[#0F172A] mb-1">
+                                        <ng-container
+                                            *ngIf="posterUploadStatus() === 'uploading'">Uploading...</ng-container>
+                                        <ng-container *ngIf="posterUploadStatus() !== 'uploading'">{{ posterFileName() ?
+                                            posterFileName() : 'Drop your Tournament Poster here' }}</ng-container>
+                                    </p>
+                                    <p class="text-xs text-[#64748B] font-medium mb-6">Recommended size: 1080x1350px
+                                        (JPG, PNG, WEBP). Max 5MB.</p>
+                                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                                        <label for="posterUpload"
+                                            class="cursor-pointer px-6 py-2.5 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-full shadow-sm transition-all duration-200">
+                                            Browse Files
+                                        </label>
+                                        <button *ngIf="posterFileName() && posterUploadStatus() !== 'uploading'"
+                                            type="button" (click)="removePosterUpload()"
+                                            class="px-6 py-2.5 bg-white/80 hover:bg-white active:scale-95 text-[#0A3D25] font-bold text-sm rounded-full border border-[#10B981]/30 transition-all duration-200">
+                                            Remove
+                                        </button>
+                                    </div>
+                                    <p class="mt-5 text-[10px] font-black uppercase tracking-wider text-[#64748B]">JPG,
+                                        JPEG, PNG, WEBP (MAX 5MB)</p>
                                 </div>
 
-                                <!-- Preview full -->
-                                <div *ngIf="posterPreviewUrl()" class="px-5 sm:px-6 pb-6">
-                                    <div class="rounded-2xl overflow-hidden border border-[#10B981]/20 bg-white">
-                                        <div class="w-full h-56 sm:h-64 bg-white flex items-center justify-center">
+                                <div *ngIf="posterUploadStatus() === 'success'"
+                                    class="animate-pop-in rounded-2xl overflow-hidden border border-[#10B981]/30 bg-white/80">
+                                    <div class="p-5 sm:p-6 flex flex-wrap items-start justify-between gap-4">
+                                        <div class="flex items-start gap-4 min-w-0">
+                                            <div
+                                                class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0">
+                                                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.8">
+                                                    <path d="M20 6 9 17l-5-5" />
+                                                </svg>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <p class="text-base sm:text-lg font-black text-[#0A3D25]">Upload
+                                                    Complete</p>
+                                                <p class="mt-1 text-sm font-semibold text-[#64748B]">Your tournament
+                                                    poster has been uploaded successfully.</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" (click)="removePosterUpload()"
+                                            class="px-5 py-2 rounded-xl bg-white/70 border border-[#10B981]/30 text-[#0A3D25] font-bold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0">
+                                            Remove
+                                        </button>
+                                    </div>
+                                    <div *ngIf="posterPreviewUrl()" class="px-5 pb-6">
+                                        <div class="rounded-xl overflow-hidden border border-[#10B981]/30 bg-white">
                                             <img [src]="posterPreviewUrl()!" alt="Tournament Poster"
-                                                class="max-w-full max-h-full object-contain" />
+                                                class="max-h-64 w-auto mx-auto object-contain" />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Error -->
-                            <div *ngIf="posterUploadStatus() === 'error'"
-                                class="animate-pop-in rounded-[20px] border border-red-200 bg-white/70 p-6 text-center">
-                                <div
-                                    class="mx-auto w-14 h-14 rounded-full bg-red-100 grid place-items-center text-[#B42318] border border-red-200">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12" />
-                                    </svg>
-                                </div>
-
-                                <p class="mt-4 text-lg font-black text-[#B42318]">Upload Failed</p>
-                                <p class="mt-2 text-sm font-semibold text-[#64748B]">
-                                    {{ posterErrorMessage() || "Upload failed. Please try again." }}
-                                </p>
-
-                                <div class="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
-                                    <button type="button" (click)="retryPosterUpload()"
-                                        class="px-6 py-3 rounded-2xl bg-[#EF4444] hover:bg-[#DC2626] text-white font-black text-sm transition-all active:scale-95">
-                                        Try Again
-                                    </button>
-                                    <button type="button" (click)="cancelPosterUpload()"
-                                        class="px-6 py-3 rounded-2xl bg-white/60 hover:bg-white border border-slate-200 text-[#0A3D25] font-black text-sm transition-all active:scale-95">
-                                        Cancel
-                                    </button>
+                                <div *ngIf="posterUploadStatus() === 'error'"
+                                    class="animate-pop-in rounded-2xl border border-red-200 bg-white/80 p-6 text-center">
+                                    <div
+                                        class="mx-auto w-14 h-14 rounded-full bg-red-100 grid place-items-center text-[#B42318] border border-red-200">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </div>
+                                    <p class="mt-4 text-lg font-black text-[#B42318]">Upload Failed</p>
+                                    <p class="mt-2 text-sm font-semibold text-[#64748B]">{{ posterErrorMessage() ||
+                                        "Upload failed. Please try again." }}</p>
+                                    <div class="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+                                        <button type="button" (click)="retryPosterUpload()"
+                                            class="px-6 py-3 rounded-2xl bg-[#EF4444] hover:bg-[#DC2626] text-white font-bold text-sm transition-all active:scale-95">Try
+                                            Again</button>
+                                        <button type="button" (click)="cancelPosterUpload()"
+                                            class="px-6 py-3 rounded-2xl bg-white/80 hover:bg-white border border-slate-200 text-[#0A3D25] font-bold text-sm transition-all active:scale-95">Cancel</button>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- RIGHT COLUMN (Logistics & Participation) -->
-            <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- RIGHT COLUMN -->
+            <div class="lg:col-span-5 flex flex-col gap-8">
 
                 <!-- LOGISTICS CARD -->
                 <div
-                    class="bg-[#E8FBF2]/80 rounded-[24px] p-6 border border-[#22C55E]/10 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#10B981] shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-[#0A3D25]">Logistics</h2>
-                    </div>
+                    class="bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-7">
+                            <div
+                                class="w-11 h-11 rounded-full bg-white flex items-center justify-center text-[#10B981] shadow-md">
+                                <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
 
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-[#334155] mb-2">Stadium/Venue
-                                Selection</label>
-                            <div class="relative">
-                                <select formControlName="venue"
-                                    class="w-full px-4 py-3.5 bg-[#BCF9D1]/70 border-0 rounded-[14px] text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] appearance-none cursor-pointer transition-all">
-                                    <option value="" disabled selected>Select a Venue</option>
-                                    <option *ngFor="let item of venues" [value]="item">{{ item }}</option>
+                            </div>
+                            <h2 class="text-xl font-bold text-[#0A3D25]">Logistics</h2>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Main Court -->
+                            <div>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Main Court</label>
+                                <select formControlName="maincourt_id"
+                                    class="w-full px-5 py-3.5 bg-white border border-[#D1F5DD] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] appearance-none cursor-pointer transition-all">
+                                    <option value="" disabled selected>Select Main Court</option>
+                                    <option *ngFor="let court of mainCourts()" [value]="court.id">{{ court.name }}
+                                    </option>
                                 </select>
-                                <div
-                                    class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-[#10B981]">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
+                                <div *ngIf="isFieldInvalid('maincourt_id')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Main court is required</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Court -->
                             <div>
-                                <label class="block text-sm font-semibold text-[#334155] mb-2">Start Date</label>
-                                <input type="date" formControlName="startDate"
-                                    class="w-full px-4 py-3.5 bg-[#BCF9D1]/70 border-0 rounded-[14px] text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Court</label>
+                                <select formControlName="court_id"
+                                    class="w-full px-5 py-3.5 bg-white border border-[#D1F5DD] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] appearance-none cursor-pointer transition-all"
+                                    [class.opacity-50]="!courts().length">
+                                    <option value="" disabled selected>Select Court</option>
+                                    <option *ngFor="let court of courts()" [value]="court.id">{{ court.name }}</option>
+                                </select>
+                                <div *ngIf="isFieldInvalid('court_id')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Court is required</span>
+                                </div>
                             </div>
 
+                            <!-- Calendar -->
                             <div>
-                                <label class="block text-sm font-semibold text-[#334155] mb-2">Match Time</label>
-                                <input type="time" formControlName="matchTime"
-                                    class="w-full px-4 py-3.5 bg-[#BCF9D1]/70 border-0 rounded-[14px] text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Select Date</label>
+                                <p *ngIf="!isCalendarEnabled()"
+                                    class="text-xs text-[#64748B] font-medium mb-2 animate-fade-in">
+                                    Please select a Main Court and Court first.
+                                </p>
+                                <div class="bg-white rounded-2xl p-5 shadow-sm border border-[#E2E8F0]"
+                                    [class.opacity-50]="!isCalendarEnabled()"
+                                    [class.pointer-events-none]="!isCalendarEnabled()">
+                                    <div class="flex items-center justify-between mb-5">
+                                        <button type="button" (click)="previousMonth()"
+                                            class="p-2 rounded-full hover:bg-[#E8FBF2] transition"><svg class="w-5 h-5"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 19l-7-7 7-7" />
+                                            </svg></button>
+                                        <span class="font-bold text-[#0F172A]">{{ currentMonthYear() }}</span>
+                                        <button type="button" (click)="nextMonth()"
+                                            class="p-2 rounded-full hover:bg-[#E8FBF2] transition"><svg class="w-5 h-5"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7" />
+                                            </svg></button>
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-[#64748B] mb-3">
+                                        <div>Su</div>
+                                        <div>Mo</div>
+                                        <div>Tu</div>
+                                        <div>We</div>
+                                        <div>Th</div>
+                                        <div>Fr</div>
+                                        <div>Sa</div>
+                                    </div>
+                                    <div class="grid grid-cols-7 gap-1">
+                                        <button *ngFor="let day of calendarDays()" type="button"
+                                            (click)="onDateSelect(day.date)" [disabled]="!day.isCurrentMonth"
+                                            class="rounded-full w-10 h-10 mx-auto flex items-center justify-center text-sm font-medium transition-all"
+                                            [class.bg-[#10B981]]="selectedDate() && isSameDate(day.date, selectedDate()!)"
+                                            [class.text-white]="selectedDate() && isSameDate(day.date, selectedDate()!)"
+                                            [class.text-[#94A3B8]]="!day.isCurrentMonth"
+                                            [class.hover:bg-[#E8FBF2]]="day.isCurrentMonth">
+                                            {{ day.dayNumber }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div *ngIf="isFieldInvalid('selectedDate') && !selectedDate()"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Please select a date</span>
+                                </div>
+                            </div>
+
+                            <!-- Loading slots -->
+                            <div *ngIf="isLoadingSlots()" class="flex items-center gap-2 py-2 animate-fade-in">
+                                <span
+                                    class="w-4 h-4 rounded-full border-2 border-[#10B981]/30 border-t-[#10B981] animate-spin"></span>
+                                <span class="text-sm font-medium text-[#64748B]">Loading available slots...</span>
+                            </div>
+
+                            <!-- Available slots -->
+                            <div *ngIf="!isLoadingSlots() && availableSlots().length > 0" class="animate-fade-in">
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Available Time Slots</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <button *ngFor="let slot of availableSlots()" type="button"
+                                        (click)="toggleSlot(slot)"
+                                        class="px-4 py-2 rounded-full text-sm font-medium transition-all"
+                                        [class.bg-[#10B981]]="isSlotSelected(slot.id)"
+                                        [class.text-white]="isSlotSelected(slot.id)"
+                                        [class.bg-[#F1F5F9]]="!isSlotSelected(slot.id)"
+                                        [class.text-[#0F172A]]="!isSlotSelected(slot.id)"
+                                        [class.hover:bg-[#DCFCE7]]="!isSlotSelected(slot.id)">
+                                        {{ slot.start_time }} - {{ slot.end_time }}
+                                    </button>
+                                </div>
+                                <div *ngIf="selectedTimeslotIds().length === 0 && isFieldInvalid('timeslot_ids')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>At least one time slot is required</span>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!isLoadingSlots() && selectedDate() && availableSlots().length === 0"
+                                class="animate-fade-in rounded-2xl bg-white/80 border border-[#E2E8F0] px-4 py-3 text-sm font-medium text-[#64748B]">
+                                No available slots for this date. Please select another date.
                             </div>
                         </div>
                     </div>
@@ -289,13 +344,12 @@
 
                 <!-- PARTICIPATION CARD -->
                 <div
-                    class="relative bg-[#E8FBF2]/80 rounded-[24px] p-6 border border-[#22C55E]/10 overflow-hidden transition-shadow duration-300 hover:shadow-md">
-                    <div class="absolute top-0 bottom-0 left-0 w-[6px] bg-[#B45309] rounded-l-[24px]"></div>
-
-                    <div class="pl-2">
-                        <div class="flex items-center gap-3 mb-6">
+                    class="relative bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 overflow-hidden transition-all duration-300 hover:shadow-md">
+                    <div class="absolute top-0 bottom-0 left-0 w-1.5 bg-[#B45309]"></div>
+                    <div class="p-6 sm:p-8 pl-7 sm:pl-9">
+                        <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#B45309] shadow-sm">
+                                class="w-11 h-11 rounded-full bg-white flex items-center justify-center text-[#B45309] shadow-md">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -304,90 +358,130 @@
                             </div>
                             <h2 class="text-xl font-bold text-[#0F172A]">Participation</h2>
                         </div>
-
-                        <div class="space-y-4">
+                        <div class="space-y-5">
                             <div>
-                                <label class="block text-sm font-semibold text-[#334155] mb-2">Max Team Capacity</label>
-                                <div class="relative flex items-center">
-                                    <div class="absolute left-4 text-[#475569]">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0110.089 21c-2.113 0-4.102-.573-5.812-1.579a11.386 11.386 0 01-4.277-3.807 4.125 4.125 0 017.533-2.493c.501.911.786 1.958.786 3.07v.003c0-.044.025-.084.053-.122A11.387 11.387 0 0115 19.128zM15 4a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm1.902 0a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0z" />
-                                        </svg>
-                                    </div>
-                                    <input type="number" formControlName="maxTeams" placeholder="16"
-                                        class="w-full pl-12 pr-20 py-3.5 bg-white border border-[#E2E8F0] rounded-[14px] text-lg font-bold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
-                                    <span
-                                        class="absolute right-4 text-[10px] font-black tracking-widest text-[#64748B]">TEAMS</span>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Team Size</label>
+                                <select formControlName="team_size"
+                                    class="w-full px-5 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all">
+                                    <option value="" disabled selected>Select Team Size</option>
+                                    <option value="5v5">5v5</option>
+                                    <option value="6v6">6v6</option>
+                                    <option value="11v11">11v11</option>
+                                </select>
+                                <div *ngIf="isFieldInvalid('team_size')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Team size is required</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-[#334155] mb-2">Entry Fee (EGP)</label>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Max Teams</label>
+                                <input type="number" formControlName="max_teams" placeholder="e.g., 8" min="2"
+                                    class="w-full px-5 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all"
+                                    [class.ring-2]="isFieldInvalid('max_teams')"
+                                    [class.ring-red-400]="isFieldInvalid('max_teams')" />
+                                <div *ngIf="isFieldInvalid('max_teams')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Max teams is required (minimum 2)</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Entry Fee (EGP)</label>
                                 <div class="relative flex items-center">
                                     <div class="absolute left-4 text-xl font-bold text-[#0F172A]">£</div>
                                     <input type="number" formControlName="entryFee" placeholder="1500"
-                                        class="w-full pl-10 pr-24 py-3.5 bg-white border border-[#E2E8F0] rounded-[14px] text-lg font-bold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
+                                        class="w-full pl-10 pr-24 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-lg font-bold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
                                     <span class="absolute right-4 flex flex-col items-end leading-none">
                                         <span class="text-[9px] font-black tracking-wider text-[#64748B]">PER</span>
                                         <span class="text-[9px] font-black tracking-wider text-[#64748B]">TEAM</span>
                                     </span>
                                 </div>
+                                <div *ngIf="isFieldInvalid('entryFee')"
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    <span>Entry fee is required</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- BOTTOM SECTION (Competition Framework) -->
+            <!-- BOTTOM SECTION -->
             <div class="lg:col-span-12">
                 <div
-                    class="bg-[#E8FBF2]/50 rounded-[24px] p-6 border border-[#22C55E]/10 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center text-[#2563EB]">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12.75 6a.75.75 0 00-1.5 0v3.75H9.5a.75.75 0 000 1.5h1.75V15a.75.75 0 001.5 0v-3.75H14.5a.75.75 0 000-1.5h-1.75V6z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-bold text-[#0F172A]">Competition Framework</h2>
-                            <p class="text-xs text-[#64748B] font-medium mt-0.5">Structure the rewards and the field of
-                                play</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-[#334155] mb-2">Prize Pool Breakdown</label>
-                            <textarea rows="5" formControlName="prizePool"
-                                placeholder="1st Place: 20,000 EGP + Trophy&#10;2nd Place: 10,000 EGP&#10;Top Scorer: Golden Boot..."
-                                class="w-full px-5 py-4 bg-white border-0 rounded-[20px] text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                    class="bg-[#E8FBF2]/70 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-7">
+                            <div
+                                class="w-11 h-11 rounded-full bg-[#3B82F6]/10 flex items-center justify-center text-[#2563EB] shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12.75 6a.75.75 0 00-1.5 0v3.75H9.5a.75.75 0 000 1.5h1.75V15a.75.75 0 001.5 0v-3.75H14.5a.75.75 0 000-1.5h-1.75V6z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-[#0F172A]">Competition Framework</h2>
+                                <p class="text-xs text-[#64748B] font-medium mt-1">Structure the rewards and the field
+                                    of play</p>
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-semibold text-[#334155] mb-2">Tournament Rules &
-                                Regulations</label>
-                            <textarea rows="5" formControlName="rules"
-                                placeholder="Detail the duration of halves, substitution rules, disciplinary actions, and eligibility criteria..."
-                                class="w-full px-5 py-4 bg-white border-0 rounded-[20px] text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white/70 rounded-2xl p-5 border border-[#E2E8F0]">
+                                <label class="block text-sm font-bold text-[#0A3D25] mb-2">
+                                    <lucide-icon name="trophy" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                    First Prize
+                                </label>
+                                <input type="text" formControlName="prize1_title" placeholder="Title (e.g., Champions)"
+                                    class="w-full mb-3 px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]">£</span>
+                                    <input type="number" formControlName="prize1_money" placeholder="Prize Money"
+                                        class="w-full pl-8 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                </div>
+                            </div>
+                            <div class="bg-white/70 rounded-2xl p-5 border border-[#E2E8F0]">
+                                <label class="block text-sm font-bold text-[#0A3D25] mb-2">
+                                    <lucide-icon name="award" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                                    Second Prize
+                                </label>
+                                <input type="text" formControlName="prize2_title" placeholder="Title (e.g., Runners-up)"
+                                    class="w-full mb-3 px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]">£</span>
+                                    <input type="number" formControlName="prize2_money" placeholder="Prize Money"
+                                        class="w-full pl-8 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Important Note (for
+                                    participants)</label>
+                                <textarea rows="3" formControlName="important_note"
+                                    placeholder="Any special instructions, equipment requirements, etc."
+                                    class="w-full px-5 py-4 bg-white border-0 rounded-2xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-[#334155] mb-2">Additional Rules &
+                                    Regulations</label>
+                                <textarea rows="4" formControlName="rules"
+                                    placeholder="Detail the duration of halves, substitution rules, disciplinary actions, and eligibility criteria..."
+                                    class="w-full px-5 py-4 bg-white border-0 rounded-2xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 
-    <!-- FLOATING ACTION SUBMIT FOOTER BAR -->
+    <!-- FOOTER -->
     <footer
-        class="fixed bottom-0 left-0 right-0 bg-[#F0FDF4]/95 backdrop-blur-md border-t border-[#10B981]/10 px-4 py-4 z-40 shadow-[0_-8px_30px_rgb(0,0,0,0.03)]">
+        class="fixed bottom-0 left-0 right-0 bg-[#F0FDF4]/95 backdrop-blur-md border-t border-[#10B981]/15 px-4 py-4 z-40 shadow-[0_-8px_30px_rgb(0,0,0,0.03)]">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-[#10B981] flex items-center justify-center text-white">
+                <div class="w-9 h-9 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
@@ -398,16 +492,13 @@
                         the athletes.</p>
                 </div>
             </div>
-
             <div class="flex items-center gap-3 w-full sm:w-auto">
                 <button type="button" (click)="openDraftModal()"
-                    class="flex-1 sm:flex-none px-6 py-3 border border-[#10B981] hover:bg-[#10B981]/5 active:scale-95 text-[#0A3D25] font-bold text-sm rounded-full transition-all duration-200">
-                    Save Draft
-                </button>
-                <button type="button" (click)="openPublishModal()"
-                    class="flex-1 sm:flex-none px-8 py-3 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-full shadow-lg shadow-[#0A3D25]/20 transition-all duration-200">
-                    Publish Tournament
-                </button>
+                    class="flex-1 sm:flex-none px-6 py-3 border border-[#10B981] hover:bg-[#10B981]/5 active:scale-95 text-[#0A3D25] font-bold text-sm rounded-full transition-all duration-200">Save
+                    Draft</button>
+                <button type="button" (click)="onSubmit()"
+                    class="flex-1 sm:flex-none px-8 py-3 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-full shadow-lg shadow-[#0A3D25]/20 transition-all duration-200">Publish
+                    Tournament</button>
             </div>
         </div>
     </footer>
@@ -416,72 +507,57 @@
     <div class="fixed inset-0 z-[90] flex items-center justify-center p-4 transition-all duration-300"
         [class.opacity-100]="isModalOpen()" [class.opacity-0]="!isModalOpen()"
         [class.pointer-events-auto]="isModalOpen()" [class.pointer-events-none]="!isModalOpen()" aria-live="polite">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
-            (click)="closeModal()"></div>
-
-        <div class="relative w-[92%] max-w-xl max-h-[85vh] overflow-hidden rounded-[2rem] bg-white border border-slate-200/60 shadow-2xl shadow-slate-300/40 transition-all duration-300"
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeModal()"></div>
+        <div class="relative w-[92%] max-w-xl max-h-[85vh] overflow-hidden rounded-3xl bg-white border border-slate-200/80 shadow-2xl transition-all duration-300"
             [class.translate-y-0]="isModalOpen()" [class.translate-y-3]="!isModalOpen()"
             [class.scale-100]="isModalOpen()" [class.scale-95]="!isModalOpen()">
 
             <!-- Publish confirm -->
             <div *ngIf="modalKind() === 'publishConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-[#0A3D25] text-white grid place-items-center shrink-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+                    <div class="w-12 h-12 rounded-2xl bg-[#0A3D25] text-white grid place-items-center shrink-0"><svg
+                            class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5" />
-                        </svg>
-                    </div>
+                        </svg></div>
                     <div class="min-w-0">
                         <p class="text-2xl font-black tracking-tight text-[#0A3D25]">Publish Tournament?</p>
-                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">
-                            Please confirm publishing. This will mark the tournament as <span
-                                class="font-black text-[#10B981]">Published</span>.
+                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">Please confirm publishing.
+                            This will mark the tournament as <span class="font-black text-[#10B981]">Published</span>.
                         </p>
                     </div>
                 </div>
-
                 <div class="mt-6 rounded-2xl border border-[#10B981]/15 bg-[#F0FDF4] p-4">
                     <p class="text-xs font-black uppercase tracking-widest text-slate-500">Status Preview</p>
                     <p class="mt-2 text-sm font-bold text-[#0A3D25]">Current: {{ tournamentStatus() }}</p>
                 </div>
-
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
                     <button type="button" (click)="closeModal()"
-                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">
-                        Cancel
-                    </button>
+                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">Cancel</button>
                     <button type="button" (click)="confirmPublish()"
-                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg shadow-[#0A3D25]/20 transition-all active:scale-95">
-                        Confirm Publish
-                    </button>
+                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg shadow-[#0A3D25]/20 transition-all active:scale-95">Confirm
+                        Publish</button>
                 </div>
             </div>
 
             <!-- Draft confirm -->
             <div *ngIf="modalKind() === 'draftConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+                    <div class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0"><svg
+                            class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h10" />
-                        </svg>
-                    </div>
+                        </svg></div>
                     <div class="min-w-0">
                         <p class="text-2xl font-black tracking-tight text-[#0A3D25]">Save Draft?</p>
-                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">
-                            We’ll save your current form data as a draft on this device.
-                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">We'll save your current
+                            form data as a draft on this device.</p>
                     </div>
                 </div>
-
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
                     <button type="button" (click)="closeModal()"
-                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">
-                        Cancel
-                    </button>
+                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">Cancel</button>
                     <button type="button" (click)="confirmSaveDraft()"
-                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#10B981] hover:bg-[#0ea371] text-white font-black shadow-lg shadow-[#10B981]/20 transition-all active:scale-95">
-                        Confirm Save
-                    </button>
+                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#10B981] hover:bg-[#0ea371] text-white font-black shadow-lg shadow-[#10B981]/20 transition-all active:scale-95">Confirm
+                        Save</button>
                 </div>
             </div>
 
@@ -495,22 +571,16 @@
                 <p class="mt-5 text-2xl font-black tracking-tight text-[#0A3D25]">{{ modalTitle() }}</p>
                 <p class="mt-2 text-sm font-semibold text-slate-600">{{ modalMessage() }}</p>
                 <button type="button" (click)="closeModal()"
-                    class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg transition-all active:scale-95">
-                    Done
-                </button>
+                    class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg transition-all active:scale-95">Done</button>
             </div>
-
         </div>
     </div>
 
-    <!-- TOAST (fixed + valid) -->
+    <!-- TOAST -->
     <div class="fixed bottom-24 sm:bottom-8 right-4 sm:right-8 z-[100] pointer-events-none">
         <ng-container *ngIf="toastMessage() as msg">
             <div class="pointer-events-auto max-w-[92vw] sm:max-w-sm rounded-2xl border px-5 py-4 shadow-2xl transition-all duration-300"
-                [ngClass]="{
-          'bg-[#0A3D25] border-[#10B981]/40 text-white': toastType() === 'success',
-          'bg-[#B42318] border-red-300/40 text-white': toastType() === 'error'
-        }">
+                [ngClass]="{ 'bg-[#0A3D25] border-[#10B981]/40 text-white': toastType() === 'success', 'bg-[#B42318] border-red-300/40 text-white': toastType() === 'error' }">
                 <div class="flex items-start gap-3">
                     <div class="w-10 h-10 rounded-xl bg-white/10 grid place-items-center shrink-0">
                         <svg *ngIf="toastType() === 'success'" class="w-5 h-5" fill="none" stroke="currentColor"
@@ -519,8 +589,7 @@
                         </svg>
                         <svg *ngIf="toastType() === 'error'" class="w-5 h-5" fill="none" stroke="currentColor"
                             stroke-width="2.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </div>
                     <div class="min-w-0">
@@ -531,5 +600,4 @@
             </div>
         </ng-container>
     </div>
-
 </div>

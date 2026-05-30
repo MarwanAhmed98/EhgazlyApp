@@ -1,45 +1,190 @@
- @keyframes fadeIn {
-     from {
-         opacity: 0;
-     }
+/* --- Animations --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
 
-     to {
-         opacity: 1;
-     }
- }
+    to {
+        opacity: 1;
+    }
+}
 
- @keyframes scaleUp {
-     from {
-         transform: scale(0.95);
-         opacity: 0;
-     }
+@keyframes scaleUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
 
-     to {
-         transform: scale(1);
-         opacity: 1;
-     }
- }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
- @keyframes slideIn {
-     from {
-         transform: translateY(1.5rem);
-         opacity: 0;
-     }
+@keyframes slideIn {
+    from {
+        transform: translateY(1.5rem);
+        opacity: 0;
+    }
 
-     to {
-         transform: translateY(0);
-         opacity: 1;
-     }
- }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
- .animate-fadeIn {
-     animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
- }
+.animate-fadeIn {
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
- .animate-scaleUp {
-     animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
- }
+.animate-scaleUp {
+    animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
 
- .animate-slideIn {
-     animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
- }
+.animate-slideIn {
+    animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- Table Styling --- */
+.overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    border-radius: 1rem;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+thead tr th {
+    background-color: #f0faf2;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    font-weight: 800;
+    color: #416248;
+    text-transform: uppercase;
+    padding: 1.25rem 0.5rem;
+}
+
+tbody tr {
+    transition: all 0.2s ease-in-out;
+    border-bottom: 1px solid rgba(173, 223, 167, 0.4);
+
+    &:hover {
+        background-color: rgba(185, 229, 181, 0.25);
+    }
+}
+
+/* --- Badge & UI Consistency --- */
+.status-badge {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    background-color: #DCFCE7;
+    color: #165a21;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.modal-content-custom {
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background-color: #F0FDF4;
+    border: 1px solid #b8ebb3;
+    border-radius: 1.5rem;
+}
+
+.modal-backdrop-blur {
+    backdrop-filter: blur(4px);
+}
+
+/* --- Form Elements --- */
+button {
+    transition: all 0.15s ease;
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+input,
+select,
+textarea {
+    background-color: white;
+    border: 1px solid #a2e09a;
+    transition: all 0.15s ease;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #165a21;
+        border-color: transparent;
+    }
+}
+
+/* --- Fixed Theme Selectors --- */
+/* These replace the [bracket] selectors to fix the compiler error */
+
+.bg-forest {
+    background-color: #165a21;
+}
+
+.border-mint {
+    border-color: #b8ebb3;
+}
+
+.shadow-custom-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Button Theme Overrides --- */
+
+button.btn-forest {
+    background-color: #165a21;
+    color: white;
+
+    &:hover {
+        background-color: #113c1c;
+    }
+}
+
+button.btn-amber {
+    background-color: #9b3d0b;
+    color: white;
+
+    &:hover {
+        background-color: #803106;
+    }
+}
+
+button.btn-mint-light {
+    background-color: #DCFCE7;
+    color: #165a21;
+
+    &:hover {
+        background-color: #b5ebad;
+    }
+}
+
+button.btn-danger {
+    background-color: #b91c1c;
+    color: white;
+
+    &:hover {
+        background-color: #991b1b;
+    }
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 640px) {
+
+    .max-w-2xl,
+    .max-w-lg {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    .p-6 {
+        padding: 1.25rem;
+    }
+}

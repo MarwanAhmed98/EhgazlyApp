@@ -1,20 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-interface Tournament {
-  id: string;
-  name: string;
-  type: 'Professional' | 'Amateur';
-  startDate: string;
-  endDate: string;
-  season: string;
-  currentTeams: number;
-  maxTeams: number;
-  status: 'Active' | 'Upcoming' | 'Completed';
-  image: string;
-}
+import { AdminTournamentsService } from '../../../../core/services/AdminTournaments/admin-tournaments.service';
+import { IAdminTournaments } from '../../../interfaces/iadmin-tournaments';
 
 @Component({
   selector: 'app-admin-manage-tournaments',
@@ -23,296 +12,143 @@ interface Tournament {
   styleUrl: './admin-manage-tournaments.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminManageTournamentsComponent {
-  // Original Seed Data matches your layout image beautifully!
-  private initialTournaments: Tournament[] = [
-    {
-      id: '#GPL-2024-01',
-      name: 'Giza Premier League',
-      type: 'Professional',
-      startDate: 'Oct 12',
-      endDate: 'Nov 30',
-      season: '2024 SEASON',
-      currentTeams: 16,
-      maxTeams: 16,
-      status: 'Active',
-      image: '' // Empty falls back to procedural graphic logo
-    },
-    {
-      id: '#CAC-2024-05',
-      name: 'Cairo Amateur Cup',
-      type: 'Amateur',
-      startDate: 'Dec 05',
-      endDate: 'Dec 28',
-      season: 'WINTER SERIES',
-      currentTeams: 12,
-      maxTeams: 16,
-      status: 'Upcoming',
-      image: ''
-    },
-    {
-      id: '#SYC-2024-00',
-      name: 'Summer Youth Clash',
-      type: 'Amateur',
-      startDate: 'Aug 01',
-      endDate: 'Aug 15',
-      season: 'COMPLETED',
-      currentTeams: 32,
-      maxTeams: 32,
-      status: 'Completed',
-      image: ''
-    },
-    {
-      id: '#APM-2024-09',
-      name: 'Alexandria Pro Masters',
-      type: 'Professional',
-      startDate: 'Oct 20',
-      endDate: 'Dec 15',
-      season: 'COASTAL LEAGUE',
-      currentTeams: 24,
-      maxTeams: 24,
-      status: 'Active',
-      image: ''
-    }
-  ];
+export class AdminManageTournamentsComponent implements OnInit {
+  private adminTournamentsService = inject(AdminTournamentsService);
 
-  // Modern Signal State
-  tournaments = signal<Tournament[]>(this.initialTournaments);
+  tournaments = signal<IAdminTournaments[]>([]);
   searchTerm = signal<string>('');
-  currentTab = signal<'all' | 'active' | 'upcoming' | 'completed'>('all');
-
-  // Advanced Filter Settings
+  currentTab = signal<'all' | 'open' | 'ongoing' | 'finished' | 'cancelled'>('all');
   showAdvancedFilters = signal<boolean>(false);
-  typeFilter = signal<string>('all');
+  teamSizeFilter = signal<string>('all');
   slotsFilter = signal<string>('any');
+  viewTournament = signal<IAdminTournaments | null>(null);
+  manageTournament = signal<IAdminTournaments | null>(null);
 
-  // Separate Read-only View and Editable Manage Modals
-  viewTournament = signal<Tournament | null>(null);
-  manageTournament = signal<Tournament | null>(null);
-
-  // Edit fields holding state inside the edit form
-  editFormValues: Tournament = {
-    id: '',
+  editFormValues: any = {
+    id: null,
     name: '',
-    type: 'Professional',
-    startDate: '',
-    endDate: '',
-    season: '',
-    currentTeams: 0,
-    maxTeams: 16,
-    status: 'Upcoming',
-    image: ''
+    description: '',
+    team_size: '5v5',
+    max_teams: 0,
+    entry_fee: '',
+    important_note: ''
   };
 
-  showCreateModal = signal<boolean>(false);
   toastMessage = signal<string>('');
   toastType = signal<'success' | 'danger'>('success');
 
-  // Top metric counters via Computed Signals
-  liveCount = computed(() => {
-    return this.tournaments().filter(t => t.status === 'Active').length;
-  });
+  ngOnInit(): void {
+    this.loadTournaments();
+  }
 
-  registrationCount = computed(() => {
-    return this.tournaments().filter(t => t.status === 'Upcoming').length;
-  });
+  loadTournaments(): void {
+    this.adminTournamentsService.ShowTournaments().subscribe({
+      next: (res) => {
+        this.tournaments.set(res.data || []);
+      },
+      error: (err) => {
+        console.error('Failed to load tournaments', err);
+        this.triggerToast('Failed to load tournaments', 'danger');
+      }
+    });
+  }
 
-  totalTeamsSum = computed(() => {
-    return this.tournaments().reduce((sum, t) => sum + t.currentTeams, 0);
-  });
+  liveCount = computed(() => this.tournaments().filter(t => t.status === 'ongoing').length);
+  registrationCount = computed(() => this.tournaments().filter(t => t.status === 'open').length);
+  totalTeamsSum = computed(() => this.tournaments().reduce((sum, t) => sum + (t.current_teams || 0), 0));
+  totalPrizeSum = computed(() => this.tournaments().reduce((sum, t) => sum + (t.total_prize_pool || 0), 0).toLocaleString());
 
-  // Filter & Search computation engine
   filteredTournaments = computed(() => {
     let list = this.tournaments();
-
-    // 1. Text Search Filter (Matches ID, Name, or Season)
     const query = this.searchTerm().toLowerCase().trim();
-    if (query) {
-      list = list.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.id.toLowerCase().includes(query) ||
-        item.season.toLowerCase().includes(query)
-      );
-    }
-
-    // 2. Tab Filter
+    if (query) list = list.filter(item => item.name.toLowerCase().includes(query) || item.id.toString().includes(query));
     const tab = this.currentTab();
-    if (tab !== 'all') {
-      list = list.filter(item => item.status.toLowerCase() === tab);
-    }
-
-    // 3. Advanced Type Filter
-    const type = this.typeFilter();
-    if (type !== 'all') {
-      list = list.filter(item => item.type === type);
-    }
-
-    // 4. Advanced Capacity Slots Filter
+    if (tab !== 'all') list = list.filter(item => item.status === tab);
+    const teamSize = this.teamSizeFilter();
+    if (teamSize !== 'all') list = list.filter(item => item.team_size === teamSize);
     const slots = this.slotsFilter();
     if (slots !== 'any') {
-      if (slots === 'not-full') {
-        list = list.filter(item => item.currentTeams < item.maxTeams);
-      } else if (slots === 'full') {
-        list = list.filter(item => item.currentTeams === item.maxTeams);
-      }
+      if (slots === 'not-full') list = list.filter(item => (item.current_teams || 0) < (item.max_teams || 0));
+      else if (slots === 'full') list = list.filter(item => (item.current_teams || 0) === (item.max_teams || 0));
     }
-
     return list;
   });
 
-  // Input event handler avoiding template-driven ngModel
-  onSearchInput(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.searchTerm.set(value);
-  }
+  onSearchInput(event: Event) { this.searchTerm.set((event.target as HTMLInputElement).value); }
+  setTab(tab: 'all' | 'open' | 'ongoing' | 'finished' | 'cancelled') { this.currentTab.set(tab); }
+  toggleAdvancedFilters() { this.showAdvancedFilters.update(v => !v); }
+  onTeamSizeFilterChange(event: Event) { this.teamSizeFilter.set((event.target as HTMLSelectElement).value); }
+  onSlotsFilterChange(event: Event) { this.slotsFilter.set((event.target as HTMLSelectElement).value); }
+  resetFilters() { this.teamSizeFilter.set('all'); this.slotsFilter.set('any'); this.searchTerm.set(''); }
 
-  setTab(tab: 'all' | 'active' | 'upcoming' | 'completed') {
-    this.currentTab.set(tab);
-  }
+  openViewModal(tournament: IAdminTournaments) { this.viewTournament.set(tournament); }
+  closeViewModal() { this.viewTournament.set(null); }
 
-  toggleAdvancedFilters() {
-    this.showAdvancedFilters.update(v => !v);
-  }
-
-  onTypeFilterChange(event: Event) {
-    const val = (event.target as HTMLSelectElement).value;
-    this.typeFilter.set(val);
-  }
-
-  onSlotsFilterChange(event: Event) {
-    const val = (event.target as HTMLSelectElement).value;
-    this.slotsFilter.set(val);
-  }
-
-  resetFilters() {
-    this.typeFilter.set('all');
-    this.slotsFilter.set('any');
-    this.searchTerm.set('');
-  }
-
-  // Separate Behavior: Read-Only View Modal Open/Close
-  openViewModal(tournament: Tournament) {
-    this.viewTournament.set(tournament);
-  }
-
-  closeViewModal() {
-    this.viewTournament.set(null);
-  }
-
-  // Separate Behavior: Editable Manage Modal Open/Close
-  openManageModal(tournament: Tournament) {
+  openManageModal(tournament: IAdminTournaments) {
     this.manageTournament.set(tournament);
-    // Copy the fields to form binding model to facilitate cancellation if needed
-    this.editFormValues = { ...tournament };
+    this.editFormValues = {
+      id: tournament.id,
+      name: tournament.name,
+      description: tournament.description,
+      team_size: tournament.team_size,
+      max_teams: tournament.max_teams,
+      entry_fee: tournament.entry_fee,
+      important_note: tournament.important_note || ''
+    };
   }
 
-  closeManageModal() {
-    this.manageTournament.set(null);
-  }
+  closeManageModal() { this.manageTournament.set(null); }
 
-  // Persists edited changes to current State dynamically
   saveTournamentChanges() {
-    const currentId = this.editFormValues.id;
-    if (!currentId) return;
-
-    this.tournaments.update(currentList =>
-      currentList.map(t => t.id === currentId ? { ...this.editFormValues } : t)
-    );
-
-    this.closeManageModal();
-    this.triggerToast(`Successfully modified details for "${this.editFormValues.name}"`, 'success');
+    const payload = {
+      name: this.editFormValues.name,
+      description: this.editFormValues.description,
+      team_size: this.editFormValues.team_size,
+      max_teams: this.editFormValues.max_teams,
+      entry_fee: this.editFormValues.entry_fee,
+      important_note: this.editFormValues.important_note
+    };
+    this.adminTournamentsService.UpdateTournament(this.editFormValues.id, payload).subscribe({
+      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast(`Tournament "${this.editFormValues.name}" updated successfully`, 'success'); },
+      error: () => this.triggerToast('Update failed', 'danger')
+    });
   }
 
-  // Deletes item dynamically from State and throws a red (danger) Toastr alert
-  deleteTournament(tournament: Tournament) {
-    const confirmName = tournament.name;
-    this.tournaments.update(currentList =>
-      currentList.filter(t => t.id !== tournament.id)
-    );
-    this.closeManageModal();
-    this.triggerToast(`"${confirmName}" has been successfully deleted.`, 'danger');
+  updateTournamentStatus(id: number, newStatus: string) {
+    this.adminTournamentsService.UpdateTournamentStatus(id, newStatus).subscribe({
+      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast(`Status changed to ${newStatus}`, 'success'); },
+      error: () => this.triggerToast('Status update failed', 'danger')
+    });
   }
 
-  // Generates and downloads a real .txt archive report dynamically in the browser
-  downloadArchiveReport(tournament: Tournament) {
-    const reportContent = `==================================================
-        ACCREDITED TOURNAMENT ARCHIVE REPORT
-==================================================
-Tournament ID:   ${tournament.id}
-Official Name:   ${tournament.name}
-League Category: ${tournament.type}
-Season/Series:   ${tournament.season}
-Duration:        ${tournament.startDate} - ${tournament.endDate}
-Status:          ${tournament.status}
-Final Teams:     ${tournament.currentTeams} / ${tournament.maxTeams}
+  confirmDelete(tournament: IAdminTournaments) {
+    if (window.confirm(`Are you sure you want to delete "${tournament.name}"? This action cannot be undone.`)) {
+      this.deleteTournament(tournament.id);
+    }
+  }
 
---------------------------------------------------
-Certified by the Tournament Management Association.
-All bracket results and historical logs are archived.
-==================================================`;
+  deleteTournament(id: number) {
+    this.adminTournamentsService.DeleteTournament(id).subscribe({
+      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast('Tournament deleted successfully', 'danger'); },
+      error: () => this.triggerToast('Deletion failed', 'danger')
+    });
+  }
 
+  downloadArchiveReport(tournament: IAdminTournaments) {
+    const reportContent = `==================================================\nACC redited TOURNAMENT ARCHIVE REPORT\n==================================================\nTournament ID:   ${tournament.id}\nOfficial Name:   ${tournament.name}\nTeam Size:       ${tournament.team_size}\nMax Teams:       ${tournament.max_teams}\nEntry Fee:       $${tournament.entry_fee}\nStatus:          ${tournament.status}\nDuration:        ${tournament.start_date} - ${tournament.end_date}\nMain Court:      ${tournament.maincourt?.name || 'N/A'}\nCourt:           ${tournament.court?.name || 'N/A'}\nPrize Pool:      $${tournament.total_prize_pool}\n--------------------------------------------------\nCertified by the Tournament Management Association.\n==================================================`;
     const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Report_${tournament.name.replace(/\s+/g, '_')}_${tournament.id.replace('#', '')}.txt`;
+    a.download = `Report_${tournament.name.replace(/\s+/g, '_')}_${tournament.id}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
-
     this.closeViewModal();
-    this.triggerToast(`Accredited Report for "${tournament.name}" downloaded to system successfully.`, 'success');
+    this.triggerToast(`Report for "${tournament.name}" downloaded`, 'success');
   }
 
-  // openCreateModal() {
-  //   this.showCreateModal.set(true);
-  // }
-
-  // closeCreateModal() {
-  //   this.showCreateModal.set(false);
-  // }
-
-  // Submission handler for new tournaments
-  handleCreateSubmit(event: Event) {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    const name = formData.get('newName') as string;
-    const type = formData.get('newType') as 'Professional' | 'Amateur';
-    const maxTeams = parseInt(formData.get('newMax') as string) || 16;
-    const startStr = formData.get('newStart') as string;
-    const endStr = formData.get('newEnd') as string;
-    const season = (formData.get('newSeason') as string).toUpperCase();
-
-    // Formatting date helper
-    const formatDate = (dateString: string) => {
-      if (!dateString) return 'TBD';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-    };
-
-    const newTournament: Tournament = {
-      id: `#NEW-${Math.floor(1000 + Math.random() * 9000)}`,
-      name: name,
-      type: type,
-      startDate: formatDate(startStr),
-      endDate: formatDate(endStr),
-      season: season,
-      currentTeams: 0,
-      maxTeams: maxTeams,
-      status: 'Upcoming',
-      image: ''
-    };
-
-    // Append to list using signal update
-    this.tournaments.update(current => [newTournament, ...current]);
-    // this.closeCreateModal();
-    this.triggerToast(`Successfully created ${name}!`, 'success');
-  }
-
-  // Download export helper
   exportData() {
     const data = this.filteredTournaments();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -324,14 +160,12 @@ All bracket results and historical logs are archived.
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
-    this.triggerToast('Tournament configuration exported successfully.', 'success');
+    this.triggerToast('Tournament data exported successfully', 'success');
   }
 
   private triggerToast(message: string, type: 'success' | 'danger' = 'success') {
     this.toastType.set(type);
     this.toastMessage.set(message);
-    setTimeout(() => {
-      this.toastMessage.set('');
-    }, 3500);
+    setTimeout(() => this.toastMessage.set(''), 3500);
   }
 }

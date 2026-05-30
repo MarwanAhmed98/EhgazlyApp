@@ -1,0 +1,88 @@
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+// Hero gradient overlay
+.relative.rounded-3xl {
+    animation: fadeIn 0.4s ease-out;
+}
+
+// Table styling for timeslots
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+th,
+td {
+    vertical-align: middle;
+}
+
+// Custom scrollbar for tables if needed
+.overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #bbf0b5 #F0FDF4;
+
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #F0FDF4;
+        border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #bbf0b5;
+        border-radius: 20px;
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .text-3xl {
+        font-size: 1.75rem;
+    }
+
+    .text-4xl {
+        font-size: 2rem;
+    }
+
+    .rounded-3xl {
+        border-radius: 1.5rem;
+    }
+
+    .p-6 {
+        padding: 1.25rem;
+    }
+}
+
+// Ensure all cards have consistent hover
+.bg-white {
+    transition: all 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
+}
