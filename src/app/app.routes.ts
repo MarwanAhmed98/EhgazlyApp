@@ -230,5 +230,4 @@ export const routes: Routes = [
             { path: '', redirectTo: 'UserDirectory', pathMatch: 'full' }
         ]
     },
-
 ];

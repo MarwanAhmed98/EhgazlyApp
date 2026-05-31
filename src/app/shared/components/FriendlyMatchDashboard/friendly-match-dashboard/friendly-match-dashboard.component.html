@@ -218,7 +218,7 @@
                             <span
                                 class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
                                 <lucide-icon name="calendar" [size]="20" [strokeWidth]="2.5"></lucide-icon>
-                                {{ m.timeslot.date | date:'EEE' }} , {{ m.timeslot.start_time | slice:0:5 }}
+                                {{ m.timeslots[0].date | date:'EEE' }} , {{ m.timeslots[0].start_time | slice:0:5 }}
                             </span>
                             <span
                                 class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">

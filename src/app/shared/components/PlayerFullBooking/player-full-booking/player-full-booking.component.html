@@ -99,8 +99,10 @@
                                 <p class="mt-1 text-sm font-black text-emerald-950 dark:text-white">{{
                                     bookingDetails.timeslot.date | date:"mediumDate"
                                     }}</p>
-                                <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">{{
-                                    bookingDetails.timeslot.start_time }} - {{ bookingDetails.timeslot.end_time }}</p>
+                                <p class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400">
+                                    {{ bookingDetails.timeslots[0].start_time }} - {{
+                                    bookingDetails.timeslots[bookingDetails.timeslots.length - 1].end_time }}
+                                </p>
                             </div>
                         </div>
 
@@ -121,8 +123,7 @@
                                     class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                     Total Amount</p>
                                 <p class="mt-1 text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
-                                    {{ bookingDetails.court.price_per_hour }} <span
-                                        class="text-base font-black">EGP</span>
+                                    {{ bookingDetails.total_price }} <span class="text-base font-black">EGP</span>
                                 </p>
                             </div>
                         </div>

@@ -346,7 +346,7 @@
                         class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 sm:p-6 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.20)]">
                         <button type="button" (click)="confirmReservation()" [disabled]="
         !courtId ||
-        !timeslotId ||
+        !timeslotIds ||
         !receiptFile ||
         uploadStatus !== 'success' ||
         confirmStatus === 'loading'

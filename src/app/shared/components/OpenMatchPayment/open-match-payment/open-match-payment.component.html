@@ -1,1 +1,190 @@
-<p>open-match-payment works!</p>
+<app-playernav [active]="'friendly-matches'"></app-playernav>
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans antialiased transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column: Match & Court Details -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Match Summary Card -->
+                <div
+                    class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
+                    <div class="flex items-center justify-between border-b border-emerald-200/60 pb-4 mb-4">
+                        <h2 class="text-2xl font-black text-emerald-950 dark:text-white">Match Summary</h2>
+                        <span class="px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wide" [ngClass]="{
+                                'bg-emerald-100 text-emerald-800': OpenMatchDetails.match?.status === 'open',
+                                'bg-amber-100 text-amber-800': OpenMatchDetails.match?.status === 'ongoing',
+                                'bg-slate-100 text-slate-700': OpenMatchDetails.match?.status === 'finished'
+                              }">
+                            {{ OpenMatchDetails.match?.status | uppercase }}
+                        </span>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Match Name</p>
+                            <p class="text-lg font-black text-emerald-950 dark:text-white">{{
+                                OpenMatchDetails.match?.name }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Required
+                                    Players</p>
+                                <p class="text-2xl font-black text-emerald-950">{{
+                                    OpenMatchDetails.match?.required_players }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Current
+                                    Players</p>
+                                <p class="text-2xl font-black text-emerald-950">{{
+                                    OpenMatchDetails.match?.current_players }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Court Information Card -->
+                <div
+                    class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
+                    <h2
+                        class="text-xl font-black text-emerald-950 dark:text-white border-b border-emerald-200/60 pb-3 mb-4">
+                        Court Information</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Court Name</p>
+                            <p class="text-base font-bold text-emerald-950">{{ OpenMatchDetails.match?.court?.name }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Price Per Hour</p>
+                            <p class="text-2xl font-black text-emerald-950">{{
+                                OpenMatchDetails.match?.court?.price_per_hour }} EGP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeslots Card -->
+                <div
+                    class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
+                    <h2
+                        class="text-xl font-black text-emerald-950 dark:text-white border-b border-emerald-200/60 pb-3 mb-4">
+                        Selected Timeslots</h2>
+                    <div class="space-y-3">
+                        @for (slot of OpenMatchDetails.match?.timeslots; track slot.id) {
+                        <div
+                            class="flex items-center justify-between p-4 bg-emerald-50/50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-200/40">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-black text-emerald-950">{{ slot.date | date:'fullDate' }}</p>
+                                    <p class="text-xs font-semibold text-slate-500">{{ slot.start_time }} – {{
+                                        slot.end_time }}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-black text-emerald-600">{{
+                                OpenMatchDetails.match?.court?.price_per_hour }} EGP</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Payment Section -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Total Price Card -->
+                <div class="bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-3xl p-6 text-white shadow-xl">
+                    <p class="text-xs font-extrabold uppercase tracking-wider opacity-80">Total Price</p>
+                    <h2 class="text-4xl font-black mt-1">{{ OpenMatchDetails.total_price }} <span
+                            class="text-lg font-bold">EGP</span></h2>
+                    <div class="mt-4 pt-4 border-t border-white/20 text-sm font-medium">Includes all selected timeslots
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div
+                    class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6">
+                    <h2
+                        class="text-xl font-black text-emerald-950 dark:text-white border-b border-emerald-200/60 pb-3 mb-4">
+                        Payment Method</h2>
+                    <div class="space-y-3">
+                        @for (method of OpenMatchDetails.payment_methods; track method.id) {
+                        <label class="flex items-center gap-4 p-4 rounded-2xl border-2 transition-all cursor-pointer"
+                            [class.border-emerald-500]="selectedPaymentMethodId === method.id"
+                            [class.border-emerald-200]="selectedPaymentMethodId !== method.id"
+                            [class.bg-emerald-50]="selectedPaymentMethodId === method.id">
+                            <input type="radio" name="paymentMethod" [value]="method.id"
+                                (change)="onPaymentMethodSelect(method.id, method.identifier)"
+                                class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                            <div class="flex-1">
+                                <p class="font-black text-emerald-950">{{ getPaymentLabel(method.type) }}</p>
+                                <p class="text-xs text-slate-500">{{ method.identifier }}</p>
+                            </div>
+                        </label>
+                        }
+                    </div>
+                </div>
+
+                <!-- Transfer Details Card (shown only when payment method selected) -->
+                @if (selectedPaymentMethodId && selectedPaymentIdentifier) {
+                <div
+                    class="bg-emerald-50 dark:bg-emerald-900/30 rounded-3xl border border-emerald-300 p-6 animate-fadeIn">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        <h3 class="text-lg font-black text-emerald-800">Transfer To</h3>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-emerald-200">
+                        <p class="text-sm font-mono font-bold text-emerald-900 break-all">{{ selectedPaymentIdentifier
+                            }}</p>
+                    </div>
+                    <p class="text-xs text-emerald-700 mt-3 font-semibold">Use this exact identifier when sending the
+                        payment.</p>
+                </div>
+                }
+
+                <!-- Receipt Upload -->
+                <div
+                    class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6">
+                    <h2
+                        class="text-xl font-black text-emerald-950 dark:text-white border-b border-emerald-200/60 pb-3 mb-4">
+                        Upload Receipt</h2>
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <input type="file" id="receiptInput" accept="image/jpeg,image/png,image/jpg,image/webp"
+                                (change)="onReceiptSelected($event)" class="hidden">
+                            <button type="button" (click)="triggerFileInput()"
+                                class="w-full py-3 px-4 rounded-2xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-black text-sm transition-all">
+                                Choose Receipt Image
+                            </button>
+                        </div>
+
+                        @if (receiptPreviewUrl) {
+                        <div class="mt-4 rounded-xl overflow-hidden border border-emerald-200 bg-emerald-50 p-3">
+                            <img [src]="receiptPreviewUrl" alt="Receipt preview"
+                                class="max-h-48 mx-auto object-contain rounded-lg">
+                            <button type="button" (click)="removeReceipt()"
+                                class="mt-2 w-full py-1.5 text-xs font-bold text-red-600 hover:text-red-700">
+                                Remove Image
+                            </button>
+                        </div>
+                        }
+
+                        @if (receiptError) {
+                        <p class="text-xs font-bold text-red-500">{{ receiptError }}</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Confirm Button -->
+                <button type="button" (click)="submitPayment()" [disabled]="!isFormValid()"
+                    class="w-full py-4 rounded-2xl bg-emerald-700 hover:bg-emerald-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-lg shadow-lg transition-all active:scale-[0.98]">
+                    Confirm Payment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

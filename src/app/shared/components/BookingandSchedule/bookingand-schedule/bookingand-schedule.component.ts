@@ -2,14 +2,13 @@ import { Component, inject, OnDestroy, OnInit, signal, computed, WritableSignal 
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IcourtSpecficCourt } from '../../../interfaces/icourt-specfic-court';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
 import { ICustomerSpecificCourt } from '../../../interfaces/icustomer-specific-court';
 import { IspecficCourt } from '../../../interfaces/ispecfic-court';
 
 type Amenity = { label: string; icon: string };
-type DateChip = { iso: string; dow: string; day: number };
 type Slot = {
   id: string;
   label: string;
@@ -18,6 +17,16 @@ type Slot = {
   available: boolean;
   isPrime?: boolean;
 };
+
+interface CalendarDay {
+  date: Date;
+  iso: string;
+  dayNumber: number;
+  isCurrentMonth: boolean;
+  isToday: boolean;
+  isSelected: boolean;
+  isDisabled: boolean;
+}
 
 @Component({
   selector: 'app-bookingand-schedule',
@@ -30,9 +39,9 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly venuesService = inject(VenuesService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   CourtDetails: IspecficCourt = {} as IspecficCourt;
-
-
   SpecificCourt: IcourtSpecficCourt = {} as IcourtSpecficCourt;
   customerspecificCourts = signal<ICustomerSpecificCourt[]>([]);
   customerTimeSlotsDetails = signal<Icustomertimeslot[]>([]);
@@ -57,8 +66,74 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   private readonly autoplayMs = 4000;
   selectedCourtId: WritableSignal<number | string> = signal(0);
   selectedDateISO = this.toISO(new Date());
-  visibleDates: DateChip[] = this.buildDateChips(new Date(), 6);
   selectedSlots: Slot[] = [];
+
+  currentCalendarDate = signal<Date>(new Date(this.selectedDateISO));
+  weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  calendarDays = computed<CalendarDay[]>(() => {
+    const date = this.currentCalendarDate();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const startDayOfWeek = firstDayOfMonth.getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const prevMonthDays = startDayOfWeek;
+    const prevMonthDate = new Date(year, month, 0);
+    const daysInPrevMonth = prevMonthDate.getDate();
+
+    const days: CalendarDay[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(this.selectedDateISO);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    for (let i = prevMonthDays - 1; i >= 0; i--) {
+      const dayNum = daysInPrevMonth - i;
+      const dateObj = new Date(year, month - 1, dayNum);
+      const iso = this.toISO(dateObj);
+      days.push({
+        date: dateObj,
+        iso,
+        dayNumber: dayNum,
+        isCurrentMonth: false,
+        isToday: this.isSameDate(dateObj, today),
+        isSelected: this.isSameDate(dateObj, selectedDate),
+        isDisabled: this.isBeforeToday(dateObj, today),
+      });
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dateObj = new Date(year, month, i);
+      const iso = this.toISO(dateObj);
+      days.push({
+        date: dateObj,
+        iso,
+        dayNumber: i,
+        isCurrentMonth: true,
+        isToday: this.isSameDate(dateObj, today),
+        isSelected: this.isSameDate(dateObj, selectedDate),
+        isDisabled: this.isBeforeToday(dateObj, today),
+      });
+    }
+
+    const remainingCells = 42 - days.length;
+    for (let i = 1; i <= remainingCells; i++) {
+      const dateObj = new Date(year, month + 1, i);
+      const iso = this.toISO(dateObj);
+      days.push({
+        date: dateObj,
+        iso,
+        dayNumber: i,
+        isCurrentMonth: false,
+        isToday: this.isSameDate(dateObj, today),
+        isSelected: this.isSameDate(dateObj, selectedDate),
+        isDisabled: this.isBeforeToday(dateObj, today),
+      });
+    }
+
+    return days;
+  });
 
   selectedCourt = computed(() => {
     const courts = this.customerspecificCourts();
@@ -101,6 +176,11 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       .sort((a, b) => a.time24.localeCompare(b.time24));
   });
 
+  get monthLabel(): string {
+    const d = this.currentCalendarDate();
+    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  }
+
   ngOnInit(): void {
     this.startAutoplay();
     this.activatedRoute.paramMap.subscribe((res) => {
@@ -115,6 +195,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
         this.GetCourt();
       }
     });
+    this.currentCalendarDate.set(new Date(this.selectedDateISO));
   }
 
   ngOnDestroy(): void {
@@ -138,6 +219,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       },
     });
   }
+
   GetSpecCourt(courtId: string | number): void {
     if (!this.productId || !courtId) return;
     this.venuesService.GetSpecCourts(this.productId, courtId).subscribe({
@@ -147,6 +229,7 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   selectCourt(id: number | string): void {
     if (String(id) === String(this.selectedCourtId())) return;
     const courtExists = this.customerspecificCourts().some(c => String(c.id) === String(id));
@@ -177,9 +260,23 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   }
 
   selectDate(iso: string): void {
+    if (this.isBeforeToday(new Date(iso), new Date())) return;
     this.selectedDateISO = iso;
     this.selectedSlots = [];
+    this.currentCalendarDate.set(new Date(iso));
     this.fetchTimeslots();
+  }
+
+  prevMonth(): void {
+    const newDate = new Date(this.currentCalendarDate());
+    newDate.setMonth(newDate.getMonth() - 1);
+    this.currentCalendarDate.set(newDate);
+  }
+
+  nextMonth(): void {
+    const newDate = new Date(this.currentCalendarDate());
+    newDate.setMonth(newDate.getMonth() + 1);
+    this.currentCalendarDate.set(newDate);
   }
 
   isSelectedSlot(s: Slot): boolean {
@@ -215,9 +312,26 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return this.selectedSlots.reduce((sum, s) => sum + (s.available ? s.price : 0), 0);
   }
 
-  get monthLabel(): string {
-    const d = this.fromISO(this.selectedDateISO);
-    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  // FIXED: Pass ALL selected slot IDs as comma-separated string
+  confirmBooking(): void {
+    if (this.selectedSlots.length === 0) return;
+
+    const allSlotIds = this.selectedSlots.map(slot => slot.id).join(',');
+
+    this.router.navigate(
+      [
+        '/payment',
+        this.selectedCourtId(),
+        allSlotIds,                   // now contains all IDs like "101,102,103"
+        this.selectedDateISO,
+        this.grandTotal,
+        this.SpecificCourt.name,
+        this.productId
+      ],
+      {
+        state: { selectedSlots: this.selectedSlots }  // full objects for payment page
+      }
+    );
   }
 
   private startAutoplay(): void {
@@ -261,17 +375,6 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     this.resetAutoplay();
   }
 
-  private buildDateChips(start: Date, count: number): DateChip[] {
-    const chips: DateChip[] = [];
-    const d = new Date(start);
-    for (let i = 0; i < count; i++) {
-      const iso = this.toISO(d);
-      chips.push({ iso, dow: d.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase(), day: d.getDate() });
-      d.setDate(d.getDate() + 1);
-    }
-    return chips;
-  }
-
   private toISO(d: Date): string {
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -291,4 +394,17 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return `${String(h).padStart(2, '0')}:${String(mm ?? 0).padStart(2, '0')} ${ap}`;
   }
 
+  private isSameDate(d1: Date, d2: Date): boolean {
+    return d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate();
+  }
+
+  private isBeforeToday(date: Date, today: Date): boolean {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    const t = new Date(today);
+    t.setHours(0, 0, 0, 0);
+    return d < t;
+  }
 }

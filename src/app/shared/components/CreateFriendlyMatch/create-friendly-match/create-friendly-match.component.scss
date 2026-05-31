@@ -7,3 +7,23 @@
         box-shadow: 0 30px 70px -40px rgba(2, 44, 34, 0.25);
     }
 }
+
+.slot-row {
+    transition: background 0.18s ease, transform 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: rgba(185, 242, 194, 0.35);
+    }
+
+    &.selected {
+        background: rgba(185, 242, 194, 0.65);
+    }
+}
+
+.cal-day {
+    transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+}

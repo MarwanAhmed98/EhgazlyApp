@@ -82,16 +82,17 @@
                                     class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
                                     <lucide-icon name="calendar" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                 </span>
-                                {{ SpecificMatchesDetails.timeslot.date | date:'EEE' }} , {{
-                                SpecificMatchesDetails.timeslot.date | date:'MMM d' }}
+                                {{ SpecificMatchesDetails.timeslots[0].date | date:'EEE' }} , {{
+                                SpecificMatchesDetails.timeslots[0].date | date:'MMM d' }}
                             </span>
                             <span class="inline-flex items-center gap-2">
                                 <span
                                     class="w-8 h-8 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
                                     <lucide-icon name="clock" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                 </span>
-                                {{ SpecificMatchesDetails.timeslot.start_time | slice:0:5 }} – {{
-                                SpecificMatchesDetails.timeslot.end_time | slice:0:5 }}
+                                {{ SpecificMatchesDetails.timeslots[0].start_time | slice:0:5 }} – {{
+                                SpecificMatchesDetails.timeslots[SpecificMatchesDetails.timeslots.length -1].end_time|
+                                slice:0:5 }}
                             </span>
                             <span class="inline-flex items-center gap-2">
                                 <span

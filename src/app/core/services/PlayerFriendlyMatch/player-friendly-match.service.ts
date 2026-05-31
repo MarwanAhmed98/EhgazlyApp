@@ -27,4 +27,10 @@ export class PlayerFRiendlyMatchService {
   DeleteMatches(id: string): Observable<any> {
     return this.httpClient.delete(environments.baseUrl + `/customer/matches/${id}`)
   }
+  PaymentInfo(id: string | number): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + `/customer/matches/${id}/payment-info`)
+  }
+  PayMatches(id: string | number, data: object): Observable<any> {
+    return this.httpClient.post(environments.baseUrl + `/customer/matches/${id}/pay`, data)
+  }
 }

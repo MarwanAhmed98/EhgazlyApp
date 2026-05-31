@@ -26,17 +26,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Loading State -->
-    <!-- <div *ngIf="isLoading" class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-green-600 border-t-transparent"></div>
-    </div> -->
-
-    <!-- Error State -->
-    <!-- <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-        {{ errorMessage }}
-    </div> -->
-
     <!-- Working Hours Cards Grid -->
     <div *ngIf="workingHoursList.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div *ngFor="let item of workingHoursList; trackBy: trackById"
