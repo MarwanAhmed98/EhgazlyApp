@@ -66,10 +66,6 @@ export class AdminPendingListComponent implements OnInit {
         const payments: IAdminManageOwnerPayments[] = res.data || [];
         const mapped = payments.map(payment => this.mapPaymentToTransaction(payment));
         this.transactions.set(mapped);
-      },
-      error: (err) => {
-        console.error('Failed to load payments', err);
-        this.triggerToast('Failed to load payment requests', 'error');
       }
     });
   }
@@ -206,16 +202,13 @@ export class AdminPendingListComponent implements OnInit {
 
   approveTransaction(txId: number | string) {
     this.adminManageOwnerPaymentsService.ApprovePayments(txId).subscribe({
-      next: () => {
+      next: (res) => {
         this.transactions.update(prev =>
           prev.map(tx => tx.id === txId ? { ...tx, status: 'APPROVED' } : tx)
         );
+        this.toastService.success(res.message || `Transaction ${txId} approved successfully`);
         this.closeReceipt();
         this.triggerToast(`Transaction ${txId} has been successfully verified & approved.`, 'success');
-      },
-      error: (err) => {
-        console.error('Approve failed', err);
-        this.triggerToast(`Failed to approve transaction ${txId}.`, 'error');
       }
     });
   }
@@ -257,10 +250,6 @@ export class AdminPendingListComponent implements OnInit {
         this.closeReceipt();
         this.showAuditTool.set(false);
         this.triggerToast(`Transaction ${txId} has been rejected.`, 'error');
-      },
-      error: (err) => {
-        console.error('Reject failed', err);
-        this.triggerToast(`Failed to reject transaction ${txId}.`, 'error');
       }
     });
   }

@@ -1,5 +1,6 @@
 import { Component, computed, signal, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
 import { AdminManageOwnersService } from '../../../../core/services/AdminManageOwners/admin-manage-owners.service';
@@ -22,7 +23,7 @@ interface OwnerForDisplay {
 
 @Component({
   selector: 'app-admin-user-management-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-user-management-dashboard.component.html',
   styleUrl: './admin-user-management-dashboard.component.scss',
 })
@@ -42,6 +43,20 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
   itemsPerPage = 5;
   openDropdownId = signal<number | null>(null);
 
+  // ── Reject modal state ──────────────────────────────────────────────────────
+  rejectModalOpen = signal<boolean>(false);
+  rejectTargetId = signal<number | null>(null);
+  rejectionReason = '';
+  rejectionReasonTouched = signal<boolean>(false);
+  rejectLoading = signal<boolean>(false);
+
+  // ── Suspend modal state ─────────────────────────────────────────────────────
+  suspendModalOpen = signal<boolean>(false);
+  suspendTargetId = signal<number | null>(null);
+  suspensionReason = '';
+  suspensionReasonTouched = signal<boolean>(false);
+  suspendLoading = signal<boolean>(false);
+
   ngOnInit(): void {
     this.getDashboard();
     this.getOwners();
@@ -57,7 +72,7 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     return name.trim().substring(0, 2).toUpperCase();
   }
 
-  // Dashboard
+  // ── Dashboard ───────────────────────────────────────────────────────────────
   getDashboard(): void {
     this.adminDashboardService.DashboardOverview().subscribe({
       next: (res) => {
@@ -68,11 +83,10 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
           total_maincourts: data.total_maincourts,
         });
       },
-      error: () => this.toastService.error('Failed to load dashboard stats'),
     });
   }
 
-  // Owners
+  // ── Owners ──────────────────────────────────────────────────────────────────
   getOwners(): void {
     this.adminManageOwnersService.ShowAllOwners().subscribe({
       next: (res) => {
@@ -91,11 +105,10 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
         }));
         this.owners.set(mapped);
       },
-      error: () => this.toastService.error('Failed to load owners'),
     });
   }
 
-  // Dropdown logic
+  // ── Dropdown ────────────────────────────────────────────────────────────────
   toggleDropdown(ownerId: number, event: Event) {
     event.stopPropagation();
     this.openDropdownId.set(this.openDropdownId() === ownerId ? null : ownerId);
@@ -109,7 +122,7 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     }
   }
 
-  // Actions
+  // ── Approve / Activate (unchanged) ─────────────────────────────────────────
   approveOwner(ownerId: number) {
     this.adminManageOwnersService.ApproveOwner(ownerId).subscribe({
       next: () => {
@@ -117,44 +130,109 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
         this.getOwners();
         this.openDropdownId.set(null);
       },
-      error: () => this.toastService.error('Failed to approve owner'),
     });
   }
 
   activateOwner(ownerId: number) {
     this.adminManageOwnersService.ActivateOwner(ownerId).subscribe({
-      next: () => {
-        this.toastService.success('Owner activated');
+      next: (res) => {
+        this.toastService.success(res.message || 'Owner activated');
         this.getOwners();
         this.openDropdownId.set(null);
       },
-      error: () => this.toastService.error('Failed to activate owner'),
     });
   }
 
-  suspendOwner(ownerId: number) {
-    this.adminManageOwnersService.SuspendOwner(ownerId).subscribe({
-      next: () => {
-        this.toastService.success('Owner suspended');
+  // ── Reject modal ────────────────────────────────────────────────────────────
+  openRejectModal(ownerId: number) {
+    this.openDropdownId.set(null);
+    this.rejectTargetId.set(ownerId);
+    this.rejectionReason = '';
+    this.rejectionReasonTouched.set(false);
+    this.rejectLoading.set(false);
+    this.rejectModalOpen.set(true);
+  }
+
+  closeRejectModal() {
+    if (this.rejectLoading()) return;
+    this.rejectModalOpen.set(false);
+    this.rejectTargetId.set(null);
+    this.rejectionReason = '';
+    this.rejectionReasonTouched.set(false);
+  }
+
+  confirmReject() {
+    this.rejectionReasonTouched.set(true);
+    if (this.rejectionReason.trim().length === 0) return;
+
+    const id = this.rejectTargetId();
+    if (id === null) return;
+
+    this.rejectLoading.set(true);
+    this.adminManageOwnersService.RejectOwner(id, { rejection_reason: this.rejectionReason.trim() }).subscribe({
+      next: (res) => {
+        this.toastService.success(res.message || 'Owner rejected');
         this.getOwners();
-        this.openDropdownId.set(null);
+        this.getDashboard();
+        this.rejectLoading.set(false);
+        this.rejectModalOpen.set(false);
+        this.rejectTargetId.set(null);
+        this.rejectionReason = '';
+        this.rejectionReasonTouched.set(false);
       },
-      error: () => this.toastService.error('Failed to suspend owner'),
+      error: (err) => {
+        const message = err?.error?.message || 'Could not reject owner. Please try again.';
+        this.toastService.error(message);
+        this.rejectLoading.set(false);
+      },
     });
   }
+  // ── Suspend modal ───────────────────────────────────────────────────────────
+  openSuspendModal(ownerId: number) {
+    this.openDropdownId.set(null);
+    this.suspendTargetId.set(ownerId);
+    this.suspensionReason = '';
+    this.suspensionReasonTouched.set(false);
+    this.suspendLoading.set(false);
+    this.suspendModalOpen.set(true);
+  }
 
-  rejectOwner(ownerId: number) {
-    this.adminManageOwnersService.RejectOwner(ownerId).subscribe({
-      next: () => {
-        this.toastService.success('Owner rejected');
+  closeSuspendModal() {
+    if (this.suspendLoading()) return;
+    this.suspendModalOpen.set(false);
+    this.suspendTargetId.set(null);
+    this.suspensionReason = '';
+    this.suspensionReasonTouched.set(false);
+  }
+
+  confirmSuspend() {
+    this.suspensionReasonTouched.set(true);
+    if (this.suspensionReason.trim().length === 0) return;
+
+    const id = this.suspendTargetId();
+    if (id === null) return;
+
+    this.suspendLoading.set(true);
+    this.adminManageOwnersService.SuspendOwner(id, { suspension_reason: this.suspensionReason.trim() }).subscribe({
+      next: (res) => {
+        this.toastService.success(res.message || 'Owner suspended');
         this.getOwners();
-        this.openDropdownId.set(null);
+        this.getDashboard();
+        this.suspendLoading.set(false);
+        this.suspendModalOpen.set(false);
+        this.suspendTargetId.set(null);
+        this.suspensionReason = '';
+        this.suspensionReasonTouched.set(false);
       },
-      error: () => this.toastService.error('Failed to reject owner'),
+      error: (err) => {
+        const message = err?.error?.message || 'Could not suspend owner. Please try again.';
+        this.toastService.error(message);
+        this.suspendLoading.set(false);
+      },
     });
   }
 
-  // Pagination
+  // ── Pagination ──────────────────────────────────────────────────────────────
   paginatedOwners = computed(() => {
     const start = (this.currentPage() - 1) * this.itemsPerPage;
     return this.owners().slice(start, start + this.itemsPerPage);

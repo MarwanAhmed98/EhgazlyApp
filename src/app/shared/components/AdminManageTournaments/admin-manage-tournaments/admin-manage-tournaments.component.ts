@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AdminTournamentsService } from '../../../../core/services/AdminTournaments/admin-tournaments.service';
 import { IAdminTournaments } from '../../../interfaces/iadmin-tournaments';
+import { ToastService } from '../../../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-admin-manage-tournaments',
@@ -14,6 +15,7 @@ import { IAdminTournaments } from '../../../interfaces/iadmin-tournaments';
 })
 export class AdminManageTournamentsComponent implements OnInit {
   private adminTournamentsService = inject(AdminTournamentsService);
+  private toastService = inject(ToastService);
 
   tournaments = signal<IAdminTournaments[]>([]);
   searchTerm = signal<string>('');
@@ -45,11 +47,8 @@ export class AdminManageTournamentsComponent implements OnInit {
     this.adminTournamentsService.ShowTournaments().subscribe({
       next: (res) => {
         this.tournaments.set(res.data || []);
-      },
-      error: (err) => {
-        console.error('Failed to load tournaments', err);
-        this.triggerToast('Failed to load tournaments', 'danger');
       }
+
     });
   }
 
@@ -109,15 +108,24 @@ export class AdminManageTournamentsComponent implements OnInit {
       important_note: this.editFormValues.important_note
     };
     this.adminTournamentsService.UpdateTournament(this.editFormValues.id, payload).subscribe({
-      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast(`Tournament "${this.editFormValues.name}" updated successfully`, 'success'); },
-      error: () => this.triggerToast('Update failed', 'danger')
+      next: (res) => {
+        this.loadTournaments();
+        this.closeManageModal();
+        this.toastService.success(res.message || `Tournament "${this.editFormValues.name}" updated successfully`);
+        this.triggerToast(`Tournament "${this.editFormValues.name}" updated successfully`, 'success');
+      },
     });
   }
 
   updateTournamentStatus(id: number, newStatus: string) {
     this.adminTournamentsService.UpdateTournamentStatus(id, newStatus).subscribe({
-      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast(`Status changed to ${newStatus}`, 'success'); },
-      error: () => this.triggerToast('Status update failed', 'danger')
+      next: (res) => {
+        this.loadTournaments();
+        this.closeManageModal();
+        this.toastService.success(res.message || `Tournament status updated to ${newStatus}`);
+        this.triggerToast(`Status changed to ${newStatus}`, 'success');
+      },
+
     });
   }
 
@@ -129,8 +137,13 @@ export class AdminManageTournamentsComponent implements OnInit {
 
   deleteTournament(id: number) {
     this.adminTournamentsService.DeleteTournament(id).subscribe({
-      next: () => { this.loadTournaments(); this.closeManageModal(); this.triggerToast('Tournament deleted successfully', 'danger'); },
-      error: () => this.triggerToast('Deletion failed', 'danger')
+      next: (res) => {
+        this.loadTournaments();
+        this.closeManageModal();
+        this.toastService.success(res.message || 'Tournament deleted successfully');
+        this.triggerToast('Tournament deleted successfully', 'danger');
+      },
+
     });
   }
 

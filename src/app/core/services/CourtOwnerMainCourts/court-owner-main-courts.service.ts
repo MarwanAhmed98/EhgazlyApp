@@ -24,4 +24,22 @@ export class CourtOwnerMainCourtsService {
   DeleteMainCourt(courtId: string): Observable<any> {
     return this.httpClient.delete(environments.baseUrl + `/owner/maincourts/${courtId}`);
   }
+  AddMainCourtImage(courtId: string, data: any): Observable<any> {
+    return this.httpClient.post(environments.baseUrl + `/owner/maincourts/${courtId}/images`, data);
+  }
+  DeleteMainCourtImage(imageId: string): Observable<any> {
+    return this.httpClient.delete(environments.baseUrl + `/owner/images/${imageId}`);
+  }
+  AddMainCourtAmenities(courtId: string, AmenitiesIds: number[]): Observable<any> {
+    return this.httpClient.post(environments.baseUrl + `/owner/maincourts/${courtId}/amenities`,
+      {
+        "amenity_ids": AmenitiesIds
+      }
+    );
+  }
+  GetMainCourtAmenities(): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + '/owner/amenities');
+  }
+
+
 }

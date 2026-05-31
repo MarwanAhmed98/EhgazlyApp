@@ -28,11 +28,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly adminNotiService = inject(AdminNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
+  UserNameeeee: string = localStorage.getItem('username')!;
 
   isSideNavOpen = true;
   currentTitle = 'Dashboard';
   header = { breadcrumbRoot: 'Ehgazly' };
-  brand = { name: 'Ehgazly' };
+  brand = { name: 'Ehgezly' };
   userName: string = (typeof localStorage !== 'undefined' && localStorage.getItem('UserName')) || 'User';
 
   navItems: NavItem[] = [
@@ -45,7 +46,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   ];
 
   get avatarUrl(): string {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.UserNameeeee)}&background=146A1E&color=ffffff`;
   }
   NotificationsDetails: INotifications = {
     notifications: [],

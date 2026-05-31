@@ -42,18 +42,20 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
 
+  UserNameeeee: string = localStorage.getItem('username')!;
+
   // Navigation state
   isSideNavOpen = true;
   isDarkMode =
     typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark';
   currentTitle = 'Dashboard';
   header = { breadcrumbRoot: 'Ehgazly' };
-  brand = { name: 'Ehgazly', logoUrl: '/assets/images/logo.png' };
+  brand = { name: 'Ehgezly', logoUrl: '/assets/images/logo.png' };
   userName: string =
     (typeof localStorage !== 'undefined' && localStorage.getItem('UserName')) || 'User';
 
   get avatarUrl(): string {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.userName)}&background=146A1E&color=ffffff`;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(this.UserNameeeee)}&background=146A1E&color=ffffff`;
   }
 
   navItems: NavItem[] = [

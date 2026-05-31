@@ -1,77 +1,237 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { CourtOwnerMainCourtsService } from '../../../../core/services/CourtOwnerMainCourts/court-owner-main-courts.service';
 import { ICourtOwnerSpecMainCourt } from '../../../interfaces/icourt-owner-spec-main-court';
+
 type GalleryUploadStatus = 'idle' | 'uploading' | 'success' | 'error';
-interface GalleryImage {
+
+interface PendingImage {
   id: number;
   file: File;
   preview: string;
 }
 
+interface ExistingImage {
+  id: string;
+  url: string;
+  is_primary: boolean;
+}
+
+interface Amenity {
+  id: number;
+  name: string;
+  icon?: string;
+}
+
 @Component({
   selector: 'app-court-editor',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, UpperCasePipe],
   templateUrl: './court-editor.component.html',
   styleUrl: './court-editor.component.scss'
 })
-export class CourtEditorComponent implements OnInit {
+export class CourtEditorComponent implements OnInit, OnDestroy {
   private readonly courtOwnerMainCourtsService = inject(CourtOwnerMainCourtsService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   SpecDetails: ICourtOwnerSpecMainCourt = {} as ICourtOwnerSpecMainCourt;
   MainCourtName: string = '';
-  productid: any;
-  private readonly router = inject(Router);
-  galleryImages = signal<GalleryImage[]>([]);
+  productid: string = '';
+
+  // Gallery state
   galleryUploadStatus: GalleryUploadStatus = 'idle';
-  galleryError = '';
-  private galleryIdCounter = 0;
-  private galleryTimer: number | null = null;
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe({
-      next: (res) => {
-        this.productid = res.get('id');
-        if (this.productid) {
-          this.courtOwnerMainCourtsService.GetSpecificCourt(this.productid).subscribe({
-            next: (res) => {
-              this.SpecDetails = res.data;
-              this.MainCourtName = this.SpecDetails.name;
-            }
-          });
-        }
-      }
-    });
-  }
-  amenities = signal([
-    { id: 'floodlights', label: 'FLOODLIGHTS', icon: 'lightbulb', selected: true },
-    { id: 'natural_grass', label: 'NATURAL GRASS', icon: 'grass', selected: false },
-    { id: 'vip_lounge', label: 'VIP LOUNGE', icon: 'diamond', selected: true },
-    { id: 'parking', label: 'PARKING', icon: 'local_parking', selected: true },
-    { id: 'showers', label: 'SHOWERS', icon: 'shower', selected: true },
-    { id: 'wifi', label: 'WI-FI', icon: 'wifi', selected: false },
-  ]);
+  galleryError: string = '';
+  isLoadingImages: boolean = false;
+  private pendingIdCounter = 0;
+  private objectUrls: string[] = [];
+
+  pendingImages = signal<PendingImage[]>([]);
+  existingImages = signal<ExistingImage[]>([]);
+
+  // Amenities state
+  isLoadingAmenities: boolean = false;
+  availableAmenities = signal<Amenity[]>([]);
+  selectedAmenityIds = signal<Set<number>>(new Set());
+
   courtForm: FormGroup = new FormGroup({
     courtName: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     hourlyRate: new FormControl(null, [Validators.required, Validators.min(0)]),
     description: new FormControl(null, [Validators.required, Validators.minLength(20)])
   });
 
-  toggleAmenity(index: number) {
-    const updated = [...this.amenities()];
-    updated[index].selected = !updated[index].selected;
-    this.amenities.set(updated);
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.productid = id;
+        this.loadCourtDetails();
+        this.loadCourtImages();
+        this.loadAmenities();
+      }
+    });
   }
 
+  ngOnDestroy(): void {
+    this.objectUrls.forEach(url => URL.revokeObjectURL(url));
+  }
+
+  private loadCourtDetails(): void {
+    this.courtOwnerMainCourtsService.GetSpecificCourt(this.productid).subscribe({
+      next: (res) => {
+        this.SpecDetails = res.data;
+        this.MainCourtName = this.SpecDetails.name;
+      }
+    });
+  }
+
+  private loadCourtImages(): void {
+    this.isLoadingImages = true;
+    this.courtOwnerMainCourtsService.GetSpecificCourt(this.productid).subscribe({
+      next: (res) => {
+        const images: ExistingImage[] = (res.data?.images || []).map((img: any) => ({
+          id: img.id,
+          url: img.url || img.image_url || img.path,
+          is_primary: !!img.is_primary
+        }));
+        this.existingImages.set(images);
+        this.isLoadingImages = false;
+      },
+      error: () => {
+        this.isLoadingImages = false;
+      }
+    });
+  }
+
+  private loadAmenities(): void {
+    this.isLoadingAmenities = true;
+    this.courtOwnerMainCourtsService.GetMainCourtAmenities().subscribe({
+      next: (res) => {
+        const amenities: Amenity[] = (res.data || res || []).map((a: any) => ({
+          id: a.id,
+          name: a.name,
+          icon: a.icon || null
+        }));
+        this.availableAmenities.set(amenities);
+
+        // Pre-select amenities already associated with the court
+        const courtAmenityIds: number[] = (this.SpecDetails?.amenities || []).map((a: any) => a.id);
+        this.selectedAmenityIds.set(new Set(courtAmenityIds));
+
+        this.isLoadingAmenities = false;
+      },
+      error: () => {
+        this.isLoadingAmenities = false;
+      }
+    });
+  }
+
+  // ---- Gallery Methods ----
+
+  onGalleryFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files || []);
+    input.value = '';
+
+    if (!files.length) return;
+
+    this.galleryError = '';
+    const allowed = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
+    const newPending: PendingImage[] = [];
+
+    for (const file of files) {
+      if (!allowed.includes(file.type) || file.size > 10 * 1024 * 1024) {
+        this.galleryError = 'Some files were skipped. Only JPG, JPEG, PNG, WEBP under 10MB are allowed.';
+        continue;
+      }
+      const url = URL.createObjectURL(file);
+      this.objectUrls.push(url);
+      newPending.push({ id: ++this.pendingIdCounter, file, preview: url });
+    }
+
+    this.pendingImages.update(prev => [...prev, ...newPending]);
+  }
+
+  removePendingImage(id: number): void {
+    const img = this.pendingImages().find(i => i.id === id);
+    if (img) {
+      URL.revokeObjectURL(img.preview);
+      this.objectUrls = this.objectUrls.filter(u => u !== img.preview);
+    }
+    this.pendingImages.update(prev => prev.filter(i => i.id !== id));
+  }
+
+  uploadPendingImages(): void {
+    const pending = this.pendingImages();
+    if (!pending.length || this.galleryUploadStatus === 'uploading') return;
+
+    this.galleryUploadStatus = 'uploading';
+    this.galleryError = '';
+
+    const formData = new FormData();
+    formData.append('is_primary', '1');
+    pending.forEach(img => formData.append('images[]', img.file));
+
+    this.courtOwnerMainCourtsService.AddMainCourtImage(this.productid, formData).subscribe({
+      next: () => {
+        this.galleryUploadStatus = 'success';
+        pending.forEach(img => {
+          URL.revokeObjectURL(img.preview);
+          this.objectUrls = this.objectUrls.filter(u => u !== img.preview);
+        });
+        this.pendingImages.set([]);
+        this.loadCourtImages();
+      },
+      error: () => {
+        this.galleryUploadStatus = 'error';
+        this.galleryError = 'Upload failed. Please try again.';
+      }
+    });
+  }
+
+  deleteExistingImage(imageId: string): void {
+    if (!confirm('Are you sure you want to delete this image? This action cannot be undone.')) return;
+
+    this.courtOwnerMainCourtsService.DeleteMainCourtImage(imageId).subscribe({
+      next: () => {
+        this.existingImages.update(prev => prev.filter(i => i.id !== imageId));
+      },
+      error: () => {
+        this.galleryError = 'Failed to delete image. Please try again.';
+      }
+    });
+  }
+
+  // ---- Amenities Methods ----
+
+  isAmenitySelected(id: number): boolean {
+    return this.selectedAmenityIds().has(id);
+  }
+
+  toggleAmenity(id: number): void {
+    const current = new Set(this.selectedAmenityIds());
+    if (current.has(id)) {
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
+    this.selectedAmenityIds.set(current);
+  }
+
+  // ---- Form Submit ----
+
   submitForm(): void {
+    const amenityIds = Array.from(this.selectedAmenityIds());
+
+    this.courtOwnerMainCourtsService.AddMainCourtAmenities(this.productid, amenityIds).subscribe();
+
     if (this.courtForm.valid) {
       const payload = {
         ...this.courtForm.value,
-        amenities: this.amenities().filter(a => a.selected).map(a => a.id)
+        amenity_ids: amenityIds
       };
-      console.log('Saving Court Data:', payload);
-      console.log(this.courtForm.value);
+      this.courtOwnerMainCourtsService.EditMainCourt(this.productid, payload).subscribe();
     } else {
       this.courtForm.markAllAsTouched();
     }
@@ -79,61 +239,9 @@ export class CourtEditorComponent implements OnInit {
 
   removeCourt(): void {
     if (confirm('Are you sure you want to remove this court? This action is permanent.')) {
-      console.log('Court Removed');
-    }
-  }
-  onGalleryFilesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const files = Array.from(input.files || []);
-
-    if (!files.length) return;
-
-    this.startGalleryUpload(files);
-
-    input.value = '';
-  }
-
-  private startGalleryUpload(files: File[]): void {
-    this.clearGalleryTimer();
-
-    this.galleryUploadStatus = 'uploading';
-    this.galleryError = '';
-
-    this.galleryTimer = window.setTimeout(() => {
-      const newImages: GalleryImage[] = [];
-
-      for (const file of files) {
-        const isInvalid = file.size > 10 * 1024 * 1024 || !file.type.startsWith('image/');
-
-        if (isInvalid) {
-          this.galleryUploadStatus = 'error';
-          this.galleryError = 'Invalid file detected.';
-          return;
-        }
-
-        newImages.push({
-          id: ++this.galleryIdCounter,
-          file,
-          preview: URL.createObjectURL(file)
-        });
-      }
-
-      this.galleryImages.update(prev => [...prev, ...newImages]);
-      this.galleryUploadStatus = 'success';
-    }, 800);
-  }
-
-  removeImage(id: number): void {
-    const img = this.galleryImages().find(i => i.id === id);
-    if (img) URL.revokeObjectURL(img.preview);
-
-    this.galleryImages.update(prev => prev.filter(i => i.id !== id));
-  }
-
-  private clearGalleryTimer(): void {
-    if (this.galleryTimer) {
-      window.clearTimeout(this.galleryTimer);
-      this.galleryTimer = null;
+      this.courtOwnerMainCourtsService.DeleteMainCourt(this.productid).subscribe({
+        next: () => this.router.navigate(['/owner/courts'])
+      });
     }
   }
 }

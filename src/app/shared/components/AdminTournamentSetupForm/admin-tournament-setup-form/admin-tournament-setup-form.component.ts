@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { AdminTournamentsService } from '../../../../core/services/AdminTournaments/admin-tournaments.service';
 import { AdminManageCourtsService } from '../../../../core/services/AdminManageCourts/admin-manage-courts.service';
 import { LucideAngularModule } from 'lucide-angular';
+import { ToastService } from '../../../../core/services/toast/toast.service';
 
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
@@ -46,6 +47,7 @@ interface Timeslot {
 export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
   private adminTournamentsService = inject(AdminTournamentsService);
   private adminManageCourtsService = inject(AdminManageCourtsService);
+  private toastService = inject(ToastService);
 
   @Output() tournamentCreated = new EventEmitter<void>();
 
