@@ -8,7 +8,7 @@ import { TournamentsService } from '../../../../core/services/Tournaments/tourna
 import { ICustomerTournaments } from '../../../interfaces/icustomer-tournaments';
 import { LucideAngularModule } from 'lucide-angular';
 
-type FilterKey = 'all' | 'upcoming' | 'professional' | 'amateur';
+type FilterKey = 'all' | 'open' | 'ongoing' | 'finished' | 'cancelled';
 
 @Component({
   selector: 'app-tournaments',
@@ -22,7 +22,6 @@ export class TournamentsComponent implements OnInit {
   private readonly tournamentsService = inject(TournamentsService);
   private readonly router = inject(Router);
 
-
   // Featured static section remains unchanged
   featured = {
     titleLine1: "CHAMPION'S",
@@ -33,9 +32,10 @@ export class TournamentsComponent implements OnInit {
 
   filters: { key: FilterKey; label: string }[] = [
     { key: 'all', label: 'All Tournaments' },
-    { key: 'upcoming', label: 'Upcoming' },
-    { key: 'professional', label: 'Professional' },
-    { key: 'amateur', label: 'Amateur' },
+    { key: 'open', label: 'Open' },
+    { key: 'ongoing', label: 'Ongoing' },
+    { key: 'finished', label: 'Finished' },
+    { key: 'cancelled', label: 'Cancelled' }
   ];
 
   activeFilter: FilterKey = 'all';
@@ -65,22 +65,9 @@ export class TournamentsComponent implements OnInit {
   get visibleTournaments(): ICustomerTournaments[] {
     let filtered = [...this.allTournaments];
 
-    // Filter by status (mock mapping: upcoming = start_date > today, professional/amateur = from category if exists; else use default)
+    // Filter by exact status value (case-insensitive match to backend)
     if (this.activeFilter !== 'all') {
-      const today = new Date();
-      filtered = filtered.filter(t => {
-        if (this.activeFilter === 'upcoming') {
-          return new Date(t.start_date) > today;
-        }
-        // For professional/amateur - if backend provides a category field, use it. Otherwise fallback to prize pool threshold.
-        if (this.activeFilter === 'professional') {
-          return t.total_prize_pool >= 10000;
-        }
-        if (this.activeFilter === 'amateur') {
-          return t.total_prize_pool < 10000;
-        }
-        return true;
-      });
+      filtered = filtered.filter(t => t.status?.toLowerCase() === this.activeFilter);
     }
 
     // Search by name, venue, or address

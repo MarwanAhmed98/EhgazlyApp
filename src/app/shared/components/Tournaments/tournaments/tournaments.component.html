@@ -10,7 +10,10 @@
             <div class="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
                 <div class="flex-1 min-w-0">
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-5 flex items-center text-emerald-950/55">🔎</span>
+
+                        <span class="absolute inset-y-0 left-0 pl-5 flex items-center text-emerald-950/55">
+                            <lucide-icon name="search" [size]="20" [strokeWidth]="2.5"></lucide-icon>
+                        </span>
                         <input [value]="search" (input)="onSearch(($any($event.target).value))" type="text"
                             placeholder="Search tournaments, venues, or cities..."
                             class="w-full h-[64px] rounded-[2rem] bg-[#B9F2C2]/55 border border-emerald-200/60 px-6 pl-12 font-bold text-emerald-950 outline-none placeholder:text-emerald-950/45 focus:border-emerald-950/40 focus:ring-2 focus:ring-emerald-950/10 transition-all" />
@@ -157,7 +160,7 @@
                         </span>
                     </div>
 
-                    <button routerLink="/TournamentsRegister" type="button"
+                    <button [routerLink]="['/TournamentsRegister' , t.id]" type="button"
                         class="mt-5 w-full px-6 py-4 rounded-2xl bg-[#9BF18E] hover:bg-[#86ea79] text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                         Register Now <span>→</span>
                     </button>

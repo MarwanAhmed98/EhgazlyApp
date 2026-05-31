@@ -1,18 +1,9 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-court-editor',
-//   imports: [],
-//   templateUrl: './court-editor.component.html',
-//   styleUrl: './court-editor.component.scss'
-// })
-// export class CourtEditorComponent {
-
-// }
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CourtOwnerMainCourtsService } from '../../../../core/services/CourtOwnerMainCourts/court-owner-main-courts.service';
+import { ICourtOwnerSpecMainCourt } from '../../../interfaces/icourt-owner-spec-main-court';
 type GalleryUploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 interface GalleryImage {
   id: number;
@@ -26,16 +17,33 @@ interface GalleryImage {
   templateUrl: './court-editor.component.html',
   styleUrl: './court-editor.component.scss'
 })
-export class CourtEditorComponent {
+export class CourtEditorComponent implements OnInit {
+  private readonly courtOwnerMainCourtsService = inject(CourtOwnerMainCourtsService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  SpecDetails: ICourtOwnerSpecMainCourt = {} as ICourtOwnerSpecMainCourt;
+  MainCourtName: string = '';
+  productid: any;
   private readonly router = inject(Router);
   galleryImages = signal<GalleryImage[]>([]);
   galleryUploadStatus: GalleryUploadStatus = 'idle';
   galleryError = '';
-
   private galleryIdCounter = 0;
   private galleryTimer: number | null = null;
-
-  // State for Amenities (Match the UI Grid)
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe({
+      next: (res) => {
+        this.productid = res.get('id');
+        if (this.productid) {
+          this.courtOwnerMainCourtsService.GetSpecificCourt(this.productid).subscribe({
+            next: (res) => {
+              this.SpecDetails = res.data;
+              this.MainCourtName = this.SpecDetails.name;
+            }
+          });
+        }
+      }
+    });
+  }
   amenities = signal([
     { id: 'floodlights', label: 'FLOODLIGHTS', icon: 'lightbulb', selected: true },
     { id: 'natural_grass', label: 'NATURAL GRASS', icon: 'grass', selected: false },
@@ -44,8 +52,6 @@ export class CourtEditorComponent {
     { id: 'showers', label: 'SHOWERS', icon: 'shower', selected: true },
     { id: 'wifi', label: 'WI-FI', icon: 'wifi', selected: false },
   ]);
-
-  // Reactive Form Initialization
   courtForm: FormGroup = new FormGroup({
     courtName: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     hourlyRate: new FormControl(null, [Validators.required, Validators.min(0)]),
@@ -64,19 +70,14 @@ export class CourtEditorComponent {
         ...this.courtForm.value,
         amenities: this.amenities().filter(a => a.selected).map(a => a.id)
       };
-
       console.log('Saving Court Data:', payload);
       console.log(this.courtForm.value);
-
-      // Implementation logic from reference code
-      // this.authService.updateCourt(payload).subscribe(...)
     } else {
       this.courtForm.markAllAsTouched();
     }
   }
 
   removeCourt(): void {
-    // Logic for the Danger Zone action
     if (confirm('Are you sure you want to remove this court? This action is permanent.')) {
       console.log('Court Removed');
     }

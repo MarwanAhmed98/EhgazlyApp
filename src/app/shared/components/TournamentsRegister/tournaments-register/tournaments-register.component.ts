@@ -1,93 +1,102 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../../core/services/Auth/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { TournamentsService } from '../../../../core/services/Tournaments/tournaments.service';
 
 @Component({
   selector: 'app-tournaments-register',
-  imports: [ReactiveFormsModule, RouterLink],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './tournaments-register.component.html',
-  styleUrl: './tournaments-register.component.scss',
+  styleUrl: './tournaments-register.component.scss'
 })
-export class TournamentsRegisterComponent {
-  private readonly authService = inject(AuthService);
+export class TournamentsRegisterComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly tournamentsService = inject(TournamentsService);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  role: 'customer' | 'courtowner' = 'customer';
-  showPassword = false;
+  tournamentId: number | null = null;
+  receiptFile: File | null = null;
+  receiptPreviewUrl: string | null = null;
+  receiptError: string | null = null;
 
-  readonly RegisterForm = new FormGroup({
-    teamName: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
-    }),
-    kitColor: new FormControl<string>('#2E7D32', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    captainName: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
-    }),
-    phone: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)],
-    }),
-    role: new FormControl<'customer' | 'courtowner'>('customer', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+  RegisterForm = new FormGroup({
+    teamName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)] }),
+    teamColor: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    captainName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)] }),
+    phone: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)] }),
+    paymentType: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    receiptImage: new FormControl(null, { validators: [Validators.required] }) // virtual control
   });
 
-  // exact swatches from provided image (green, blue, brown, red, black, white)
-  kitColors = [
-    { key: 'green', hex: '#146A1E' },
-    { key: 'blue', hex: '#0B4FA1' },
-    { key: 'brown', hex: '#A34700' },
-    { key: 'red', hex: '#B42318' },
-    { key: 'black', hex: '#1F1F1F' },
-    { key: 'white', hex: '#FFFFFF' },
-  ] as const;
-
-  selectKitColor(hex: string): void {
-    this.RegisterForm.controls.kitColor.setValue(hex);
-    this.RegisterForm.controls.kitColor.markAsDirty();
-    this.RegisterForm.controls.kitColor.markAsTouched();
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.tournamentId = +id;
+      } else {
+        this.router.navigate(['/Tournaments']);
+      }
+    });
   }
 
-  setRole(role: 'customer' | 'courtowner'): void {
-    this.role = role;
-    this.RegisterForm.controls.role.setValue(role);
-    this.RegisterForm.controls.role.markAsDirty();
-    this.RegisterForm.controls.role.markAsTouched();
+  triggerFileInput(): void {
+    document.getElementById('receiptInput')?.click();
   }
 
-  togglePassword(): void {
-    this.showPassword = !this.showPassword;
+  onReceiptSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      this.receiptError = 'Only JPG, PNG, WEBP images are allowed.';
+      this.receiptFile = null;
+      this.receiptPreviewUrl = null;
+      this.RegisterForm.controls.receiptImage.setErrors({ required: true });
+      return;
+    }
+
+    this.receiptError = null;
+    this.receiptFile = file;
+    this.RegisterForm.controls.receiptImage.setErrors(null);
+
+    const reader = new FileReader();
+    reader.onload = (e) => this.receiptPreviewUrl = e.target?.result as string;
+    reader.readAsDataURL(file);
+  }
+
+  removeReceipt(): void {
+    this.receiptFile = null;
+    this.receiptPreviewUrl = null;
+    this.receiptError = null;
+    this.RegisterForm.controls.receiptImage.setErrors({ required: true });
+    const fileInput = document.getElementById('receiptInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   SubmitForm(): void {
-    // keep same submit flow structure as base code (no refactor)
-    if (this.RegisterForm.valid) {
-      this.router.navigate(['/TournamentsPayment']);
-      // keeping service call structure (commented as in provided base code)
-      // this.authService.sendRegisterForm(this.RegisterForm.value).subscribe({
-      //   next: (res) => {
-      //     console.log(res);
-      //     localStorage.setItem('CourtOwnerToken', res.token);
-      //     this.router.navigate(['/Login']);
-      //   },
-      //   error: (err) => {
-      //     console.log(err);
-      //   },
-      // });
+    if (this.RegisterForm.invalid || !this.receiptFile || !this.tournamentId) {
+      this.toastService.error('Please fill all required fields and upload receipt.');
+      return;
     }
-    console.log(this.RegisterForm.value);
-  }
 
-  dismissRoleError(): void {
-    this.RegisterForm.controls.role.markAsUntouched();
-    this.RegisterForm.controls.role.markAsPristine();
-    this.RegisterForm.controls.role.updateValueAndValidity({ emitEvent: false });
+    const formData = new FormData();
+    formData.append('team_name', this.RegisterForm.value.teamName!);
+    formData.append('team_color', this.RegisterForm.value.teamColor!);
+    formData.append('captain_name', this.RegisterForm.value.captainName!);
+    formData.append('captain_phone', this.RegisterForm.value.phone!);
+    formData.append('payment_type', this.RegisterForm.value.paymentType!);
+    formData.append('receipt_image', this.receiptFile);
+
+    this.tournamentsService.RegisterTournaments(this.tournamentId, formData).subscribe({
+      next: (res) => {
+        this.toastService.success(res.message || 'Registration successful!');
+        this.router.navigate(['/Tournaments']); // adjust route as needed
+      }
+    });
   }
 }

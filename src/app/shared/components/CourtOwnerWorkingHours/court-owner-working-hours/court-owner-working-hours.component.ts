@@ -20,8 +20,6 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
   mainCourts: ICourtOwnerMainCourt[] = [];
   selectedMainCourtId: number | null = null;
   workingHoursList: any[] = [];
-  // isLoading = false;
-  // errorMessage = '';
   isModalOpen = false;
   isSubmitting = false;
 
@@ -33,23 +31,15 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
   }
 
   loadMainCourts(): void {
-    // this.isLoading = true;
     this.mainCourtsService.GetMainCourt().subscribe({
       next: (res) => {
         this.mainCourts = res.data || [];
         if (this.mainCourts.length > 0) {
           this.selectedMainCourtId = this.mainCourts[0].id;
           this.loadWorkingHours();
-        } else {
-          // this.isLoading = false;
-          // this.errorMessage = 'No main courts found.';
         }
       },
-      error: (err) => {
-        // this.isLoading = false;
-        // this.errorMessage = 'Failed to load main courts.';
-        console.error(err);
-      }
+      error: (err) => console.error(err)
     });
   }
 
@@ -61,31 +51,24 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
 
   loadWorkingHours(): void {
     if (!this.selectedMainCourtId) return;
-    // this.isLoading = true;
-    // this.errorMessage = '';
     this.workingHoursService.ShowWorkingHours(this.selectedMainCourtId.toString()).subscribe({
-      next: (res) => {
-        this.workingHoursList = res.data || [];
-        // this.isLoading = false;
-      },
-      error: (err) => {
-        // this.isLoading = false;
-        // this.errorMessage = 'Could not load working hours. Please try again.';
-        console.error(err);
-      }
+      next: (res) => { this.workingHoursList = res.data || []; },
+      error: (err) => console.error(err)
     });
   }
 
+  // Display card time: "11:00:00" → "11:00"
   formatTime(time: string): string {
     if (!time) return '';
-    return time.substring(0, 5); // converts "09:00:00" -> "09:00"
+    const hhmm = time.substring(0, 5); // "HH:MM"
+    if (hhmm === '00:00') return '24:00';
+    return hhmm;
   }
 
   trackById(index: number, item: any): number {
     return item.id;
   }
 
-  // Modal logic
   openHoursModal(): void {
     this.initForm();
     this.isModalOpen = true;
@@ -98,12 +81,17 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
 
   initForm(): void {
     const group: any = {};
-    // Create form controls for each day: toggle + open/close times
     this.daysOfWeek.forEach(day => {
       const existing = this.workingHoursList.find(h => h.day_of_week === day);
       const isOpen = existing ? existing.is_open : false;
-      const openTime = existing && existing.open_time ? this.formatTime(existing.open_time) : '09:00';
-      const closeTime = existing && existing.close_time ? this.formatTime(existing.close_time) : '18:00';
+
+      // "11:00:00" → "11:00" for type="time" input
+      const openTime = existing?.open_time
+        ? existing.open_time.substring(0, 5)
+        : '09:00';
+      const closeTime = existing?.close_time
+        ? existing.close_time.substring(0, 5)
+        : '18:00';
 
       group[day] = [isOpen];
       group[day + '_open'] = [{ value: openTime, disabled: !isOpen }];
@@ -116,7 +104,6 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
     const isOpen = this.hoursForm.get(day)?.value;
     const openControl = this.hoursForm.get(day + '_open');
     const closeControl = this.hoursForm.get(day + '_close');
-
     if (isOpen) {
       openControl?.enable();
       closeControl?.enable();
@@ -128,6 +115,11 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
 
   getDayControlValue(day: string): { is_open: boolean } {
     return { is_open: this.hoursForm.get(day)?.value || false };
+  }
+
+  // type="time" already returns "HH:MM" → send as-is, backend expects "H:i" format
+  private toBackendTime(hhmm: string): string {
+    return hhmm; // "00:00", "09:00", "13:00" — all correct as-is
   }
 
   submitHours(): void {
@@ -142,29 +134,26 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
         const closeTime = this.hoursForm.get(day + '_close')?.value;
         hoursPayload.push({
           day_of_week: day,
-          open_time: openTime,
-          close_time: closeTime,
+          open_time: this.toBackendTime(openTime),
+          close_time: this.toBackendTime(closeTime),
           is_open: true
         });
       } else {
-        hoursPayload.push({
-          day_of_week: day,
-          is_open: false
-        });
+        hoursPayload.push({ day_of_week: day, is_open: false });
       }
     }
 
-    const requestBody = { hours: hoursPayload };
-
-    this.workingHoursService.AddWorkHours(this.selectedMainCourtId.toString(), requestBody).subscribe({
+    this.workingHoursService.AddWorkHours(
+      this.selectedMainCourtId.toString(),
+      { hours: hoursPayload }
+    ).subscribe({
       next: () => {
         this.isSubmitting = false;
         this.closeModal();
-        this.loadWorkingHours(); // refresh list
+        this.loadWorkingHours();
       },
       error: (err) => {
         this.isSubmitting = false;
-        // this.errorMessage = 'Failed to save working hours.';
         console.error(err);
       }
     });

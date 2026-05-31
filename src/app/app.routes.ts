@@ -149,7 +149,7 @@ export const routes: Routes = [
         title: 'Tournaments Details',
     },
     {
-        path: 'TournamentsRegister',
+        path: 'TournamentsRegister/:id',
         component: TournamentsRegisterComponent,
         title: 'Tournaments Register',
     },
@@ -197,7 +197,7 @@ export const routes: Routes = [
             { path: 'CourtOwnerSpecific/:mainCourtId/:id', component: CourtOwnerSpecificCourtsComponent, title: 'Specific Court' },
             { path: 'SpecificCourtOwner/:id', component: CourtOwnerSpecificCourtComponent, title: 'Specific Court' },
             { path: 'ManageCourtSchedule', component: ManageCourtScheduleComponent, title: 'Manage Court Schedule' },
-            { path: 'CourtEditor', component: CourtEditorComponent, title: 'Courts Editor' },
+            { path: 'CourtEditor/:id', component: CourtEditorComponent, title: 'Courts Editor' },
             { path: 'AddNewCourt', component: AddNewCourtComponent, title: 'Add New Court' },
             { path: 'Notifications', component: CourtOwnerNotificationsComponent, title: 'Notifications' },
             { path: 'Financials', component: CourtOwnerFinanceComponent, title: 'Financials' },

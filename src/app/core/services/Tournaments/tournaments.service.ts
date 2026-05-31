@@ -12,4 +12,7 @@ export class TournamentsService {
   GetAllTournaments(): Observable<any> {
     return this.httpClient.get(environments.baseUrl + '/customer/tournaments/all')
   }
+  RegisterTournaments(tournamentId: number | string, data: any): Observable<any> {
+    return this.httpClient.post(environments.baseUrl + `/customer/tournaments/${tournamentId}/register`, data)
+  }
 }

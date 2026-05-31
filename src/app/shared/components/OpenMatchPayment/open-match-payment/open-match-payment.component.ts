@@ -4,6 +4,7 @@ import { PlayernavComponent } from '../../../../layouts/playernav/playernav/play
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
 import { IPayOpenMatch } from '../../../interfaces/ipay-open-match';
+import { ToastService } from '../../../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-open-match-payment',
@@ -15,6 +16,7 @@ import { IPayOpenMatch } from '../../../interfaces/ipay-open-match';
 export class OpenMatchPaymentComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly playerFriendlyMatchService = inject(PlayerFRiendlyMatchService);
+  private readonly toastService = inject(ToastService);
   private readonly router = inject(Router);
 
   OpenMatchDetails: IPayOpenMatch = {} as IPayOpenMatch;
@@ -41,10 +43,6 @@ export class OpenMatchPaymentComponent implements OnInit {
     this.playerFriendlyMatchService.PaymentInfo(this.productid).subscribe({
       next: (res) => {
         this.OpenMatchDetails = res.data;
-      },
-      error: (err) => {
-        console.error('Failed to load payment info', err);
-        alert('Could not load payment details. Please try again.');
       }
     });
   }
@@ -115,13 +113,8 @@ export class OpenMatchPaymentComponent implements OnInit {
 
     this.playerFriendlyMatchService.PayMatches(this.productid, formData).subscribe({
       next: (res) => {
-        alert('Payment submitted successfully!');
-        // Navigate back to friendly matches list or previous page
-        this.router.navigate(['/player/friendly-matches']);
-      },
-      error: (err) => {
-        console.error('Payment failed', err);
-        alert('Payment failed. Please check your details and try again.');
+        this.toastService.success(res.message || 'Payment successful!');
+        this.router.navigate(['FriendlyMatches']);
       }
     });
   }
