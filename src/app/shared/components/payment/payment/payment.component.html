@@ -83,7 +83,7 @@
                         <div class="flex items-center gap-3">
                             <span
                                 class="w-11 h-11 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
-                                💳
+                                <lucide-icon name="credit-card" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                             </span>
                             <p class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
                                 Select Payment Method</p>
@@ -100,7 +100,11 @@
                                     <div class="flex items-start gap-4">
                                         <span
                                             class="w-12 h-12 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
-                                            @if (method.type === 'instapay') { 🏦 } @else { 👛 }
+                                            @if (method.type === 'instapay') { <lucide-icon name="landmark" [size]="20"
+                                                [strokeWidth]="2.5"></lucide-icon>
+                                            } @else { <lucide-icon name="wallet" [size]="20"
+                                                [strokeWidth]="2.5"></lucide-icon>
+                                            }
                                         </span>
                                         <div>
                                             <p class="text-base font-black text-emerald-950 dark:text-white">

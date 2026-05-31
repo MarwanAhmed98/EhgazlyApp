@@ -148,7 +148,6 @@ $shadow-btn: 0 4px 14px rgba(21, 128, 61, .35);
     min-width: 0;
 }
 
-// Avatar
 .avatar-ring {
     position: relative;
     flex-shrink: 0;
@@ -195,7 +194,6 @@ $shadow-btn: 0 4px 14px rgba(21, 128, 61, .35);
     }
 }
 
-// Identity
 .hero-identity {
     min-width: 0;
     display: flex;
@@ -264,7 +262,6 @@ $shadow-btn: 0 4px 14px rgba(21, 128, 61, .35);
     flex-shrink: 0;
 }
 
-// Actions
 .hero-actions {
     display: flex;
     align-items: center;
@@ -373,7 +370,6 @@ $shadow-btn: 0 4px 14px rgba(21, 128, 61, .35);
     margin-top: 2px;
 }
 
-// Stats Grid
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);

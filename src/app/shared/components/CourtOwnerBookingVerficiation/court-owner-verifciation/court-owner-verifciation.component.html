@@ -140,6 +140,50 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Receipt Image Card -->
+                <div
+                    class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-emerald-100 shadow-xl shadow-emerald-900/5 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-900/10">
+                    <div class="p-5 sm:p-7 lg:p-8">
+                        <div class="flex items-center gap-3 pb-4 border-b border-emerald-100">
+                            <div class="p-2.5 rounded-xl bg-emerald-100 text-emerald-800">
+                                <lucide-icon name="image" [size]="22" [strokeWidth]="2"></lucide-icon>
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-950">Payment Receipt
+                            </h2>
+                        </div>
+
+                        <div class="mt-6 flex justify-center">
+                            @if (SpecificDetails.receipt_image_url && SpecificDetails.receipt_image_url.trim()) {
+                            <div class="relative w-full max-w-md cursor-pointer group"
+                                (click)="openImagePreview(SpecificDetails.receipt_image_url)">
+                                <img [src]="SpecificDetails.receipt_image_url" alt="Payment receipt"
+                                    class="w-full h-auto rounded-xl border border-emerald-200 shadow-md transition-transform duration-200 group-hover:scale-[1.02] group-active:scale-[0.98] object-contain max-h-[400px] bg-emerald-50/50"
+                                    onerror="this.onerror=null; this.src=''; this.parentElement.querySelector('.error-fallback')?.classList.remove('hidden');">
+                                <div
+                                    class="error-fallback hidden absolute inset-0 flex items-center justify-center bg-emerald-50 rounded-xl text-emerald-500 text-sm font-medium">
+                                    Failed to load image
+                                </div>
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30 rounded-xl">
+                                    <span
+                                        class="bg-white/90 text-emerald-800 text-sm font-bold px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm">Click
+                                        to enlarge</span>
+                                </div>
+                            </div>
+                            } @else {
+                            <div
+                                class="w-full max-w-md flex flex-col items-center justify-center py-10 px-4 rounded-xl border border-dashed border-emerald-300 bg-emerald-50/40 text-center">
+                                <lucide-icon name="file-question" [size]="48" [strokeWidth]="1.5"
+                                    class="text-emerald-400 mb-3"></lucide-icon>
+                                <p class="text-emerald-800 font-semibold text-base">No Receipt Available</p>
+                                <p class="text-emerald-600/70 text-sm mt-1">The receipt image was not provided for this
+                                    booking.</p>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- RIGHT COLUMN: Customer profile & guidelines -->
@@ -219,4 +263,19 @@
             </aside>
         </section>
     </main>
+
+    <!-- Image Preview Modal (Lightbox) -->
+    <div *ngIf="isImageModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-all duration-300"
+        (click)="closeImagePreview()">
+        <div class="relative max-w-[90vw] max-h-[90vh]" (click)="$event.stopPropagation()">
+            <button (click)="closeImagePreview()"
+                class="absolute -top-12 right-0 sm:-right-12 sm:top-0 text-white bg-black/50 rounded-full p-2 hover:bg-black/70 transition-colors z-10">
+                <lucide-icon name="x" [size]="28" [strokeWidth]="2"></lucide-icon>
+            </button>
+            <img [src]="currentImageUrl" alt="Receipt enlarged"
+                class="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border border-white/20 object-contain"
+                onerror="this.onerror=null; this.src=''; this.alt='Image failed to load';">
+        </div>
+    </div>
 </div>

@@ -1,20 +1,30 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PlayernavComponent } from "../../../../layouts/playernav/playernav/playernav.component";
 import { PlayerProfileService } from '../../../../core/services/PlayerProfile/player-profile.service';
 import { Iplayerprofile } from '../../../interfaces/iplayerprofile';
 import { FormControl, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs';
+import { MyBookingsService } from '../../../../core/services/MyBookings/my-bookings.service';
+import { ToastService } from '../../../../core/services/toast/toast.service';
+import { IBookings } from '../../../interfaces/i-bookings';
+import { RouterLink } from '@angular/router';
+
+type Tab = 'upcoming' | 'previous';
 
 @Component({
   selector: 'app-customer-profile',
-  imports: [CommonModule, PlayernavComponent],
+  imports: [CommonModule, PlayernavComponent, RouterLink, DatePipe],
   templateUrl: './customer-profile.component.html',
   styleUrl: './customer-profile.component.scss'
 })
 export class CustomerProfileComponent implements OnInit {
   private readonly playerProfileService = inject(PlayerProfileService);
   ProfileDetails: Iplayerprofile = {} as Iplayerprofile;
+  private readonly myBookingsService = inject(MyBookingsService);
+  private readonly toastService = inject(ToastService);
+  allBookings = signal<IBookings[]>([]);
+  tab = signal<Tab>('upcoming');
   PlayerRole: string = localStorage.getItem('role') ?? '';
 
   UpdateForm: FormGroup = new FormGroup({
@@ -29,13 +39,44 @@ export class CustomerProfileComponent implements OnInit {
 
   tempName = signal('');
   tempPhone = signal('');
-  tempAvatar = signal(''); // preview url/base64
+  tempAvatar = signal('');
   private selectedImageFile: File | null = null;
 
   ngOnInit(): void {
     this.GetProfileData();
+    this.getAllBookings();
   }
 
+  // ─── Helper methods for status colors ───────────────────────────────────
+  getStatusBadgeClass(status: string): string {
+    const lowerStatus = status?.toLowerCase();
+    if (lowerStatus === 'confirmed' || lowerStatus === 'completed') {
+      return 'bg-green-100 text-green-800 border border-green-200';
+    }
+    if (lowerStatus === 'pending') {
+      return 'bg-amber-100 text-amber-800 border border-amber-200';
+    }
+    if (lowerStatus === 'cancelled' || lowerStatus === 'canceled' || lowerStatus === 'rejected') {
+      return 'bg-red-100 text-red-800 border border-red-200';
+    }
+    return 'bg-gray-100 text-gray-800 border border-gray-200';
+  }
+
+  getStatusDotColor(status: string): string {
+    const lowerStatus = status?.toLowerCase();
+    if (lowerStatus === 'confirmed' || lowerStatus === 'completed') {
+      return 'bg-green-500';
+    }
+    if (lowerStatus === 'pending') {
+      return 'bg-amber-500';
+    }
+    if (lowerStatus === 'cancelled' || lowerStatus === 'canceled' || lowerStatus === 'rejected') {
+      return 'bg-red-500';
+    }
+    return 'bg-gray-400';
+  }
+
+  // ─── Existing methods (unchanged business logic) ────────────────────────
   showToast(message: string) {
     this.toastMessage.set(message);
     setTimeout(() => this.dismissToast(), 4000);
@@ -117,7 +158,6 @@ export class CustomerProfileComponent implements OnInit {
               this.ProfileDetails.profile_image,
           } as Iplayerprofile;
 
-          // if backend doesn't return image url, keep current preview to avoid UI breaking
           if (this.selectedImageFile && !((updated as any)?.profile_image)) {
             this.ProfileDetails.profile_image = this.tempAvatar();
           }
@@ -159,6 +199,51 @@ export class CustomerProfileComponent implements OnInit {
       next: (res) => {
         this.ProfileDetails = res.data;
       },
+    });
+  }
+
+  filteredBookings = computed(() => {
+    const data = this.allBookings();
+    const currentTab = this.tab();
+    if (!Array.isArray(data)) {
+      return [];
+    }
+    if (currentTab === 'upcoming') {
+      return data.filter(b => b.status === 'pending' || b.status === 'confirmed');
+    } else {
+      return data.filter(b => b.status === 'completed' || b.status === 'rejected' || b.status === 'cancelled');
+    }
+  });
+
+  setTab(selectedTab: Tab): void {
+    this.tab.set(selectedTab);
+  }
+
+  getAllBookings(): void {
+    this.myBookingsService.GetShowBooking().subscribe({
+      next: (res) => {
+        if (res && res.data && Array.isArray(res.data.bookings)) {
+          this.allBookings.set(res.data.bookings);
+          console.log(res.data.bookings);
+        } else {
+          console.warn('API response structure is different than expected:', res);
+          this.allBookings.set([]);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching bookings:', err);
+        this.allBookings.set([]);
+      }
+    });
+  }
+
+  CancelBooking(id: any): void {
+    this.myBookingsService.CancelBooking(id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.toastService.success(res.message || 'Booking cancelled successfully');
+        this.getAllBookings();
+      }
     });
   }
 }

@@ -27,7 +27,7 @@ export class LoginComponent {
           localStorage.setItem('role', res.user.role);
           localStorage.setItem('userId', res.user.id);
           if (res.user.role == 'customer') {
-            this.router.navigate(['/MyBookings']);
+            this.router.navigate(['/Venues']);
             this.toastService.success(res.message, 'Ehgazly');
           }
           else if (res.user.role == 'admin') {

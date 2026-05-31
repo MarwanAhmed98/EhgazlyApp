@@ -167,7 +167,7 @@
 
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @for (s of paginatedData(); track s.id) {
-                <article [routerLink]="['/VenuesDetails', s.id]"
+                <article [routerLink]="['/BookingandSchedule', s.id]"
                     class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/40 dark:shadow-none transition-all duration-300 hover:-translate-y-1 animate-fade-in-up"
                     [style.animation-delay.ms]="70 + (s.index * 55)">
 
@@ -314,7 +314,7 @@
                         </div>
 
                         <div class="flex items-end justify-between gap-6 pt-2">
-                            <button [routerLink]="['/VenuesDetails', s.id]" type="button" (click)="book(s)"
+                            <button [routerLink]="['/BookingandSchedule', s.id]" type="button" (click)="book(s)"
                                 class="px-8 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 BOOK FIELD
                             </button>

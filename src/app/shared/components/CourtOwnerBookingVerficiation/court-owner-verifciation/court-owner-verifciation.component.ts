@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IcourtOwnerSpecific } from '../../../interfaces/icourt-owner-specific';
 import { LucideAngularModule } from 'lucide-angular';
 
-
 type Summary = {
   playerName: string;
   pitchLocation: string;
@@ -60,6 +59,11 @@ export class CourtOwnerVerifciationComponent implements OnInit {
   rejectReason = '';
 
   verifyState: VerifyState = 'idle';
+
+  // Receipt image preview properties
+  isImageModalOpen = false;
+  currentImageUrl = '';
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
       next: (res) => {
@@ -96,5 +100,20 @@ export class CourtOwnerVerifciationComponent implements OnInit {
   contactPlayer(): void {
     const phoneDigits = this.profile.phone.replace(/[^\d+]/g, '');
     window.location.href = `tel:${phoneDigits}`;
+  }
+
+  // Receipt image preview methods
+  openImagePreview(imageUrl: string): void {
+    if (imageUrl && imageUrl.trim()) {
+      this.currentImageUrl = imageUrl;
+      this.isImageModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeImagePreview(): void {
+    this.isImageModalOpen = false;
+    this.currentImageUrl = '';
+    document.body.style.overflow = '';
   }
 }

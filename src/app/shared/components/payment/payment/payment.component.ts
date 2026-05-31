@@ -7,6 +7,8 @@ import { ToastService } from '../../../../core/services/toast/toast.service';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
+import { LucideAngularModule } from 'lucide-angular';
+
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 type ConfirmStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -20,7 +22,7 @@ interface PaymentMethod {
 
 @Component({
   selector: 'app-payment',
-  imports: [PlayernavComponent],
+  imports: [PlayernavComponent, LucideAngularModule],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
 })

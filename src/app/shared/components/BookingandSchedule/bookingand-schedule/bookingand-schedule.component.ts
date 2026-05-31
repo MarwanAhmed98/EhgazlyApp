@@ -6,6 +6,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IcourtSpecficCourt } from '../../../interfaces/icourt-specfic-court';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
 import { ICustomerSpecificCourt } from '../../../interfaces/icustomer-specific-court';
+import { IspecficCourt } from '../../../interfaces/ispecfic-court';
 
 type Amenity = { label: string; icon: string };
 type DateChip = { iso: string; dow: string; day: number };
@@ -29,6 +30,8 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   private readonly customerTimeslotService = inject(CustomerTimeslotService);
   private readonly venuesService = inject(VenuesService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  CourtDetails: IspecficCourt = {} as IspecficCourt;
+
 
   SpecificCourt: IcourtSpecficCourt = {} as IcourtSpecficCourt;
   customerspecificCourts = signal<ICustomerSpecificCourt[]>([]);
@@ -104,8 +107,10 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       this.productId = res.get('id');
       if (this.productId) {
         this.venuesService.GetSpecificCourts(this.productId).subscribe({
-          next: (res) => { this.SpecificCourt = res.data; },
-          error: (err) => console.error('Failed to load maincourt details', err),
+          next: (res) => {
+            this.SpecificCourt = res.data;
+            this.CourtDetails = res.data;
+          }
         });
         this.GetCourt();
       }

@@ -46,13 +46,13 @@
                 class="relative rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-2xl shadow-emerald-200/30 dark:shadow-none">
                 <div class="relative h-[260px] sm:h-[340px] lg:h-[380px] bg-emerald-950/20">
                     <div class="absolute inset-0">
-                        @for (img of venue.images; track $index) {
+                        @for (img of SpecificCourt.images; track $index) {
                         <div class="absolute inset-0 transition-opacity duration-500 ease-out"
                             [class.opacity-100]="$index === activeVenueSlide"
                             [class.opacity-0]="$index !== activeVenueSlide"
                             [class.pointer-events-auto]="$index === activeVenueSlide"
                             [class.pointer-events-none]="$index !== activeVenueSlide">
-                            <img [src]="img" [alt]="venue.name + ' image ' + ($index + 1)"
+                            <img [src]="img" [alt]="SpecificCourt.name + ' image ' + ($index + 1)"
                                 class="w-full h-full object-cover" loading="lazy" draggable="false" />
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/25 to-transparent">
@@ -126,14 +126,14 @@
                         </p>
 
                         <div class="mt-5 grid grid-cols-2 gap-3">
-                            @for (a of amenitiesForSelectedCourt(); track a.label) {
+                            @for (a of CourtDetails.amenities; track a.id) {
                             <div
                                 class="rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 p-4 flex items-center gap-3">
                                 <span
                                     class="w-10 h-10 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
                                     {{ a.icon }}
                                 </span>
-                                <span class="text-sm font-black text-emerald-950 dark:text-white">{{ a.label }}</span>
+                                <span class="text-sm font-black text-emerald-950 dark:text-white">{{ a.name }}</span>
                             </div>
                             }
                         </div>

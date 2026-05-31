@@ -6,6 +6,7 @@
     <div class="bg-orb bg-orb--2"></div>
 
     <main class="profile-main">
+        <!-- Hero Card (improved spacing) -->
         <header class="hero-card">
             <div class="hero-card__glow"></div>
 
@@ -65,6 +66,8 @@
                 </button>
             </div>
         </header>
+
+        <!-- Stats Section (improved grid responsiveness) -->
         <section class="stats-section">
             <div class="stats-header">
                 <div class="stats-header__icon">
@@ -121,11 +124,210 @@
                     <span class="stat-value stat-value--red">{{ ProfileDetails.stats.rejected_bookings_count }}</span>
                     <span class="stat-desc">Declined requests</span>
                 </div>
-
             </div>
         </section>
+        <!-- Bookings Section (improved + status fix) -->
+        <div
+            class="min-h-screen bg-[#F0FDF4] text-slate-900 font-sans transition-colors duration-300 relative overflow-x-hidden">
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-14 relative z-10">
 
+                <!-- Header Section -->
+                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-fade-in-up">
+                    <div>
+                        <h1 class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D]">YOUR ARENA</h1>
+                        <p class="mt-2 text-emerald-800/70 font-semibold max-w-xl">
+                            {{ tab() === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your
+                            past
+                            performances and stadium visits.' }}
+                        </p>
+                    </div>
+
+                    <!-- Tab Switcher -->
+                    <div class="flex items-center">
+                        <div class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] border border-emerald-200 shadow-sm">
+                            <button (click)="setTab('upcoming')"
+                                class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
+                                [class]="tab() === 'upcoming' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60 hover:text-emerald-900'">
+                                Upcoming
+                            </button>
+                            <button (click)="setTab('previous')"
+                                class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
+                                [class]="tab() === 'previous' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60 hover:text-emerald-900'">
+                                Previous
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 min-h-[400px]">
+
+                    @if (filteredBookings().length > 0) {
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                        @for (b of filteredBookings(); track b.id) {
+                        <article
+                            class="group bg-white rounded-2xl border border-emerald-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                            <div class="flex flex-col h-full">
+                                <div class="p-5 sm:p-6 md:p-7 flex flex-col justify-between h-full">
+                                    <div>
+                                        <!-- Status Badge & ID Row (using new helper methods) -->
+                                        <div class="flex justify-between items-start mb-5">
+                                            <span [class]="getStatusBadgeClass(b.status)"
+                                                class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                                <span class="w-1.5 h-1.5 rounded-full"
+                                                    [class]="getStatusDotColor(b.status)"></span>
+                                                {{ b.status }}
+                                            </span>
+                                            <div class="flex items-center gap-1 text-emerald-800/50 text-xs font-bold">
+                                                <span>ID: {{ b.id }}</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Court Info -->
+                                        <div>
+                                            <h3
+                                                class="text-2xl sm:text-3xl font-black text-emerald-950 tracking-tight leading-tight line-clamp-1">
+                                                {{ b.court.name }}
+                                            </h3>
+                                            <p class="text-sm font-bold text-emerald-700/70 mt-1">{{
+                                                b.court.maincourt.name
+                                                }}</p>
+                                        </div>
+
+                                        <!-- Date & Time -->
+                                        <div class="mt-6 flex flex-wrap gap-3 sm:gap-4">
+                                            <div
+                                                class="flex items-center gap-2 text-emerald-800 font-semibold text-sm bg-emerald-50 px-3 py-2 rounded-xl">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-600"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                                </svg>
+                                                <span>{{ b.timeslot.date | date: "mediumDate" }}</span>
+                                            </div>
+                                            <div
+                                                class="flex items-center gap-2 text-emerald-800 font-semibold text-sm bg-emerald-50 px-3 py-2 rounded-xl">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-600"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                                </svg>
+                                                <span>{{ b.timeslot.start_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="mt-8 flex items-center gap-3 pt-2 border-t border-emerald-100">
+                                        @if (tab() === 'previous') {
+                                        <button
+                                            class="flex-1 px-4 py-3 rounded-xl bg-emerald-100 text-emerald-800 text-[11px] font-black uppercase tracking-wider hover:bg-emerald-200 transition-all">
+                                            Match Report
+                                        </button>
+                                        <button routerLink="/Venues"
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-emerald-700/70 hover:text-emerald-900 transition-all">
+                                            Rebook
+                                        </button>
+                                        } @else {
+                                        <button [routerLink]="['/FullBookingDetails', b.id]"
+                                            class="flex-1 px-4 py-3 rounded-xl bg-[#14532D] text-white text-[11px] font-black uppercase tracking-wider shadow-md hover:bg-[#0f3f22] transition-all hover:shadow-lg">
+                                            View Details
+                                        </button>
+                                        <button (click)="CancelBooking(b.id)"
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-red-600 hover:text-red-700 transition-all hover:underline">
+                                            Cancel
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        }
+
+                        @if (tab() === 'upcoming') {
+                        <div
+                            class="bg-emerald-50/40 border-2 border-dashed border-emerald-300 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center hover:bg-emerald-50/60 transition-all group">
+                            <div
+                                class="w-16 h-16 rounded-full bg-[#14532D] text-white flex items-center justify-center shadow-lg mb-5 group-hover:scale-105 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-black text-emerald-950 uppercase tracking-tight">Ready
+                                for
+                                more?</h3>
+                            <p class="mt-2 text-emerald-800/70 font-semibold text-sm max-w-[220px]">Book another court
+                                and
+                                keep the momentum going.</p>
+                            <button routerLink="/Venues"
+                                class="mt-6 px-8 py-3 rounded-full bg-[#A34700] text-white font-black text-xs uppercase tracking-wider shadow-md hover:bg-[#8c3c00] hover:-translate-y-0.5 transition-all">
+                                Find a Venue
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div
+                        class="bg-white rounded-3xl sm:rounded-[3rem] p-10 sm:p-16 lg:p-20 shadow-sm flex flex-col items-center justify-center text-center animate-fade-in-up border border-emerald-100">
+                        <div class="relative mb-8">
+                            <div class="w-32 h-32 rounded-full bg-[#DCFCE7] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
+                                    fill="none" stroke="#14532D" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="m6.7 6.7 10.6 10.6" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </div>
+                            <div
+                                class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#A34700] border-4 border-white flex items-center justify-center shadow-md">
+                                <span class="text-white text-xl font-black">?</span>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-950 mb-3">No {{ tab() }}
+                            matches
+                            yet.</h2>
+                        <p class="text-emerald-700/70 font-semibold max-w-md mb-8 text-base leading-relaxed">
+                            Your next goal is just a booking away. Let's find the perfect pitch for your team.
+                        </p>
+                        <button routerLink="/Venues"
+                            class="group flex items-center gap-3 px-8 py-4 rounded-full bg-[#14532D] text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all hover:scale-105 active:scale-95">
+                            Find a Pitch
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="3"
+                                class="transition-transform group-hover:translate-x-1">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    }
+                </div>
+            </main>
+
+            <footer class="mt-16 sm:mt-20 py-8 sm:py-12 border-t border-emerald-200/50 bg-[#F0FDF4]">
+                <div
+                    class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+                    <div class="text-center sm:text-left">
+                        <p class="text-xl sm:text-2xl font-black text-[#14532D]">Ehgazly</p>
+                        <p class="text-xs text-emerald-800/50 font-bold mt-1">© {{ (allBookings().length > 0 ?
+                            (allBookings()[0].created_at | date:'yyyy') : '2024') }} Ehgazly. The Digital Locker Room.
+                        </p>
+                    </div>
+                    <div class="flex gap-6 text-xs font-black text-emerald-800/50">
+                        <a href="#" class="hover:text-emerald-900 transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-emerald-900 transition-colors">Terms of Service</a>
+                        <a href="#" class="hover:text-emerald-900 transition-colors">Support</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </main>
+
+
+
+    <!-- Toast Notification -->
     <div *ngIf="toastMessage()" class="toast animate-slide-up">
         <div class="toast__inner">
             <svg xmlns="http://www.w3.org/2000/svg" class="toast__icon" fill="none" viewBox="0 0 24 24"
@@ -137,9 +339,10 @@
         </div>
         <button (click)="dismissToast()" class="toast__close">&times;</button>
     </div>
+
+    <!-- Edit Profile Modal -->
     <div *ngIf="isModalOpen()" class="modal-overlay animate-fade-in" (click)="closeModal()">
         <div class="modal-panel" (click)="$event.stopPropagation()">
-
             <div class="modal-header">
                 <h3 class="modal-title">Edit Profile</h3>
                 <button (click)="closeModal()" class="modal-close">&times;</button>
@@ -163,10 +366,8 @@
                     <p class="modal-avatar-hint">JPG, PNG, WEBP accepted</p>
                 </div>
             </div>
-
             <div class="modal-divider"></div>
             <div class="modal-fields">
-
                 <div class="field-group">
                     <label class="field-label">Email Address</label>
                     <div class="field-readonly">
@@ -185,32 +386,24 @@
                         </span>
                     </div>
                 </div>
-
                 <div class="field-group">
                     <label class="field-label">Full Name</label>
                     <input [value]="ProfileDetails.name" (input)="tempName.set($any($event.target).value)" type="text"
                         placeholder="Your full name" class="field-input" />
                 </div>
-
                 <div class="field-group">
                     <label class="field-label">Phone Number</label>
                     <input [value]="ProfileDetails.phone" (input)="tempPhone.set($any($event.target).value)" type="text"
                         placeholder="e.g. +20 100 000 0000" class="field-input" />
                 </div>
-
             </div>
             <div class="modal-footer">
-                <button (click)="closeModal()" class="btn-cancel" [disabled]="isUpdating()">
-                    Cancel
-                </button>
-
+                <button (click)="closeModal()" class="btn-cancel" [disabled]="isUpdating()">Cancel</button>
                 <button (click)="saveChanges()" class="btn-save" [disabled]="isUpdating()">
                     <ng-container *ngIf="!isUpdating(); else updatingTpl">Save Changes</ng-container>
                     <ng-template #updatingTpl>Saving...</ng-template>
                 </button>
             </div>
-
         </div>
     </div>
-
 </div>
