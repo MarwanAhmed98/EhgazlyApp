@@ -14,7 +14,7 @@
                   ? 'flex items-center p-3 bg-[#c7f4c7] border-2 border-green-600 rounded-2xl w-full sm:w-[calc(50%-8px)] lg:w-64 cursor-pointer transition-all' 
                   : 'flex items-center p-3 bg-white/50 border border-transparent rounded-2xl w-full sm:w-[calc(50%-8px)] lg:w-64 cursor-pointer hover:bg-white/80 transition-colors'">
                 <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 mr-3 bg-slate-200">
-                    <img [src]="court?.primary_image" (error)="handleImgError($event)"
+                    <img [src]="court?.primary_image?.url" (error)="handleImgError($event)"
                         class="w-full h-full object-cover">
                 </div>
                 <div class="min-w-0">
@@ -42,7 +42,7 @@
     <section class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 fade-in-up">
         <div
             class="lg:col-span-2 relative overflow-hidden rounded-[32px] md:rounded-[40px] min-h-[300px] sm:min-h-[450px] group shadow-2xl shadow-green-900/10 bg-slate-900">
-            <img [src]="selectedCourt()?.primary_image" (error)="handleImgError($event)"
+            <img [src]="selectedCourt()?.primary_image?.url" (error)="handleImgError($event)"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
@@ -158,7 +158,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-xl overflow-hidden bg-slate-200 shadow-sm">
-                            <img [src]="court?.primary_image" (error)="handleImgError($event)"
+                            <img [src]="court?.primary_image?.url" (error)="handleImgError($event)"
                                 class="w-full h-full object-cover">
                         </div>
                         <div class="flex flex-col">
@@ -208,7 +208,7 @@
                             <td class="py-4 px-6 rounded-l-2xl flex items-center">
                                 <div
                                     class="w-12 h-12 rounded-xl overflow-hidden mr-4 bg-slate-200 ring-2 ring-white shadow-sm flex-shrink-0">
-                                    <img [src]="court?.primary_image" (error)="handleImgError($event)"
+                                    <img [src]="court?.primary_image?.url" (error)="handleImgError($event)"
                                         class="w-full h-full object-cover">
                                 </div>
                                 <div class="flex flex-col min-w-0">

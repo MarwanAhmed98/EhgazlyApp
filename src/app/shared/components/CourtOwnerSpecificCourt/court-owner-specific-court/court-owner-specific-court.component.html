@@ -16,9 +16,14 @@
         <!-- ================= MAIN COURT HEADER ================= -->
         <div
             class="bg-white rounded-3xl shadow-xl overflow-hidden border border-white/50 transition-all hover:shadow-2xl">
-            <div class="relative h-48 md:h-64 bg-gradient-to-r from-green-900 to-green-700">
+            <div class="relative h-48 md:h-64 ">
+                <!-- FIX 1: Primary image shown as background of header -->
+                @if (SpecificDetails.images && SpecificDetails.images.length > 0) {
+                <img [src]="SpecificDetails.images[0].url" (error)="handleImgError($event)"
+                    class="absolute inset-0 w-full h-full object-cover">
+                }
                 <div class="absolute inset-0 bg-black/20"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/80 to-transparent">
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 ">
                     <div class="flex flex-wrap justify-between items-end gap-4">
                         <div>
                             <h1 class="text-3xl md:text-5xl font-black text-white drop-shadow-lg">{{
@@ -114,7 +119,7 @@
                     class="group bg-slate-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white">
                     <div class="relative h-48 overflow-hidden bg-slate-200">
                         @if (court.primary_image) {
-                        <img [src]="court.primary_image" (error)="handleImgError($event)"
+                        <img [src]="court.primary_image.url" (error)="handleImgError($event)"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         } @else {
                         <div
@@ -255,9 +260,10 @@
             @if (SpecificDetails.images && SpecificDetails.images.length > 0) {
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @for (img of SpecificDetails.images; track $index) {
-                <div class="aspect-square rounded-xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-md transition">
-                    <img [src]="img.image_url || img" (error)="handleImgError($event)"
-                        class="w-full h-full object-cover">
+                <!-- FIX 2: Added overflow-hidden to the wrapper so image respects border-radius -->
+                <div class=" rounded-xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-md transition">
+                    <img [src]="img.url" (error)="handleImgError($event)"
+                        class="w-full h-full object-contain hover:scale-105 transition-transform duration-300">
                 </div>
                 }
             </div>

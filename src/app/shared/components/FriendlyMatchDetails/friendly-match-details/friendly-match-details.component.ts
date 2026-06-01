@@ -145,6 +145,7 @@ export class FriendlyMatchDetailsComponent implements OnInit {
         this.SpecificMatchesDetails = res?.data ?? ({} as ISpecificMatch);
         this.syncUIStateFromBackend();
         console.log(res);
+        console.log('primary_image:', this.SpecificMatchesDetails.court?.maincourt?.primary_image);
       },
       error: () => {
         this.SpecificMatchesDetails = {} as ISpecificMatch;

@@ -103,10 +103,12 @@
 
                                         <span>DATE & TIME</span>
                                     </div>
-                                    <p class="text-base font-semibold text-emerald-900">{{ SpecificDetails.timeslot.date
+                                    <p class="text-base font-semibold text-emerald-900">{{
+                                        SpecificDetails.timeslots[0].date
                                         | date:'fullDate' }}</p>
                                     <p class="text-lg font-black text-emerald-800 mt-1">{{
-                                        SpecificDetails.timeslot.start_time }} – {{ SpecificDetails.timeslot.end_time }}
+                                        SpecificDetails.timeslots[0].start_time }} – {{
+                                        SpecificDetails.timeslots[SpecificDetails.timeslots.length - 1].end_time }}
                                     </p>
                                 </div>
 

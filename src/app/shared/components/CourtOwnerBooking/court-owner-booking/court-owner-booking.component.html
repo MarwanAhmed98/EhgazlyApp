@@ -269,54 +269,6 @@
             </article>
             }
         </section>
-
-        <!-- Bottom cards -->
-        <section class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
-            <!-- Pitch card -->
-            <article
-                class="rounded-[32px] overflow-hidden shadow-[0_20px_60px_-12px_rgba(2,44,34,.25)] bg-emerald-950/5 border border-emerald-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_72px_-12px_rgba(2,44,34,.30)]">
-                <div class="relative w-full h-56 sm:h-72">
-                    <img src="https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                        alt="Pitch Arena A" class="absolute inset-0 w-full h-full object-cover object-center" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-b from-emerald-950/5 via-emerald-950/20 to-emerald-950/65">
-                    </div>
-                </div>
-                <div class="p-6 sm:p-9">
-                    <p class="text-3xl sm:text-4xl font-black tracking-tight text-black">Pitch Arena A</p>
-                    <p class="mt-6 text-sm font-semibold text-black/65">Currently hosting: Match #{{ liveMatchNumber
-                        }}</p>
-                    <div class="mt-5 inline-flex items-center gap-2.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span class="text-[.7rem] font-black uppercase tracking-widest text-emerald-700">Live
-                            Status</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Insights card -->
-            <article
-                class="rounded-[32px] bg-[#A34700] text-white shadow-[0_20px_60px_-12px_rgba(163,71,0,.45)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_72px_-12px_rgba(163,71,0,.50)]">
-                <div class="p-8 sm:p-12 h-full flex flex-col items-center text-center">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 grid place-items-center shadow-inner">
-                        <span class="text-2xl">⚽</span>
-                    </div>
-                    <h3 class="mt-6 text-3xl sm:text-4xl font-black leading-tight">
-                        Peak<br />Performance<br />Insights
-                    </h3>
-                    <p class="mt-5 text-sm font-medium text-white/80 leading-relaxed max-w-xs">
-                        Friday is your busiest day this month. Consider opening Pitch B for overtime slots.
-                    </p>
-                    <button type="button" (click)="viewFullReport()"
-                        class="mt-8 sm:mt-10 w-full max-w-xs h-14 rounded-full bg-white text-[#A34700] font-black
-                               inline-flex items-center justify-center shadow-lg shadow-black/15
-                               hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus:outline-none">
-                        View Full Report
-                    </button>
-                </div>
-            </article>
-        </section>
     </main>
 
     <!-- Reject Modal -->

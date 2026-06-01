@@ -8,7 +8,6 @@ import { ICourtOwnerFinancialData } from '../../../interfaces/icourt-owner-finan
 import { CourtOwnerPaymentService } from '../../../../core/services/CourtOwnerPayment/court-owner-payment.service';
 import { LucideAngularModule } from 'lucide-angular';
 
-
 type TabKey = 'upcoming' | 'past';
 type BookingStatus = 'pending' | 'confirmed' | 'rejected';
 
@@ -83,11 +82,22 @@ export class CourtOwnerBookingComponent implements OnInit {
     this.loadFinancialData();
   }
 
+  // FIX: helper to extract array from either res or res.data
+  private extractArray(res: any): ICourtOwnerBookings[] {
+    console.log('API raw response:', res); // <-- remove after confirming structure
+    if (Array.isArray(res)) return res;
+    if (Array.isArray(res?.data)) return res.data;
+    if (Array.isArray(res?.data?.data)) return res.data.data;
+    return [];
+  }
+
   loadUpcomingBookings(): void {
     this.courtOwnerBookingService.GetPendingBookings().subscribe({
       next: (res) => {
-        const data: ICourtOwnerBookings[] = res.data;
-        this.upcomingBookings = data.map(api => this.mapApiToLocal(api));
+        const data: ICourtOwnerBookings[] = this.extractArray(res);
+        this.upcomingBookings = data
+          .map(api => this.mapApiToLocal(api))
+          .filter((b): b is Booking => b !== null);
         this.updateStats();
       },
       error: (err) => {
@@ -96,24 +106,29 @@ export class CourtOwnerBookingComponent implements OnInit {
       },
     });
   }
+
   loadFinancialData(): void {
     this.courtOwnerPaymentService.GetOwnerFinancialData().subscribe({
       next: (res) => {
-        this.FinancialDetails = res.data;
+        console.log('Financial raw response:', res); // <-- remove after confirming
+        this.FinancialDetails = res?.data ?? res;
       },
       error: (err) => {
         console.error('Failed to load financial data', err);
       }
     });
   }
+
   loadPastBookings(): void {
     this.courtOwnerBookingService.GetAllBookings().subscribe({
       next: (res) => {
-        const data: ICourtOwnerBookings[] = res.data;
+        const data: ICourtOwnerBookings[] = this.extractArray(res);
         const filtered = data.filter(
           api => api.status === 'confirmed' || api.status === 'rejected'
         );
-        this.pastBookings = filtered.map(api => this.mapApiToLocal(api));
+        this.pastBookings = filtered
+          .map(api => this.mapApiToLocal(api))
+          .filter((b): b is Booking => b !== null);
         this.updateStats();
       },
       error: (err) => {
@@ -122,39 +137,47 @@ export class CourtOwnerBookingComponent implements OnInit {
       },
     });
   }
+  private mapApiToLocal(api: ICourtOwnerBookings): Booking | null {
+    try {
+      const fullName = api?.customer?.name ?? '';
+      const nameParts = fullName.trim().split(' ');
+      const firstName = nameParts[0] ?? '';
+      const lastName = nameParts.slice(1).join(' ') ?? '';
+      const startRaw = api?.timeslots?.[0]?.start_time ?? '';
+      const endRaw = api?.timeslots?.[api.timeslots.length - 1]?.end_time ?? '';
+      const start = startRaw.slice(0, 5);
+      const end = endRaw.slice(0, 5);
+      const timeLabel = start && end ? `${start} - ${end}` : 'N/A';
 
-  private mapApiToLocal(api: ICourtOwnerBookings): Booking {
-    const fullName = api.customer.name || '';
-    const nameParts = fullName.split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
+      const dateRaw = api?.timeslots?.[0]?.date
+      const dateLabel = dateRaw
+        ? new Date(dateRaw).toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'short',
+          day: 'numeric',
+        })
+        : 'N/A';
 
-    const start = api.timeslot.start_time.slice(0, 5);
-    const end = api.timeslot.end_time.slice(0, 5);
-    const timeLabel = `${start} - ${end}`;
-    const dateObj = new Date(api.timeslot.date);
-    const dateLabel = dateObj.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-    });
-
-    return {
-      id: api.id.toString(),
-      status: api.status as BookingStatus,
-      player: {
-        name: fullName,
-        firstName,
-        lastName,
-        phone: api.customer.phone,
-        avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-          firstName + ' ' + lastName
-        )}&background=146A1E&color=fff`,
-      },
-      schedule: { timeLabel, dateLabel },
-      paymentMethodType: api.payment_method?.type || 'Unknown',
-      totalPrice: parseFloat(api.total_price) || 0,
-    };
+      return {
+        id: api.id?.toString() ?? '',
+        status: (api.status as BookingStatus) ?? 'pending',
+        player: {
+          name: fullName,
+          firstName,
+          lastName,
+          phone: api?.customer?.phone ?? 'N/A',
+          avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            `${firstName} ${lastName}`.trim() || 'Player'
+          )}&background=146A1E&color=fff`,
+        },
+        schedule: { timeLabel, dateLabel },
+        paymentMethodType: api?.payment_method?.type ?? 'Unknown',
+        totalPrice: parseFloat(api?.total_price ?? '0') || 0,
+      };
+    } catch (e) {
+      console.error('mapApiToLocal failed for item:', api, e);
+      return null;
+    }
   }
 
   private updateStats(): void {
@@ -166,9 +189,7 @@ export class CourtOwnerBookingComponent implements OnInit {
   }
 
   get filteredBookings(): Booking[] {
-    if (this.activeTab === 'upcoming') {
-      return this.upcomingBookings;
-    }
+    if (this.activeTab === 'upcoming') return this.upcomingBookings;
     if (this.statusFilter === 'all') return this.pastBookings;
     return this.pastBookings.filter(b => b.status === this.statusFilter);
   }

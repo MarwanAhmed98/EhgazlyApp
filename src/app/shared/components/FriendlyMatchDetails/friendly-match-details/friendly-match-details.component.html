@@ -64,6 +64,17 @@
             <div
                 class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)]">
                 <div class="relative h-[240px] sm:h-[300px] lg:h-[360px]">
+
+                    <!-- Court Image -->
+                    @if (SpecificMatchesDetails.court?.maincourt?.primary_image) {
+                    <img [src]="SpecificMatchesDetails.court.maincourt.primary_image.url" alt="Court Image"
+                        class="absolute inset-0 w-full h-full object-cover" />
+                    } @else {
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-200 via-emerald-100 to-emerald-300">
+                    </div>
+                    }
+
+                    <!-- Gradient Overlay -->
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-emerald-950/70 via-emerald-950/25 to-transparent">
                     </div>
@@ -112,9 +123,9 @@
             <!-- Left -->
             <div class="lg:col-span-8 space-y-6">
                 <!-- Location + Fee/Rules -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <!-- Location -->
-                    <div
+                    <!-- <div
                         class="rounded-[2rem] bg-[#D1FFD7]/70 border border-emerald-200/60 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.16)]">
                         <div class="flex items-center gap-3">
                             <span class="w-11 h-11 rounded-2xl border border-emerald-200/60 grid place-items-center">
@@ -136,7 +147,7 @@
                         <p class="mt-4 text-sm font-semibold text-emerald-950/70">
                             {{ SpecificMatchesDetails.court.maincourt.address }}
                         </p>
-                    </div>
+                    </div> -->
 
                     <!-- Fee + Rules -->
                     <div
