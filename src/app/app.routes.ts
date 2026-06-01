@@ -58,6 +58,7 @@ import { CourtOwnerWorkingHoursComponent } from './shared/components/CourtOwnerW
 import { OpenMatchPaymentComponent } from './shared/components/OpenMatchPayment/open-match-payment/open-match-payment.component';
 import { AdminSpecificCourtComponent } from './shared/components/AdminSpecificCourt/admin-specific-court/admin-specific-court.component';
 import { AdminSpecTournamentComponent } from './shared/components/AdminSpecTournament/admin-spec-tournament/admin-spec-tournament.component';
+import { AdminManageTourTeamsComponent } from './shared/components/AdminManageTourTeams/admin-manage-tour-teams/admin-manage-tour-teams.component';
 
 export const routes: Routes = [
     {
@@ -226,6 +227,7 @@ export const routes: Routes = [
             { path: 'AdminSpecificCourt/:id', component: AdminSpecificCourtComponent, title: 'Admin Specific Court' },
             { path: 'AdminManageTournaments', component: AdminManageTournamentsComponent, title: 'Admin Manage Tournaments' },
             { path: 'AdminSpecTournament/:id', component: AdminSpecTournamentComponent, title: 'Admin Specific Tournament' },
+            { path: 'AdminManageTourTeams/:id', component: AdminManageTourTeamsComponent, title: 'Admin Manage Tournament Teams' },
             { path: 'AdminTournamentSetupForm', component: AdminTournamentSetupFormComponent, title: 'Admin Tournament Setup Form' },
             { path: '', redirectTo: 'UserDirectory', pathMatch: 'full' }
         ]

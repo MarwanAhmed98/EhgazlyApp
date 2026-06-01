@@ -167,6 +167,10 @@
                                             class="w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-[#FFE4E4] hover:text-[#B91C1C] transition-colors">
                                             Reject
                                         </button>
+                                        <button (click)="openCommissionModal(owner.id, owner.commission)"
+                                            class="w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-[#D1F5DD] hover:text-[#136336] transition-colors">
+                                            Update Commission
+                                        </button>
                                     </div>
                                 </div>
                                 }
@@ -219,6 +223,9 @@
                                             class="w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-[#FFE9D6] hover:text-[#C2410C]">Suspend</button>
                                         <button (click)="openRejectModal(owner.id)"
                                             class="w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-[#FFE4E4] hover:text-[#B91C1C]">Reject</button>
+                                        <button (click)="openCommissionModal(owner.id, owner.commission)"
+                                            class="w-full text-left px-4 py-2 text-sm font-medium text-slate-700 hover:bg-[#D1F5DD] hover:text-[#136336]">Update
+                                            Commission</button>
                                     </div>
                                 </div>
                                 }
@@ -286,19 +293,14 @@
 <!-- ===== REJECT MODAL ===== -->
 @if (rejectModalOpen()) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeRejectModal()">
-    <!-- Backdrop -->
     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-
-    <!-- Modal Panel -->
     <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto p-6 sm:p-8"
         (click)="$event.stopPropagation()">
-
-        <!-- Header -->
         <div class="flex items-start justify-between mb-5">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        stroke-width="2">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="m15 9-6 6"></path>
                         <path d="m9 9 6 6"></path>
@@ -311,15 +313,12 @@
             </div>
             <button (click)="closeRejectModal()"
                 class="text-slate-400 hover:text-slate-600 transition-colors ml-2 flex-shrink-0">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6 6 18"></path>
                     <path d="m6 6 12 12"></path>
                 </svg>
             </button>
         </div>
-
-        <!-- Textarea -->
         <div class="mb-5">
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 Rejection Reason <span class="text-rose-500">*</span>
@@ -342,15 +341,13 @@
             </p>
             }
         </div>
-
-        <!-- Actions -->
         <div class="flex items-center justify-end gap-3">
             <button (click)="closeRejectModal()" [disabled]="rejectLoading()"
-                class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50">
                 Cancel
             </button>
             <button (click)="confirmReject()" [disabled]="rejectLoading()"
-                class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2 min-w-[130px] justify-center">
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 transition-colors disabled:opacity-60 flex items-center gap-2 min-w-[130px] justify-center">
                 @if (rejectLoading()) {
                 <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -369,19 +366,14 @@
 <!-- ===== SUSPEND MODAL ===== -->
 @if (suspendModalOpen()) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeSuspendModal()">
-    <!-- Backdrop -->
     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-
-    <!-- Modal Panel -->
     <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto p-6 sm:p-8"
         (click)="$event.stopPropagation()">
-
-        <!-- Header -->
         <div class="flex items-start justify-between mb-5">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        stroke-width="2">
                         <path
                             d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
                         </path>
@@ -396,15 +388,12 @@
             </div>
             <button (click)="closeSuspendModal()"
                 class="text-slate-400 hover:text-slate-600 transition-colors ml-2 flex-shrink-0">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6 6 18"></path>
                     <path d="m6 6 12 12"></path>
                 </svg>
             </button>
         </div>
-
-        <!-- Textarea -->
         <div class="mb-5">
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 Suspension Reason <span class="text-orange-500">*</span>
@@ -427,15 +416,13 @@
             </p>
             }
         </div>
-
-        <!-- Actions -->
         <div class="flex items-center justify-end gap-3">
             <button (click)="closeSuspendModal()" [disabled]="suspendLoading()"
-                class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50">
                 Cancel
             </button>
             <button (click)="confirmSuspend()" [disabled]="suspendLoading()"
-                class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2 min-w-[140px] justify-center">
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-orange-500 hover:bg-orange-600 transition-colors disabled:opacity-60 flex items-center gap-2 min-w-[140px] justify-center">
                 @if (suspendLoading()) {
                 <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -444,6 +431,79 @@
                 <span>Suspending...</span>
                 } @else {
                 <span>Confirm Suspend</span>
+                }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ===== COMMISSION MODAL ===== -->
+@if (isCommissionModalOpen()) {
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeCommissionModal()">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto p-6 sm:p-8"
+        (click)="$event.stopPropagation()">
+        <div class="flex items-start justify-between mb-5">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#D1F5DD] flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-[#136336]" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-black text-slate-900">Update Commission Percentage</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Set new commission rate for this owner</p>
+                </div>
+            </div>
+            <button (click)="closeCommissionModal()"
+                class="text-slate-400 hover:text-slate-600 transition-colors ml-2 flex-shrink-0">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="mb-5">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                Commission Percentage <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+                <input type="number" [(ngModel)]="commissionPercentage" (ngModelChange)="commissionError.set('')"
+                    placeholder="e.g., 5, 10, 15"
+                    class="w-full rounded-xl border text-sm text-slate-800 px-4 py-3 pr-12 focus:outline-none focus:ring-2 transition-all"
+                    [ngClass]="{
+                        'border-rose-400 focus:ring-rose-300 bg-rose-50/30': commissionError(),
+                        'border-slate-200 focus:ring-[#BCEFCD] bg-white': !commissionError()
+                    }" />
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+            </div>
+            @if (commissionError()) {
+            <p class="mt-1.5 text-xs font-semibold text-rose-500 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                </svg>
+                {{ commissionError() }}
+            </p>
+            }
+        </div>
+        <div class="flex items-center justify-end gap-3">
+            <button (click)="closeCommissionModal()" [disabled]="commissionLoading()"
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors disabled:opacity-50">
+                Cancel
+            </button>
+            <button (click)="confirmCommissionUpdate()" [disabled]="commissionLoading()"
+                class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-[#136336] hover:bg-[#0c4021] transition-colors disabled:opacity-60 flex items-center gap-2 min-w-[130px] justify-center">
+                @if (commissionLoading()) {
+                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span>Updating...</span>
+                } @else {
+                <span>Update Commission</span>
                 }
             </button>
         </div>

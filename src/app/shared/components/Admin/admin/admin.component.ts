@@ -32,7 +32,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   isSideNavOpen = true;
   currentTitle = 'Dashboard';
-  header = { breadcrumbRoot: 'Ehgazly' };
+  header = { breadcrumbRoot: 'Ehgezly' };
   brand = { name: 'Ehgezly' };
   userName: string = (typeof localStorage !== 'undefined' && localStorage.getItem('UserName')) || 'User';
 

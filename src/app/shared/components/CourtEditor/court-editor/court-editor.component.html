@@ -199,7 +199,7 @@
                         [class]="isAmenitySelected(item.id) ? 'bg-emerald-800 text-white shadow-lg shadow-emerald-900/20' : 'bg-emerald-100 text-emerald-800 opacity-60 hover:opacity-100'"
                         class="flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 gap-3 group w-full">
                         @if (item.icon) {
-                        <span class="text-2xl material-symbols-outlined">{{ item.icon }}</span>
+                        <img [src]="item.icon" [alt]="item.name" class="w-6 h-6 object-contain" />
                         }
                         <span class="text-[10px] font-black tracking-tighter text-center">{{ item.name | uppercase
                             }}</span>

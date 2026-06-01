@@ -34,4 +34,18 @@ export class AdminTournamentsService {
   CheckSlots(CourtId: string | number, selectedDate: string): Observable<any> {
     return this.httpClient.get(environments.baseUrl + `/admin/courts/${CourtId}/timeslots?date=${selectedDate}`);
   }
+  GetTeams(TournamentId: string | number): Observable<any> {
+    return this.httpClient.get(environments.baseUrl + `/admin/tournaments/${TournamentId}/teams`);
+  }
+  ApproveTeam(TournamentId: string | number, TeamId: string | number): Observable<any> {
+    return this.httpClient.put(environments.baseUrl + `/admin/tournaments/${TournamentId}/teams/${TeamId}/confirm`, {});
+  }
+  RejectTeam(TournamentId: string | number, TeamId: string | number, rejection_reason: string): Observable<any> {
+    return this.httpClient.put(environments.baseUrl + `/admin/tournaments/${TournamentId}/teams/${TeamId}/reject`,
+      {
+        "rejection_reason": rejection_reason
+      }
+    );
+  }
+
 }

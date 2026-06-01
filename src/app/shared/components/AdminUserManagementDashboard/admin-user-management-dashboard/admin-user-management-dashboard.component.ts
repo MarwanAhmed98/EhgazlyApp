@@ -43,19 +43,26 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
   itemsPerPage = 5;
   openDropdownId = signal<number | null>(null);
 
-  // ── Reject modal state ──────────────────────────────────────────────────────
+  // Reject modal state
   rejectModalOpen = signal<boolean>(false);
   rejectTargetId = signal<number | null>(null);
   rejectionReason = '';
   rejectionReasonTouched = signal<boolean>(false);
   rejectLoading = signal<boolean>(false);
 
-  // ── Suspend modal state ─────────────────────────────────────────────────────
+  // Suspend modal state
   suspendModalOpen = signal<boolean>(false);
   suspendTargetId = signal<number | null>(null);
   suspensionReason = '';
   suspensionReasonTouched = signal<boolean>(false);
   suspendLoading = signal<boolean>(false);
+
+  // Commission modal state
+  isCommissionModalOpen = signal<boolean>(false);
+  commissionTargetId = signal<number | null>(null);
+  commissionPercentage = signal<number>(0);
+  commissionLoading = signal<boolean>(false);
+  commissionError = signal<string>('');
 
   ngOnInit(): void {
     this.getDashboard();
@@ -72,7 +79,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     return name.trim().substring(0, 2).toUpperCase();
   }
 
-  // ── Dashboard ───────────────────────────────────────────────────────────────
   getDashboard(): void {
     this.adminDashboardService.DashboardOverview().subscribe({
       next: (res) => {
@@ -86,7 +92,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     });
   }
 
-  // ── Owners ──────────────────────────────────────────────────────────────────
   getOwners(): void {
     this.adminManageOwnersService.ShowAllOwners().subscribe({
       next: (res) => {
@@ -108,7 +113,7 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     });
   }
 
-  // ── Dropdown ────────────────────────────────────────────────────────────────
+  // Dropdown
   toggleDropdown(ownerId: number, event: Event) {
     event.stopPropagation();
     this.openDropdownId.set(this.openDropdownId() === ownerId ? null : ownerId);
@@ -122,7 +127,7 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     }
   }
 
-  // ── Approve / Activate (unchanged) ─────────────────────────────────────────
+  // Approve / Activate
   approveOwner(ownerId: number) {
     this.adminManageOwnersService.ApproveOwner(ownerId).subscribe({
       next: () => {
@@ -143,7 +148,7 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     });
   }
 
-  // ── Reject modal ────────────────────────────────────────────────────────────
+  // Reject modal
   openRejectModal(ownerId: number) {
     this.openDropdownId.set(null);
     this.rejectTargetId.set(ownerId);
@@ -187,7 +192,8 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       },
     });
   }
-  // ── Suspend modal ───────────────────────────────────────────────────────────
+
+  // Suspend modal
   openSuspendModal(ownerId: number) {
     this.openDropdownId.set(null);
     this.suspendTargetId.set(ownerId);
@@ -232,7 +238,62 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
     });
   }
 
-  // ── Pagination ──────────────────────────────────────────────────────────────
+  // Commission modal
+  openCommissionModal(ownerId: number, currentCommission: string) {
+    this.openDropdownId.set(null);
+    this.commissionTargetId.set(ownerId);
+    this.commissionPercentage.set(currentCommission ? parseFloat(currentCommission) : 0);
+    this.commissionError.set('');
+    this.commissionLoading.set(false);
+    this.isCommissionModalOpen.set(true);
+  }
+
+  closeCommissionModal() {
+    if (this.commissionLoading()) return;
+    this.isCommissionModalOpen.set(false);
+    this.commissionTargetId.set(null);
+    this.commissionPercentage.set(0);
+    this.commissionError.set('');
+  }
+
+  confirmCommissionUpdate() {
+    const percentage = this.commissionPercentage();
+    if (percentage === null || percentage === undefined || isNaN(percentage)) {
+      this.commissionError.set('Commission percentage is required');
+      return;
+    }
+    if (percentage < 0) {
+      this.commissionError.set('Commission cannot be negative');
+      return;
+    }
+    if (percentage > 100) {
+      this.commissionError.set('Commission cannot exceed 100%');
+      return;
+    }
+
+    const id = this.commissionTargetId();
+    if (id === null) return;
+
+    this.commissionLoading.set(true);
+    this.adminManageOwnersService.UpdateCommission(id, percentage).subscribe({
+      next: (res) => {
+        this.toastService.success(res.message || 'Commission updated successfully');
+        this.getOwners();  // refresh list to show updated commission
+        this.commissionLoading.set(false);
+        this.isCommissionModalOpen.set(false);
+        this.commissionTargetId.set(null);
+        this.commissionPercentage.set(0);
+      },
+      error: (err) => {
+        const message = err?.error?.message || 'Failed to update commission. Please try again.';
+        this.toastService.error(message);
+        this.commissionLoading.set(false);
+        this.commissionError.set(message);
+      },
+    });
+  }
+
+  // Pagination
   paginatedOwners = computed(() => {
     const start = (this.currentPage() - 1) * this.itemsPerPage;
     return this.owners().slice(start, start + this.itemsPerPage);
@@ -259,11 +320,9 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
   prevPage() {
     if (this.currentPage() > 1) this.currentPage.update((p) => p - 1);
   }
-
   nextPage() {
     if (this.currentPage() < this.totalPages()) this.currentPage.update((p) => p + 1);
   }
-
   setPage(page: number) {
     this.currentPage.set(page);
   }

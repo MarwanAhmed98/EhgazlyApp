@@ -48,7 +48,6 @@ export class AdminManageTournamentsComponent implements OnInit {
       next: (res) => {
         this.tournaments.set(res.data || []);
       }
-
     });
   }
 
@@ -125,7 +124,6 @@ export class AdminManageTournamentsComponent implements OnInit {
         this.toastService.success(res.message || `Tournament status updated to ${newStatus}`);
         this.triggerToast(`Status changed to ${newStatus}`, 'success');
       },
-
     });
   }
 
@@ -143,12 +141,11 @@ export class AdminManageTournamentsComponent implements OnInit {
         this.toastService.success(res.message || 'Tournament deleted successfully');
         this.triggerToast('Tournament deleted successfully', 'danger');
       },
-
     });
   }
 
   downloadArchiveReport(tournament: IAdminTournaments) {
-    const reportContent = `==================================================\nACC redited TOURNAMENT ARCHIVE REPORT\n==================================================\nTournament ID:   ${tournament.id}\nOfficial Name:   ${tournament.name}\nTeam Size:       ${tournament.team_size}\nMax Teams:       ${tournament.max_teams}\nEntry Fee:       $${tournament.entry_fee}\nStatus:          ${tournament.status}\nDuration:        ${tournament.start_date} - ${tournament.end_date}\nMain Court:      ${tournament.maincourt?.name || 'N/A'}\nCourt:           ${tournament.court?.name || 'N/A'}\nPrize Pool:      $${tournament.total_prize_pool}\n--------------------------------------------------\nCertified by the Tournament Management Association.\n==================================================`;
+    const reportContent = `==================================================\nACCREDITED TOURNAMENT ARCHIVE REPORT\n==================================================\nTournament ID:   ${tournament.id}\nOfficial Name:   ${tournament.name}\nTeam Size:       ${tournament.team_size}\nMax Teams:       ${tournament.max_teams}\nEntry Fee:       $${tournament.entry_fee}\nStatus:          ${tournament.status}\nDuration:        ${tournament.start_date} - ${tournament.end_date}\nMain Court:      ${tournament.maincourt?.name || 'N/A'}\nCourt:           ${tournament.court?.name || 'N/A'}\nPrize Pool:      $${tournament.total_prize_pool}\n--------------------------------------------------\nCertified by the Tournament Management Association.\n==================================================`;
     const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

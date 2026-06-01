@@ -28,4 +28,11 @@ export class AdminManageOwnersService {
   ActivateOwner(OwnerId: string | number): Observable<any> {
     return this.httpClient.put(environments.baseUrl + `/admin/owners/${OwnerId}/activate`, {});
   }
+  UpdateCommission(OwnerId: string | number, commission_percentage: number): Observable<any> {
+    return this.httpClient.put(environments.baseUrl + `/admin/owners/${OwnerId}/commission`,
+      {
+        "commission_percentage": commission_percentage
+      }
+    );
+  }
 }

@@ -53,12 +53,6 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     location: 'New Cairo, District 5',
     rating: 4.9,
     reviews: 124,
-    images: [
-      'https://images.unsplash.com/photo-1434648957308-5e6a859697e8?auto=format&fit=crop&w=2200&q=80',
-      'https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1820.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQmBt5UXMU3GtdHQ5ySKLDoj0ZOhcjLszFA&s',
-      'https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=2200&q=80',
-    ],
   };
 
   activeVenueSlide = 0;
@@ -190,6 +184,9 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.SpecificCourt = res.data;
             this.CourtDetails = res.data;
+            // Reset slide index after images load
+            this.activeVenueSlide = 0;
+            this.startAutoplay();
           }
         });
         this.GetCourt();
@@ -312,7 +309,6 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
     return this.selectedSlots.reduce((sum, s) => sum + (s.available ? s.price : 0), 0);
   }
 
-  // FIXED: Pass ALL selected slot IDs as comma-separated string
   confirmBooking(): void {
     if (this.selectedSlots.length === 0) return;
 
@@ -322,21 +318,26 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
       [
         '/payment',
         this.selectedCourtId(),
-        allSlotIds,                   // now contains all IDs like "101,102,103"
+        allSlotIds,
         this.selectedDateISO,
         this.grandTotal,
         this.SpecificCourt.name,
         this.productId
       ],
       {
-        state: { selectedSlots: this.selectedSlots }  // full objects for payment page
+        state: { selectedSlots: this.selectedSlots }
       }
     );
   }
 
+  // --- Slider navigation methods using dynamic image count ---
+  private getImageCount(): number {
+    return this.SpecificCourt.images?.length ?? 0;
+  }
+
   private startAutoplay(): void {
     this.stopAutoplay();
-    const n = this.venue.images.length;
+    const n = this.getImageCount();
     if (n <= 1) return;
     this.autoplayTimer = window.setInterval(() => {
       this.activeVenueSlide = (this.activeVenueSlide + 1) % n;
@@ -355,26 +356,27 @@ export class BookingandScheduleComponent implements OnInit, OnDestroy {
   }
 
   prevVenueSlide(): void {
-    const n = this.venue.images.length;
+    const n = this.getImageCount();
     if (n <= 1) return;
     this.activeVenueSlide = (this.activeVenueSlide - 1 + n) % n;
     this.resetAutoplay();
   }
 
   nextVenueSlide(): void {
-    const n = this.venue.images.length;
+    const n = this.getImageCount();
     if (n <= 1) return;
     this.activeVenueSlide = (this.activeVenueSlide + 1) % n;
     this.resetAutoplay();
   }
 
   goToVenueSlide(i: number): void {
-    const n = this.venue.images.length;
+    const n = this.getImageCount();
     if (n === 0) return;
     this.activeVenueSlide = Math.max(0, Math.min(i, n - 1));
     this.resetAutoplay();
   }
 
+  // --- Helper methods ---
   private toISO(d: Date): string {
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, '0');

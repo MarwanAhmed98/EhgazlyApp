@@ -51,7 +51,7 @@
                             [class.opacity-0]="$index !== activeVenueSlide"
                             [class.pointer-events-auto]="$index === activeVenueSlide"
                             [class.pointer-events-none]="$index !== activeVenueSlide">
-                            <img [src]="img" [alt]="SpecificCourt.name + ' image ' + ($index + 1)"
+                            <img [src]="img.url" [alt]="SpecificCourt.name + ' image ' + ($index + 1)"
                                 class="w-full h-full object-cover" loading="lazy" draggable="false" />
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-emerald-950/25 to-transparent">
@@ -80,7 +80,7 @@
 
                     <div class="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-20">
                         <div class="max-w-4xl">
-                            <div class="flex flex-wrap items-center gap-3">
+                            <!-- <div class="flex flex-wrap items-center gap-3">
                                 <span
                                     class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#A34700]/90 text-white text-[11px] font-black uppercase tracking-widest border border-white/10">
                                     Top Rated Arena
@@ -91,14 +91,15 @@
                                     {{ venue.rating }} <span class="font-semibold opacity-80">({{ venue.reviews }}
                                         reviews)</span>
                                 </span>
-                            </div>
+                            </div> -->
 
                             <h1 class="mt-4 text-4xl sm:text-5xl font-black tracking-tighter text-white leading-tight">
                                 {{ SpecificCourt.name }}
                             </h1>
 
+                            <!-- Pagination dots - now bound to actual images -->
                             <div class="mt-6 flex items-center gap-2">
-                                @for (img of venue.images; track $index) {
+                                @for (img of SpecificCourt.images; track $index) {
                                 <button type="button" (click)="goToVenueSlide($index)"
                                     class="w-2.5 h-2.5 rounded-full transition-all duration-300"
                                     [class]="activeVenueSlide === $index ? 'bg-white' : 'bg-white/35 hover:bg-white/55'">
@@ -128,10 +129,16 @@
                             @for (a of CourtDetails.amenities; track a.id) {
                             <div
                                 class="rounded-2xl bg-white/60 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 p-4 flex items-center gap-3">
+
                                 <span
-                                    class="w-10 h-10 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black">
-                                    {{ a.icon }}
+                                    class="w-10 h-10 rounded-2xl bg-emerald-200/70 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black overflow-hidden">
+                                    @if (a.icon) {
+                                    <img [src]="a.icon" [alt]="a.name" class="w-6 h-6 object-contain" />
+                                    } @else {
+                                    ⭐
+                                    }
                                 </span>
+
                                 <span class="text-sm font-black text-emerald-950 dark:text-white">{{ a.name }}</span>
                             </div>
                             }

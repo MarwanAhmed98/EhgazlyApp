@@ -11,7 +11,7 @@
 
 @keyframes scaleUp {
     from {
-        transform: scale(0.95);
+        transform: scale(0.96);
         opacity: 0;
     }
 
@@ -34,11 +34,11 @@
 }
 
 .animate-fadeIn {
-    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-scaleUp {
-    animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .animate-slideIn {
@@ -76,6 +76,88 @@ tbody tr {
     }
 }
 
+/* --- Modal Scroll --- */
+.modal-scroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #a2e09a transparent;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #a2e09a;
+        border-radius: 99px;
+    }
+}
+
+/* --- Shared Modal Form Elements --- */
+.modal-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #416248;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background-color: #ffffff;
+    border: 1.5px solid #a2e09a;
+    border-radius: 0.75rem;
+    color: #133c1d;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+
+    &::placeholder {
+        color: #416248;
+        opacity: 0.5;
+        font-weight: 500;
+    }
+
+    &:hover {
+        border-color: #5fa85a;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: transparent;
+        box-shadow: 0 0 0 2.5px #165a21;
+        background-color: #f9fef9;
+    }
+}
+
+/* --- Manage Teams Block --- */
+.manage-teams-block {
+    background: linear-gradient(135deg, #f4fef6 0%, #e8fae8 100%);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 4px 16px rgba(22, 90, 33, 0.1);
+    }
+}
+
+.manage-teams-btn {
+    transition: all 0.15s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.97);
+    }
+}
+
 /* --- Badge & UI Consistency --- */
 .status-badge {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -86,20 +168,7 @@ tbody tr {
     gap: 0.375rem;
 }
 
-.modal-content-custom {
-    max-height: 90vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    background-color: #F0FDF4;
-    border: 1px solid #b8ebb3;
-    border-radius: 1.5rem;
-}
-
-.modal-backdrop-blur {
-    backdrop-filter: blur(4px);
-}
-
-/* --- Form Elements --- */
+/* --- Button Global --- */
 button {
     transition: all 0.15s ease;
 
@@ -108,37 +177,7 @@ button {
     }
 }
 
-input,
-select,
-textarea {
-    background-color: white;
-    border: 1px solid #a2e09a;
-    transition: all 0.15s ease;
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px #165a21;
-        border-color: transparent;
-    }
-}
-
-/* --- Fixed Theme Selectors --- */
-/* These replace the [bracket] selectors to fix the compiler error */
-
-.bg-forest {
-    background-color: #165a21;
-}
-
-.border-mint {
-    border-color: #b8ebb3;
-}
-
-.shadow-custom-2xl {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
 /* --- Button Theme Overrides --- */
-
 button.btn-forest {
     background-color: #165a21;
     color: white;
@@ -175,16 +214,12 @@ button.btn-danger {
     }
 }
 
-/* --- Responsive Layout --- */
+/* --- Responsive --- */
 @media (max-width: 640px) {
 
     .max-w-2xl,
     .max-w-lg {
-        max-width: 95%;
+        max-width: 96%;
         margin: 0 auto;
-    }
-
-    .p-6 {
-        padding: 1.25rem;
     }
 }

@@ -5,7 +5,6 @@
             <h1 class="text-3xl md:text-4xl font-black tracking-tight text-[#064420] text-center md:text-left">Command
                 Center</h1>
             <div class="flex bg-[#E8F8E8] p-1 rounded-full w-full md:w-fit shadow-inner justify-center gap-2 flex-wrap">
-                <!-- Main Court Selector -->
                 <select (change)="onMainCourtChange($event)" [value]="selectedMainCourtId()"
                     class="bg-[#064420] text-white rounded-full px-4 py-2 text-sm font-bold focus:outline-none">
                     <option value="" disabled>Select Main Court</option>
@@ -14,7 +13,6 @@
                     }
                 </select>
 
-                <!-- Court Selector -->
                 <select (change)="onCourtChange($event)" [value]="selectedCourtId()" [disabled]="!selectedMainCourtId()"
                     class="bg-white text-[#064420] rounded-full px-4 py-2 text-sm font-bold focus:outline-none disabled:opacity-50">
                     <option value="" disabled>Select Court</option>
@@ -23,7 +21,6 @@
                     }
                 </select>
 
-                <!-- Date Picker -->
                 <input type="date" [value]="selectedDate()" (change)="onDateChange($event)"
                     [disabled]="!selectedCourtId()"
                     class="bg-white text-[#064420] rounded-full px-4 py-2 text-sm font-bold focus:outline-none disabled:opacity-50" />
@@ -40,7 +37,6 @@
 
     <!-- Main Grid -->
     <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 pb-8">
-        <!-- Right Content Area -->
         <div class="lg:col-span-12 flex flex-col gap-6 w-full">
             <div class="bg-[#E8F8E8] rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 shadow-sm flex-1 w-full transition-opacity duration-300"
                 [class.opacity-50]="!isFacilityOpen()">
@@ -67,6 +63,12 @@
                         <div class="flex items-center gap-1.5">
                             <div class="w-3 h-3 rounded-full bg-gray-400"></div> Blocked
                         </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-[#F59E0B]"></div> Pending Match
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-[#7C3AED]"></div> Tournament
+                        </div>
                     </div>
                 </div>
 
@@ -91,13 +93,14 @@
                 </div>
                 }
 
-                <!-- Slots Grid -->
+                <!-- Empty State -->
                 @if (!isLoadingSlots() && slots().length === 0 && selectedCourtId()) {
                 <div class="text-center py-12 text-[#4A7C59] font-medium">
                     No time slots available for this date.
                 </div>
                 }
 
+                <!-- Slots Grid -->
                 <div class="space-y-4">
                     @for (slot of slots(); track slot.id) {
                     <div class="flex items-start gap-3 md:gap-4">
@@ -112,6 +115,7 @@
                             [class.cursor-not-allowed]="!isFacilityOpen()"
                             [class.cursor-pointer]="isFacilityOpen() && (slot.status === 'available' || slot.status === 'blocked')"
                             [class.hover:shadow-md]="isFacilityOpen() && (slot.status === 'available' || slot.status === 'blocked')">
+
                             @if (slot.status === 'booked') {
                             <div class="w-5 h-5 shrink-0 rounded-full bg-[#064420] flex items-center justify-center">
                                 <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,6 +130,20 @@
                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 </svg>
                             </div>
+                            } @else if (slot.status === 'pending_match') {
+                            <div class="w-5 h-5 shrink-0 flex items-center justify-center text-[#F59E0B]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            } @else if (slot.status === 'tournament') {
+                            <div class="w-5 h-5 shrink-0 flex items-center justify-center text-[#7C3AED]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                </svg>
+                            </div>
                             } @else if (slot.prime) {
                             <div class="w-5 h-5 shrink-0 flex items-center justify-center text-[#B04A26]">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -134,13 +152,14 @@
                                 </svg>
                             </div>
                             }
+
                             <div class="flex-1 overflow-hidden">
                                 <p class="font-bold text-xs md:text-sm truncate"
-                                    [class]="slot.status === 'blocked' ? 'text-gray-500' : 'text-[#064420]'">
+                                    [class]="slot.status === 'blocked' ? 'text-gray-500' : slot.status === 'pending_match' ? 'text-[#B45309]' : slot.status === 'tournament' ? 'text-[#5B21B6]' : 'text-[#064420]'">
                                     {{ slot.label }}
                                 </p>
                             </div>
-                            <!-- Inline action button (as per spec) -->
+
                             @if (isFacilityOpen() && slot.status === 'available') {
                             <button (click)="$event.stopPropagation(); blockSingleSlot(slot.id)"
                                 class="bg-[#FF5C28] text-white text-xs px-3 py-1 rounded-full font-bold hover:bg-[#E04E1A] transition">
@@ -161,7 +180,7 @@
         </div>
     </div>
 
-    <!-- CONFIRMATION MODAL (Facility Closure) -->
+    <!-- CONFIRMATION MODAL -->
     @if (isConfirmModalOpen()) {
     <div class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md modal-backdrop">
         <div
@@ -192,7 +211,7 @@
     </div>
     }
 
-    <!-- SLOT MANAGEMENT MODAL (for additional details) -->
+    <!-- SLOT MANAGEMENT MODAL -->
     @if (isModalOpen()) {
     <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm modal-backdrop">
         <div
