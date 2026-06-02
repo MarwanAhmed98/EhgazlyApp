@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { RouterLink } from "@angular/router";
 import { VenuesService } from '../../../../core/services/venues/venues.service';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type LocationState = 'unknown' | 'granted' | 'denied';
 type ViewState = 'permission' | 'nearby' | 'all';
@@ -29,7 +30,7 @@ type Stadium = {
 
 @Component({
   selector: 'app-venues',
-  imports: [FormsModule, PlayernavComponent, RouterLink],
+  imports: [FormsModule, PlayernavComponent, RouterLink, AiComponent],
   templateUrl: './venues.component.html',
   styleUrl: './venues.component.scss'
 })

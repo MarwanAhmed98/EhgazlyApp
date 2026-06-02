@@ -5,13 +5,14 @@ import { RouterLink } from "@angular/router";
 import { MyBookingsService } from '../../../../core/services/MyBookings/my-bookings.service';
 import { IBookings } from '../../../interfaces/i-bookings';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type Tab = 'upcoming' | 'previous';
 
 @Component({
   selector: 'app-playerbooking',
   standalone: true,
-  imports: [CommonModule, PlayernavComponent, RouterLink, DatePipe],
+  imports: [CommonModule, PlayernavComponent, RouterLink, DatePipe, AiComponent],
   templateUrl: './playerbooking.component.html',
   styleUrl: './playerbooking.component.scss'
 })

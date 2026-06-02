@@ -6,13 +6,14 @@ import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFrie
 import { IfriendlyMatch } from '../../../interfaces/ifriendly-match';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type FilterMode = 'date' | 'price' | 'all';
 
 @Component({
   selector: 'app-friendly-match-dashboard',
   standalone: true,
-  imports: [PlayernavComponent, FormsModule, RouterLink, DatePipe, SlicePipe, LucideAngularModule],
+  imports: [PlayernavComponent, FormsModule, RouterLink, DatePipe, SlicePipe, LucideAngularModule, AiComponent],
   templateUrl: './friendly-match-dashboard.component.html',
   styleUrl: './friendly-match-dashboard.component.scss',
 })

@@ -7,13 +7,14 @@ import { ToastService } from '../../../../core/services/toast/toast.service';
 import { TournamentsService } from '../../../../core/services/Tournaments/tournaments.service';
 import { ICustomerTournaments } from '../../../interfaces/icustomer-tournaments';
 import { LucideAngularModule } from 'lucide-angular';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type FilterKey = 'all' | 'open' | 'ongoing' | 'finished' | 'cancelled';
 
 @Component({
   selector: 'app-tournaments',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, PlayernavComponent, RouterLink, LucideAngularModule],
+  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, PlayernavComponent, RouterLink, LucideAngularModule, AiComponent],
   templateUrl: './tournaments.component.html',
   styleUrls: ['./tournaments.component.scss']
 })
