@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, signal, computed, effect, inject, O
 import { CommonModule } from '@angular/common';
 import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
 import { IAdminDashboard, RecentBooking } from '../../../interfaces/iadmin-dashboard';
+import { AdminFinancialsService } from '../../../../core/services/AdminFinancials/admin-financials.service';
 
 @Component({
   selector: 'app-user-directory-admin',
@@ -12,6 +13,7 @@ import { IAdminDashboard, RecentBooking } from '../../../interfaces/iadmin-dashb
 })
 export class UserDirectoryAdminComponent implements OnInit {
   private readonly adminDashboardService = inject(AdminDashboardService);
+  private readonly adminFinancialsService = inject(AdminFinancialsService);
   dashboardData = signal<IAdminDashboard | null>(null);
   recentBookings = computed(() => this.dashboardData()?.recent_bookings ?? []);
   totalBookingsCount = computed(() => this.filteredBookings().length);

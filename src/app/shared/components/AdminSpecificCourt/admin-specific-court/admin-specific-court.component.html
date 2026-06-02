@@ -305,7 +305,7 @@
                         <div *ngFor="let img of SpecificDetails.images"
                             class="relative group aspect-square rounded-xl overflow-hidden bg-[#D1F5DD] cursor-pointer hover:shadow-md transition-shadow"
                             (click)="openImageModal(img)">
-                            <img [src]="img" alt="Main court image"
+                            <img [src]="img.url" alt="Main court image"
                                 class="w-full h-full object-cover transition-transform group-hover:scale-105">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
                         </div>
