@@ -46,8 +46,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
 
   // Navigation state
   isSideNavOpen = true;
-  isDarkMode =
-    typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark';
+  isDarkMode: boolean = false;
   currentTitle = 'Dashboard';
   header = { breadcrumbRoot: 'Ehgazly' };
   brand = { name: 'Ehgezly', logoUrl: '/assets/images/logo.png' };
@@ -70,7 +69,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
     { key: 'earnings', label: 'Earnings', route: '/CourtOwner/CourtOwnerEarnings', exact: false, iconName: 'trending-up' },
     { key: 'courts', label: 'Main Courts', route: '/CourtOwner/CourtOwnerManagement', exact: false, iconName: 'map-pin-house' },
     { key: 'courts', label: 'Courts', route: '/CourtOwner/CourtOwnerCourts', exact: false, iconName: 'map-pin' },
-
     {
       key: 'manage-court-schedule',
       label: 'Manage Court Schedule',
@@ -121,7 +119,17 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
 
   // ==================== LIFECYCLE ====================
   ngOnInit(): void {
-    this.applyTheme();
+    if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === null) {
+        this.isDarkMode = true;
+        localStorage.setItem('theme', 'dark');
+      } else {
+        this.isDarkMode = savedTheme === 'dark';
+      }
+      this.applyTheme();
+    }
+
     this.updateTitleByRoute(this.router.url);
     this.GetNoti();
 
@@ -134,6 +142,23 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.notiSub?.unsubscribe();
+  }
+
+  // ==================== THEME ====================
+  toggleDarkMode(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }
 
   // ==================== NOTIFICATION METHODS ====================
@@ -299,16 +324,11 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   getNotifIconBg(type: string): string {
     const icon = this.getNotifIcon(type);
     switch (icon) {
-      case 'calendar-check':
-        return 'bg-[#E3F9E5]';
-      case 'match':
-        return 'bg-[#EAF4FF]';
-      case 'invite':
-        return 'bg-[#C6F1CD]/70';
-      case 'calendar-cancel':
-        return 'bg-[#FDF1E6]';
-      default:
-        return 'bg-slate-100';
+      case 'calendar-check': return 'bg-[#E3F9E5]';
+      case 'match': return 'bg-[#EAF4FF]';
+      case 'invite': return 'bg-[#C6F1CD]/70';
+      case 'calendar-cancel': return 'bg-[#FDF1E6]';
+      default: return 'bg-slate-100';
     }
   }
 
@@ -367,20 +387,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
     if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches) {
       this.isSideNavOpen = false;
     }
-  }
-
-  toggleDarkMode(): void {
-    this.isDarkMode = !this.isDarkMode;
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-    }
-    this.applyTheme();
-  }
-
-  private applyTheme(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (this.isDarkMode) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
   }
 
   private updateTitleByRoute(url: string): void {
