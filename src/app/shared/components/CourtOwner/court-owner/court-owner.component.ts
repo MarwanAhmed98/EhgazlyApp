@@ -396,7 +396,9 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('userId');
       this.toastService.success('Logged out successfully.', 'Ehgazly');
     }
     this.router.navigate(['/Login']);
