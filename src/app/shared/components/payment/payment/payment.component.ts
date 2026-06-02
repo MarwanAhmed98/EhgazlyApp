@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerTimeslotService } from '../../../../core/services/CustomerTimeslot/customer-timeslot.service';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
 import { LucideAngularModule } from 'lucide-angular';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 type ConfirmStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -21,7 +22,7 @@ interface PaymentMethod {
 
 @Component({
   selector: 'app-payment',
-  imports: [PlayernavComponent, LucideAngularModule],
+  imports: [PlayernavComponent, LucideAngularModule, AiComponent],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
 })

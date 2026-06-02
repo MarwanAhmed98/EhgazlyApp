@@ -223,3 +223,59 @@ button.btn-danger {
         margin: 0 auto;
     }
 }
+
+/* Dark mode additions only (keep existing SCSS) */
+
+/* table head / row hover (used by SCSS) */
+:host-context(.dark) thead tr th {
+    background-color: rgba(2, 6, 23, 0.55);
+    /* slate-950-ish */
+    color: rgba(148, 163, 184, 0.95);
+    /* slate-400 */
+}
+
+:host-context(.dark) tbody tr {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+:host-context(.dark) tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* modal form elements (used by .modal-label/.modal-input in your SCSS) */
+:host-context(.dark) .modal-label {
+    color: rgba(148, 163, 184, 0.95);
+}
+
+:host-context(.dark) .modal-input {
+    background-color: rgba(2, 6, 23, 0.55);
+    border-color: rgba(148, 163, 184, 0.2);
+    color: rgba(241, 245, 249, 1);
+
+    &::placeholder {
+        color: rgba(148, 163, 184, 0.8);
+    }
+
+    &:hover {
+        border-color: rgba(148, 163, 184, 0.35);
+    }
+
+    &:focus {
+        background-color: rgba(2, 6, 23, 0.65);
+        box-shadow: 0 0 0 2.5px rgba(16, 185, 129, 0.22);
+        /* emerald ring */
+    }
+}
+
+/* modal scrollbar */
+:host-context(.dark) .modal-scroll {
+    scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(148, 163, 184, 0.45);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(148, 163, 184, 0.65);
+    }
+}

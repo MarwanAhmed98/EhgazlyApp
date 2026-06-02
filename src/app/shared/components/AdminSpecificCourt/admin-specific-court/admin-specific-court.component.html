@@ -1,15 +1,18 @@
-<div class="min-h-screen bg-[#EAF7EE] p-4 sm:p-6 lg:p-8 font-sans text-slate-800 antialiased">
+<div
+    class="min-h-screen bg-[#EAF7EE] dark:bg-slate-950 p-4 sm:p-6 lg:p-8 font-sans text-slate-800 dark:text-slate-100 antialiased">
     <div class="max-w-7xl mx-auto space-y-6">
 
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-[#136336]">{{ SpecificDetails.name || 'Main Court
-                    Details' }}</h1>
-                <p class="text-sm text-slate-500 mt-1">Complete information about this facility</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-[#136336] dark:text-emerald-200">
+                    {{ SpecificDetails.name || 'Main Court Details' }}
+                </h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Complete information about this facility</p>
             </div>
             <div class="flex gap-2">
-                <div class="bg-[#D1F5DD] px-3 py-1.5 rounded-full text-xs font-semibold text-[#136336] shadow-sm">
+                <div
+                    class="bg-[#D1F5DD] dark:bg-slate-900/60 px-3 py-1.5 rounded-full text-xs font-semibold text-[#136336] dark:text-emerald-200 shadow-sm dark:shadow-none border border-transparent dark:border-slate-800">
                     ID: {{ SpecificDetails.id || '—' }}
                 </div>
             </div>
@@ -22,80 +25,119 @@
             <div class="lg:col-span-2 space-y-6">
 
                 <!-- Header Card: Name + Statuses + Address -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] overflow-hidden">
-                    <div class="bg-[#D1F5DD] px-6 py-4 border-b border-[#BCEFCD]">
-                        <h2 class="text-xl font-bold text-[#136336]">{{ SpecificDetails.name || '—' }}</h2>
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 overflow-hidden">
+                    <div
+                        class="bg-[#D1F5DD] dark:bg-slate-950/40 px-6 py-4 border-b border-[#BCEFCD] dark:border-slate-800">
+                        <h2 class="text-xl font-bold text-[#136336] dark:text-emerald-200">{{ SpecificDetails.name ||
+                            '—' }}</h2>
                     </div>
                     <div class="p-6 space-y-4">
                         <div class="flex flex-wrap gap-4">
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Status:</span>
                                 <span
-                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold"
+                                    class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Status:</span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold dark:ring-1 dark:ring-white/10"
                                     [ngClass]="{
-                                        'bg-emerald-100 text-emerald-700': SpecificDetails.status === 'active',
-                                        'bg-orange-100 text-orange-700': SpecificDetails.status === 'suspended',
-                                        'bg-gray-100 text-gray-600': SpecificDetails.status === 'inactive'
-                                      }">
-                                    <span class="w-1.5 h-1.5 rounded-full"
-                                        [class.bg-emerald-500]="SpecificDetails.status === 'active'"
-                                        [class.bg-orange-500]="SpecificDetails.status === 'suspended'"
-                                        [class.bg-gray-500]="SpecificDetails.status === 'inactive'"></span>
+                    'bg-emerald-100 text-emerald-700': SpecificDetails.status === 'active',
+                    'bg-orange-100 text-orange-700': SpecificDetails.status === 'suspended',
+                    'bg-gray-100 text-gray-600': SpecificDetails.status === 'inactive',
+
+                    'dark:bg-emerald-500/15 dark:text-emerald-300': SpecificDetails.status === 'active',
+                    'dark:bg-amber-500/15 dark:text-amber-300': SpecificDetails.status === 'suspended',
+                    'dark:bg-slate-800 dark:text-slate-300': SpecificDetails.status === 'inactive'
+                  }">
+                                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                      'bg-emerald-500': SpecificDetails.status === 'active',
+                      'bg-orange-500': SpecificDetails.status === 'suspended',
+                      'bg-gray-500': SpecificDetails.status === 'inactive',
+
+                      'dark:bg-emerald-300': SpecificDetails.status === 'active',
+                      'dark:bg-amber-300': SpecificDetails.status === 'suspended',
+                      'dark:bg-slate-400': SpecificDetails.status === 'inactive'
+                    }"></span>
                                     {{ SpecificDetails.status | titlecase }}
                                 </span>
                             </div>
+
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Verified:</span>
                                 <span
-                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold"
-                                    [ngClass]="SpecificDetails.is_verified ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700'">
-                                    <span class="w-1.5 h-1.5 rounded-full"
-                                        [class.bg-emerald-500]="SpecificDetails.is_verified"
-                                        [class.bg-yellow-500]="!SpecificDetails.is_verified"></span>
+                                    class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Verified:</span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold dark:ring-1 dark:ring-white/10"
+                                    [ngClass]="{
+                    'bg-emerald-100 text-emerald-700': SpecificDetails.is_verified,
+                    'bg-yellow-100 text-yellow-700': !SpecificDetails.is_verified,
+
+                    'dark:bg-emerald-500/15 dark:text-emerald-300': SpecificDetails.is_verified,
+                    'dark:bg-amber-500/15 dark:text-amber-300': !SpecificDetails.is_verified
+                  }">
+                                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                      'bg-emerald-500': SpecificDetails.is_verified,
+                      'bg-yellow-500': !SpecificDetails.is_verified,
+
+                      'dark:bg-emerald-300': SpecificDetails.is_verified,
+                      'dark:bg-amber-300': !SpecificDetails.is_verified
+                    }"></span>
                                     {{ SpecificDetails.is_verified ? 'Verified' : 'Pending' }}
                                 </span>
                             </div>
                         </div>
+
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Address</span>
-                            <p class="text-slate-700 mt-1">{{ SpecificDetails.address || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Address</span>
+                            <p class="text-slate-700 dark:text-slate-200 mt-1">{{ SpecificDetails.address || '—' }}</p>
                         </div>
-                        <div *ngIf="SpecificDetails.description" class="pt-2 border-t border-[#BCEFCD]">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Description</span>
-                            <p class="text-slate-600 mt-1">{{ SpecificDetails.description }}</p>
+
+                        <div *ngIf="SpecificDetails.description"
+                            class="pt-2 border-t border-[#BCEFCD] dark:border-slate-800">
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Description</span>
+                            <p class="text-slate-600 dark:text-slate-300 mt-1">{{ SpecificDetails.description }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Owner Information Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                         Owner Information
                     </h3>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Name</span>
-                            <p class="font-semibold text-slate-800">{{ SpecificDetails.owner?.name || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Name</span>
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">{{ SpecificDetails.owner?.name
+                                || '—' }}</p>
                         </div>
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Email</span>
-                            <p class="text-slate-700">{{ SpecificDetails.owner?.email || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Email</span>
+                            <p class="text-slate-700 dark:text-slate-200">{{ SpecificDetails.owner?.email || '—' }}</p>
                         </div>
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Phone</span>
-                            <p class="text-slate-700">{{ SpecificDetails.owner?.phone || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Phone</span>
+                            <p class="text-slate-700 dark:text-slate-200">{{ SpecificDetails.owner?.phone || '—' }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Location Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                             </path>
@@ -104,20 +146,29 @@
                         </svg>
                         Location
                     </h3>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Latitude</span>
-                            <p class="font-mono text-sm">{{ SpecificDetails.latitude || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Latitude</span>
+                            <p class="font-mono text-sm text-slate-800 dark:text-slate-100">{{ SpecificDetails.latitude
+                                || '—' }}</p>
                         </div>
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Longitude</span>
-                            <p class="font-mono text-sm">{{ SpecificDetails.longitude || '—' }}</p>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Longitude</span>
+                            <p class="font-mono text-sm text-slate-800 dark:text-slate-100">{{ SpecificDetails.longitude
+                                || '—' }}</p>
                         </div>
+
                         <div class="sm:col-span-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Map Link</span>
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Map
+                                Link</span>
+
                             <a *ngIf="SpecificDetails.map_link" [href]="SpecificDetails.map_link" target="_blank"
                                 rel="noopener noreferrer"
-                                class="text-[#136336] hover:underline text-sm font-medium flex items-center gap-1 mt-1">
+                                class="text-[#136336] dark:text-emerald-300 hover:underline text-sm font-medium flex items-center gap-1 mt-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
@@ -125,26 +176,32 @@
                                 </svg>
                                 View on map
                             </a>
-                            <p *ngIf="!SpecificDetails.map_link" class="text-slate-400 text-sm mt-1">No map link
-                                provided</p>
+
+                            <p *ngIf="!SpecificDetails.map_link"
+                                class="text-slate-400 dark:text-slate-500 text-sm mt-1">
+                                No map link provided
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Courts List Section -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1M5 21v-4a2 2 0 012-2h10a2 2 0 012 2v4">
                             </path>
                         </svg>
                         Courts ({{ SpecificDetails.courts?.length || 0 }})
                     </h3>
+
                     <div *ngIf="SpecificDetails.courts && SpecificDetails.courts.length > 0; else noCourts"
                         class="overflow-x-auto">
                         <table class="w-full text-sm">
-                            <thead class="bg-[#D1F5DD] text-[#136336]">
+                            <thead class="bg-[#D1F5DD] dark:bg-slate-950/40 text-[#136336] dark:text-emerald-200">
                                 <tr>
                                     <th class="text-left py-3 px-4 rounded-l-xl">Name</th>
                                     <th class="text-left py-3 px-4">Type</th>
@@ -152,18 +209,30 @@
                                     <th class="text-left py-3 px-4 rounded-r-xl">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#BCEFCD]">
-                                <tr *ngFor="let court of SpecificDetails.courts" class="hover:bg-[#EAF7EE] transition">
-                                    <td class="py-3 px-4 font-medium">{{ court.name || '—' }}</td>
-                                    <td class="py-3 px-4">{{ court.type || '—' }}</td>
-                                    <td class="py-3 px-4">{{ court.price_per_hour | currency:' ' }}/hr</td>
+                            <tbody class="divide-y divide-[#BCEFCD] dark:divide-slate-800">
+                                <tr *ngFor="let court of SpecificDetails.courts"
+                                    class="hover:bg-[#EAF7EE] dark:hover:bg-white/5 transition">
+                                    <td class="py-3 px-4 font-medium text-slate-800 dark:text-slate-100">{{ court.name
+                                        || '—' }}</td>
+                                    <td class="py-3 px-4 text-slate-700 dark:text-slate-200">{{ court.type || '—' }}
+                                    </td>
+                                    <td class="py-3 px-4 text-slate-700 dark:text-slate-200">{{ court.price_per_hour |
+                                        currency:' ' }}/hr</td>
                                     <td class="py-3 px-4">
                                         <span
-                                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold"
-                                            [ngClass]="court.is_open ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'">
-                                            <span class="w-1.5 h-1.5 rounded-full"
-                                                [class.bg-emerald-500]="court.is_open"
-                                                [class.bg-rose-500]="!court.is_open"></span>
+                                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold dark:ring-1 dark:ring-white/10"
+                                            [ngClass]="{
+                        'bg-emerald-100 text-emerald-700': court.is_open,
+                        'bg-rose-100 text-rose-700': !court.is_open,
+                        'dark:bg-emerald-500/15 dark:text-emerald-300': court.is_open,
+                        'dark:bg-rose-500/15 dark:text-rose-300': !court.is_open
+                      }">
+                                            <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                          'bg-emerald-500': court.is_open,
+                          'bg-rose-500': !court.is_open,
+                          'dark:bg-emerald-300': court.is_open,
+                          'dark:bg-rose-300': !court.is_open
+                        }"></span>
                                             {{ court.is_open ? 'Open' : 'Closed' }}
                                         </span>
                                     </td>
@@ -171,79 +240,95 @@
                             </tbody>
                         </table>
                     </div>
+
                     <ng-template #noCourts>
-                        <div class="text-center py-8 bg-[#EAF7EE] rounded-xl">
-                            <svg class="w-12 h-12 mx-auto text-[#BCEFCD]" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                        <div
+                            class="text-center py-8 bg-[#EAF7EE] dark:bg-slate-950/40 rounded-xl border border-transparent dark:border-slate-800">
+                            <svg class="w-12 h-12 mx-auto text-[#BCEFCD] dark:text-slate-700" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1M5 21v-4a2 2 0 012-2h10a2 2 0 012 2v4">
                                 </path>
                             </svg>
-                            <p class="text-slate-400 text-sm mt-2">No courts associated with this main court.</p>
+                            <p class="text-slate-400 dark:text-slate-500 text-sm mt-2">No courts associated with this
+                                main court.</p>
                         </div>
                     </ng-template>
                 </div>
 
                 <!-- Amenities Section -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
                             </path>
                         </svg>
                         Amenities
                     </h3>
+
                     <div *ngIf="SpecificDetails.amenities && SpecificDetails.amenities.length > 0; else noAmenities"
                         class="flex flex-wrap gap-2">
                         <span *ngFor="let amenity of SpecificDetails.amenities"
-                            class="bg-[#EAF7EE] text-[#136336] px-3 py-1 rounded-full text-xs font-medium">
+                            class="bg-[#EAF7EE] dark:bg-slate-950/40 text-[#136336] dark:text-emerald-200 px-3 py-1 rounded-full text-xs font-medium border border-transparent dark:border-slate-800">
                             {{ amenity.name || amenity }}
                         </span>
                     </div>
+
                     <ng-template #noAmenities>
-                        <div class="text-center py-6 bg-[#EAF7EE] rounded-xl">
-                            <p class="text-slate-400 text-sm">No amenities listed.</p>
+                        <div
+                            class="text-center py-6 bg-[#EAF7EE] dark:bg-slate-950/40 rounded-xl border border-transparent dark:border-slate-800">
+                            <p class="text-slate-400 dark:text-slate-500 text-sm">No amenities listed.</p>
                         </div>
                     </ng-template>
                 </div>
 
                 <!-- Payment Methods Section -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                             </path>
                         </svg>
                         Payment Methods
                     </h3>
+
                     <div *ngIf="SpecificDetails.payment_methods && SpecificDetails.payment_methods.length > 0; else noPayments"
                         class="flex flex-wrap gap-2">
                         <span *ngFor="let method of SpecificDetails.payment_methods"
-                            class="bg-white border border-[#BCEFCD] text-slate-700 px-3 py-1 rounded-full text-xs font-medium shadow-sm">
+                            class="bg-white dark:bg-slate-950 border border-[#BCEFCD] dark:border-slate-800 text-slate-700 dark:text-slate-200 px-3 py-1 rounded-full text-xs font-medium shadow-sm dark:shadow-none">
                             {{ method.type || method }}
                         </span>
                     </div>
+
                     <ng-template #noPayments>
-                        <div class="text-center py-6 bg-[#EAF7EE] rounded-xl">
-                            <p class="text-slate-400 text-sm">No payment methods configured.</p>
+                        <div
+                            class="text-center py-6 bg-[#EAF7EE] dark:bg-slate-950/40 rounded-xl border border-transparent dark:border-slate-800">
+                            <p class="text-slate-400 dark:text-slate-500 text-sm">No payment methods configured.</p>
                         </div>
                     </ng-template>
                 </div>
 
                 <!-- Working Hours Section -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         Working Hours
                     </h3>
+
                     <div *ngIf="SpecificDetails.working_hours && SpecificDetails.working_hours.length > 0; else noHours"
                         class="overflow-x-auto">
                         <table class="w-full text-sm">
-                            <thead class="bg-[#D1F5DD] text-[#136336]">
+                            <thead class="bg-[#D1F5DD] dark:bg-slate-950/40 text-[#136336] dark:text-emerald-200">
                                 <tr>
                                     <th class="text-left py-3 px-4 rounded-l-xl">Day</th>
                                     <th class="text-left py-3 px-4">Open Time</th>
@@ -251,18 +336,30 @@
                                     <th class="text-left py-3 px-4 rounded-r-xl">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#BCEFCD]">
+                            <tbody class="divide-y divide-[#BCEFCD] dark:divide-slate-800">
                                 <tr *ngFor="let hour of SpecificDetails.working_hours"
-                                    class="hover:bg-[#EAF7EE] transition">
-                                    <td class="py-3 px-4 font-medium capitalize">{{ hour.day_of_week || '—' }}</td>
-                                    <td class="py-3 px-4">{{ hour.open_time || '—' }}</td>
-                                    <td class="py-3 px-4">{{ hour.close_time || '—' }}</td>
+                                    class="hover:bg-[#EAF7EE] dark:hover:bg-white/5 transition">
+                                    <td class="py-3 px-4 font-medium capitalize text-slate-800 dark:text-slate-100">{{
+                                        hour.day_of_week || '—' }}</td>
+                                    <td class="py-3 px-4 text-slate-700 dark:text-slate-200">{{ hour.open_time || '—' }}
+                                    </td>
+                                    <td class="py-3 px-4 text-slate-700 dark:text-slate-200">{{ hour.close_time || '—'
+                                        }}</td>
                                     <td class="py-3 px-4">
                                         <span
-                                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold"
-                                            [ngClass]="hour.is_open ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'">
-                                            <span class="w-1.5 h-1.5 rounded-full" [class.bg-emerald-500]="hour.is_open"
-                                                [class.bg-rose-500]="!hour.is_open"></span>
+                                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold dark:ring-1 dark:ring-white/10"
+                                            [ngClass]="{
+                        'bg-emerald-100 text-emerald-700': hour.is_open,
+                        'bg-rose-100 text-rose-700': !hour.is_open,
+                        'dark:bg-emerald-500/15 dark:text-emerald-300': hour.is_open,
+                        'dark:bg-rose-500/15 dark:text-rose-300': !hour.is_open
+                      }">
+                                            <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                          'bg-emerald-500': hour.is_open,
+                          'bg-rose-500': !hour.is_open,
+                          'dark:bg-emerald-300': hour.is_open,
+                          'dark:bg-rose-300': !hour.is_open
+                        }"></span>
                                             {{ hour.is_open ? 'Open' : 'Closed' }}
                                         </span>
                                     </td>
@@ -270,9 +367,11 @@
                             </tbody>
                         </table>
                     </div>
+
                     <ng-template #noHours>
-                        <div class="text-center py-6 bg-[#EAF7EE] rounded-xl">
-                            <p class="text-slate-400 text-sm">No working hours defined.</p>
+                        <div
+                            class="text-center py-6 bg-[#EAF7EE] dark:bg-slate-950/40 rounded-xl border border-transparent dark:border-slate-800">
+                            <p class="text-slate-400 dark:text-slate-500 text-sm">No working hours defined.</p>
                         </div>
                     </ng-template>
                 </div>
@@ -282,7 +381,8 @@
             <div class="space-y-6">
 
                 <!-- Quick Stats Card -->
-                <div class="bg-gradient-to-br from-[#136336] to-[#0b3d20] rounded-2xl shadow-lg text-white p-6">
+                <div
+                    class="bg-gradient-to-br from-[#136336] to-[#0b3d20] dark:from-emerald-700 dark:to-slate-950 rounded-2xl shadow-lg dark:shadow-none text-white p-6 border border-transparent dark:border-white/10">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-80">Courts Count</p>
                     <h2 class="text-5xl font-black mt-2">{{ SpecificDetails.courts_count || 0 }}</h2>
                     <div class="mt-4 pt-4 border-t border-white/20 text-sm">
@@ -291,48 +391,55 @@
                 </div>
 
                 <!-- Images Gallery -->
-                <div class="bg-white rounded-2xl shadow-sm border border-[#BCEFCD] p-6">
-                    <h3 class="text-lg font-bold text-[#136336] flex items-center gap-2 mb-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
+                    <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
+                        <svg class="w-5 h-5 text-[#136336] dark:text-emerald-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
                         </svg>
                         Images
                     </h3>
+
                     <div *ngIf="SpecificDetails.images && SpecificDetails.images.length > 0; else noImages"
                         class="grid grid-cols-2 gap-3">
                         <div *ngFor="let img of SpecificDetails.images"
-                            class="relative group aspect-square rounded-xl overflow-hidden bg-[#D1F5DD] cursor-pointer hover:shadow-md transition-shadow"
+                            class="relative group aspect-square rounded-xl overflow-hidden bg-[#D1F5DD] dark:bg-slate-950/40 cursor-pointer hover:shadow-md dark:hover:shadow-none transition-shadow border border-transparent dark:border-slate-800"
                             (click)="openImageModal(img)">
                             <img [src]="img.url" alt="Main court image"
                                 class="w-full h-full object-cover transition-transform group-hover:scale-105">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
                         </div>
                     </div>
+
                     <ng-template #noImages>
-                        <div class="text-center py-8 bg-[#EAF7EE] rounded-xl">
-                            <svg class="w-12 h-12 mx-auto text-[#BCEFCD]" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                        <div
+                            class="text-center py-8 bg-[#EAF7EE] dark:bg-slate-950/40 rounded-xl border border-transparent dark:border-slate-800">
+                            <svg class="w-12 h-12 mx-auto text-[#BCEFCD] dark:text-slate-700" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            <p class="text-slate-400 text-sm mt-2">No images uploaded.</p>
+                            <p class="text-slate-400 dark:text-slate-500 text-sm mt-2">No images uploaded.</p>
                         </div>
                     </ng-template>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
 <!-- Image Modal -->
-<div *ngIf="selectedImage" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+<div *ngIf="selectedImage" class="fixed inset-0 bg-black/80 dark:bg-black/85 z-50 flex items-center justify-center p-4"
     (click)="closeImageModal()">
     <div class="relative max-w-4xl w-full" (click)="$event.stopPropagation()">
         <button (click)="closeImageModal()"
             class="absolute -top-12 right-0 text-white hover:text-gray-300 text-3xl">&times;</button>
-        <img [src]="selectedImage" alt="Full size" class="w-full h-auto rounded-2xl shadow-2xl">
+        <img [src]="selectedImage" alt="Full size"
+            class="w-full h-auto rounded-2xl shadow-2xl dark:shadow-none border border-transparent dark:border-white/10">
     </div>
 </div>

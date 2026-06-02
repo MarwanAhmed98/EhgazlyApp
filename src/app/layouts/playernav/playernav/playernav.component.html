@@ -36,6 +36,10 @@
 
     <!-- Right icons -->
     <div class="flex items-center gap-3">
+      <button (click)="toggleDarkMode()"
+        class="pointer-events-auto w-10 h-10 flex items-center justify-center text-muted bg-surface border border-main rounded-full hover:bg-app transition-all shadow-sm">
+        <i [class]="isDarkMode ? 'fas fa-sun text-amber-400' : 'fas fa-moon'"></i>
+      </button>
       <!-- Notification -->
       <div class="relative" #notifWrap>
         <button #notifBtn type="button" (click)="toggleNotifications($event)"
@@ -96,7 +100,7 @@
 
           <!-- Tabs -->
           @if (!notiLoading && !notiError) {
-          <div class="notif-dd__tabs">
+          <!-- <div class="notif-dd__tabs">
             <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'all'"
               (click)="setNotifFilter('all')">All</button>
             <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'booking_confirmed'"
@@ -105,7 +109,7 @@
               (click)="setNotifFilter('teams')">Teams</button>
             <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'system'"
               (click)="setNotifFilter('system')">System</button>
-          </div>
+          </div> -->
 
           <!-- List -->
           <div class="notif-dd__list scrollbar-hide">

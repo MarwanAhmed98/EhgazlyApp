@@ -1,22 +1,21 @@
 <!-- Keep the exact same wrapper, navbar, featured hero, search/filters, and grid structure -->
 <div
-    class="min-h-screen bg-[#DFFFE3] text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
-    <!-- ... same background, typography, nav, featured hero ... -->
+    class="min-h-screen bg-[#DFFFE3] dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
     <app-playernav [active]="'tournaments'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 pb-20 pt-8 sm:pt-10 relative z-10">
-        <!-- Search + filters (unchanged structure, only binding logic moved to TS) -->
+        <!-- Search + filters -->
         <section class="mt-8 animate-fade-in-up" style="animation-delay: 90ms;">
             <div class="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
                 <div class="flex-1 min-w-0">
                     <div class="relative">
-
-                        <span class="absolute inset-y-0 left-0 pl-5 flex items-center text-emerald-950/55">
+                        <span
+                            class="absolute inset-y-0 left-0 pl-5 flex items-center text-emerald-950/55 dark:text-emerald-300/55">
                             <lucide-icon name="search" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                         </span>
                         <input [value]="search" (input)="onSearch(($any($event.target).value))" type="text"
                             placeholder="Search tournaments, venues, or cities..."
-                            class="w-full h-[64px] rounded-[2rem] bg-[#B9F2C2]/55 border border-emerald-200/60 px-6 pl-12 font-bold text-emerald-950 outline-none placeholder:text-emerald-950/45 focus:border-emerald-950/40 focus:ring-2 focus:ring-emerald-950/10 transition-all" />
+                            class="w-full h-[64px] rounded-[2rem] bg-[#B9F2C2]/55 dark:bg-slate-800/90 border border-emerald-200/60 dark:border-slate-700 px-6 pl-12 font-bold text-emerald-950 dark:text-slate-100 outline-none placeholder:text-emerald-950/45 dark:placeholder:text-slate-400 focus:border-emerald-950/40 focus:ring-2 focus:ring-emerald-950/10 dark:focus:ring-emerald-500/20 transition-all" />
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap lg:justify-end">
@@ -24,8 +23,8 @@
                     <button type="button" (click)="setFilter(f.key)"
                         class="h-[52px] px-7 rounded-full border text-sm font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap"
                         [class]="activeFilter === f.key
-              ? 'bg-[#146A1E] border-[#146A1E] text-white shadow-lg shadow-[#146A1E]/25'
-              : 'bg-[#B9F2C2]/55 border-emerald-200/60 text-emerald-950 hover:bg-[#B9F2C2]/75'">
+              ? 'bg-[#146A1E] dark:bg-emerald-700 border-[#146A1E] dark:border-emerald-700 text-white shadow-lg shadow-[#146A1E]/25 dark:shadow-emerald-900/30'
+              : 'bg-[#B9F2C2]/55 dark:bg-slate-800/80 border-emerald-200/60 dark:border-slate-700 text-emerald-950 dark:text-slate-200 hover:bg-[#B9F2C2]/75 dark:hover:bg-slate-700'">
                         {{ f.label }}
                     </button>
                     }
@@ -33,123 +32,141 @@
             </div>
         </section>
 
-        <!-- Tournament Cards Grid – same structure, only bindings replaced with real backend data -->
+        <!-- Tournament Cards Grid -->
         <section class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-fade-in-up"
             style="animation-delay: 140ms;">
             @for (t of visibleTournaments; track t.id) {
             <article
-                class="group rounded-[2.2rem] bg-white/55 border border-emerald-200/60 shadow-[0_30px_80px_-60px_rgba(2,44,34,.35)] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_40px_100px_-65px_rgba(2,44,34,.45)]">
+                class="group rounded-[2.2rem] bg-white/55 dark:bg-slate-800/80 border border-emerald-200/60 dark:border-slate-700 shadow-[0_30px_80px_-60px_rgba(2,44,34,.35)] dark:shadow-slate-950/50 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_40px_100px_-65px_rgba(2,44,34,.45)] dark:hover:shadow-slate-900/60">
 
-                <!-- Media: dynamic image or placeholder -->
+                <!-- Media -->
                 <div class="relative h-52 overflow-hidden">
                     @if (t.primary_image?.url) {
                     <img [src]="t.primary_image.url" [alt]="t.name"
                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
                     } @else {
                     <div
-                        class="absolute inset-0 w-full h-full bg-emerald-100 flex items-center justify-center text-emerald-400">
-                        <!-- Simple clean placeholder icon (matches existing empty state feel) -->
+                        class="absolute inset-0 w-full h-full bg-emerald-100 dark:bg-slate-700 flex items-center justify-center text-emerald-400 dark:text-slate-500">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
                     }
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent dark:from-black/70">
+                    </div>
 
-                    <!-- Price chip: dynamic entry_fee -->
+                    <!-- Price chip -->
                     <div class="absolute top-4 right-4">
                         <span
-                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 border border-emerald-200/60 text-emerald-950 text-sm font-black">
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-slate-900/80 border border-emerald-200/60 dark:border-slate-600 text-emerald-950 dark:text-slate-100 text-sm font-black">
                             <lucide-icon name="banknote" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                             {{ t.entry_fee}} / Team
                         </span>
                     </div>
 
-                    <!-- Dynamic tag based on spots_left or prize pool (to keep design consistent) -->
-
+                    <!-- Dynamic tag -->
                     <div class="absolute bottom-4 left-4">
                         <span
-                            class="inline-flex items-center px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest bg-[#A34700] text-white">
+                            class="inline-flex items-center px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest bg-[#A34700] dark:bg-amber-800 text-white">
                             {{t.description}}
                         </span>
                     </div>
-                    <!-- Floating plus button removed (was mock-only) -->
                 </div>
 
                 <!-- Content -->
                 <div class="p-7">
-                    <h3 class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950">
+                    <h3 class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
                         {{ t.name }}
                     </h3>
 
-                    <!-- Location derived from maincourt.name + address -->
-                    <p class="mt-2 text-sm font-semibold text-emerald-950/60 inline-flex items-center gap-2">
+                    <!-- Location -->
+                    <p
+                        class="mt-2 text-sm font-semibold text-emerald-950/60 dark:text-slate-300 inline-flex items-center gap-2">
                         <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                         {{ t.maincourt?.name }}, {{ t.maincourt?.address }}
                     </p>
 
                     <div class="mt-6 grid grid-cols-2 gap-4">
                         <div>
-                            <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50">Date</p>
-                            <p class="mt-2 text-sm font-black text-emerald-950">{{ t.start_date | date:'MMM d, y' }} –
+                            <p
+                                class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50 dark:text-slate-400">
+                                Date</p>
+                            <p class="mt-2 text-sm font-black text-emerald-950 dark:text-white">{{ t.start_date |
+                                date:'MMM d, y' }} –
                                 {{ t.end_date | date:'MMM d, y' }}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50">Time</p>
-                            <p class="mt-2 text-sm font-black text-emerald-950">{{ t.start_date | date:'shortTime' }}
+                            <p
+                                class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50 dark:text-slate-400">
+                                Time</p>
+                            <p class="mt-2 text-sm font-black text-emerald-950 dark:text-white">{{ t.start_date |
+                                date:'shortTime' }}
                             </p>
                         </div>
                     </div>
 
-                    <!-- Additional dynamic info (team size, max teams, spots left, prize pool) -->
-                    <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-emerald-800">
-                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 rounded-full">
+                    <!-- Additional dynamic info -->
+                    <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-emerald-800 dark:text-slate-200">
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 dark:bg-slate-700/80 rounded-full">
                             <lucide-icon name="users" [size]="14" [strokeWidth]="2.5"></lucide-icon>
                             {{ t.team_size }} / team
                         </span>
-                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 rounded-full">
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 dark:bg-slate-700/80 rounded-full">
                             <lucide-icon name="handshake" [size]="14" [strokeWidth]="2.5"></lucide-icon>
                             {{ t.current_teams }}/{{ t.max_teams }} teams
                         </span>
-                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 rounded-full">
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 dark:bg-slate-700/80 rounded-full">
                             <lucide-icon name="target" [size]="14" [strokeWidth]="2.5"></lucide-icon>
                             {{ t.spots_left }} spots left
                         </span>
-                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 rounded-full">
+                        <span
+                            class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100/60 dark:bg-slate-700/80 rounded-full">
                             <lucide-icon name="trophy" [size]="14" [strokeWidth]="2.5"></lucide-icon>
                             {{ t.total_prize_pool }}
                         </span>
                     </div>
 
-                    <!-- Court & Stadium info dynamic -->
-                    <div class="mt-4 text-xs text-emerald-700/80 space-y-1">
+                    <!-- Court & Stadium info -->
+                    <div class="mt-4 text-xs text-emerald-700/80 dark:text-slate-300 space-y-1">
                         <div><span class="font-black">Stadium:</span> {{ t.maincourt?.name }}</div>
                         <div><span class="font-black">Court:</span> {{ t.court?.name }} ({{ t.court?.type }})</div>
                     </div>
 
-                    <!-- Prizes dynamic section -->
+                    <!-- Prizes -->
                     @if (t.prizes && t.prizes.length > 0) {
-                    <div class="mt-4 pt-2 border-t border-emerald-100">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-emerald-950/50 mb-1">Prizes</p>
+                    <div class="mt-4 pt-2 border-t border-emerald-100 dark:border-slate-700">
+                        <p
+                            class="text-[10px] font-black uppercase tracking-widest text-emerald-950/50 dark:text-slate-400 mb-1">
+                            Prizes</p>
                         <div class="flex flex-wrap gap-1">
                             @for (prize of t.prizes.slice(0, 3); track $index) {
-                            <span class="text-xs bg-emerald-50 px-2 py-0.5 rounded-full">{{ prize.position }}: {{
+                            <span
+                                class="text-xs bg-emerald-50 dark:bg-slate-800 px-2 py-0.5 rounded-full dark:text-slate-200">{{
+                                prize.position }}: {{
                                 prize.prize_money}}</span>
                             }
                             @if (t.prizes.length > 3) {
-                            <span class="text-xs text-emerald-600">+{{ t.prizes.length - 3 }} more</span>
+                            <span class="text-xs text-emerald-600 dark:text-emerald-400">+{{ t.prizes.length - 3 }}
+                                more</span>
                             }
                         </div>
                     </div>
                     } @else {
-                    <div class="mt-4 pt-2 border-t border-emerald-100 text-xs text-emerald-500/70 italic">No prizes
+                    <div
+                        class="mt-4 pt-2 border-t border-emerald-100 dark:border-slate-700 text-xs text-emerald-500/70 dark:text-slate-400 italic">
+                        No prizes
                         announced yet</div>
                     }
 
-                    <!-- Status badge (dynamic colors preserved) -->
+                    <!-- Status badge -->
                     <div class="mt-4 inline-flex items-center gap-1">
-                        <span class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50">Status</span>
+                        <span
+                            class="text-[11px] font-black uppercase tracking-widest text-emerald-950/50 dark:text-slate-400">Status</span>
                         <span class="ml-2 px-2 py-0.5 rounded-full text-[10px] font-black uppercase" [ngClass]="{
                 'bg-green-500 text-white': t.status?.toLowerCase() === 'open' || t.status?.toLowerCase() === 'active',
                 'bg-yellow-500 text-white': t.status?.toLowerCase() === 'pending',
@@ -161,7 +178,7 @@
                     </div>
 
                     <button [routerLink]="['/TournamentsRegister' , t.id]" type="button"
-                        class="mt-5 w-full px-6 py-4 rounded-2xl bg-[#9BF18E] hover:bg-[#86ea79] text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                        class="mt-5 w-full px-6 py-4 rounded-2xl bg-[#9BF18E] dark:bg-emerald-800 hover:bg-[#86ea79] dark:hover:bg-emerald-700 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                         Register Now <span>→</span>
                     </button>
                 </div>

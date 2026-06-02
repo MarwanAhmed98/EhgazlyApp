@@ -7,6 +7,7 @@ import { IcourtSpecficCourt } from '../../../interfaces/icourt-specfic-court';
 import { VenuesService } from '../../../../core/services/venues/venues.service';
 import { ICustomerSpecificCourt } from '../../../interfaces/icustomer-specific-court';
 import { IspecficCourt } from '../../../interfaces/ispecfic-court';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type Amenity = { label: string; icon: string };
 type Slot = {
@@ -31,7 +32,7 @@ interface CalendarDay {
 @Component({
   selector: 'app-bookingand-schedule',
   standalone: true,
-  imports: [PlayernavComponent, RouterLink],
+  imports: [PlayernavComponent, RouterLink, AiComponent],
   templateUrl: './bookingand-schedule.component.html',
   styleUrl: './bookingand-schedule.component.scss',
 })

@@ -49,8 +49,13 @@ td {
 }
 
 tbody tr:hover {
-    background-color: #f9fafb;
+    // background-color: #f9fafb;
     transition: background-color 0.2s ease;
+}
+
+/* Dark mode hover for table rows */
+.dark tbody tr:hover {
+    background-color: #1f2937;
 }
 
 /* Improve badge consistency */
@@ -76,6 +81,19 @@ span[class*="rounded-full"] {
 .overflow-x-auto::-webkit-scrollbar-thumb {
     background: #BCEFCD;
     border-radius: 10px;
+}
+
+/* Dark mode scrollbar */
+.dark .overflow-x-auto {
+    scrollbar-color: #334155 #1e293b;
+}
+
+.dark .overflow-x-auto::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+.dark .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #334155;
 }
 
 /* Mobile cards */

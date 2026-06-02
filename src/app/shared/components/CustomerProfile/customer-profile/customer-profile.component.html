@@ -1,21 +1,21 @@
 <app-playernav></app-playernav>
 
-<div class="profile-root">
+<div class="profile-root dark:bg-gray-950">
 
     <div class="bg-orb bg-orb--1"></div>
     <div class="bg-orb bg-orb--2"></div>
 
     <main class="profile-main">
-        <!-- Hero Card (improved spacing) -->
-        <header class="hero-card">
+        <!-- Hero Card -->
+        <header class="hero-card dark:bg-gray-900 dark:border-gray-700/50">
             <div class="hero-card__glow"></div>
 
             <div class="hero-left">
                 <div class="avatar-ring">
-                    <div class="avatar-wrap">
+                    <div class="avatar-wrap dark:border-emerald-700">
                         <img [src]="ProfileDetails.profile_image" [alt]="ProfileDetails.name" class="avatar-img" />
                     </div>
-                    <span class="avatar-badge">
+                    <span class="avatar-badge dark:border-gray-900">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
@@ -24,20 +24,23 @@
                     </span>
                 </div>
                 <div class="hero-identity">
-                    <h1 class="hero-name">{{ ProfileDetails.name }}</h1>
-                    <p class="hero-role">{{ PlayerRole }}</p>
+                    <h1 class="hero-name dark:text-gray-50">{{ ProfileDetails.name }}</h1>
+                    <p class="hero-role dark:bg-emerald-900/40 dark:border-emerald-700/60 dark:text-emerald-400">{{
+                        PlayerRole }}</p>
                     <div class="hero-contacts">
-                        <a class="contact-chip">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                        <a
+                            class="contact-chip dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                             {{ ProfileDetails.email }}
                         </a>
-                        <a class="contact-chip">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                        <a
+                            class="contact-chip dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
@@ -55,7 +58,8 @@
                     </svg>
                     Share Profile
                 </button>
-                <button (click)="openEditModal()" aria-label="Edit Profile" class="btn-settings">
+                <button (click)="openEditModal()" aria-label="Edit Profile"
+                    class="btn-settings dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-400 dark:hover:bg-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -67,92 +71,98 @@
             </div>
         </header>
 
-        <!-- Stats Section (improved grid responsiveness) -->
-        <section class="stats-section">
-            <div class="stats-header">
-                <div class="stats-header__icon">
+        <!-- Stats Section -->
+        <section class="stats-section dark:bg-gray-900 dark:border-gray-700/50">
+            <div class="stats-header dark:border-gray-700/60">
+                <div class="stats-header__icon dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-400">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
                 <div>
-                    <h2 class="stats-title">Bookings Overview</h2>
-                    <p class="stats-sub">Your complete booking activity summary</p>
+                    <h2 class="stats-title dark:text-gray-50">Bookings Overview</h2>
+                    <p class="stats-sub dark:text-gray-400">Your complete booking activity summary</p>
                 </div>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card stat-card--total">
+                <div class="stat-card stat-card--total dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label">Total</span>
+                        <span class="stat-label dark:text-gray-400">Total</span>
                         <div class="stat-dot stat-dot--neutral"></div>
                     </div>
-                    <span class="stat-value">{{ ProfileDetails.stats.booking_count }}</span>
-                    <span class="stat-desc">All time bookings</span>
+                    <span class="stat-value dark:text-gray-100">{{ ProfileDetails.stats.booking_count }}</span>
+                    <span class="stat-desc dark:text-gray-500">All time bookings</span>
                 </div>
-                <div class="stat-card stat-card--active">
+                <div class="stat-card stat-card--active dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--green">Active</span>
+                        <span class="stat-label stat-label--green dark:text-emerald-400">Active</span>
                         <div class="stat-dot stat-dot--green"></div>
                     </div>
-                    <span class="stat-value stat-value--green">{{ ProfileDetails.stats.active_bookings_count }}</span>
-                    <span class="stat-desc">Currently running</span>
+                    <span class="stat-value stat-value--green dark:text-emerald-400">{{
+                        ProfileDetails.stats.active_bookings_count }}</span>
+                    <span class="stat-desc dark:text-gray-500">Currently running</span>
                 </div>
-                <div class="stat-card stat-card--completed">
+                <div class="stat-card stat-card--completed dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--blue">Completed</span>
+                        <span class="stat-label stat-label--blue dark:text-blue-400">Completed</span>
                         <div class="stat-dot stat-dot--blue"></div>
                     </div>
-                    <span class="stat-value stat-value--blue">{{ ProfileDetails.stats.completed_bookings_count }}</span>
-                    <span class="stat-desc">Successfully done</span>
+                    <span class="stat-value stat-value--blue dark:text-blue-400">{{
+                        ProfileDetails.stats.completed_bookings_count }}</span>
+                    <span class="stat-desc dark:text-gray-500">Successfully done</span>
                 </div>
-                <div class="stat-card stat-card--cancelled">
+                <div class="stat-card stat-card--cancelled dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--amber">Cancelled</span>
+                        <span class="stat-label stat-label--amber dark:text-amber-400">Cancelled</span>
                         <div class="stat-dot stat-dot--amber"></div>
                     </div>
-                    <span class="stat-value stat-value--amber">{{ ProfileDetails.stats.cancelled_bookings_count
-                        }}</span>
-                    <span class="stat-desc">By you or host</span>
+                    <span class="stat-value stat-value--amber dark:text-amber-400">{{
+                        ProfileDetails.stats.cancelled_bookings_count }}</span>
+                    <span class="stat-desc dark:text-gray-500">By you or host</span>
                 </div>
-                <div class="stat-card stat-card--rejected">
+                <div class="stat-card stat-card--rejected dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--red">Rejected</span>
+                        <span class="stat-label stat-label--red dark:text-red-400">Rejected</span>
                         <div class="stat-dot stat-dot--red"></div>
                     </div>
-                    <span class="stat-value stat-value--red">{{ ProfileDetails.stats.rejected_bookings_count }}</span>
-                    <span class="stat-desc">Declined requests</span>
+                    <span class="stat-value stat-value--red dark:text-red-400">{{
+                        ProfileDetails.stats.rejected_bookings_count }}</span>
+                    <span class="stat-desc dark:text-gray-500">Declined requests</span>
                 </div>
             </div>
         </section>
-        <!-- Bookings Section (improved + status fix) -->
+
+        <!-- Bookings Section -->
         <div
-            class="min-h-screen bg-[#F0FDF4] text-slate-900 font-sans transition-colors duration-300 relative overflow-x-hidden">
+            class="min-h-screen bg-[#F0FDF4] dark:bg-gray-950 text-slate-900 dark:text-gray-100 font-sans transition-colors duration-300 relative overflow-x-hidden">
             <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-14 relative z-10">
 
                 <!-- Header Section -->
                 <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-fade-in-up">
                     <div>
-                        <h1 class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D]">YOUR ARENA</h1>
-                        <p class="mt-2 text-emerald-800/70 font-semibold max-w-xl">
+                        <h1
+                            class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D] dark:text-emerald-400">
+                            YOUR ARENA</h1>
+                        <p class="mt-2 text-emerald-800/70 dark:text-emerald-500/90 font-semibold max-w-xl">
                             {{ tab() === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your
-                            past
-                            performances and stadium visits.' }}
+                            past performances and stadium visits.' }}
                         </p>
                     </div>
 
                     <!-- Tab Switcher -->
                     <div class="flex items-center">
-                        <div class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] border border-emerald-200 shadow-sm">
+                        <div
+                            class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] dark:bg-gray-800 border border-emerald-200 dark:border-gray-700 shadow-sm">
                             <button (click)="setTab('upcoming')"
                                 class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-                                [class]="tab() === 'upcoming' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60 hover:text-emerald-900'">
+                                [class]="tab() === 'upcoming' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-400/70 hover:text-emerald-900 dark:hover:text-emerald-300'">
                                 Upcoming
                             </button>
                             <button (click)="setTab('previous')"
                                 class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-                                [class]="tab() === 'previous' ? 'bg-[#14532D] text-white shadow-lg' : 'text-emerald-800/60 hover:text-emerald-900'">
+                                [class]="tab() === 'previous' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-400/70 hover:text-emerald-900 dark:hover:text-emerald-300'">
                                 Previous
                             </button>
                         </div>
@@ -165,11 +175,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                         @for (b of filteredBookings(); track b.id) {
                         <article
-                            class="group bg-white rounded-2xl border border-emerald-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                            class="group bg-white dark:bg-gray-900 rounded-2xl border border-emerald-100 dark:border-gray-700/60 overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-emerald-900/20 transition-all duration-300 hover:-translate-y-1">
                             <div class="flex flex-col h-full">
                                 <div class="p-5 sm:p-6 md:p-7 flex flex-col justify-between h-full">
                                     <div>
-                                        <!-- Status Badge & ID Row (using new helper methods) -->
+                                        <!-- Status Badge & ID Row -->
                                         <div class="flex justify-between items-start mb-5">
                                             <span [class]="getStatusBadgeClass(b.status)"
                                                 class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
@@ -177,7 +187,8 @@
                                                     [class]="getStatusDotColor(b.status)"></span>
                                                 {{ b.status }}
                                             </span>
-                                            <div class="flex items-center gap-1 text-emerald-800/50 text-xs font-bold">
+                                            <div
+                                                class="flex items-center gap-1 text-emerald-800/50 dark:text-emerald-500/60 text-xs font-bold">
                                                 <span>ID: {{ b.id }}</span>
                                             </div>
                                         </div>
@@ -185,31 +196,31 @@
                                         <!-- Court Info -->
                                         <div>
                                             <h3
-                                                class="text-2xl sm:text-3xl font-black text-emerald-950 tracking-tight leading-tight line-clamp-1">
+                                                class="text-2xl sm:text-3xl font-black text-emerald-950 dark:text-gray-50 tracking-tight leading-tight line-clamp-1">
                                                 {{ b.court.name }}
                                             </h3>
-                                            <p class="text-sm font-bold text-emerald-700/70 mt-1">{{
-                                                b.court.maincourt.name
-                                                }}</p>
+                                            <p
+                                                class="text-sm font-bold text-emerald-700/70 dark:text-emerald-500/80 mt-1">
+                                                {{ b.court.maincourt.name }}</p>
                                         </div>
 
                                         <!-- Date & Time -->
                                         <div class="mt-6 flex flex-wrap gap-3 sm:gap-4">
                                             <div
-                                                class="flex items-center gap-2 text-emerald-800 font-semibold text-sm bg-emerald-50 px-3 py-2 rounded-xl">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-600"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="2">
+                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-400" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                                                     <path d="M16 2v4M8 2v4M3 10h18"></path>
                                                 </svg>
                                                 <span>{{ b.timeslot.date | date: "mediumDate" }}</span>
                                             </div>
                                             <div
-                                                class="flex items-center gap-2 text-emerald-800 font-semibold text-sm bg-emerald-50 px-3 py-2 rounded-xl">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-600"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="2">
+                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-400" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <circle cx="12" cy="12" r="10"></circle>
                                                     <polyline points="12 6 12 12 16 14"></polyline>
                                                 </svg>
@@ -219,23 +230,24 @@
                                     </div>
 
                                     <!-- Action Buttons -->
-                                    <div class="mt-8 flex items-center gap-3 pt-2 border-t border-emerald-100">
+                                    <div
+                                        class="mt-8 flex items-center gap-3 pt-2 border-t border-emerald-100 dark:border-gray-700/60">
                                         @if (tab() === 'previous') {
                                         <button
-                                            class="flex-1 px-4 py-3 rounded-xl bg-emerald-100 text-emerald-800 text-[11px] font-black uppercase tracking-wider hover:bg-emerald-200 transition-all">
+                                            class="flex-1 px-4 py-3 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase tracking-wider hover:bg-emerald-200 dark:hover:bg-emerald-900/60 transition-all">
                                             Match Report
                                         </button>
                                         <button routerLink="/Venues"
-                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-emerald-700/70 hover:text-emerald-900 transition-all">
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-emerald-700/70 dark:text-emerald-500 hover:text-emerald-900 dark:hover:text-emerald-300 transition-all">
                                             Rebook
                                         </button>
                                         } @else {
                                         <button [routerLink]="['/FullBookingDetails', b.id]"
-                                            class="flex-1 px-4 py-3 rounded-xl bg-[#14532D] text-white text-[11px] font-black uppercase tracking-wider shadow-md hover:bg-[#0f3f22] transition-all hover:shadow-lg">
+                                            class="flex-1 px-4 py-3 rounded-xl bg-[#14532D] dark:bg-emerald-700 text-white text-[11px] font-black uppercase tracking-wider shadow-md hover:bg-[#0f3f22] dark:hover:bg-emerald-600 transition-all hover:shadow-lg">
                                             View Details
                                         </button>
                                         <button (click)="CancelBooking(b.id)"
-                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-red-600 hover:text-red-700 transition-all hover:underline">
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-all hover:underline">
                                             Cancel
                                         </button>
                                         }
@@ -247,21 +259,21 @@
 
                         @if (tab() === 'upcoming') {
                         <div
-                            class="bg-emerald-50/40 border-2 border-dashed border-emerald-300 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center hover:bg-emerald-50/60 transition-all group">
+                            class="bg-emerald-50/40 dark:bg-emerald-900/10 border-2 border-dashed border-emerald-300 dark:border-emerald-700/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition-all group">
                             <div
-                                class="w-16 h-16 rounded-full bg-[#14532D] text-white flex items-center justify-center shadow-lg mb-5 group-hover:scale-105 transition-transform">
+                                class="w-16 h-16 rounded-full bg-[#14532D] dark:bg-emerald-700 text-white flex items-center justify-center shadow-lg mb-5 group-hover:scale-105 transition-transform">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path d="M12 5v14M5 12h14" />
                                 </svg>
                             </div>
-                            <h3 class="text-xl sm:text-2xl font-black text-emerald-950 uppercase tracking-tight">Ready
-                                for
-                                more?</h3>
-                            <p class="mt-2 text-emerald-800/70 font-semibold text-sm max-w-[220px]">Book another court
-                                and
-                                keep the momentum going.</p>
+                            <h3
+                                class="text-xl sm:text-2xl font-black text-emerald-950 dark:text-gray-50 uppercase tracking-tight">
+                                Ready for more?</h3>
+                            <p
+                                class="mt-2 text-emerald-800/70 dark:text-emerald-400/80 font-semibold text-sm max-w-[220px]">
+                                Book another court and keep the momentum going.</p>
                             <button routerLink="/Venues"
                                 class="mt-6 px-8 py-3 rounded-full bg-[#A34700] text-white font-black text-xs uppercase tracking-wider shadow-md hover:bg-[#8c3c00] hover:-translate-y-0.5 transition-all">
                                 Find a Venue
@@ -271,29 +283,31 @@
                     </div>
                     } @else {
                     <div
-                        class="bg-white rounded-3xl sm:rounded-[3rem] p-10 sm:p-16 lg:p-20 shadow-sm flex flex-col items-center justify-center text-center animate-fade-in-up border border-emerald-100">
+                        class="bg-white dark:bg-gray-900 rounded-3xl sm:rounded-[3rem] p-10 sm:p-16 lg:p-20 shadow-sm flex flex-col items-center justify-center text-center animate-fade-in-up border border-emerald-100 dark:border-gray-700/60">
                         <div class="relative mb-8">
-                            <div class="w-32 h-32 rounded-full bg-[#DCFCE7] flex items-center justify-center">
+                            <div
+                                class="w-32 h-32 rounded-full bg-[#DCFCE7] dark:bg-emerald-900/30 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
-                                    fill="none" stroke="#14532D" stroke-width="1.5">
+                                    fill="none" stroke="#14532D" stroke-width="1.5"
+                                    class="dark:[&>*]:stroke-emerald-400">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="m6.7 6.7 10.6 10.6" />
                                     <circle cx="12" cy="12" r="3" />
                                 </svg>
                             </div>
                             <div
-                                class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#A34700] border-4 border-white flex items-center justify-center shadow-md">
+                                class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#A34700] border-4 border-white dark:border-gray-900 flex items-center justify-center shadow-md">
                                 <span class="text-white text-xl font-black">?</span>
                             </div>
                         </div>
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-950 mb-3">No {{ tab() }}
-                            matches
-                            yet.</h2>
-                        <p class="text-emerald-700/70 font-semibold max-w-md mb-8 text-base leading-relaxed">
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-950 dark:text-gray-50 mb-3">
+                            No {{ tab() }} matches yet.</h2>
+                        <p
+                            class="text-emerald-700/70 dark:text-emerald-500/80 font-semibold max-w-md mb-8 text-base leading-relaxed">
                             Your next goal is just a booking away. Let's find the perfect pitch for your team.
                         </p>
                         <button routerLink="/Venues"
-                            class="group flex items-center gap-3 px-8 py-4 rounded-full bg-[#14532D] text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all hover:scale-105 active:scale-95">
+                            class="group flex items-center gap-3 px-8 py-4 rounded-full bg-[#14532D] dark:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all hover:scale-105 active:scale-95">
                             Find a Pitch
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="3"
@@ -306,26 +320,28 @@
                 </div>
             </main>
 
-            <footer class="mt-16 sm:mt-20 py-8 sm:py-12 border-t border-emerald-200/50 bg-[#F0FDF4]">
+            <footer
+                class="mt-16 sm:mt-20 py-8 sm:py-12 border-t border-emerald-200/50 dark:border-gray-700/40 bg-[#F0FDF4] dark:bg-gray-950">
                 <div
                     class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
                     <div class="text-center sm:text-left">
-                        <p class="text-xl sm:text-2xl font-black text-[#14532D]">Ehgazly</p>
-                        <p class="text-xs text-emerald-800/50 font-bold mt-1">© {{ (allBookings().length > 0 ?
-                            (allBookings()[0].created_at | date:'yyyy') : '2024') }} Ehgazly. The Digital Locker Room.
-                        </p>
+                        <p class="text-xl sm:text-2xl font-black text-[#14532D] dark:text-emerald-400">Ehgazly</p>
+                        <p class="text-xs text-emerald-800/50 dark:text-emerald-600/70 font-bold mt-1">© {{
+                            (allBookings().length > 0 ? (allBookings()[0].created_at | date:'yyyy') : '2024') }}
+                            Ehgazly. The Digital Locker Room.</p>
                     </div>
-                    <div class="flex gap-6 text-xs font-black text-emerald-800/50">
-                        <a href="#" class="hover:text-emerald-900 transition-colors">Privacy Policy</a>
-                        <a href="#" class="hover:text-emerald-900 transition-colors">Terms of Service</a>
-                        <a href="#" class="hover:text-emerald-900 transition-colors">Support</a>
+                    <div class="flex gap-6 text-xs font-black text-emerald-800/50 dark:text-emerald-600/70">
+                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Privacy
+                            Policy</a>
+                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Terms
+                            of Service</a>
+                        <a href="#"
+                            class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Support</a>
                     </div>
                 </div>
             </footer>
         </div>
     </main>
-
-
 
     <!-- Toast Notification -->
     <div *ngIf="toastMessage()" class="toast animate-slide-up">
@@ -342,18 +358,19 @@
 
     <!-- Edit Profile Modal -->
     <div *ngIf="isModalOpen()" class="modal-overlay animate-fade-in" (click)="closeModal()">
-        <div class="modal-panel" (click)="$event.stopPropagation()">
+        <div class="modal-panel dark:bg-gray-900 dark:border-gray-700/50" (click)="$event.stopPropagation()">
             <div class="modal-header">
-                <h3 class="modal-title">Edit Profile</h3>
-                <button (click)="closeModal()" class="modal-close">&times;</button>
+                <h3 class="modal-title dark:text-gray-50">Edit Profile</h3>
+                <button (click)="closeModal()"
+                    class="modal-close dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100">&times;</button>
             </div>
-            <div class="modal-avatar-zone">
-                <div class="modal-avatar-preview">
+            <div class="modal-avatar-zone dark:bg-gray-800/60 dark:border-gray-700/50">
+                <div class="modal-avatar-preview dark:border-emerald-700">
                     <img [src]="ProfileDetails.profile_image" class="modal-avatar-img" alt="Preview" />
                 </div>
                 <div class="modal-avatar-info">
-                    <p class="modal-avatar-name">{{ ProfileDetails.name }}</p>
-                    <label class="modal-avatar-upload">
+                    <p class="modal-avatar-name dark:text-gray-100">{{ ProfileDetails.name }}</p>
+                    <label class="modal-avatar-upload dark:text-emerald-400 dark:hover:text-emerald-300">
                         <svg xmlns="http://www.w3.org/2000/svg" class="upload-icon" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -363,21 +380,21 @@
                         <input type="file" accept="image/png, image/jpeg, image/jpg, image/webp"
                             (change)="onImageFileChange($event)" class="hidden-input" />
                     </label>
-                    <p class="modal-avatar-hint">JPG, PNG, WEBP accepted</p>
+                    <p class="modal-avatar-hint dark:text-gray-500">JPG, PNG, WEBP accepted</p>
                 </div>
             </div>
-            <div class="modal-divider"></div>
+            <div class="modal-divider dark:bg-gray-700/60"></div>
             <div class="modal-fields">
                 <div class="field-group">
-                    <label class="field-label">Email Address</label>
-                    <div class="field-readonly">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="field-icon" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                    <label class="field-label dark:text-gray-400">Email Address</label>
+                    <div class="field-readonly dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="field-icon dark:text-gray-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         <span>{{ ProfileDetails.email }}</span>
-                        <span class="field-lock">
+                        <span class="field-lock dark:text-gray-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -387,18 +404,22 @@
                     </div>
                 </div>
                 <div class="field-group">
-                    <label class="field-label">Full Name</label>
+                    <label class="field-label dark:text-gray-400">Full Name</label>
                     <input [value]="ProfileDetails.name" (input)="tempName.set($any($event.target).value)" type="text"
-                        placeholder="Your full name" class="field-input" />
+                        placeholder="Your full name"
+                        class="field-input dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20" />
                 </div>
                 <div class="field-group">
-                    <label class="field-label">Phone Number</label>
+                    <label class="field-label dark:text-gray-400">Phone Number</label>
                     <input [value]="ProfileDetails.phone" (input)="tempPhone.set($any($event.target).value)" type="text"
-                        placeholder="e.g. +20 100 000 0000" class="field-input" />
+                        placeholder="e.g. +20 100 000 0000"
+                        class="field-input dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20" />
                 </div>
             </div>
             <div class="modal-footer">
-                <button (click)="closeModal()" class="btn-cancel" [disabled]="isUpdating()">Cancel</button>
+                <button (click)="closeModal()"
+                    class="btn-cancel dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                    [disabled]="isUpdating()">Cancel</button>
                 <button (click)="saveChanges()" class="btn-save" [disabled]="isUpdating()">
                     <ng-container *ngIf="!isUpdating(); else updatingTpl">Save Changes</ng-container>
                     <ng-template #updatingTpl>Saving...</ng-template>
@@ -407,3 +428,4 @@
         </div>
     </div>
 </div>
+<app-ai></app-ai>

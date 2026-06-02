@@ -1,17 +1,3 @@
-// ==============================================
-// Admin Notification Dropdown Styles
-// ✅ FIXED: Panel uses position:absolute inside
-//    a relative container — no JS positioning,
-//    no overflow, no horizontal scrollbar.
-//    Dark mode uses .dark class (not prefers-color-scheme)
-//    to match the app's applyTheme() toggle.
-// ==============================================
-
-// ✅ KEY FIX: The #notifWrap div in the template has
-//    position:relative (via Tailwind class="relative")
-//    The panel is position:absolute inside it,
-//    anchored to right:0 so it never overflows the viewport.
-
 .notif-dd {
     position: absolute;
     top: calc(100% + 10px); // ✅ sits just below the bell button

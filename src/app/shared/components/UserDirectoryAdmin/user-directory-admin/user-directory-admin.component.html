@@ -1,13 +1,13 @@
-<div class="min-h-screen bg-[#F0FDF4] p-4 md:p-8 lg:p-12 font-sans text-slate-800">
-    <!-- Header Section -->
+<div
+    class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 p-4 md:p-8 lg:p-12 font-sans text-slate-800 dark:text-slate-200 transition-colors duration-300">
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-            <h1 class="text-4xl font-black text-[#064E3B] tracking-tight">Booking Overview</h1>
-            <p class="text-slate-600 mt-1">Monitor all court reservations and customer activity.</p>
+            <h1 class="text-4xl font-black text-[#064E3B] dark:text-emerald-400 tracking-tight">Booking Overview</h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-1">Monitor all court reservations and customer activity.</p>
         </div>
         <div class="flex items-center gap-3">
             <button (click)="exportCsv()"
-                class="flex-1 md:flex-none px-6 py-2.5 bg-[#DCFCE7] text-[#166534] font-semibold rounded-full border border-[#BBF7D0] hover:bg-[#BBF7D0] transition-colors flex items-center justify-center gap-2">
+                class="flex-1 md:flex-none px-6 py-2.5 bg-[#DCFCE7] dark:bg-emerald-900/30 text-[#166534] dark:text-emerald-400 font-semibold rounded-full border border-[#BBF7D0] dark:border-emerald-800 hover:bg-[#BBF7D0] dark:hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -17,140 +17,116 @@
         </div>
     </header>
 
-    <!-- Stats Grid -->
     <section class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Users</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total
+                Users</span>
             <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_users ?? 0 }}</span>
-            </div>
-        </div>
-
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Customers</span>
-            <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_customers ?? 0 }}</span>
-            </div>
-        </div>
-
-        <!-- <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Court Owners</span>
-            <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_courtowners ?? 0 }}</span>
-                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Pending: {{ dashboardData()?.pending_owners ??
-                    0 }}</p>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{ dashboardData()?.total_users
+                    ?? 0 }}</span>
             </div>
         </div>
 
         <div
-            class="bg-[#FEF9C3]/50 p-6 rounded-2xl border border-[#FEF08A] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#854D0E] uppercase tracking-widest">Pending Owners</span>
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total
+                Customers</span>
             <div>
-                <span class="text-3xl font-black text-[#854D0E]">{{ dashboardData()?.pending_owners ?? 0 }}</span>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{
+                    dashboardData()?.total_customers ?? 0 }}</span>
             </div>
         </div>
 
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Main Courts</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Pending
+                Main Courts</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_maincourts ?? 0 }}</span>
-                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Verified: {{
-                    dashboardData()?.verified_maincourts ?? 0 }}</p>
-            </div>
-        </div> -->
-
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Pending Main Courts</span>
-            <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.pending_maincourts ?? 0 }}</span>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{
+                    dashboardData()?.pending_maincourts ?? 0 }}</span>
             </div>
         </div>
 
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Bookings</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total
+                Bookings</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_bookings ?? 0 }}</span>
-                <p class="text-[10px] text-[#166534]/70 font-medium mt-1">Pending: {{ dashboardData()?.pending_bookings
-                    ?? 0 }}</p>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{
+                    dashboardData()?.total_bookings ?? 0 }}</span>
+                <p class="text-[10px] text-[#166534]/70 dark:text-emerald-500/70 font-medium mt-1">Pending: {{
+                    dashboardData()?.pending_bookings ?? 0 }}</p>
             </div>
         </div>
 
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Confirmed / Completed</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Confirmed
+                / Completed</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.confirmed_bookings ?? 0 }} / {{
-                    dashboardData()?.completed_bookings ?? 0 }}</span>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{
+                    dashboardData()?.confirmed_bookings ?? 0 }} / {{ dashboardData()?.completed_bookings ?? 0 }}</span>
             </div>
         </div>
 
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Revenue</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total
+                Revenue</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_revenue ?? 0 | currency
-                    }}</span>
-            </div>
-        </div>
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total App Earnings</span>
-            <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ TotalPaid() | currency
-                    }}</span>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{ dashboardData()?.total_revenue
+                    ?? 0 | currency }}</span>
             </div>
         </div>
 
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Total Due Amount</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total App
+                Earnings</span>
             <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.total_app_earnings ?? 0 | currency
-                    }}</span>
-            </div>
-        </div>
-
-        <div class="bg-[#DCFCE7] p-6 rounded-2xl border border-[#BBF7D0] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#166534] uppercase tracking-widest">Pending Owner Payments</span>
-            <div>
-                <span class="text-3xl font-black text-[#064E3B]">{{ dashboardData()?.pending_owner_payments ?? 0
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{ TotalPaid() | currency
                     }}</span>
             </div>
         </div>
 
-        <!-- <div
-            class="bg-[#FEF9C3]/50 p-6 rounded-2xl border border-[#FEF08A] flex flex-col justify-between min-h-[140px]">
-            <span class="text-[10px] font-bold text-[#854D0E] uppercase tracking-widest">Unread Notifications</span>
+        <div
+            class="bg-[#DCFCE7] dark:bg-emerald-950/40 p-6 rounded-2xl border border-[#BBF7D0] dark:border-emerald-900/50 flex flex-col justify-between min-h-[140px]">
+            <span class="text-[10px] font-bold text-[#166534] dark:text-emerald-500 uppercase tracking-widest">Total Due
+                Amount</span>
             <div>
-                <span class="text-3xl font-black text-[#854D0E]">{{ dashboardData()?.unread_notifications_count ?? 0
-                    }}</span>
+                <span class="text-3xl font-black text-[#064E3B] dark:text-emerald-300">{{
+                    dashboardData()?.total_app_earnings ?? 0 | currency }}</span>
             </div>
-        </div> -->
+        </div>
     </section>
 
-    <!-- Main Content Area -->
-    <div class="max-w-7xl mx-auto bg-white rounded-[32px] shadow-xl shadow-green-900/5 overflow-hidden">
-        <!-- Filters Bar -->
-        <div class="p-6 border-b border-slate-50 flex flex-col lg:flex-row gap-4 items-center">
+    <div
+        class="max-w-7xl mx-auto bg-white dark:bg-slate-900 rounded-[32px] shadow-xl shadow-green-900/5 dark:shadow-black/20 overflow-hidden border border-transparent dark:border-slate-800">
+        <div class="p-6 border-b border-slate-50 dark:border-slate-800 flex flex-col lg:flex-row gap-4 items-center">
             <div class="relative w-full lg:flex-1">
-                <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input type="text" placeholder="Search by booking ID, customer name, or court..." [value]="searchTerm()"
+                <input type="text" placeholder="Search..." [value]="searchTerm()"
                     (input)="setSearch(($any($event.target).value))"
-                    class="w-full pl-12 pr-4 py-3 bg-[#F0FDF4] border-none rounded-xl text-sm focus:ring-2 focus:ring-[#166534] transition-all outline-none">
+                    class="w-full pl-12 pr-4 py-3 bg-[#F0FDF4] dark:bg-slate-800 border-none rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-[#166534] dark:focus:ring-emerald-500 transition-all outline-none">
             </div>
 
             <div class="flex flex-wrap w-full lg:w-auto gap-3">
                 <select [value]="statusFilter()" (change)="setStatusFilter(($any($event.target).value))"
-                    class="flex-1 lg:flex-none px-4 py-3 bg-[#DCFCE7] border-none rounded-xl text-sm font-medium text-[#166534] outline-none cursor-pointer">
+                    class="flex-1 lg:flex-none px-4 py-3 bg-[#DCFCE7] dark:bg-slate-800 border-none rounded-xl text-sm font-medium text-[#166534] dark:text-emerald-400 outline-none cursor-pointer focus:ring-2 focus:ring-[#166534] dark:focus:ring-emerald-500">
                     <option value="ALL">All Statuses</option>
                     <option value="pending">Pending</option>
                     <option value="confirmed">Confirmed</option>
                     <option value="completed">Completed</option>
-                    <option value="rejected">Rejected / Cancelled</option>
+                    <option value="rejected">Rejected</option>
                 </select>
 
                 <button (click)="resetFilters()"
-                    class="p-3 bg-[#DCFCE7] text-[#166534] rounded-xl hover:bg-[#BBF7D0] transition-colors">
+                    class="p-3 bg-[#DCFCE7] dark:bg-slate-800 text-[#166534] dark:text-emerald-400 rounded-xl hover:bg-[#BBF7D0] dark:hover:bg-slate-700 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
@@ -159,11 +135,11 @@
             </div>
         </div>
 
-        <!-- Desktop Table -->
         <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white">
+                    <tr
+                        class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest bg-white dark:bg-slate-900">
                         <th class="px-8 py-6">Booking ID</th>
                         <th class="px-6 py-6">Customer</th>
                         <th class="px-6 py-6">Email</th>
@@ -174,37 +150,41 @@
                         <th class="px-6 py-6">Booking Date</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-50">
+                <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
                     @for (booking of displayedBookings(); track booking.id) {
-                    <tr class="hover:bg-slate-50/50 transition-colors group">
-                        <td class="px-8 py-5 font-bold text-slate-900">#{{ booking.id }}</td>
-                        <td class="px-6 py-5 font-medium text-slate-800">{{ booking.customer.name }}</td>
-                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.customer.email }}</td>
-                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.customer.phone }}</td>
-                        <td class="px-6 py-5 text-sm text-slate-600">{{ booking.maincourt.name }}</td>
-                        <td class="px-6 py-5 font-bold text-[#166534]">{{ booking.total_price | currency }}</td>
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-8 py-5 font-bold text-slate-900 dark:text-slate-100">#{{ booking.id }}</td>
+                        <td class="px-6 py-5 font-medium text-slate-800 dark:text-slate-200">{{ booking.customer.name }}
+                        </td>
+                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">{{ booking.customer.email }}
+                        </td>
+                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">{{ booking.customer.phone }}
+                        </td>
+                        <td class="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">{{ booking.maincourt.name }}
+                        </td>
+                        <td class="px-6 py-5 font-bold text-[#166534] dark:text-emerald-400">{{ booking.total_price |
+                            currency }}</td>
                         <td class="px-6 py-5 text-center">
                             <span [class]="getStatusClass(booking.status)"
                                 class="inline-block px-3 py-1 rounded-full text-[9px] font-black tracking-widest">
                                 {{ booking.status | uppercase }}
                             </span>
                         </td>
-                        <td class="px-6 py-5 text-xs font-medium text-slate-500">{{ booking.created_at |
-                            date:'mediumDate' }}</td>
+                        <td class="px-6 py-5 text-xs font-medium text-slate-500 dark:text-slate-500">{{
+                            booking.created_at | date:'mediumDate' }}</td>
                     </tr>
                     }
                 </tbody>
             </table>
         </div>
 
-        <!-- Mobile List View -->
-        <div class="md:hidden divide-y divide-slate-100">
+        <div class="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
             @for (booking of displayedBookings(); track booking.id) {
-            <div class="p-6 flex flex-col gap-4">
+            <div class="p-6 flex flex-col gap-4 bg-white dark:bg-slate-900">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="font-bold text-slate-900">Booking #{{ booking.id }}</div>
-                        <div class="text-[11px] text-slate-400">{{ booking.customer.name }}</div>
+                        <div class="font-bold text-slate-900 dark:text-slate-100">Booking #{{ booking.id }}</div>
+                        <div class="text-[11px] text-slate-400 dark:text-slate-500">{{ booking.customer.name }}</div>
                     </div>
                     <span [class]="getStatusClass(booking.status)"
                         class="px-3 py-1 rounded-full text-[8px] font-black tracking-widest">
@@ -212,43 +192,44 @@
                     </span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-sm">
-                    <div class="text-slate-500">Email:</div>
-                    <div>{{ booking.customer.email }}</div>
-                    <div class="text-slate-500">Phone:</div>
-                    <div>{{ booking.customer.phone }}</div>
-                    <div class="text-slate-500">Main Stadium:</div>
-                    <div>{{ booking.maincourt.name }}</div>
-                    <div class="text-slate-500">Price:</div>
-                    <div class="font-bold text-[#166534]">{{ booking.total_price | currency }}</div>
-                    <div class="text-slate-500">Date:</div>
-                    <div>{{ booking.created_at | date:'mediumDate' }}</div>
+                    <div class="text-slate-500 dark:text-slate-400">Email:</div>
+                    <div class="text-slate-900 dark:text-slate-200">{{ booking.customer.email }}</div>
+                    <div class="text-slate-500 dark:text-slate-400">Phone:</div>
+                    <div class="text-slate-900 dark:text-slate-200">{{ booking.customer.phone }}</div>
+                    <div class="text-slate-500 dark:text-slate-400">Main Stadium:</div>
+                    <div class="text-slate-900 dark:text-slate-200">{{ booking.maincourt.name }}</div>
+                    <div class="text-slate-500 dark:text-slate-400">Price:</div>
+                    <div class="font-bold text-[#166534] dark:text-emerald-400">{{ booking.total_price | currency }}
+                    </div>
+                    <div class="text-slate-500 dark:text-slate-400">Date:</div>
+                    <div class="text-slate-900 dark:text-slate-200">{{ booking.created_at | date:'mediumDate' }}</div>
                 </div>
             </div>
             }
         </div>
 
-        <!-- Pagination -->
-        <div class="p-6 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
-            <div class="text-xs text-slate-500 font-medium">
-                Showing <span class="text-slate-900 font-bold">{{ shownCountLabel() }}</span> of <span
-                    class="text-slate-900 font-bold">{{ totalBookingsCount() }}</span> bookings
+        <div
+            class="p-6 border-t border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-slate-900">
+            <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                Showing <span class="text-slate-900 dark:text-slate-100 font-bold">{{ shownCountLabel() }}</span> of
+                <span class="text-slate-900 dark:text-slate-100 font-bold">{{ totalBookingsCount() }}</span> bookings
             </div>
             <div class="flex items-center gap-1">
                 <button (click)="previousPage()" [disabled]="currentPage() === 1"
-                    class="p-2 text-slate-400 hover:text-slate-600 disabled:opacity-30 transition-colors">
+                    class="p-2 text-slate-400 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-400 disabled:opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 @for (page of pageNumbers(); track page) {
                 <button (click)="goToPage(page)"
-                    [class]="page === currentPage() ? 'bg-[#166534] text-white shadow-md shadow-green-900/20' : 'hover:bg-slate-100 text-slate-600'"
+                    [class]="page === currentPage() ? 'bg-[#166534] dark:bg-emerald-600 text-white shadow-md shadow-green-900/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'"
                     class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">
                     {{ page }}
                 </button>
                 }
                 <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
-                    class="p-2 text-slate-400 hover:text-slate-600 disabled:opacity-30 transition-colors">
+                    class="p-2 text-slate-400 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-400 disabled:opacity-30 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>

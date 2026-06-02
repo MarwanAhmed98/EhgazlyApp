@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
 import { IPayOpenMatch } from '../../../interfaces/ipay-open-match';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 @Component({
   selector: 'app-open-match-payment',
   standalone: true,
-  imports: [CommonModule, PlayernavComponent],
+  imports: [CommonModule, PlayernavComponent, AiComponent],
   templateUrl: './open-match-payment.component.html',
   styleUrl: './open-match-payment.component.scss'
 })

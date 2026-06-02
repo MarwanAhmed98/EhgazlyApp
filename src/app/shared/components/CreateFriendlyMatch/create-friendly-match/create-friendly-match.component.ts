@@ -11,6 +11,7 @@ import { CustomerTimeslotService } from '../../../../core/services/CustomerTimes
 import { Icustomertimeslot } from '../../../interfaces/icustomertimeslot';
 import { PlayerFRiendlyMatchService } from '../../../../core/services/PlayerFriendlyMatch/player-friendly-match.service';
 import { LucideAngularModule } from 'lucide-angular';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type TimeChip = {
   value: string;
@@ -43,7 +44,7 @@ type MatchTypeOption = {
 @Component({
   selector: 'app-create-friendly-match',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PlayernavComponent, LucideAngularModule],
+  imports: [ReactiveFormsModule, CommonModule, PlayernavComponent, LucideAngularModule, AiComponent],
   templateUrl: './create-friendly-match.component.html',
   styleUrls: ['./create-friendly-match.component.scss'],
 })

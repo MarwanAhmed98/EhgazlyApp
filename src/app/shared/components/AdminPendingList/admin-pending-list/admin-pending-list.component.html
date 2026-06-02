@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-[#EAF8EE] text-[#0E3A1A] font-sans antialiased pb-12 transition-colors duration-300 overflow-x-hidden">
+    class="min-h-screen bg-[#EAF8EE] text-[#0E3A1A] dark:bg-slate-950 dark:text-slate-100 font-sans antialiased pb-12 transition-colors duration-300 overflow-x-hidden">
 
     <!-- Top Header Navigation -->
     <header class="max-w-7xl mx-auto px-4 pt-5 pb-2 sm:px-6 lg:px-8">
@@ -9,43 +9,45 @@
             <div class="flex flex-wrap gap-2 items-center min-w-0">
                 <button (click)="setFilter('all')" [class.bg-[#135824]]="currentFilter() === 'all'"
                     [class.text-white]="currentFilter() === 'all'" [class.bg-[#CBEFDF]]="currentFilter() !== 'all'"
-                    [class.text-[#135824]]="currentFilter() !== 'all'"
-                    class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                    [class.text-[#135824]]="currentFilter() !== 'all'" class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap
+                 dark:shadow-none dark:ring-1 dark:ring-white/10 dark:hover:bg-white/5 dark:active:bg-white/10">
                     All Status
                 </button>
 
                 <button (click)="setFilter('24h')" [class.bg-[#135824]]="currentFilter() === '24h'"
                     [class.text-white]="currentFilter() === '24h'" [class.bg-[#CBEFDF]]="currentFilter() !== '24h'"
-                    [class.text-[#135824]]="currentFilter() !== '24h'"
-                    class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                    [class.text-[#135824]]="currentFilter() !== '24h'" class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap
+                 dark:shadow-none dark:ring-1 dark:ring-white/10 dark:hover:bg-white/5 dark:active:bg-white/10">
                     Last 24h
                 </button>
 
                 <button (click)="setFilter('7d')" [class.bg-[#135824]]="currentFilter() === '7d'"
                     [class.text-white]="currentFilter() === '7d'" [class.bg-[#CBEFDF]]="currentFilter() !== '7d'"
-                    [class.text-[#135824]]="currentFilter() !== '7d'"
-                    class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                    [class.text-[#135824]]="currentFilter() !== '7d'" class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap
+                 dark:shadow-none dark:ring-1 dark:ring-white/10 dark:hover:bg-white/5 dark:active:bg-white/10">
                     Last 7 Days
                 </button>
 
                 <button (click)="setFilter('high')" [class.bg-[#135824]]="currentFilter() === 'high'"
                     [class.text-white]="currentFilter() === 'high'" [class.bg-[#CBEFDF]]="currentFilter() !== 'high'"
-                    [class.text-[#135824]]="currentFilter() !== 'high'"
-                    class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                    [class.text-[#135824]]="currentFilter() !== 'high'" class="px-3.5 sm:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap
+                 dark:shadow-none dark:ring-1 dark:ring-white/10 dark:hover:bg-white/5 dark:active:bg-white/10">
                     High Value (&gt; 5,000 EGP)
                 </button>
             </div>
 
             <!-- Total Pending Stats Card (Right side) -->
             <div
-                class="bg-[#D1F3DB] px-4 sm:px-6 py-4 rounded-2xl flex items-center justify-between gap-4 shadow-sm border border-[#BDECC9] self-start md:self-auto w-full sm:w-auto sm:min-w-[240px] max-w-full">
+                class="bg-[#D1F3DB] dark:bg-slate-900/60 px-4 sm:px-6 py-4 rounded-2xl flex items-center justify-between gap-4 shadow-sm dark:shadow-none border border-[#BDECC9] dark:border-slate-800 self-start md:self-auto w-full sm:w-auto sm:min-w-[240px] max-w-full">
                 <div class="min-w-0">
-                    <p class="text-xs font-bold uppercase tracking-wider text-[#51765A]">Total Pending</p>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-[#135824] tracking-tight break-words">
+                    <p class="text-xs font-bold uppercase tracking-wider text-[#51765A] dark:text-slate-400">Total
+                        Pending</p>
+                    <h2
+                        class="text-2xl md:text-3xl font-extrabold text-[#135824] dark:text-slate-100 tracking-tight break-words">
                         {{ DashboardDetails.pending_owner_payments }}
                     </h2>
                 </div>
-                <div class="bg-[#B4EAC1] text-[#135824] p-3 rounded-xl shrink-0">
+                <div class="bg-[#B4EAC1] dark:bg-slate-800 text-[#135824] dark:text-slate-100 p-3 rounded-xl shrink-0">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -61,32 +63,37 @@
 
         <!-- Live Search & Helper Controls -->
         <div
-            class="bg-white rounded-2xl p-4 shadow-sm border border-[#D5EFE0] flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-start sm:items-center">
+            class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm dark:shadow-none border border-[#D5EFE0] dark:border-slate-800 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-start sm:items-center">
             <div class="relative w-full sm:max-w-md min-w-0">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#51765A]">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#51765A] dark:text-slate-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </span>
+
                 <input type="text" placeholder="Search by ID, Court Owner, or Venue..." (input)="onSearchInput($event)"
-                    class="w-full pl-10 pr-4 py-2.5 bg-[#F4FAF5] border border-[#D1EAD9] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#135824] focus:border-transparent transition-all text-[#0E3A1A] placeholder-[#80A88B]" />
+                    class="w-full pl-10 pr-4 py-2.5 bg-[#F4FAF5] dark:bg-slate-950 border border-[#D1EAD9] dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#135824] dark:focus:ring-emerald-500/30 focus:border-transparent transition-all text-[#0E3A1A] dark:text-slate-100 placeholder-[#80A88B] dark:placeholder-slate-500" />
             </div>
-            <div class="flex items-center gap-2 text-xs font-semibold text-[#51765A] shrink-0">
-                <span class="w-2.5 h-2.5 rounded-full bg-[#135824] animate-pulse"></span>
+
+            <div class="flex items-center gap-2 text-xs font-semibold text-[#51765A] dark:text-slate-400 shrink-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#135824] dark:bg-emerald-400 animate-pulse"></span>
                 Real-time Sync Enabled
             </div>
         </div>
 
         <!-- Ledger Table Card -->
-        <div class="bg-white rounded-[2rem] shadow-sm border border-[#D5EFE0] overflow-hidden">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm dark:shadow-none border border-[#D5EFE0] dark:border-slate-800 overflow-hidden">
 
             <!-- Header and Export -->
             <div
-                class="px-4 sm:px-6 pt-5 sm:pt-6 pb-4 flex items-center justify-between gap-3 border-b border-[#F0F9F3]">
-                <h3 class="text-lg font-bold text-[#0E3A1A] tracking-tight min-w-0 truncate">Transaction Ledger</h3>
+                class="px-4 sm:px-6 pt-5 sm:pt-6 pb-4 flex items-center justify-between gap-3 border-b border-[#F0F9F3] dark:border-slate-800">
+                <h3 class="text-lg font-bold text-[#0E3A1A] dark:text-slate-100 tracking-tight min-w-0 truncate">
+                    Transaction Ledger
+                </h3>
                 <button (click)="exportToCSV()"
-                    class="flex items-center gap-2 text-sm font-semibold text-[#135824] hover:text-[#0a3514] transition-colors py-1.5 px-3.5 rounded-xl hover:bg-[#F0FDF4] shrink-0">
+                    class="flex items-center gap-2 text-sm font-semibold text-[#135824] dark:text-emerald-300 hover:text-[#0a3514] dark:hover:text-emerald-200 transition-colors py-1.5 px-3.5 rounded-xl hover:bg-[#F0FDF4] dark:hover:bg-white/5 shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -99,73 +106,96 @@
             <div class="block lg:hidden p-4 sm:p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @for (tx of paginatedTransactions(); track tx.id) {
-                    <div class="rounded-3xl border border-[#F0F9F3] bg-white p-5 shadow-sm">
+                    <div
+                        class="rounded-3xl border border-[#F0F9F3] dark:border-slate-800 bg-white dark:bg-slate-950/40 p-5 shadow-sm dark:shadow-none">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
-                                <div class="font-mono text-xs font-semibold text-[#80A88B] break-all">
+                                <div
+                                    class="font-mono text-xs font-semibold text-[#80A88B] dark:text-slate-400 break-all">
                                     {{ tx.id }}
                                 </div>
+
                                 <div class="mt-2 flex items-center gap-3 min-w-0">
                                     <img [src]="tx.ownerAvatar" [alt]="tx.ownerName"
-                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E2F7E5] shrink-0"
+                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E2F7E5] dark:ring-slate-800 shrink-0"
                                         (error)="handleAvatarError($event, tx.ownerName)" />
+
                                     <div class="min-w-0">
-                                        <div class="font-bold text-[#0E3A1A] truncate">{{ tx.ownerName }}</div>
-                                        <div class="text-xs text-[#51765A] font-medium truncate">{{ tx.venue }}</div>
+                                        <div class="font-bold text-[#0E3A1A] dark:text-slate-100 truncate">{{
+                                            tx.ownerName }}</div>
+                                        <div class="text-xs text-[#51765A] dark:text-slate-400 font-medium truncate">{{
+                                            tx.venue }}</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <span class="inline-flex items-center gap-1.5 px-3  rounded-full text-xs font-bold shrink-0"
-                                [class.bg-[#FEEAD9]]="tx.status === 'PENDING'"
-                                [class.text-[#D06F2B]]="tx.status === 'PENDING'"
-                                [class.bg-[#D1F3DB]]="tx.status === 'APPROVED'"
-                                [class.text-[#135824]]="tx.status === 'APPROVED'"
-                                [class.bg-red-100]="tx.status === 'REJECTED'"
-                                [class.text-red-700]="tx.status === 'REJECTED'">
-                                <span class="w-1.5 h-1.5 rounded-full animate-pulse"
-                                    [class.bg-[#D06F2B]]="tx.status === 'PENDING'"
-                                    [class.bg-[#135824]]="tx.status === 'APPROVED'"
-                                    [class.bg-red-600]="tx.status === 'REJECTED'"></span>
+                            <!-- ✅ FIXED badge (ngClass for dark variants) -->
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 rounded-full text-xs font-bold shrink-0 dark:ring-1 dark:ring-white/10"
+                                [ngClass]="{
+                  'bg-[#FEEAD9] text-[#D06F2B]': tx.status === 'PENDING',
+                  'bg-[#D1F3DB] text-[#135824]': tx.status === 'APPROVED',
+                  'bg-red-100 text-red-700': tx.status === 'REJECTED',
+                  'dark:bg-amber-500/15 dark:text-amber-300': tx.status === 'PENDING',
+                  'dark:bg-emerald-500/15 dark:text-emerald-300': tx.status === 'APPROVED',
+                  'dark:bg-red-500/15 dark:text-red-300': tx.status === 'REJECTED'
+                }">
+                                <span class="w-1.5 h-1.5 rounded-full animate-pulse" [ngClass]="{
+                    'bg-[#D06F2B]': tx.status === 'PENDING',
+                    'bg-[#135824]': tx.status === 'APPROVED',
+                    'bg-red-600': tx.status === 'REJECTED',
+                    'dark:bg-amber-300': tx.status === 'PENDING',
+                    'dark:bg-emerald-300': tx.status === 'APPROVED',
+                    'dark:bg-red-300': tx.status === 'REJECTED'
+                  }"></span>
                                 {{ tx.status }}
                             </span>
                         </div>
 
                         <div class="mt-4 grid grid-cols-2 gap-3">
-                            <div class="bg-[#F4FAF5] border border-[#D1EAD9] rounded-2xl p-3">
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-[#51765A]">Submitted</p>
-                                <p class="mt-2 text-sm font-semibold text-[#0E3A1A]">
+                            <div
+                                class="bg-[#F4FAF5] dark:bg-slate-950/50 border border-[#D1EAD9] dark:border-slate-800 rounded-2xl p-3">
+                                <p
+                                    class="text-[10px] font-bold uppercase tracking-wider text-[#51765A] dark:text-slate-400">
+                                    Submitted
+                                </p>
+                                <p class="mt-2 text-sm font-semibold text-[#0E3A1A] dark:text-slate-100">
                                     {{ tx.dateSubmitted.split(' • ')[0] }}
                                 </p>
-                                <p class="text-xs text-[#80A88B] mt-1">
+                                <p class="text-xs text-[#80A88B] dark:text-slate-400 mt-1">
                                     {{ tx.dateSubmitted.split(' • ')[1] }}
                                 </p>
                             </div>
 
-                            <div class="bg-[#F4FAF5] border border-[#D1EAD9] rounded-2xl p-3 text-right">
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-[#51765A]">Amount</p>
-                                <p class="mt-2 text-lg font-extrabold text-[#135824] leading-none">
+                            <div
+                                class="bg-[#F4FAF5] dark:bg-slate-950/50 border border-[#D1EAD9] dark:border-slate-800 rounded-2xl p-3 text-right">
+                                <p
+                                    class="text-[10px] font-bold uppercase tracking-wider text-[#51765A] dark:text-slate-400">
+                                    Amount</p>
+                                <p
+                                    class="mt-2 text-lg font-extrabold text-[#135824] dark:text-emerald-300 leading-none">
                                     {{ tx.amount | number:'1.2-2' }}
                                 </p>
-                                <p class="text-[10px] font-bold text-[#51765A] mt-1">EGP</p>
+                                <p class="text-[10px] font-bold text-[#51765A] dark:text-slate-400 mt-1">EGP</p>
                             </div>
 
                             <div class="col-span-2 pt-1">
                                 <button (click)="viewReceipt(tx)"
-                                    class="w-full bg-[#135824] hover:bg-[#0c3c18] active:scale-95 text-white text-xs font-bold py-3 px-4 rounded-full transition-all shadow-sm">
+                                    class="w-full bg-[#135824] hover:bg-[#0c3c18] dark:bg-emerald-600 dark:hover:bg-emerald-500 active:scale-95 text-white text-xs font-bold py-3 px-4 rounded-full transition-all shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10">
                                     View Receipt
                                 </button>
                             </div>
                         </div>
                     </div>
                     } @empty {
-                    <div class="col-span-full py-12 text-center text-[#51765A]">
-                        <svg class="w-12 h-12 mx-auto text-[#80A88B] mb-3" fill="none" stroke="currentColor"
-                            stroke-width="1.5" viewBox="0 0 24 24">
+                    <div class="col-span-full py-12 text-center text-[#51765A] dark:text-slate-400">
+                        <svg class="w-12 h-12 mx-auto text-[#80A88B] dark:text-slate-500 mb-3" fill="none"
+                            stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18" />
                         </svg>
-                        <p class="font-bold text-base">No matching pending transactions</p>
+                        <p class="font-bold text-base text-[#0E3A1A] dark:text-slate-100">No matching pending
+                            transactions</p>
                         <p class="text-xs mt-1">Try adjusting your filters or active search query.</p>
                     </div>
                     }
@@ -178,7 +208,7 @@
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr
-                                class="border-b border-[#F0F9F3] text-[11px] font-bold tracking-wider text-[#51765A] uppercase bg-[#FAFDFB]">
+                                class="border-b border-[#F0F9F3] dark:border-slate-800 text-[11px] font-bold tracking-wider text-[#51765A] dark:text-slate-400 uppercase bg-[#FAFDFB] dark:bg-slate-950/40">
                                 <th class="py-4 px-6">Transaction ID</th>
                                 <th class="py-4 px-6">Court Owner</th>
                                 <th class="py-4 px-6">Venue</th>
@@ -188,63 +218,80 @@
                                 <th class="py-4 px-6 text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#F0F9F3] text-sm">
+
+                        <tbody class="divide-y divide-[#F0F9F3] dark:divide-slate-800 text-sm">
                             @for (tx of paginatedTransactions(); track tx.id) {
-                            <tr class="hover:bg-[#F7FCF8] transition-colors group">
+                            <tr class="hover:bg-[#F7FCF8] dark:hover:bg-white/5 transition-colors group">
 
                                 <td
-                                    class="py-4 px-6 font-mono text-xs font-semibold text-[#80A88B] group-hover:text-[#135824] transition-colors">
+                                    class="py-4 px-6 font-mono text-xs font-semibold text-[#80A88B] dark:text-slate-400 group-hover:text-[#135824] dark:group-hover:text-emerald-300 transition-colors">
                                     {{ tx.id }}
                                 </td>
 
                                 <td class="py-4 px-6">
                                     <div class="flex items-center gap-3 min-w-0">
                                         <img [src]="tx.ownerAvatar" [alt]="tx.ownerName"
-                                            class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E2F7E5] group-hover:ring-[#A3E9B7] transition-all shrink-0"
+                                            class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E2F7E5] dark:ring-slate-800 group-hover:ring-[#A3E9B7] dark:group-hover:ring-emerald-500/40 transition-all shrink-0"
                                             (error)="handleAvatarError($event, tx.ownerName)" />
                                         <span
-                                            class="font-bold text-[#0E3A1A] group-hover:text-black transition-colors truncate">
+                                            class="font-bold text-[#0E3A1A] dark:text-slate-100 group-hover:text-black dark:group-hover:text-white transition-colors truncate">
                                             {{ tx.ownerName }}
                                         </span>
                                     </div>
                                 </td>
 
-                                <td class="py-4 px-6 text-[#51765A] font-medium">
+                                <td class="py-4 px-6 text-[#51765A] dark:text-slate-400 font-medium">
                                     {{ tx.venue }}
                                 </td>
 
                                 <td class="py-4 px-6">
-                                    <div class="text-[#0E3A1A] font-medium">{{ tx.dateSubmitted.split(' • ')[0] }}</div>
-                                    <div class="text-xs text-[#80A88B] flex items-center gap-1.5 mt-0.5">
-                                        <span class="inline-block w-1 h-1 rounded-full bg-[#80A88B]"></span>
+                                    <div class="text-[#0E3A1A] dark:text-slate-100 font-medium">{{
+                                        tx.dateSubmitted.split(' • ')[0] }}</div>
+                                    <div
+                                        class="text-xs text-[#80A88B] dark:text-slate-400 flex items-center gap-1.5 mt-0.5">
+                                        <span
+                                            class="inline-block w-1 h-1 rounded-full bg-[#80A88B] dark:bg-slate-500"></span>
                                         {{ tx.dateSubmitted.split(' • ')[1] }}
                                     </div>
                                 </td>
 
-                                <td class="py-4 px-6 text-right font-extrabold text-[#135824] text-base">
+                                <td
+                                    class="py-4 px-6 text-right font-extrabold text-[#135824] dark:text-emerald-300 text-base">
                                     {{ tx.amount | number:'1.2-2' }}
                                 </td>
 
                                 <td class="py-4 px-6 text-center">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-200"
-                                        [class.bg-[#FEEAD9]]="tx.status === 'PENDING'"
-                                        [class.text-[#D06F2B]]="tx.status === 'PENDING'"
-                                        [class.bg-[#D1F3DB]]="tx.status === 'APPROVED'"
-                                        [class.text-[#135824]]="tx.status === 'APPROVED'"
-                                        [class.bg-red-100]="tx.status === 'REJECTED'"
-                                        [class.text-red-700]="tx.status === 'REJECTED'">
-                                        <span class="w-1.5 h-1.5 rounded-full animate-pulse transition-all duration-200"
-                                            [class.bg-[#D06F2B]]="tx.status === 'PENDING'"
-                                            [class.bg-[#135824]]="tx.status === 'APPROVED'"
-                                            [class.bg-red-600]="tx.status === 'REJECTED'"></span>
-                                        {{ tx.status }}
+                                    <span class="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-black tracking-wider uppercase
+           min-w-[110px] max-w-[140px] whitespace-nowrap
+           transition-all duration-200
+           border dark:ring-1 dark:ring-white/10" [ngClass]="{
+      'bg-[#D1F3DB] text-[#135824] border-[#BDECC9]': tx.status === 'APPROVED',
+      'bg-[#FEEAD9] text-[#D06F2B] border-[#F6D4B7]': tx.status === 'PENDING',
+      'bg-red-100 text-red-700 border-red-200': tx.status === 'REJECTED',
+
+      'dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/20': tx.status === 'APPROVED',
+      'dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/20': tx.status === 'PENDING',
+      'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/20': tx.status === 'REJECTED'
+    }">
+                                        <span class="w-2 h-2 rounded-full shrink-0" [ngClass]="{
+        'bg-[#135824]': tx.status === 'APPROVED',
+        'bg-[#D06F2B]': tx.status === 'PENDING',
+        'bg-red-600': tx.status === 'REJECTED',
+
+        'dark:bg-emerald-300': tx.status === 'APPROVED',
+        'dark:bg-amber-300': tx.status === 'PENDING',
+        'dark:bg-red-300': tx.status === 'REJECTED'
+      }"></span>
+
+                                        <!-- ✅ prevents breaking to a new line like in your screenshot -->
+                                        <span class="leading-none whitespace-nowrap">
+                                            {{ tx.status }}
+                                        </span>
                                     </span>
                                 </td>
-
                                 <td class="py-4 px-6 text-center">
                                     <button (click)="viewReceipt(tx)"
-                                        class="bg-[#135824] hover:bg-[#0c3c18] active:scale-95 text-white text-xs font-bold py-2 px-4 rounded-full transition-all shadow-sm group-hover:shadow hover:scale-[1.03]">
+                                        class="bg-[#135824] hover:bg-[#0c3c18] dark:bg-emerald-600 dark:hover:bg-emerald-500 active:scale-95 text-white text-xs font-bold py-2 px-4 rounded-full transition-all shadow-sm dark:shadow-none group-hover:shadow hover:scale-[1.03] dark:ring-1 dark:ring-white/10">
                                         View Receipt
                                     </button>
                                 </td>
@@ -252,13 +299,14 @@
                             </tr>
                             } @empty {
                             <tr>
-                                <td colspan="7" class="py-12 text-center text-[#51765A]">
-                                    <svg class="w-12 h-12 mx-auto text-[#80A88B] mb-3" fill="none" stroke="currentColor"
-                                        stroke-width="1.5" viewBox="0 0 24 24">
+                                <td colspan="7" class="py-12 text-center text-[#51765A] dark:text-slate-400">
+                                    <svg class="w-12 h-12 mx-auto text-[#80A88B] dark:text-slate-500 mb-3" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18" />
+                                            d="M2.25 13.5h3.86a2.25 2 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18" />
                                     </svg>
-                                    <p class="font-bold text-base">No matching pending transactions</p>
+                                    <p class="font-bold text-base text-[#0E3A1A] dark:text-slate-100">No matching
+                                        pending transactions</p>
                                     <p class="text-xs mt-1">Try adjusting your filters or active search query.</p>
                                 </td>
                             </tr>
@@ -270,15 +318,18 @@
 
             <!-- Pagination Footer -->
             <div
-                class="px-4 sm:px-6 py-5 border-t border-[#F0F9F3] bg-[#FAFDFB] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <span class="text-sm font-semibold text-[#51765A]">
-                    Showing <span class="text-[#0E3A1A] font-bold">{{ displayedRangeText() }}</span> of <span
-                        class="text-[#0E3A1A] font-bold">{{ filteredTransactions().length }}</span> pending transactions
+                class="px-4 sm:px-6 py-5 border-t border-[#F0F9F3] dark:border-slate-800 bg-[#FAFDFB] dark:bg-slate-950/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <span class="text-sm font-semibold text-[#51765A] dark:text-slate-400">
+                    Showing <span class="text-[#0E3A1A] dark:text-slate-100 font-bold">{{ displayedRangeText() }}</span>
+                    of
+                    <span class="text-[#0E3A1A] dark:text-slate-100 font-bold">{{ filteredTransactions().length
+                        }}</span>
+                    pending transactions
                 </span>
 
                 <div class="flex items-center gap-2 flex-wrap">
                     <button (click)="prevPage()" [disabled]="currentPage() === 1"
-                        class="w-10 h-10 rounded-xl border border-[#D1EAD9] flex items-center justify-center text-[#135824] hover:bg-[#EAF8EE] disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                        class="w-10 h-10 rounded-xl border border-[#D1EAD9] dark:border-slate-800 flex items-center justify-center text-[#135824] dark:text-emerald-300 hover:bg-[#EAF8EE] dark:hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -289,14 +340,14 @@
                         [class.text-white]="currentPage() === page" [class.border-transparent]="currentPage() === page"
                         [class.border-[#D1EAD9]]="currentPage() !== page"
                         [class.text-[#135824]]="currentPage() !== page"
-                        [class.hover:bg-[#EAF8EE]]="currentPage() !== page"
-                        class="w-10 h-10 rounded-xl border font-bold text-sm transition-all flex items-center justify-center">
+                        [class.hover:bg-[#EAF8EE]]="currentPage() !== page" class="w-10 h-10 rounded-xl border font-bold text-sm transition-all flex items-center justify-center
+                   dark:border-slate-800 dark:text-emerald-300 dark:hover:bg-white/5">
                         {{ page }}
                     </button>
                     }
 
                     <button (click)="nextPage()" [disabled]="currentPage() === maxPage()"
-                        class="w-10 h-10 rounded-xl border border-[#D1EAD9] flex items-center justify-center text-[#135824] hover:bg-[#EAF8EE] disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                        class="w-10 h-10 rounded-xl border border-[#D1EAD9] dark:border-slate-800 flex items-center justify-center text-[#135824] dark:text-emerald-300 hover:bg-[#EAF8EE] dark:hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -310,255 +361,130 @@
 
 <!-- VIEW RECEIPT MODAL -->
 @if (selectedReceipt()) {
-<div class="fixed inset-0 bg-[#0E3A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div
-        class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl transform transition-all border border-[#CDEFE0] my-6">
+<div
+    class="fixed inset-0 bg-[#0E3A1A]/70 dark:bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+
+    <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl transform transition-all border border-[#CDEFE0] dark:border-slate-800 my-4
+             max-h-[78vh] flex flex-col">
 
         <!-- Modal Header -->
-        <div class="bg-[#135824] text-white p-6 relative">
+        <div class="bg-[#135824] dark:bg-slate-950 text-white p-5 sm:p-6 relative shrink-0">
             <button (click)="closeReceipt()"
-                class="absolute top-4 right-4 text-emerald-200 hover:text-white bg-[#0e441b] p-2 rounded-full transition-all">
+                class="absolute top-3 sm:top-4 right-3 sm:right-4 text-emerald-200 hover:text-white bg-[#0e441b] dark:bg-white/10 p-2 rounded-full transition-all">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <span class="text-xs font-bold tracking-widest bg-[#1B8A40] text-white px-3 py-1 rounded-full">RECEIPT
-                DOCUMENT</span>
-            <h4 class="text-2xl font-black mt-3 break-all">{{ selectedReceipt()?.id }}</h4>
-            <p class="text-xs text-emerald-200 mt-1">Submitted on {{ selectedReceipt()?.dateSubmitted }}</p>
+
+            <span
+                class="text-xs font-bold tracking-widest bg-[#1B8A40] dark:bg-emerald-500/20 text-white px-3 py-1 rounded-full">
+                RECEIPT DOCUMENT
+            </span>
+
+            <h4 class="text-xl sm:text-2xl font-black mt-3 break-all">{{ selectedReceipt()?.id }}</h4>
+            <p class="text-xs text-emerald-200 dark:text-slate-300 mt-1">
+                Submitted on {{ selectedReceipt()?.dateSubmitted }}
+            </p>
         </div>
 
-        <!-- Receipt Details -->
-        <div class="p-6 space-y-6">
-
-            <div class="flex items-center gap-4 bg-[#F4FAF5] p-4 rounded-2xl border border-[#D1EAD9] min-w-0">
+        <!-- ✅ Scrollable Body -->
+        <div class="p-5 sm:p-6 space-y-5 overflow-y-auto min-h-0">
+            <div
+                class="flex items-center gap-4 bg-[#F4FAF5] dark:bg-slate-950/40 p-4 rounded-2xl border border-[#D1EAD9] dark:border-slate-800 min-w-0">
                 <img [src]="selectedReceipt()?.ownerAvatar"
-                    class="w-12 h-12 rounded-full object-cover ring-2 ring-emerald-500 shrink-0" />
+                    class="w-11 h-11 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-emerald-500 dark:ring-emerald-500/40 shrink-0" />
                 <div class="min-w-0">
-                    <p class="text-[10px] uppercase font-bold tracking-wider text-[#51765A]">Court Owner</p>
-                    <p class="font-extrabold text-lg text-[#0E3A1A] truncate">{{ selectedReceipt()?.ownerName }}</p>
+                    <p class="text-[10px] uppercase font-bold tracking-wider text-[#51765A] dark:text-slate-400">Court
+                        Owner</p>
+                    <p class="font-extrabold text-base sm:text-lg text-[#0E3A1A] dark:text-slate-100 truncate">
+                        {{ selectedReceipt()?.ownerName }}
+                    </p>
                 </div>
             </div>
 
-            <!-- Specific Breakdown -->
             <div class="space-y-3">
-                <div class="flex justify-between gap-4 border-b border-dashed border-gray-200 pb-2 text-sm">
-                    <span class="text-[#51765A] font-semibold">Venue Partner</span>
-                    <span class="font-bold text-[#0E3A1A] text-right break-words">{{ selectedReceipt()?.venue }}</span>
+                <div
+                    class="flex justify-between gap-4 border-b border-dashed border-gray-200 dark:border-slate-800 pb-2 text-sm">
+                    <span class="text-[#51765A] dark:text-slate-400 font-semibold">Venue Partner</span>
+                    <span class="font-bold text-[#0E3A1A] dark:text-slate-100 text-right break-words">{{
+                        selectedReceipt()?.venue }}</span>
                 </div>
-                <div class="flex justify-between gap-4 border-b border-dashed border-gray-200 pb-2 text-sm">
-                    <span class="text-[#51765A] font-semibold">Payment Status</span>
+
+                <div
+                    class="flex justify-between gap-4 border-b border-dashed border-gray-200 dark:border-slate-800 pb-2 text-sm">
+                    <span class="text-[#51765A] dark:text-slate-400 font-semibold">Payment Status</span>
                     <span
-                        class="font-bold text-[#D06F2B] bg-[#FEEAD9] px-2 py-0.5 rounded-full text-xs whitespace-nowrap">PENDING
-                        VERIFICATION</span>
+                        class="font-bold text-[#D06F2B] bg-[#FEEAD9] dark:bg-amber-500/15 dark:text-amber-300 px-2 py-0.5 rounded-full text-xs whitespace-nowrap">
+                        PENDING VERIFICATION
+                    </span>
                 </div>
-                <div class="flex justify-between gap-4 border-b border-dashed border-gray-200 pb-2 text-sm">
-                    <span class="text-[#51765A] font-semibold">Audit Check</span>
+
+                <div
+                    class="flex justify-between gap-4 border-b border-dashed border-gray-200 dark:border-slate-800 pb-2 text-sm">
+                    <span class="text-[#51765A] dark:text-slate-400 font-semibold">Audit Check</span>
                     @if (selectedReceipt()?.isSuspicious) {
                     <span
-                        class="font-extrabold text-[#D03A2B] bg-red-50 px-2 py-0.5 rounded-full text-xs flex items-center gap-1">
+                        class="font-extrabold text-[#D03A2B] bg-red-50 dark:bg-red-500/15 dark:text-red-300 px-2 py-0.5 rounded-full text-xs flex items-center gap-1">
                         ⚠️ Mismatched Metadata
                     </span>
                     } @else {
-                    <span class="font-bold text-[#135824] bg-emerald-50 px-2 py-0.5 rounded-full text-xs">
+                    <span
+                        class="font-bold text-[#135824] bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-300 px-2 py-0.5 rounded-full text-xs">
                         ✓ Metadata Matches
                     </span>
                     }
                 </div>
+
                 @if (selectedReceipt()?.isSuspicious) {
-                <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800">
+                <div
+                    class="p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl text-xs text-red-800 dark:text-red-200">
                     <strong>Warning Flag:</strong> {{ selectedReceipt()?.suspicionReason }}
                 </div>
                 }
             </div>
 
-            <!-- Receipt Image Section (dynamic if exists) -->
             @if (selectedReceipt()?.receiptImageUrl) {
-            <div class="border border-[#D1EAD9] rounded-2xl p-3 bg-[#F4FAF5]">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-[#51765A] mb-2">Receipt Image</p>
+            <div
+                class="border border-[#D1EAD9] dark:border-slate-800 rounded-2xl p-3 bg-[#F4FAF5] dark:bg-slate-950/40">
+                <p class="text-[10px] font-bold uppercase tracking-wider text-[#51765A] dark:text-slate-400 mb-2">
+                    Receipt Image</p>
                 <img [src]="selectedReceipt()?.receiptImageUrl" alt="Payment receipt"
-                    class="w-full rounded-xl border border-[#BDECC9] object-contain max-h-48 mx-auto" />
+                    class="w-full rounded-xl border border-[#BDECC9] dark:border-slate-800 object-contain max-h-44 sm:max-h-48 mx-auto bg-white dark:bg-slate-950" />
             </div>
             }
 
-            <!-- Action buttons: show ONLY for PENDING status -->
             <div
-                class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                class="pt-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <p class="text-xs text-[#51765A] font-semibold">Total Amount Due</p>
-                    <p class="text-3xl font-black text-[#135824]">{{ selectedReceipt()?.amount | number:'1.2-2' }} <span
-                            class="text-sm font-bold">EGP</span></p>
+                    <p class="text-xs text-[#51765A] dark:text-slate-400 font-semibold">Total Amount Due</p>
+                    <p class="text-2xl sm:text-3xl font-black text-[#135824] dark:text-emerald-300">
+                        {{ selectedReceipt()?.amount | number:'1.2-2' }}
+                        <span class="text-sm font-bold text-[#51765A] dark:text-slate-400">EGP</span>
+                    </p>
                 </div>
 
                 @if (selectedReceipt()?.status === 'PENDING') {
                 <div class="flex w-full sm:w-auto flex-col gap-2">
                     <button (click)="approveTransaction(selectedReceipt()!.id)"
-                        class="w-full sm:w-auto bg-[#135824] hover:bg-[#0c3c18] text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md">
+                        class="w-full sm:w-auto bg-[#135824] hover:bg-[#0c3c18] dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md dark:shadow-none dark:ring-1 dark:ring-white/10">
                         Approve Payment
                     </button>
                     <button (click)="openRejectModal(selectedReceipt()!.id)"
-                        class="w-full sm:w-auto bg-red-700 hover:bg-red-800 text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md">
+                        class="w-full sm:w-auto bg-red-700 hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-500 text-white font-bold text-xs py-2 px-5 rounded-xl transition-all shadow-md dark:shadow-none dark:ring-1 dark:ring-white/10">
                         Flag & Reject
                     </button>
                 </div>
                 }
             </div>
-
         </div>
 
-        <div class="bg-[#F4FAF5] px-6 py-4 border-t border-[#D1EAD9] text-center">
-            <span class="text-[10px] font-bold text-[#51765A] uppercase tracking-widest">Secure Financial Audit Ledger
-                v4.11</span>
-        </div>
-
-    </div>
-</div>
-}
-
-<!-- SUSPICIOUS AUDIT TOOL MODAL -->
-@if (showAuditTool()) {
-<div class="fixed inset-0 bg-[#011C07]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div
-        class="bg-white w-full max-w-3xl rounded-[2rem] overflow-hidden shadow-2xl transform transition-all border border-red-200 my-6">
-
-        <!-- Banner header -->
-        <div class="bg-[#8E3205] text-white p-6 relative">
-            <button (click)="showAuditTool.set(false)"
-                class="absolute top-4 right-4 text-orange-200 hover:text-white bg-[#772802] p-2 rounded-full transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <div class="flex items-center gap-2 flex-wrap">
-                <span
-                    class="bg-[#E05E1A] text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">AUDIT
-                    RISK ADVISORY</span>
-                <span class="text-xs text-orange-100 font-bold">2 Threat Warnings</span>
-            </div>
-            <h4 class="text-2xl md:text-3xl font-black mt-3">Suspicious Activity Audit Tool</h4>
-            <p class="text-xs text-orange-100 mt-1">These receipts mismatch with geo-IP location or bank stamp metadata
-                tags.</p>
-        </div>
-
-        <!-- List of Suspicious Tx -->
-        <div class="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
-            @for (stx of suspiciousTransactions(); track stx.id) {
-            <div
-                class="border border-red-200 bg-red-50/50 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex items-center gap-4 min-w-0">
-                    <div
-                        class="w-12 h-12 rounded-full bg-[#8E3205]/10 flex items-center justify-center text-[#8E3205] shrink-0">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                        </svg>
-                    </div>
-                    <div class="min-w-0">
-                        <h5 class="font-extrabold text-[#0E3A1A] break-words">{{ stx.ownerName }} ({{ stx.id }})</h5>
-                        <p class="text-xs text-[#51765A] break-words">{{ stx.venue }} • {{ stx.dateSubmitted }}</p>
-                        <p class="text-xs text-[#8E3205] font-semibold mt-1 break-words">⚠️ Flag: {{ stx.suspicionReason
-                            }}</p>
-                    </div>
-                </div>
-
-                <div
-                    class="text-right flex md:flex-col items-start md:items-end justify-between md:justify-center gap-2 w-full md:w-auto">
-                    <span class="text-xl font-black text-[#8E3205]">{{ stx.amount | number:'1.2-2' }} EGP</span>
-                    <div class="flex gap-2 flex-wrap justify-end">
-                        <!-- Updated to open reject modal -->
-                        <button (click)="openRejectModal(stx.id)"
-                            class="bg-[#8E3205] hover:bg-red-800 text-white px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all shadow-sm">
-                            Decline & Hold
-                        </button>
-                        <button (click)="viewReceipt(stx)"
-                            class="bg-white border border-[#8E3205] text-[#8E3205] hover:bg-orange-50 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all shadow-sm">
-                            Verify Details
-                        </button>
-                    </div>
-                </div>
-            </div>
-            }
-        </div>
-
+        <!-- ✅ Sticky Footer -->
         <div
-            class="bg-[#FAFDFB] px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <span class="text-xs font-semibold text-[#51765A]">Manual review is recommended immediately.</span>
-            <button (click)="showAuditTool.set(false)"
-                class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-xl text-xs font-bold transition-all w-full sm:w-auto">
-                Dismiss Panel
-            </button>
+            class="bg-[#F4FAF5] dark:bg-slate-950/40 px-5 sm:px-6 py-3 border-t border-[#D1EAD9] dark:border-slate-800 text-center shrink-0">
+            <span class="text-[10px] font-bold text-[#51765A] dark:text-slate-400 uppercase tracking-widest">
+                Secure Financial Audit Ledger v4.11
+            </span>
         </div>
-
-    </div>
-</div>
-}
-
-<!-- REJECTION REASON MODAL (NEW) -->
-@if (showRejectModal()) {
-<div class="fixed inset-0 bg-[#0E3A1A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-[#CDEFE0] my-6">
-        <div class="bg-[#135824] text-white p-5 relative">
-            <button (click)="closeRejectModal()"
-                class="absolute top-3 right-3 text-emerald-200 hover:text-white bg-[#0e441b] p-1.5 rounded-full transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <span class="text-xs font-bold tracking-widest bg-[#1B8A40] text-white px-3 py-1 rounded-full">REJECT
-                PAYMENT</span>
-            <h4 class="text-xl font-black mt-2">Rejection Reason</h4>
-            <p class="text-xs text-emerald-200 mt-0.5">Required for audit trail</p>
-        </div>
-
-        <div class="p-5 space-y-4">
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-[#51765A] mb-1">Reason *</label>
-                <textarea [(ngModel)]="rejectionReason" rows="3"
-                    class="w-full bg-[#F4FAF5] border border-[#D1EAD9] rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#135824] focus:border-transparent"
-                    placeholder="Enter why this payment is being rejected..."></textarea>
-                @if (rejectionValidationError()) {
-                <p class="text-xs text-red-600 mt-1 font-semibold">{{ rejectionValidationError() }}</p>
-                }
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                <button (click)="confirmReject()"
-                    class="bg-red-700 hover:bg-red-800 text-white font-bold text-sm py-2.5 px-5 rounded-xl transition-all shadow-md w-full sm:w-auto">
-                    Confirm Reject
-                </button>
-                <button (click)="closeRejectModal()"
-                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-sm py-2.5 px-5 rounded-xl transition-all w-full sm:w-auto">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-}
-
-<!-- POPUP TOAST ALERT -->
-@if (toastMessage()) {
-<div class="fixed bottom-6 right-6 max-w-[calc(100vw-3rem)] text-white px-5 py-4 rounded-2xl shadow-2xl z-[100] flex items-center gap-3 animate-bounce border transition-all duration-300"
-    [class.bg-[#135824]]="toastType() !== 'error'" [class.border-[#238B3D]]="toastType() !== 'error'"
-    [class.bg-[#8E221D]]="toastType() === 'error'" [class.border-[#C23C35]]="toastType() === 'error'">
-
-    @if (toastType() === 'error') {
-    <svg class="w-6 h-6 text-red-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-    </svg>
-    } @else {
-    <svg class="w-6 h-6 text-[#9BF8B9] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
-        viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    }
-
-    <div class="min-w-0">
-        <p class="text-xs font-bold uppercase tracking-wider" [class.text-[#A0DCB4]]="toastType() !== 'error'"
-            [class.text-red-200]="toastType() === 'error'">
-            System Action
-        </p>
-        <p class="text-sm font-semibold break-words">{{ toastMessage() }}</p>
     </div>
 </div>
 }

@@ -9,12 +9,13 @@ import { MyBookingsService } from '../../../../core/services/MyBookings/my-booki
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { IBookings } from '../../../interfaces/i-bookings';
 import { RouterLink } from '@angular/router';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type Tab = 'upcoming' | 'previous';
 
 @Component({
   selector: 'app-customer-profile',
-  imports: [CommonModule, PlayernavComponent, RouterLink, DatePipe],
+  imports: [CommonModule, PlayernavComponent, RouterLink, DatePipe, AiComponent],
   templateUrl: './customer-profile.component.html',
   styleUrl: './customer-profile.component.scss'
 })

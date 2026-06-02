@@ -16,6 +16,21 @@
     border-radius: 10px;
 }
 
+/* Dark mode scrollbar */
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-track {
+    background: #0b1220;
+    /* slate-ish */
+}
+
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.45);
+    /* slate-400/ */
+}
+
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.65);
+}
+
 /* Ensure no horizontal page scroll */
 html,
 body {

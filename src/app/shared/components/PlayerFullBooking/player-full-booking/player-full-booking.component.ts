@@ -6,6 +6,7 @@ import { IspecificBookings } from '../../../interfaces/ispecific-bookings';
 import { DatePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type BookingDetails = {
   id: string;
@@ -21,7 +22,7 @@ type BookingDetails = {
 
 @Component({
   selector: 'app-player-full-booking',
-  imports: [PlayernavComponent, DatePipe, LucideAngularModule],
+  imports: [PlayernavComponent, DatePipe, LucideAngularModule, AiComponent],
   templateUrl: './player-full-booking.component.html',
   styleUrl: './player-full-booking.component.scss'
 })

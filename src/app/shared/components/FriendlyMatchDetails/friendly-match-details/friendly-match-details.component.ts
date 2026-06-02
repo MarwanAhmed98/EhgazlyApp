@@ -6,6 +6,7 @@ import { ISpecificMatch } from '../../../interfaces/ispecific-match';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { LucideAngularModule } from 'lucide-angular';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 type UIState = 'preJoin' | 'joined';
 type JoinStatus = 'idle' | 'joining';
@@ -16,7 +17,7 @@ type ParticipationState = 'never_joined' | 'joined' | 'left';
 @Component({
   selector: 'app-friendly-match-details',
   standalone: true,
-  imports: [PlayernavComponent, DatePipe, SlicePipe, LucideAngularModule],
+  imports: [PlayernavComponent, DatePipe, SlicePipe, LucideAngularModule, AiComponent],
   templateUrl: './friendly-match-details.component.html',
   styleUrl: './friendly-match-details.component.scss',
 })

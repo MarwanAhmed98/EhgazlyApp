@@ -3,7 +3,8 @@
 
     <!-- Overlay -->
     @if (isSideNavOpen) {
-    <div (click)="toggleSideNav()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"></div>
+    <div (click)="toggleSideNav()" class="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40 lg:hidden">
+    </div>
     }
 
     <!-- Side Nav -->
@@ -15,7 +16,8 @@
         <!-- Brand + Close Button -->
         <div class="px-6 py-6 flex items-center justify-between">
             <div class="flex items-center gap-3 min-w-0">
-                <div class="w-10 h-10  rounded-[50%] flex items-center justify-center shadow-xl shadow-emerald-200/50">
+                <div
+                    class="w-10 h-10 rounded-[50%] flex items-center justify-center shadow-xl shadow-emerald-200/50 dark:shadow-emerald-500/10">
                     <span class="text-white italic font-black text-xl"><img src="/images/MyLogo.png" alt=""></span>
                 </div>
                 <span class="text-lg font-black tracking-tight text-emerald-950 dark:text-white truncate">
@@ -45,7 +47,7 @@
                  bg-emerald-50/80 dark:bg-slate-950/40
                  border border-emerald-200/60 dark:border-slate-800/60
                  text-emerald-950/80 dark:text-white/80
-                 group-[.bg-emerald-100\\/70]:bg-white/70
+                 group-[.bg-emerald-100\\/70]:bg-white/70 dark:group-[.bg-emerald-100\\/70]:bg-slate-950/30
                  transition-colors">
                     <lucide-icon [name]="item.iconName" [size]="20" [strokeWidth]="2.3"></lucide-icon>
                 </span>
@@ -99,9 +101,20 @@
                 </div>
 
                 <div class="flex items-center gap-3">
+                    <button (click)="toggleDarkMode()" class="pointer-events-auto w-10 h-10 flex items-center justify-center
+                        bg-white/70 dark:bg-white/5
+                        border border-emerald-200/60 dark:border-slate-800/60
+                        text-slate-700 dark:text-slate-200
+                        rounded-full
+                        hover:bg-emerald-50/80 dark:hover:bg-white/10
+                        transition-all shadow-sm dark:shadow-none">
+                        <i
+                            [class]="isDarkMode ? 'fas fa-sun text-amber-400' : 'fas fa-moon text-slate-700 dark:text-slate-200'"></i>
+                    </button>
+
                     <div class="flex items-center gap-3">
                         <img [src]="avatarUrl"
-                            class="w-10 h-10 rounded-2xl border border-emerald-200/60 dark:border-slate-800/60 bg-white/60 object-cover"
+                            class="w-10 h-10 rounded-2xl border border-emerald-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-white/5 object-cover"
                             alt="Avatar" />
                     </div>
 
@@ -155,18 +168,6 @@
                             }
 
                             @if (!notiLoading && !notiError) {
-                            <div class="notif-dd__tabs">
-                                <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'all'"
-                                    (click)="setNotifFilter('all')">All</button>
-                                <button type="button" class="notif-dd__tab"
-                                    [class.is-active]="notifFilter === 'booking_confirmed'"
-                                    (click)="setNotifFilter('booking_confirmed')">Bookings</button>
-                                <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'teams'"
-                                    (click)="setNotifFilter('teams')">Teams</button>
-                                <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'system'"
-                                    (click)="setNotifFilter('system')">System</button>
-                            </div>
-
                             <div class="notif-dd__list scrollbar-hide">
                                 @for (item of filteredNavbarNotifications; track item.id) {
                                 <button type="button" class="notif-item" [class.is-unread]="!item.is_read"
@@ -175,8 +176,8 @@
                                     <span class="notif-item__icon" [class]="getNotifIconBg(item.type)">
                                         @switch (getNotifIcon(item.type)) {
                                         @case ('calendar-check') {
-                                        <svg class="w-4 h-4 text-[#1E8A3E]" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 text-[#1E8A3E] dark:text-[#34D399]" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                             <line x1="16" y1="2" x2="16" y2="6"></line>
                                             <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -185,15 +186,15 @@
                                         </svg>
                                         }
                                         @case ('match') {
-                                        <svg class="w-4 h-4 text-[#0A60B3]" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 text-[#0A60B3] dark:text-[#60A5FA]" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <circle cx="12" cy="12" r="10"></circle>
                                             <path d="M2 12h20"></path>
                                         </svg>
                                         }
                                         @case ('invite') {
-                                        <svg class="w-4 h-4 text-[#0B3A1C]" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 text-[#0B3A1C] dark:text-[#34D399]" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="8.5" cy="7" r="4"></circle>
                                             <path d="M20 8v6"></path>
@@ -201,8 +202,8 @@
                                         </svg>
                                         }
                                         @case ('calendar-cancel') {
-                                        <svg class="w-4 h-4 text-[#A65B20]" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 text-[#A65B20] dark:text-[#FBBF24]" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                             <line x1="16" y1="2" x2="16" y2="6"></line>
                                             <line x1="8" y1="2" x2="8" y2="6"></line>

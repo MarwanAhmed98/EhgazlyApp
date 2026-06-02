@@ -12,8 +12,6 @@ body:has(.fixed.inset-0) {
     }
 }
 
-// Improved Payment History Table & Scrollbar Styling
-
 // Custom scrollbar for table wrapper
 .overflow-x-auto {
     scrollbar-width: thin;
@@ -35,6 +33,23 @@ body:has(.fixed.inset-0) {
 
         &:hover {
             background: #8B4000;
+        }
+    }
+}
+
+// Dark mode scrollbar
+.dark .overflow-x-auto {
+    scrollbar-color: #334155 #1e293b;
+
+    &::-webkit-scrollbar-track {
+        background: #1e293b;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #334155;
+
+        &:hover {
+            background: #475569;
         }
     }
 }
@@ -84,4 +99,9 @@ button svg {
 // Ensure modal backdrop and content remain consistent (no changes)
 .fixed.inset-0 {
     backdrop-filter: blur(2px);
+}
+
+// Dark mode backdrop blur enhancement
+.dark .fixed.inset-0 {
+    backdrop-filter: blur(3px);
 }

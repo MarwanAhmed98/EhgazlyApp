@@ -10,6 +10,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(34%) sepia(87%) saturate(395%) hue-rotate(106deg) brightness(92%) contrast(92%);
 }
 
+// Dark mode date picker fix
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(80%) sepia(10%) saturate(500%) hue-rotate(90deg) brightness(100%);
+}
+
 // Enhanced animations
 @keyframes fadeIn {
     from {
@@ -71,6 +77,11 @@ textarea,
     ring-offset: 2px;
 }
 
+// Dark mode focus ring
+.dark *:focus-visible {
+    ring: 2px solid #34d399;
+}
+
 // Responsive table and grid adjustments
 @media (max-width: 1024px) {
     .max-w-6xl {
@@ -113,6 +124,19 @@ textarea,
     }
 }
 
+// Dark mode scrollbar
+.dark .overflow-y-auto {
+    scrollbar-color: #34d399 #1e293b;
+
+    &::-webkit-scrollbar-track {
+        background: #1e293b;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #34d399;
+    }
+}
+
 // Calendar day button enhancements
 .grid.grid-cols-7 button {
     transition: all 0.15s ease;
@@ -126,7 +150,3 @@ textarea,
 .fixed.bottom-24 {
     animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-// ::ng-deep body:has(.fixed.inset-0.z-\[90\]) {
-//     overflow: hidden !important;
-// }

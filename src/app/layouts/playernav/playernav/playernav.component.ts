@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { isPlatformBrowser, NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -35,6 +36,7 @@ export class PlayernavComponent implements OnInit, OnDestroy {
   private readonly playerProfileService = inject(PlayerProfileService);
   private readonly playerNotiService = inject(PlayerNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
+  private readonly platformId = inject(PLATFORM_ID);
 
   private routerSub?: Subscription;
   private notiSub?: Subscription;
@@ -65,6 +67,7 @@ export class PlayernavComponent implements OnInit, OnDestroy {
 
   isMobileMenuOpen = false;
   currentTitle = 'My Bookings';
+  isDarkMode: boolean = false;
 
   // Dropdown state
   isProfileMenuOpen = false;
@@ -89,6 +92,16 @@ export class PlayernavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === null) {
+        this.isDarkMode = true;
+        localStorage.setItem('theme', 'dark');
+      } else {
+        this.isDarkMode = savedTheme === 'dark';
+      }
+      this.applyTheme();
+    }
     this.GetProfile();
     this.updateTitleByRoute();
     this.updateProfileRouteFlag();
@@ -110,7 +123,21 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     this.routerSub?.unsubscribe();
     this.notiSub?.unsubscribe();
   }
+  toggleDarkMode(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.applyTheme();
+  }
 
+  private applyTheme(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
   // ===== Notifications API =====
   GetNoti(): void {
     this.notiSub?.unsubscribe();

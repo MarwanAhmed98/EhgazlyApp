@@ -3,11 +3,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { TournamentsService } from '../../../../core/services/Tournaments/tournaments.service';
+import { AiComponent } from "../../Ai/ai/ai.component";
 
 @Component({
   selector: 'app-tournaments-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AiComponent],
   templateUrl: './tournaments-register.component.html',
   styleUrl: './tournaments-register.component.scss'
 })

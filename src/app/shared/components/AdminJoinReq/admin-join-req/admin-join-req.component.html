@@ -1,14 +1,15 @@
-<div class="min-h-screen bg-[#F0FDF4] p-4 md:p-8 font-sans text-[#1A2E1A]">
+<div class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 p-4 md:p-8 font-sans text-[#1A2E1A] dark:text-slate-200">
     <div class="max-w-7xl mx-auto space-y-6">
 
         <!-- Top Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Total Revenue -->
             <div
-                class="bg-[#DCFCE7] rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
-                <div class="bg-[#A3D9A3]/40 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
+                class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
+                <div
+                    class="bg-[#A3D9A3]/40 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70 dark:opacity-100"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
                         <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
                         <path d="M12 11h.01" />
@@ -16,10 +17,12 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60">Total Revenue</p>
-                    <h2 class="text-4xl font-bold mt-1">{{ (FinancialDetails.total_revenue || 0) | currency:' ' }}</h2>
+                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60 dark:opacity-80">Total Revenue
+                    </p>
+                    <h2 class="text-4xl font-bold mt-1 dark:text-white">{{ (FinancialDetails.total_revenue || 0) |
+                        currency:' ' }}</h2>
                 </div>
-                <div class="mt-4 flex items-center text-[11px] font-semibold opacity-70">
+                <div class="mt-4 flex items-center text-[11px] font-semibold opacity-70 dark:opacity-80">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,20 +34,23 @@
 
             <!-- App Due Amount -->
             <div
-                class="bg-[#DCFCE7] rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
-                <div class="bg-[#A3D9A3]/40 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
+                class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
+                <div
+                    class="bg-[#A3D9A3]/40 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70 dark:opacity-100"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <path d="M6.7 6.7l10.6 10.6" />
                         <path d="M6.7 17.3l10.6-10.6" />
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60">App Due Amount</p>
-                    <h2 class="text-4xl font-bold mt-1">{{ (FinancialDetails.app_due_amount || 0) | currency:' ' }}</h2>
+                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60 dark:opacity-80">App Due Amount
+                    </p>
+                    <h2 class="text-4xl font-bold mt-1 dark:text-white">{{ (FinancialDetails.app_due_amount || 0) |
+                        currency:' ' }}</h2>
                 </div>
-                <div class="mt-4 flex items-center text-[11px] font-semibold text-[#8B4513]">
+                <div class="mt-4 flex items-center text-[11px] font-semibold text-[#8B4513] dark:text-amber-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" viewBox="0 0 20 20"
                         fill="currentColor">
                         <path fill-rule="evenodd"
@@ -57,10 +63,11 @@
 
             <!-- Remaining Balance -->
             <div
-                class="bg-[#DCFCE7] rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
-                <div class="bg-[#A3D9A3]/40 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
+                class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
+                <div
+                    class="bg-[#A3D9A3]/40 dark:bg-emerald-900/30 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 opacity-70 dark:opacity-100"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                         <circle cx="9" cy="7" r="4" />
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -68,11 +75,13 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60">Remaining Balance</p>
-                    <h2 class="text-4xl font-bold mt-1">{{ (FinancialDetails.remaining_balance || 0) | currency:' ' }}
+                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-60 dark:opacity-80">Remaining
+                        Balance</p>
+                    <h2 class="text-4xl font-bold mt-1 dark:text-white">{{ (FinancialDetails.remaining_balance || 0) |
+                        currency:' ' }}
                     </h2>
                 </div>
-                <div class="mt-4 flex items-center text-[11px] font-semibold opacity-70">
+                <div class="mt-4 flex items-center text-[11px] font-semibold opacity-70 dark:opacity-80">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -84,7 +93,7 @@
 
             <!-- Total Paid + Pending -->
             <div
-                class="bg-[#8B4000] rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] text-white shadow-xl shadow-[#8B4000]/20 transition-transform hover:scale-[1.05] cursor-pointer">
+                class="bg-[#8B4000] dark:bg-amber-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] text-white shadow-xl shadow-[#8B4000]/20 dark:shadow-black/40 transition-transform hover:scale-[1.05] cursor-pointer">
                 <div class="bg-white/10 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
@@ -111,106 +120,117 @@
             <!-- Header with title and subtle accent -->
             <div class="flex justify-between items-center px-1">
                 <div class="flex items-center gap-2">
-                    <div class="w-1 h-7 bg-[#8B4000] rounded-full"></div>
-                    <h3 class="text-2xl font-bold text-[#1A2E1A] tracking-tight">Payment History</h3>
+                    <div class="w-1 h-7 bg-[#8B4000] dark:bg-amber-500 rounded-full"></div>
+                    <h3 class="text-2xl font-bold text-[#1A2E1A] dark:text-white tracking-tight">Payment History</h3>
                 </div>
-                <div class="text-[11px] font-medium text-[#1A2E1A]/50">
+                <div class="text-[11px] font-medium text-[#1A2E1A]/50 dark:text-slate-400">
                     {{ paymentHistorySorted.length }} transactions
                 </div>
             </div>
 
             <!-- Card container for table -->
             <div
-                class="bg-white rounded-2xl shadow-sm border border-[#B7EBB7]/40 overflow-hidden transition-all duration-200">
+                class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-[#B7EBB7]/40 dark:border-slate-700 overflow-hidden transition-all duration-200">
                 <!-- Responsive table wrapper -->
                 <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-[#B7EBB7] scrollbar-track-[#E2F7DE]">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="bg-[#E2F7DE]/50 border-b-2 border-[#B7EBB7]">
+                            <tr
+                                class="bg-[#E2F7DE]/50 dark:bg-slate-700/50 border-b-2 border-[#B7EBB7] dark:border-slate-600">
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     ID</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Owner</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Amount</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Type</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Status</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     App Due</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Notes</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Date</th>
                                 <th
-                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70">
+                                    class="text-left py-4 px-4 text-[11px] font-extrabold uppercase tracking-wider text-[#1A2E1A]/70 dark:text-slate-300">
                                     Receipt</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#B7EBB7]/30">
+                        <tbody class="divide-y divide-[#B7EBB7]/30 dark:divide-slate-700">
                             @for (payment of paymentHistorySorted; track payment.id) {
-                            <tr class="hover:bg-[#E2F7DE]/40 transition-colors duration-150 group">
-                                <td class="py-4 px-4 font-mono text-xs font-medium text-[#1A2E1A]/80">{{ payment.id }}
+                            <tr
+                                class="hover:bg-[#E2F7DE]/40 dark:hover:bg-slate-700/50 transition-colors duration-150 group">
+                                <td
+                                    class="py-4 px-4 font-mono text-xs font-medium text-[#1A2E1A]/80 dark:text-slate-300">
+                                    {{ payment.id }}
                                 </td>
                                 <td class="py-4 px-4">
                                     <div class="flex flex-col">
-                                        <span class="font-semibold text-[#1A2E1A]">{{ payment.owner?.name || '-'
+                                        <span class="font-semibold text-[#1A2E1A] dark:text-white">{{
+                                            payment.owner?.name || '-'
                                             }}</span>
-                                        <span class="text-[11px] text-[#1A2E1A]/50">{{ payment.owner?.email || '-'
+                                        <span class="text-[11px] text-[#1A2E1A]/50 dark:text-slate-400">{{
+                                            payment.owner?.email || '-'
                                             }}</span>
                                     </div>
                                 </td>
-                                <td class="py-4 px-4 font-bold text-[#1A2E1A]">{{ payment.amount | currency:' ' }}</td>
+                                <td class="py-4 px-4 font-bold text-[#1A2E1A] dark:text-white">{{ payment.amount |
+                                    currency:' ' }}</td>
                                 <td class="py-4 px-4">
-                                    <span class="text-xs font-medium capitalize">{{ payment.payment_type }}</span>
+                                    <span class="text-xs font-medium capitalize dark:text-slate-300">{{
+                                        payment.payment_type }}</span>
                                 </td>
                                 <td class="py-4 px-4">
                                     @if(payment.status === 'approved') {
                                     <span
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 shadow-sm">
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300 shadow-sm">
                                         <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5"></span>
                                         Approved
                                     </span>
                                     } @else if(payment.status === 'pending') {
                                     <span
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-yellow-100 text-yellow-700 shadow-sm">
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300 shadow-sm">
                                         <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full mr-1.5"></span>
                                         Pending
                                     </span>
                                     } @else if(payment.status === 'rejected') {
                                     <span
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 shadow-sm">
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300 shadow-sm">
                                         <span class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1.5"></span>
                                         Rejected
                                     </span>
                                     } @else {
                                     <span
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-gray-100 text-gray-700">
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
                                         {{ payment.status }}
                                     </span>
                                     }
                                 </td>
-                                <td class="py-4 px-4 font-mono text-sm">{{ payment.owner?.app_due_amount | currency:' '
+                                <td class="py-4 px-4 font-mono text-sm dark:text-slate-300">{{
+                                    payment.owner?.app_due_amount | currency:' '
                                     }}</td>
                                 <td class="py-4 px-4 max-w-[200px]">
-                                    <div class="truncate text-xs text-[#1A2E1A]/70" title="{{ payment.notes || '-' }}">
+                                    <div class="truncate text-xs text-[#1A2E1A]/70 dark:text-slate-400"
+                                        title="{{ payment.notes || '-' }}">
                                         {{ payment.notes || '-' }}
                                     </div>
                                 </td>
-                                <td class="py-4 px-4 text-xs text-[#1A2E1A]/70 whitespace-nowrap">{{ payment.created_at
+                                <td class="py-4 px-4 text-xs text-[#1A2E1A]/70 dark:text-slate-400 whitespace-nowrap">{{
+                                    payment.created_at
                                     | date:'dd MMM yyyy, h:mm a' }}</td>
                                 <td class="py-4 px-4">
                                     <button (click)="openReceipt(payment)"
-                                        class="inline-flex items-center gap-1.5 bg-white/80 hover:bg-white text-[#1A2E1A] text-[11px] font-bold py-2 px-3 rounded-full shadow-sm border border-[#B7EBB7] transition-all duration-200 hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-1 focus:ring-[#8B4000]/30">
+                                        class="inline-flex items-center gap-1.5 bg-white/80 hover:bg-white dark:bg-slate-700 dark:hover:bg-slate-600 text-[#1A2E1A] dark:text-white text-[11px] font-bold py-2 px-3 rounded-full shadow-sm border border-[#B7EBB7] dark:border-slate-600 transition-all duration-200 hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-1 focus:ring-[#8B4000]/30 dark:focus:ring-amber-500/50">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -224,7 +244,8 @@
                             </tr>
                             } @empty {
                             <tr>
-                                <td colspan="9" class="py-12 text-center text-[#1A2E1A]/50 text-sm italic">
+                                <td colspan="9"
+                                    class="py-12 text-center text-[#1A2E1A]/50 dark:text-slate-400 text-sm italic">
                                     No payment history found.
                                 </td>
                             </tr>
@@ -239,33 +260,41 @@
 
 <!-- Modal -->
 @if (showModal && selectedPayment) {
-<div class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" (click)="closeModal()">
-    <div class="bg-[#E2F7DE] rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+<div class="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center p-4 z-50"
+    (click)="closeModal()">
+    <div class="bg-[#E2F7DE] dark:bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         (click)="$event.stopPropagation()">
         <div class="p-6 space-y-4">
             <div class="flex justify-between items-center">
-                <h3 class="text-xl font-bold">Payment Receipt</h3>
-                <button (click)="closeModal()" class="text-2xl opacity-60 hover:opacity-100">&times;</button>
+                <h3 class="text-xl font-bold text-[#1A2E1A] dark:text-white">Payment Receipt</h3>
+                <button (click)="closeModal()"
+                    class="text-2xl opacity-60 hover:opacity-100 dark:text-slate-400">&times;</button>
             </div>
-            <div class="bg-[#B7EBB7]/30 rounded-xl p-2 flex justify-center">
+            <div class="bg-[#B7EBB7]/30 dark:bg-emerald-900/30 rounded-xl p-2 flex justify-center">
                 @if(selectedPayment.receipt_image_url) {
                 <img [src]="selectedPayment.receipt_image_url" alt="Receipt"
                     class="max-h-48 rounded-lg object-contain" />
                 } @else {
-                <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">No Image
+                <div
+                    class="w-32 h-32 bg-gray-200 dark:bg-slate-700 rounded-lg flex items-center justify-center text-gray-500 dark:text-slate-400">
+                    No Image
                 </div>
                 }
             </div>
-            <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="grid grid-cols-2 gap-3 text-sm text-[#1A2E1A] dark:text-slate-300">
                 <div><span class="font-bold">Owner:</span> {{ selectedPayment.owner?.name }}</div>
                 <div><span class="font-bold">Email:</span> {{ selectedPayment.owner?.email }}</div>
                 <div><span class="font-bold">Amount:</span> {{ selectedPayment.amount | currency:' ' }}</div>
                 <div><span class="font-bold">Payment Type:</span> {{ selectedPayment.payment_type }}</div>
                 <div><span class="font-bold">Status:</span>
-                    <span class="ml-1 inline-block px-2 py-0.5 rounded-full text-[10px] font-bold"
-                        [class.bg-green-100]="selectedPayment.status === 'approved'"
-                        [class.bg-yellow-100]="selectedPayment.status === 'pending'"
-                        [class.bg-red-100]="selectedPayment.status === 'rejected'">
+                    <span class="ml-1 inline-block px-2 py-0.5 rounded-full text-[10px] font-bold" [ngClass]="{
+            'bg-green-100 text-green-700': selectedPayment.status === 'approved',
+            'bg-yellow-100 text-yellow-700': selectedPayment.status === 'pending',
+            'bg-red-100 text-red-700': selectedPayment.status === 'rejected',
+            'dark:bg-green-900/50 dark:text-green-300': selectedPayment.status === 'approved',
+            'dark:bg-yellow-900/50 dark:text-yellow-300': selectedPayment.status === 'pending',
+            'dark:bg-red-900/50 dark:text-red-300': selectedPayment.status === 'rejected'
+        }">
                         {{ selectedPayment.status }}
                     </span>
                 </div>
@@ -274,13 +303,13 @@
                 <div class="col-span-2"><span class="font-bold">Notes:</span> {{ selectedPayment.notes || '-' }}</div>
             </div>
             @if(selectedPayment.status === 'rejected' && selectedPayment.rejection_reason) {
-            <div class="bg-red-50 border border-red-200 rounded-xl p-3 mt-2">
-                <p class="font-bold text-red-800 text-sm">Rejection Reason:</p>
-                <p class="text-red-700 text-sm mt-1">{{ selectedPayment.rejection_reason }}</p>
+            <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl p-3 mt-2">
+                <p class="font-bold text-red-800 dark:text-red-300 text-sm">Rejection Reason:</p>
+                <p class="text-red-700 dark:text-red-200 text-sm mt-1">{{ selectedPayment.rejection_reason }}</p>
             </div>
             }
             <button (click)="closeModal()"
-                class="w-full mt-3 bg-[#8B4000] text-white py-2 rounded-xl text-sm font-bold hover:bg-[#6B3000] transition">Close</button>
+                class="w-full mt-3 bg-[#8B4000] dark:bg-amber-700 text-white py-2 rounded-xl text-sm font-bold hover:bg-[#6B3000] dark:hover:bg-amber-800 transition">Close</button>
         </div>
     </div>
 </div>

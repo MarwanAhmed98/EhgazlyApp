@@ -62,3 +62,24 @@
         font-size: 0.75rem;
     }
 }
+
+:host {
+    display: block;
+}
+
+/* Dark mode: keep same blur/fade, adjust scrollbar colors only */
+:host-context(.dark) .overflow-x-auto {
+    scrollbar-color: rgba(148, 163, 184, 0.55) rgba(2, 6, 23, 0.35);
+}
+
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-track {
+    background: rgba(2, 6, 23, 0.55);
+}
+
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.45);
+}
+
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.65);
+}

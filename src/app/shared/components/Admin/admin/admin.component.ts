@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private readonly adminNotiService = inject(AdminNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
   UserNameeeee: string = localStorage.getItem('username')!;
-
+  isDarkMode: boolean = false;
   isSideNavOpen = true;
   currentTitle = 'Dashboard';
   header = { breadcrumbRoot: 'Ehgezly' };
@@ -70,7 +70,16 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.applyTheme();
+    if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === null) {
+        this.isDarkMode = true;
+        localStorage.setItem('theme', 'dark');
+      } else {
+        this.isDarkMode = savedTheme === 'dark';
+      }
+      this.applyTheme();
+    }
     this.updateTitleByRoute(this.router.url);
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -101,6 +110,21 @@ export class AdminComponent implements OnInit, OnDestroy {
           this.notiError = err?.error?.message ?? 'Please try again.';
         },
       });
+  }
+  toggleDarkMode(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }
 
   toggleNotifications(ev: Event): void {
@@ -222,12 +246,12 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.isSideNavOpen = false;
     }
   }
-  private applyTheme(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const isDark = localStorage.getItem('theme') === 'dark';
-    if (isDark) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-  }
+  // private applyTheme(): void {
+  //   if (!isPlatformBrowser(this.platformId)) return;
+  //   const isDark = localStorage.getItem('theme') === 'dark';
+  //   if (isDark) document.documentElement.classList.add('dark');
+  //   else document.documentElement.classList.remove('dark');
+  // }
   private updateTitleByRoute(url: string): void {
     const item = this.navItems.find(n => n.exact ? url === n.route : url.startsWith(n.route));
     if (item) this.currentTitle = item.label;

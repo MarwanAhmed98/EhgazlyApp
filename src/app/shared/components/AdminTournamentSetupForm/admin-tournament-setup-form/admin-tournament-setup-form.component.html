@@ -1,20 +1,21 @@
-<div class="min-h-screen bg-[#F0FDF4] p-4 sm:p-6 lg:p-8 font-sans antialiased">
+<div class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 p-4 sm:p-6 lg:p-8 font-sans antialiased">
     <div class="max-w-6xl mx-auto pb-24">
 
         <!-- HEADER SECTION -->
         <header class="mb-10">
             <div
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 text-[#10B981] text-xs font-bold uppercase tracking-wider mb-4">
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 dark:bg-emerald-900/40 text-[#10B981] dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 New Event
             </div>
             <h1
-                class="text-3xl sm:text-5xl font-black tracking-tight text-[#0A3D25] flex flex-wrap items-baseline gap-2">
-                Setup <span class="text-[#10B981]">New Tournament</span>
+                class="text-3xl sm:text-5xl font-black tracking-tight text-[#0A3D25] dark:text-white flex flex-wrap items-baseline gap-2">
+                Setup <span class="text-[#10B981] dark:text-emerald-400">New Tournament</span>
             </h1>
-            <p class="mt-3 text-sm sm:text-base text-[#1E293B]/80 font-medium max-w-2xl leading-relaxed">
+            <p
+                class="mt-3 text-sm sm:text-base text-[#1E293B]/80 dark:text-slate-400 font-medium max-w-2xl leading-relaxed">
                 Define the stage for glory. Fill in the details to launch your next high-stakes football event on
                 Ehgazly.
             </p>
@@ -28,25 +29,26 @@
 
                 <!-- BASIC INFO CARD -->
                 <div
-                    class="bg-white rounded-3xl shadow-sm border border-[#E2E8F0]/60 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-[#E2E8F0]/60 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
                         <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-11 h-11 rounded-full bg-[#E8FBF2] flex items-center justify-center text-[#10B981] shadow-sm">
+                                class="w-11 h-11 rounded-full bg-[#E8FBF2] dark:bg-emerald-900/30 flex items-center justify-center text-[#10B981] dark:text-emerald-400 shadow-sm">
                                 <lucide-icon name="square-pen" [size]="20" [strokeWidth]="2.5"></lucide-icon>
-
                             </div>
-                            <h2 class="text-xl font-bold text-[#0F172A]">Basic Info</h2>
+                            <h2 class="text-xl font-bold text-[#0F172A] dark:text-white">Basic Info</h2>
                         </div>
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Tournament Name</label>
+                                <label
+                                    class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Tournament
+                                    Name</label>
                                 <input type="text" formControlName="name" placeholder="e.g., Giza Summer Cup"
-                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 border border-[#D1F5DD] rounded-xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all"
+                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 dark:bg-slate-900 border border-[#D1F5DD] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white placeholder-[#64748B]/60 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 focus:border-transparent transition-all"
                                     [class.ring-2]="isFieldInvalid('name')"
                                     [class.ring-red-400]="isFieldInvalid('name')" />
                                 <div *ngIf="isFieldInvalid('name')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold animate-fade-in">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold animate-fade-in">
                                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
                                             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a1 1 0 11.001 2H10a1 1 0 010-2zm0 6a1 1 0 100 2h.01a1 1 0 100-2H10z"
@@ -56,10 +58,11 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Description</label>
+                                <label
+                                    class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Description</label>
                                 <textarea rows="6" formControlName="description"
                                     placeholder="Tell the teams about the atmosphere, the level of competition, and what makes this cup unique..."
-                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 border border-[#D1F5DD] rounded-xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all resize-none leading-relaxed"></textarea>
+                                    class="w-full px-5 py-3.5 bg-[#DCFCE7]/50 dark:bg-slate-900 border border-[#D1F5DD] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white placeholder-[#64748B]/60 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 focus:border-transparent transition-all resize-none leading-relaxed"></textarea>
                             </div>
                         </div>
                     </div>
@@ -67,23 +70,23 @@
 
                 <!-- MARKETING ASSETS CARD -->
                 <div
-                    class="bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    class="bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
                         <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-11 h-11 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-md">
+                                class="w-11 h-11 rounded-full bg-[#10B981] dark:bg-emerald-600 flex items-center justify-center text-white shadow-md">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
                                 </svg>
                             </div>
-                            <h2 class="text-xl font-bold text-[#0A3D25]">Marketing Assets</h2>
+                            <h2 class="text-xl font-bold text-[#0A3D25] dark:text-white">Marketing Assets</h2>
                         </div>
 
                         <div class="space-y-5">
                             <div *ngIf="posterErrorMessage()"
-                                class="flex items-center gap-2 text-xs font-semibold text-[#B42318] bg-white/80 border border-red-200 rounded-2xl px-4 py-3">
+                                class="flex items-center gap-2 text-xs font-semibold text-[#B42318] dark:text-red-400 bg-white/80 dark:bg-slate-900/80 border border-red-200 dark:border-red-800 rounded-2xl px-4 py-3">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -95,7 +98,7 @@
                                 <div *ngIf="posterUploadStatus() === 'idle' || posterUploadStatus() === 'uploading'"
                                     (dragover)="onPosterDragOver($event)" (dragleave)="onPosterDragLeave()"
                                     (drop)="onPosterDrop($event)"
-                                    class="relative border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-300 bg-white/50 min-h-[240px]"
+                                    class="relative border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-300 bg-white/50 dark:bg-slate-900/50 min-h-[240px]"
                                     [class.border-[#10B981]]="posterIsDragging() || posterUploadStatus() === 'uploading'"
                                     [class.bg-white]="posterIsDragging() || !!posterPreviewUrl() || posterUploadStatus() === 'uploading'"
                                     [class.opacity-80]="posterUploadStatus() === 'uploading'">
@@ -106,12 +109,12 @@
 
                                     <div class="mb-5">
                                         <div *ngIf="posterUploadStatus() === 'uploading'"
-                                            class="w-16 h-16 rounded-full bg-[#10B981]/15 border border-[#10B981]/20 grid place-items-center">
+                                            class="w-16 h-16 rounded-full bg-[#10B981]/15 dark:bg-emerald-700/30 border border-[#10B981]/20 dark:border-emerald-600/30 grid place-items-center">
                                             <span
-                                                class="w-7 h-7 rounded-full border-2 border-[#0A3D25]/25 border-t-[#0A3D25] animate-spin"></span>
+                                                class="w-7 h-7 rounded-full border-2 border-[#0A3D25]/25 dark:border-white/30 border-t-[#0A3D25] dark:border-t-white animate-spin"></span>
                                         </div>
                                         <div *ngIf="posterUploadStatus() !== 'uploading' && !posterPreviewUrl()"
-                                            class="w-20 h-20 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-md">
+                                            class="w-20 h-20 rounded-full bg-[#10B981] dark:bg-emerald-600 flex items-center justify-center text-white shadow-md">
                                             <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -119,60 +122,69 @@
                                             </svg>
                                         </div>
                                         <div *ngIf="posterPreviewUrl() && posterUploadStatus() !== 'uploading'"
-                                            class="w-28 h-32 rounded-xl overflow-hidden border border-[#10B981]/30 shadow-md bg-white">
+                                            class="w-28 h-32 rounded-xl overflow-hidden border border-[#10B981]/30 dark:border-emerald-600/50 shadow-md bg-white dark:bg-slate-900">
                                             <img [src]="posterPreviewUrl()!"
-                                                class="w-full h-full object-contain bg-white" alt="Tournament Poster" />
+                                                class="w-full h-full object-contain bg-white dark:bg-slate-900"
+                                                alt="Tournament Poster" />
                                         </div>
                                     </div>
 
-                                    <p class="text-base font-bold text-[#0F172A] mb-1">
+                                    <p class="text-base font-bold text-[#0F172A] dark:text-white mb-1">
                                         <ng-container
                                             *ngIf="posterUploadStatus() === 'uploading'">Uploading...</ng-container>
                                         <ng-container *ngIf="posterUploadStatus() !== 'uploading'">{{ posterFileName() ?
                                             posterFileName() : 'Drop your Tournament Poster here' }}</ng-container>
                                     </p>
-                                    <p class="text-xs text-[#64748B] font-medium mb-6">Recommended size: 1080x1350px
+                                    <p class="text-xs text-[#64748B] dark:text-slate-400 font-medium mb-6">Recommended
+                                        size: 1080x1350px
                                         (JPG, PNG, WEBP). Max 5MB.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-3">
                                         <label for="posterUpload"
-                                            class="cursor-pointer px-6 py-2.5 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-full shadow-sm transition-all duration-200">
+                                            class="cursor-pointer px-6 py-2.5 bg-[#0A3D25] dark:bg-emerald-700 hover:bg-[#072d1a] dark:hover:bg-emerald-800 active:scale-95 text-white font-bold text-sm rounded-full shadow-sm transition-all duration-200">
                                             Browse Files
                                         </label>
                                         <button *ngIf="posterFileName() && posterUploadStatus() !== 'uploading'"
                                             type="button" (click)="removePosterUpload()"
-                                            class="px-6 py-2.5 bg-white/80 hover:bg-white active:scale-95 text-[#0A3D25] font-bold text-sm rounded-full border border-[#10B981]/30 transition-all duration-200">
+                                            class="px-6 py-2.5 bg-white/80 dark:bg-slate-700 hover:bg-white dark:hover:bg-slate-600 active:scale-95 text-[#0A3D25] dark:text-white font-bold text-sm rounded-full border border-[#10B981]/30 dark:border-slate-600 transition-all duration-200">
                                             Remove
                                         </button>
                                     </div>
-                                    <p class="mt-5 text-[10px] font-black uppercase tracking-wider text-[#64748B]">JPG,
+                                    <p
+                                        class="mt-5 text-[10px] font-black uppercase tracking-wider text-[#64748B] dark:text-slate-400">
+                                        JPG,
                                         JPEG, PNG, WEBP (MAX 5MB)</p>
                                 </div>
 
                                 <div *ngIf="posterUploadStatus() === 'success'"
-                                    class="animate-pop-in rounded-2xl overflow-hidden border border-[#10B981]/30 bg-white/80">
+                                    class="animate-pop-in rounded-2xl overflow-hidden border border-[#10B981]/30 dark:border-emerald-600/50 bg-white/80 dark:bg-slate-900/80">
                                     <div class="p-5 sm:p-6 flex flex-wrap items-start justify-between gap-4">
                                         <div class="flex items-start gap-4 min-w-0">
                                             <div
-                                                class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0">
+                                                class="w-12 h-12 rounded-2xl bg-[#10B981] dark:bg-emerald-600 text-white grid place-items-center shrink-0">
                                                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none"
                                                     stroke="currentColor" stroke-width="2.8">
                                                     <path d="M20 6 9 17l-5-5" />
                                                 </svg>
                                             </div>
                                             <div class="min-w-0">
-                                                <p class="text-base sm:text-lg font-black text-[#0A3D25]">Upload
+                                                <p
+                                                    class="text-base sm:text-lg font-black text-[#0A3D25] dark:text-white">
+                                                    Upload
                                                     Complete</p>
-                                                <p class="mt-1 text-sm font-semibold text-[#64748B]">Your tournament
+                                                <p
+                                                    class="mt-1 text-sm font-semibold text-[#64748B] dark:text-slate-300">
+                                                    Your tournament
                                                     poster has been uploaded successfully.</p>
                                             </div>
                                         </div>
                                         <button type="button" (click)="removePosterUpload()"
-                                            class="px-5 py-2 rounded-xl bg-white/70 border border-[#10B981]/30 text-[#0A3D25] font-bold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0">
+                                            class="px-5 py-2 rounded-xl bg-white/70 dark:bg-slate-800 border border-[#10B981]/30 dark:border-slate-600 text-[#0A3D25] dark:text-white font-bold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0">
                                             Remove
                                         </button>
                                     </div>
                                     <div *ngIf="posterPreviewUrl()" class="px-5 pb-6">
-                                        <div class="rounded-xl overflow-hidden border border-[#10B981]/30 bg-white">
+                                        <div
+                                            class="rounded-xl overflow-hidden border border-[#10B981]/30 dark:border-slate-600 bg-white dark:bg-slate-900">
                                             <img [src]="posterPreviewUrl()!" alt="Tournament Poster"
                                                 class="max-h-64 w-auto mx-auto object-contain" />
                                         </div>
@@ -180,24 +192,26 @@
                                 </div>
 
                                 <div *ngIf="posterUploadStatus() === 'error'"
-                                    class="animate-pop-in rounded-2xl border border-red-200 bg-white/80 p-6 text-center">
+                                    class="animate-pop-in rounded-2xl border border-red-200 dark:border-red-800 bg-white/80 dark:bg-slate-900/80 p-6 text-center">
                                     <div
-                                        class="mx-auto w-14 h-14 rounded-full bg-red-100 grid place-items-center text-[#B42318] border border-red-200">
+                                        class="mx-auto w-14 h-14 rounded-full bg-red-100 dark:bg-red-900/50 grid place-items-center text-[#B42318] dark:text-red-300 border border-red-200 dark:border-red-700">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </div>
-                                    <p class="mt-4 text-lg font-black text-[#B42318]">Upload Failed</p>
-                                    <p class="mt-2 text-sm font-semibold text-[#64748B]">{{ posterErrorMessage() ||
+                                    <p class="mt-4 text-lg font-black text-[#B42318] dark:text-red-300">Upload Failed
+                                    </p>
+                                    <p class="mt-2 text-sm font-semibold text-[#64748B] dark:text-slate-300">{{
+                                        posterErrorMessage() ||
                                         "Upload failed. Please try again." }}</p>
                                     <div class="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
                                         <button type="button" (click)="retryPosterUpload()"
-                                            class="px-6 py-3 rounded-2xl bg-[#EF4444] hover:bg-[#DC2626] text-white font-bold text-sm transition-all active:scale-95">Try
+                                            class="px-6 py-3 rounded-2xl bg-[#EF4444] dark:bg-red-700 hover:bg-[#DC2626] dark:hover:bg-red-800 text-white font-bold text-sm transition-all active:scale-95">Try
                                             Again</button>
                                         <button type="button" (click)="cancelPosterUpload()"
-                                            class="px-6 py-3 rounded-2xl bg-white/80 hover:bg-white border border-slate-200 text-[#0A3D25] font-bold text-sm transition-all active:scale-95">Cancel</button>
+                                            class="px-6 py-3 rounded-2xl bg-white/80 dark:bg-slate-700 hover:bg-white dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 text-[#0A3D25] dark:text-white font-bold text-sm transition-all active:scale-95">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -211,75 +225,78 @@
 
                 <!-- LOGISTICS CARD -->
                 <div
-                    class="bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    class="bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
                         <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-11 h-11 rounded-full bg-white flex items-center justify-center text-[#10B981] shadow-md">
+                                class="w-11 h-11 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-[#10B981] dark:text-emerald-400 shadow-md">
                                 <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
-
                             </div>
-                            <h2 class="text-xl font-bold text-[#0A3D25]">Logistics</h2>
+                            <h2 class="text-xl font-bold text-[#0A3D25] dark:text-white">Logistics</h2>
                         </div>
 
                         <div class="space-y-6">
                             <!-- Main Court -->
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Main Court</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Main
+                                    Court</label>
                                 <select formControlName="maincourt_id"
-                                    class="w-full px-5 py-3.5 bg-white border border-[#D1F5DD] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] appearance-none cursor-pointer transition-all">
+                                    class="w-full px-5 py-3.5 bg-white dark:bg-slate-900 border border-[#D1F5DD] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 appearance-none cursor-pointer transition-all">
                                     <option value="" disabled selected>Select Main Court</option>
                                     <option *ngFor="let court of mainCourts()" [value]="court.id">{{ court.name }}
                                     </option>
                                 </select>
                                 <div *ngIf="isFieldInvalid('maincourt_id')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Main court is required</span>
                                 </div>
                             </div>
 
                             <!-- Court -->
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Court</label>
+                                <label
+                                    class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Court</label>
                                 <select formControlName="court_id"
-                                    class="w-full px-5 py-3.5 bg-white border border-[#D1F5DD] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] appearance-none cursor-pointer transition-all"
+                                    class="w-full px-5 py-3.5 bg-white dark:bg-slate-900 border border-[#D1F5DD] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 appearance-none cursor-pointer transition-all"
                                     [class.opacity-50]="!courts().length">
                                     <option value="" disabled selected>Select Court</option>
                                     <option *ngFor="let court of courts()" [value]="court.id">{{ court.name }}</option>
                                 </select>
                                 <div *ngIf="isFieldInvalid('court_id')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Court is required</span>
                                 </div>
                             </div>
 
                             <!-- Calendar -->
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Select Date</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Select
+                                    Date</label>
                                 <p *ngIf="!isCalendarEnabled()"
-                                    class="text-xs text-[#64748B] font-medium mb-2 animate-fade-in">
+                                    class="text-xs text-[#64748B] dark:text-slate-400 font-medium mb-2 animate-fade-in">
                                     Please select a Main Court and Court first.
                                 </p>
-                                <div class="bg-white rounded-2xl p-5 shadow-sm border border-[#E2E8F0]"
+                                <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-[#E2E8F0] dark:border-slate-700"
                                     [class.opacity-50]="!isCalendarEnabled()"
                                     [class.pointer-events-none]="!isCalendarEnabled()">
                                     <div class="flex items-center justify-between mb-5">
                                         <button type="button" (click)="previousMonth()"
-                                            class="p-2 rounded-full hover:bg-[#E8FBF2] transition"><svg class="w-5 h-5"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            class="p-2 rounded-full hover:bg-[#E8FBF2] dark:hover:bg-slate-800 transition"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M15 19l-7-7 7-7" />
                                             </svg></button>
-                                        <span class="font-bold text-[#0F172A]">{{ currentMonthYear() }}</span>
+                                        <span class="font-bold text-[#0F172A] dark:text-white">{{ currentMonthYear()
+                                            }}</span>
                                         <button type="button" (click)="nextMonth()"
-                                            class="p-2 rounded-full hover:bg-[#E8FBF2] transition"><svg class="w-5 h-5"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            class="p-2 rounded-full hover:bg-[#E8FBF2] dark:hover:bg-slate-800 transition"><svg
+                                                class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M9 5l7 7-7 7" />
                                             </svg></button>
                                     </div>
                                     <div
-                                        class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-[#64748B] mb-3">
+                                        class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-[#64748B] dark:text-slate-400 mb-3">
                                         <div>Su</div>
                                         <div>Mo</div>
                                         <div>Tu</div>
@@ -301,7 +318,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="isFieldInvalid('selectedDate') && !selectedDate()"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Please select a date</span>
                                 </div>
                             </div>
@@ -309,13 +326,15 @@
                             <!-- Loading slots -->
                             <div *ngIf="isLoadingSlots()" class="flex items-center gap-2 py-2 animate-fade-in">
                                 <span
-                                    class="w-4 h-4 rounded-full border-2 border-[#10B981]/30 border-t-[#10B981] animate-spin"></span>
-                                <span class="text-sm font-medium text-[#64748B]">Loading available slots...</span>
+                                    class="w-4 h-4 rounded-full border-2 border-[#10B981]/30 dark:border-emerald-600/30 border-t-[#10B981] dark:border-t-emerald-500 animate-spin"></span>
+                                <span class="text-sm font-medium text-[#64748B] dark:text-slate-400">Loading available
+                                    slots...</span>
                             </div>
 
                             <!-- Available slots -->
                             <div *ngIf="!isLoadingSlots() && availableSlots().length > 0" class="animate-fade-in">
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Available Time Slots</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Available
+                                    Time Slots</label>
                                 <div class="flex flex-wrap gap-2">
                                     <button *ngFor="let slot of availableSlots()" type="button"
                                         (click)="toggleSlot(slot)"
@@ -329,13 +348,13 @@
                                     </button>
                                 </div>
                                 <div *ngIf="selectedTimeslotIds().length === 0 && isFieldInvalid('timeslot_ids')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>At least one time slot is required</span>
                                 </div>
                             </div>
 
                             <div *ngIf="!isLoadingSlots() && selectedDate() && availableSlots().length === 0"
-                                class="animate-fade-in rounded-2xl bg-white/80 border border-[#E2E8F0] px-4 py-3 text-sm font-medium text-[#64748B]">
+                                class="animate-fade-in rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-[#E2E8F0] dark:border-slate-700 px-4 py-3 text-sm font-medium text-[#64748B] dark:text-slate-400">
                                 No available slots for this date. Please select another date.
                             </div>
                         </div>
@@ -344,61 +363,67 @@
 
                 <!-- PARTICIPATION CARD -->
                 <div
-                    class="relative bg-[#E8FBF2]/90 rounded-3xl shadow-sm border border-[#22C55E]/20 overflow-hidden transition-all duration-300 hover:shadow-md">
-                    <div class="absolute top-0 bottom-0 left-0 w-1.5 bg-[#B45309]"></div>
+                    class="relative bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-md">
+                    <div class="absolute top-0 bottom-0 left-0 w-1.5 bg-[#B45309] dark:bg-amber-700"></div>
                     <div class="p-6 sm:p-8 pl-7 sm:pl-9">
                         <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-11 h-11 rounded-full bg-white flex items-center justify-center text-[#B45309] shadow-md">
+                                class="w-11 h-11 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-[#B45309] dark:text-amber-400 shadow-md">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
                                 </svg>
                             </div>
-                            <h2 class="text-xl font-bold text-[#0F172A]">Participation</h2>
+                            <h2 class="text-xl font-bold text-[#0F172A] dark:text-white">Participation</h2>
                         </div>
                         <div class="space-y-5">
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Team Size</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Team
+                                    Size</label>
                                 <select formControlName="team_size"
-                                    class="w-full px-5 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all">
+                                    class="w-full px-5 py-3.5 bg-white dark:bg-slate-900 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 transition-all">
                                     <option value="" disabled selected>Select Team Size</option>
                                     <option value="5v5">5v5</option>
                                     <option value="6v6">6v6</option>
                                     <option value="11v11">11v11</option>
                                 </select>
                                 <div *ngIf="isFieldInvalid('team_size')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Team size is required</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Max Teams</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Max
+                                    Teams</label>
                                 <input type="number" formControlName="max_teams" placeholder="e.g., 8" min="2"
-                                    class="w-full px-5 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all"
+                                    class="w-full px-5 py-3.5 bg-white dark:bg-slate-900 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-[#0F172A] dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 transition-all"
                                     [class.ring-2]="isFieldInvalid('max_teams')"
                                     [class.ring-red-400]="isFieldInvalid('max_teams')" />
                                 <div *ngIf="isFieldInvalid('max_teams')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Max teams is required (minimum 2)</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Entry Fee (EGP)</label>
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Entry Fee
+                                    (EGP)</label>
                                 <div class="relative flex items-center">
-                                    <div class="absolute left-4 text-xl font-bold text-[#0F172A]">£</div>
+                                    <div class="absolute left-4 text-xl font-bold text-[#0F172A] dark:text-white">£
+                                    </div>
                                     <input type="number" formControlName="entryFee" placeholder="1500"
-                                        class="w-full pl-10 pr-24 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-lg font-bold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all" />
+                                        class="w-full pl-10 pr-24 py-3.5 bg-white dark:bg-slate-900 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-lg font-bold text-[#0F172A] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 transition-all" />
                                     <span class="absolute right-4 flex flex-col items-end leading-none">
-                                        <span class="text-[9px] font-black tracking-wider text-[#64748B]">PER</span>
-                                        <span class="text-[9px] font-black tracking-wider text-[#64748B]">TEAM</span>
+                                        <span
+                                            class="text-[9px] font-black tracking-wider text-[#64748B] dark:text-slate-400">PER</span>
+                                        <span
+                                            class="text-[9px] font-black tracking-wider text-[#64748B] dark:text-slate-400">TEAM</span>
                                     </span>
                                 </div>
                                 <div *ngIf="isFieldInvalid('entryFee')"
-                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] text-xs font-semibold">
+                                    class="flex items-center gap-1.5 mt-2 text-[#EF4444] dark:text-red-400 text-xs font-semibold">
                                     <span>Entry fee is required</span>
                                 </div>
                             </div>
@@ -410,11 +435,11 @@
             <!-- BOTTOM SECTION -->
             <div class="lg:col-span-12">
                 <div
-                    class="bg-[#E8FBF2]/70 rounded-3xl shadow-sm border border-[#22C55E]/20 transition-all duration-300 hover:shadow-md overflow-hidden">
+                    class="bg-[#E8FBF2]/70 dark:bg-slate-800/70 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
                         <div class="flex items-center gap-3 mb-7">
                             <div
-                                class="w-11 h-11 rounded-full bg-[#3B82F6]/10 flex items-center justify-center text-[#2563EB] shadow-sm">
+                                class="w-11 h-11 rounded-full bg-[#3B82F6]/10 dark:bg-blue-900/30 flex items-center justify-center text-[#2563EB] dark:text-blue-400 shadow-sm">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -422,52 +447,60 @@
                                 </svg>
                             </div>
                             <div>
-                                <h2 class="text-xl font-bold text-[#0F172A]">Competition Framework</h2>
-                                <p class="text-xs text-[#64748B] font-medium mt-1">Structure the rewards and the field
+                                <h2 class="text-xl font-bold text-[#0F172A] dark:text-white">Competition Framework</h2>
+                                <p class="text-xs text-[#64748B] dark:text-slate-400 font-medium mt-1">Structure the
+                                    rewards and the field
                                     of play</p>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-white/70 rounded-2xl p-5 border border-[#E2E8F0]">
-                                <label class="block text-sm font-bold text-[#0A3D25] mb-2">
+                            <div
+                                class="bg-white/70 dark:bg-slate-900/70 rounded-2xl p-5 border border-[#E2E8F0] dark:border-slate-700">
+                                <label class="block text-sm font-bold text-[#0A3D25] dark:text-white mb-2">
                                     <lucide-icon name="trophy" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                     First Prize
                                 </label>
                                 <input type="text" formControlName="prize1_title" placeholder="Title (e.g., Champions)"
-                                    class="w-full mb-3 px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                    class="w-full mb-3 px-4 py-2.5 bg-white dark:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 text-[#0F172A] dark:text-white" />
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]">£</span>
+                                    <span
+                                        class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B] dark:text-slate-400">£</span>
                                     <input type="number" formControlName="prize1_money" placeholder="Prize Money"
-                                        class="w-full pl-8 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                        class="w-full pl-8 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 text-[#0F172A] dark:text-white" />
                                 </div>
                             </div>
-                            <div class="bg-white/70 rounded-2xl p-5 border border-[#E2E8F0]">
-                                <label class="block text-sm font-bold text-[#0A3D25] mb-2">
+                            <div
+                                class="bg-white/70 dark:bg-slate-900/70 rounded-2xl p-5 border border-[#E2E8F0] dark:border-slate-700">
+                                <label class="block text-sm font-bold text-[#0A3D25] dark:text-white mb-2">
                                     <lucide-icon name="award" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                     Second Prize
                                 </label>
                                 <input type="text" formControlName="prize2_title" placeholder="Title (e.g., Runners-up)"
-                                    class="w-full mb-3 px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                    class="w-full mb-3 px-4 py-2.5 bg-white dark:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 text-[#0F172A] dark:text-white" />
                                 <div class="relative">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]">£</span>
+                                    <span
+                                        class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B] dark:text-slate-400">£</span>
                                     <input type="number" formControlName="prize2_money" placeholder="Prize Money"
-                                        class="w-full pl-8 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981]" />
+                                        class="w-full pl-8 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-[#E2E8F0] dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 text-[#0F172A] dark:text-white" />
                                 </div>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Important Note (for
+                                <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Important
+                                    Note (for
                                     participants)</label>
                                 <textarea rows="3" formControlName="important_note"
                                     placeholder="Any special instructions, equipment requirements, etc."
-                                    class="w-full px-5 py-4 bg-white border-0 rounded-2xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                                    class="w-full px-5 py-4 bg-white dark:bg-slate-800 border-0 rounded-2xl text-[#0F172A] dark:text-white placeholder-[#64748B]/60 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 shadow-sm leading-relaxed transition-all resize-none"></textarea>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold text-[#334155] mb-2">Additional Rules &
+                                <label
+                                    class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Additional
+                                    Rules &
                                     Regulations</label>
                                 <textarea rows="4" formControlName="rules"
                                     placeholder="Detail the duration of halves, substitution rules, disciplinary actions, and eligibility criteria..."
-                                    class="w-full px-5 py-4 bg-white border-0 rounded-2xl text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:ring-2 focus:ring-[#10B981] shadow-sm leading-relaxed transition-all resize-none"></textarea>
+                                    class="w-full px-5 py-4 bg-white dark:bg-slate-800 border-0 rounded-2xl text-[#0F172A] dark:text-white placeholder-[#64748B]/60 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981] dark:focus:ring-emerald-500 shadow-sm leading-relaxed transition-all resize-none"></textarea>
                             </div>
                         </div>
                     </div>
@@ -478,26 +511,28 @@
 
     <!-- FOOTER -->
     <footer
-        class="fixed bottom-0 left-0 right-0 bg-[#F0FDF4]/95 backdrop-blur-md border-t border-[#10B981]/15 px-4 py-4 z-40 shadow-[0_-8px_30px_rgb(0,0,0,0.03)]">
+        class="fixed bottom-0 left-0 right-0 bg-[#F0FDF4]/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-[#10B981]/15 dark:border-emerald-900/30 px-4 py-4 z-40 shadow-[0_-8px_30px_rgb(0,0,0,0.03)] dark:shadow-black/20">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-sm">
+                <div
+                    class="w-9 h-9 rounded-full bg-[#10B981] dark:bg-emerald-600 flex items-center justify-center text-white shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                 </div>
                 <div class="text-left">
-                    <p class="text-sm font-bold text-[#0F172A] leading-tight">Ready to go?</p>
-                    <p class="text-xs text-[#64748B] font-medium">Reviewing all fields ensures a smooth experience for
+                    <p class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">Ready to go?</p>
+                    <p class="text-xs text-[#64748B] dark:text-slate-400 font-medium">Reviewing all fields ensures a
+                        smooth experience for
                         the athletes.</p>
                 </div>
             </div>
             <div class="flex items-center gap-3 w-full sm:w-auto">
                 <button type="button" (click)="openDraftModal()"
-                    class="flex-1 sm:flex-none px-6 py-3 border border-[#10B981] hover:bg-[#10B981]/5 active:scale-95 text-[#0A3D25] font-bold text-sm rounded-full transition-all duration-200">Save
+                    class="flex-1 sm:flex-none px-6 py-3 border border-[#10B981] dark:border-emerald-600 hover:bg-[#10B981]/5 dark:hover:bg-emerald-900/30 active:scale-95 text-[#0A3D25] dark:text-white font-bold text-sm rounded-full transition-all duration-200">Save
                     Draft</button>
                 <button type="button" (click)="onSubmit()"
-                    class="flex-1 sm:flex-none px-8 py-3 bg-[#0A3D25] hover:bg-[#072d1a] active:scale-95 text-white font-bold text-sm rounded-full shadow-lg shadow-[#0A3D25]/20 transition-all duration-200">Publish
+                    class="flex-1 sm:flex-none px-8 py-3 bg-[#0A3D25] dark:bg-emerald-800 hover:bg-[#072d1a] dark:hover:bg-emerald-900 active:scale-95 text-white font-bold text-sm rounded-full shadow-lg shadow-[#0A3D25]/20 dark:shadow-emerald-900/30 transition-all duration-200">Publish
                     Tournament</button>
             </div>
         </div>
@@ -507,34 +542,42 @@
     <div class="fixed inset-0 z-[90] flex items-center justify-center p-4 transition-all duration-300"
         [class.opacity-100]="isModalOpen()" [class.opacity-0]="!isModalOpen()"
         [class.pointer-events-auto]="isModalOpen()" [class.pointer-events-none]="!isModalOpen()" aria-live="polite">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeModal()"></div>
-        <div class="relative w-[92%] max-w-xl max-h-[85vh] overflow-hidden rounded-3xl bg-white border border-slate-200/80 shadow-2xl transition-all duration-300"
+        <div class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm" (click)="closeModal()"></div>
+        <div class="relative w-[92%] max-w-xl max-h-[85vh] overflow-hidden rounded-3xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xl transition-all duration-300"
             [class.translate-y-0]="isModalOpen()" [class.translate-y-3]="!isModalOpen()"
             [class.scale-100]="isModalOpen()" [class.scale-95]="!isModalOpen()">
 
             <!-- Publish confirm -->
             <div *ngIf="modalKind() === 'publishConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-[#0A3D25] text-white grid place-items-center shrink-0"><svg
-                            class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-[#0A3D25] dark:bg-emerald-800 text-white grid place-items-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5" />
-                        </svg></div>
+                        </svg>
+                    </div>
                     <div class="min-w-0">
-                        <p class="text-2xl font-black tracking-tight text-[#0A3D25]">Publish Tournament?</p>
-                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">Please confirm publishing.
-                            This will mark the tournament as <span class="font-black text-[#10B981]">Published</span>.
+                        <p class="text-2xl font-black tracking-tight text-[#0A3D25] dark:text-white">Publish Tournament?
+                        </p>
+                        <p class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300 leading-relaxed">Please
+                            confirm publishing.
+                            This will mark the tournament as <span
+                                class="font-black text-[#10B981] dark:text-emerald-400">Published</span>.
                         </p>
                     </div>
                 </div>
-                <div class="mt-6 rounded-2xl border border-[#10B981]/15 bg-[#F0FDF4] p-4">
-                    <p class="text-xs font-black uppercase tracking-widest text-slate-500">Status Preview</p>
-                    <p class="mt-2 text-sm font-bold text-[#0A3D25]">Current: {{ tournamentStatus() }}</p>
+                <div
+                    class="mt-6 rounded-2xl border border-[#10B981]/15 dark:border-emerald-800/30 bg-[#F0FDF4] dark:bg-slate-900 p-4">
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Status
+                        Preview</p>
+                    <p class="mt-2 text-sm font-bold text-[#0A3D25] dark:text-white">Current: {{ tournamentStatus() }}
+                    </p>
                 </div>
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
                     <button type="button" (click)="closeModal()"
-                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">Cancel</button>
+                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#0A3D25] dark:text-white font-black hover:bg-slate-50 dark:hover:bg-slate-600 transition-all active:scale-95">Cancel</button>
                     <button type="button" (click)="confirmPublish()"
-                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg shadow-[#0A3D25]/20 transition-all active:scale-95">Confirm
+                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#0A3D25] dark:bg-emerald-800 hover:bg-[#072d1a] dark:hover:bg-emerald-900 text-white font-black shadow-lg shadow-[#0A3D25]/20 dark:shadow-emerald-900/30 transition-all active:scale-95">Confirm
                         Publish</button>
                 </div>
             </div>
@@ -542,36 +585,40 @@
             <!-- Draft confirm -->
             <div *ngIf="modalKind() === 'draftConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-[#10B981] text-white grid place-items-center shrink-0"><svg
-                            class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-[#10B981] dark:bg-emerald-600 text-white grid place-items-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h10" />
-                        </svg></div>
+                        </svg>
+                    </div>
                     <div class="min-w-0">
-                        <p class="text-2xl font-black tracking-tight text-[#0A3D25]">Save Draft?</p>
-                        <p class="mt-2 text-sm font-semibold text-slate-600 leading-relaxed">We'll save your current
+                        <p class="text-2xl font-black tracking-tight text-[#0A3D25] dark:text-white">Save Draft?</p>
+                        <p class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300 leading-relaxed">We'll
+                            save your current
                             form data as a draft on this device.</p>
                     </div>
                 </div>
                 <div class="mt-7 flex flex-col sm:flex-row gap-3">
                     <button type="button" (click)="closeModal()"
-                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white border border-slate-200 text-[#0A3D25] font-black hover:bg-slate-50 transition-all active:scale-95">Cancel</button>
+                        class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#0A3D25] dark:text-white font-black hover:bg-slate-50 dark:hover:bg-slate-600 transition-all active:scale-95">Cancel</button>
                     <button type="button" (click)="confirmSaveDraft()"
-                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#10B981] hover:bg-[#0ea371] text-white font-black shadow-lg shadow-[#10B981]/20 transition-all active:scale-95">Confirm
+                        class="w-full sm:flex-1 px-6 py-3 rounded-2xl bg-[#10B981] dark:bg-emerald-600 hover:bg-[#0ea371] dark:hover:bg-emerald-700 text-white font-black shadow-lg shadow-[#10B981]/20 dark:shadow-emerald-900/30 transition-all active:scale-95">Confirm
                         Save</button>
                 </div>
             </div>
 
             <!-- Success -->
             <div *ngIf="modalKind() === 'success'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh] text-center">
-                <div class="mx-auto w-14 h-14 rounded-full bg-[#10B981] text-white grid place-items-center shadow-lg">
+                <div
+                    class="mx-auto w-14 h-14 rounded-full bg-[#10B981] dark:bg-emerald-600 text-white grid place-items-center shadow-lg">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.8" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5" />
                     </svg>
                 </div>
-                <p class="mt-5 text-2xl font-black tracking-tight text-[#0A3D25]">{{ modalTitle() }}</p>
-                <p class="mt-2 text-sm font-semibold text-slate-600">{{ modalMessage() }}</p>
+                <p class="mt-5 text-2xl font-black tracking-tight text-[#0A3D25] dark:text-white">{{ modalTitle() }}</p>
+                <p class="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300">{{ modalMessage() }}</p>
                 <button type="button" (click)="closeModal()"
-                    class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#0A3D25] hover:bg-[#072d1a] text-white font-black shadow-lg transition-all active:scale-95">Done</button>
+                    class="mt-7 w-full px-8 py-4 rounded-2xl bg-[#0A3D25] dark:bg-emerald-800 hover:bg-[#072d1a] dark:hover:bg-emerald-900 text-white font-black shadow-lg transition-all active:scale-95">Done</button>
             </div>
         </div>
     </div>
@@ -580,7 +627,7 @@
     <div class="fixed bottom-24 sm:bottom-8 right-4 sm:right-8 z-[100] pointer-events-none">
         <ng-container *ngIf="toastMessage() as msg">
             <div class="pointer-events-auto max-w-[92vw] sm:max-w-sm rounded-2xl border px-5 py-4 shadow-2xl transition-all duration-300"
-                [ngClass]="{ 'bg-[#0A3D25] border-[#10B981]/40 text-white': toastType() === 'success', 'bg-[#B42318] border-red-300/40 text-white': toastType() === 'error' }">
+                [ngClass]="{ 'bg-[#0A3D25] border-[#10B981]/40 text-white dark:bg-emerald-800 dark:border-emerald-700': toastType() === 'success', 'bg-[#B42318] border-red-300/40 text-white dark:bg-red-800 dark:border-red-700': toastType() === 'error' }">
                 <div class="flex items-start gap-3">
                     <div class="w-10 h-10 rounded-xl bg-white/10 grid place-items-center shrink-0">
                         <svg *ngIf="toastType() === 'success'" class="w-5 h-5" fill="none" stroke="currentColor"
@@ -593,8 +640,9 @@
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-black uppercase tracking-widest opacity-90">System</p>
-                        <p class="text-sm font-bold break-words">{{ msg }}</p>
+                        <p class="text-xs font-black uppercase tracking-widest opacity-90 dark:text-emerald-200">System
+                        </p>
+                        <p class="text-sm font-bold break-words dark:text-white">{{ msg }}</p>
                     </div>
                 </div>
             </div>

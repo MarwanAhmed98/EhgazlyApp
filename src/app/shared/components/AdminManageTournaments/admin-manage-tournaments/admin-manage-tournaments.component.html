@@ -1,29 +1,34 @@
-<div class="min-h-screen bg-[#F0FDF4] text-[#133c1d] font-sans antialiased p-4 md:p-8">
+<div
+    class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 text-[#133c1d] dark:text-slate-100 font-sans antialiased p-4 md:p-8">
     <div class="max-w-7xl mx-auto space-y-6">
+
         <!-- Header Section (unchanged functionality) -->
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div class="space-y-1">
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#113919]">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#113919] dark:text-emerald-200">
                     TOURNAMENT MANAGEMENT
                 </h1>
-                <p class="text-sm md:text-base text-[#416248] font-medium">
+                <p class="text-sm md:text-base text-[#416248] dark:text-slate-400 font-medium">
                     Control the pitch, manage the glory, and track every match.
                 </p>
             </div>
+
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <div class="relative flex-1 sm:w-64">
                     <span
-                        class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#1b5e20]/60">
+                        class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#1b5e20]/60 dark:text-slate-500">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </span>
+
                     <input type="text" placeholder="Search tournaments..." (input)="onSearchInput($event)"
-                        class="w-full pl-11 pr-4 py-3 bg-[#DCFCE7] placeholder-[#416248]/70 text-[#113919] font-semibold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#165a21] focus:bg-[#a9e8a2] transition-all text-sm" />
+                        class="w-full pl-11 pr-4 py-3 bg-[#DCFCE7] dark:bg-slate-900 placeholder-[#416248]/70 dark:placeholder-slate-500 text-[#113919] dark:text-slate-100 font-semibold rounded-full border border-transparent dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-[#165a21] dark:focus:ring-emerald-500/30 focus:bg-[#a9e8a2] dark:focus:bg-slate-900 transition-all text-sm dark:ring-1 dark:ring-white/10" />
                 </div>
+
                 <button routerLink="/Admin/AdminTournamentSetupForm"
-                    class="flex items-center justify-center gap-2 px-6 py-3 bg-[#9b3d0b] hover:bg-[#803106] text-white font-bold rounded-full shadow-md hover:shadow-lg transition-all transform active:scale-[0.98] text-sm tracking-wide">
+                    class="flex items-center justify-center gap-2 px-6 py-3 bg-[#9b3d0b] hover:bg-[#803106] dark:bg-orange-700 dark:hover:bg-orange-600 text-white font-bold rounded-full shadow-md hover:shadow-lg dark:shadow-none transition-all transform active:scale-[0.98] text-sm tracking-wide dark:ring-1 dark:ring-white/10">
                     <svg class="w-5 h-5 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
@@ -35,7 +40,7 @@
         <!-- Stats Cards -->
         <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div
-                class="bg-[#165a21] text-white p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#165a21] dark:bg-emerald-700 text-white p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm dark:shadow-none relative overflow-hidden group min-h-[110px] md:min-h-[130px] dark:ring-1 dark:ring-white/10">
                 <div>
                     <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-90 uppercase">LIVE NOW</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ liveCount() }}</h3>
@@ -48,42 +53,48 @@
                     </svg>
                 </span>
             </div>
+
             <div
-                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] dark:bg-slate-900 text-[#133c1d] dark:text-slate-100 p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm dark:shadow-none relative overflow-hidden group min-h-[110px] md:min-h-[130px] dark:ring-1 dark:ring-white/10">
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">REGISTRATION</p>
+                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase dark:text-slate-400">
+                        REGISTRATION</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ registrationCount() }}</h3>
                 </div>
                 <span
-                    class="absolute right-4 bottom-4 text-[#133c1d]/15 transition-transform duration-300 group-hover:scale-110">
+                    class="absolute right-4 bottom-4 text-[#133c1d]/15 dark:text-white/10 transition-transform duration-300 group-hover:scale-110">
                     <svg class="w-10 h-10 md:w-12 md:h-12" fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                     </svg>
                 </span>
             </div>
+
             <div
-                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] dark:bg-slate-900 text-[#133c1d] dark:text-slate-100 p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm dark:shadow-none relative overflow-hidden group min-h-[110px] md:min-h-[130px] dark:ring-1 dark:ring-white/10">
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">TOTAL TEAMS</p>
+                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase dark:text-slate-400">
+                        TOTAL TEAMS</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">{{ totalTeamsSum() }}</h3>
                 </div>
                 <span
-                    class="absolute right-4 bottom-4 text-[#133c1d]/15 transition-transform duration-300 group-hover:scale-110">
+                    class="absolute right-4 bottom-4 text-[#133c1d]/15 dark:text-white/10 transition-transform duration-300 group-hover:scale-110">
                     <svg class="w-10 h-10 md:w-12 md:h-12" fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.44 1.72 4.44 4 4.88V19H5v2h14v-2h-2v-4.12c2.28-.44 4-2.44 4-4.88V7c0-1.1-.9-2-2-2zM5 10V7h2v3H5zm14 0h-2V7h2v3z" />
                     </svg>
                 </span>
             </div>
+
             <div
-                class="bg-[#DCFCE7] text-[#133c1d] p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group min-h-[110px] md:min-h-[130px]">
+                class="bg-[#DCFCE7] dark:bg-slate-900 text-[#133c1d] dark:text-slate-100 p-4 md:p-6 rounded-2xl flex flex-col justify-between shadow-sm dark:shadow-none relative overflow-hidden group min-h-[110px] md:min-h-[130px] dark:ring-1 dark:ring-white/10">
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase">PRIZE POOLS</p>
+                    <p class="text-[10px] md:text-xs font-bold tracking-wider opacity-75 uppercase dark:text-slate-400">
+                        PRIZE POOLS</p>
                     <h3 class="text-3xl md:text-4xl font-black mt-1">${{ totalPrizeSum() }}</h3>
                 </div>
                 <span
-                    class="absolute right-4 bottom-4 text-[#133c1d]/15 transition-transform duration-300 group-hover:scale-110">
+                    class="absolute right-4 bottom-4 text-[#133c1d]/15 dark:text-white/10 transition-transform duration-300 group-hover:scale-110">
                     <svg class="w-10 h-10 md:w-12 md:h-12" fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 13h-2v-1c-1.1 0-2-.9-2-2h2v1h2v-2H9c-1.1 0-2-.9-2-2v-1c0-1.1.9-2 2-2h2V7h2v1c1.1 0 2 .9 2 2h-2V9h-2v2h2c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2z" />
@@ -93,39 +104,54 @@
         </section>
 
         <!-- Main Table Area -->
-        <main class="rounded-3xl p-4 md:p-6 shadow-sm border border-[#b8ebb3]">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#addfa7]">
-                <div class="flex flex-wrap items-center bg-[#DCFCE7] p-1.5 rounded-full w-fit">
+        <main
+            class="rounded-3xl p-4 md:p-6 shadow-sm dark:shadow-none border border-[#b8ebb3] dark:border-slate-800 bg-transparent dark:bg-slate-900/40">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#addfa7] dark:border-slate-800">
+                <div
+                    class="flex flex-wrap items-center bg-[#DCFCE7] dark:bg-slate-900 p-1.5 rounded-full w-fit border border-transparent dark:border-slate-800">
                     <button (click)="setTab('all')" [class.bg-[#165a21]]="currentTab() === 'all'"
                         [class.text-white]="currentTab() === 'all'" [class.text-[#133c1d]]="currentTab() !== 'all'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">All</button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200 dark:hover:bg-white/5">
+                        All
+                    </button>
                     <button (click)="setTab('open')" [class.bg-[#165a21]]="currentTab() === 'open'"
                         [class.text-white]="currentTab() === 'open'" [class.text-[#133c1d]]="currentTab() !== 'open'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Open</button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200 dark:hover:bg-white/5">
+                        Open
+                    </button>
                     <button (click)="setTab('ongoing')" [class.bg-[#165a21]]="currentTab() === 'ongoing'"
                         [class.text-white]="currentTab() === 'ongoing'"
                         [class.text-[#133c1d]]="currentTab() !== 'ongoing'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Ongoing</button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200 dark:hover:bg-white/5">
+                        Ongoing
+                    </button>
                     <button (click)="setTab('finished')" [class.bg-[#165a21]]="currentTab() === 'finished'"
                         [class.text-white]="currentTab() === 'finished'"
                         [class.text-[#133c1d]]="currentTab() !== 'finished'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Finished</button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200 dark:hover:bg-white/5">
+                        Finished
+                    </button>
                     <button (click)="setTab('cancelled')" [class.bg-[#165a21]]="currentTab() === 'cancelled'"
                         [class.text-white]="currentTab() === 'cancelled'"
                         [class.text-[#133c1d]]="currentTab() !== 'cancelled'"
-                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200">Cancelled</button>
+                        class="px-5 py-2 text-xs md:text-sm font-bold rounded-full transition-all duration-200 dark:hover:bg-white/5">
+                        Cancelled
+                    </button>
                 </div>
+
                 <div class="flex items-center gap-3">
                     <button (click)="toggleAdvancedFilters()"
-                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
+                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] dark:bg-slate-900 dark:hover:bg-white/5 border border-[#a2e09a] dark:border-slate-800 text-[#133c1d] dark:text-slate-100 text-xs md:text-sm font-bold rounded-full transition-all duration-150 dark:ring-1 dark:ring-white/10">
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                         </svg>
                         <span>Advanced Filters</span>
                     </button>
+
                     <button (click)="exportData()"
-                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] border border-[#a2e09a] text-[#133c1d] text-xs md:text-sm font-bold rounded-full transition-all duration-150">
+                        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] dark:bg-slate-900 dark:hover:bg-white/5 border border-[#a2e09a] dark:border-slate-800 text-[#133c1d] dark:text-slate-100 text-xs md:text-sm font-bold rounded-full transition-all duration-150 dark:ring-1 dark:ring-white/10">
                         <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -137,137 +163,192 @@
 
             @if (showAdvancedFilters()) {
             <div
-                class="border-b border-[#addfa7] p-4 rounded-xl mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-all animate-fadeIn">
-                <div><label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Team Size</label>
+                class="border-b border-[#addfa7] dark:border-slate-800 p-4 rounded-xl mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-all animate-fadeIn bg-transparent dark:bg-slate-950/30">
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75 text-[#133c1d] dark:text-slate-400">Team
+                        Size</label>
                     <select (change)="onTeamSizeFilterChange($event)"
-                        class="w-full bg-[#DCFCE7] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
+                        class="w-full bg-[#DCFCE7] dark:bg-slate-900 border border-[#a2e09a] dark:border-slate-800 rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21] dark:focus:ring-emerald-500/30 text-[#133c1d] dark:text-slate-100">
                         <option value="all">All Sizes</option>
                         <option value="5v5">5v5</option>
                         <option value="6v6">6v6</option>
                         <option value="11v11">11v11</option>
                     </select>
                 </div>
-                <div><label class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75">Team Slots
-                        Available</label>
+
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-wider mb-1 opacity-75 text-[#133c1d] dark:text-slate-400">Team
+                        Slots Available</label>
                     <select (change)="onSlotsFilterChange($event)"
-                        class="w-full bg-[#DCFCE7] border border-[#a2e09a] rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21]">
+                        class="w-full bg-[#DCFCE7] dark:bg-slate-900 border border-[#a2e09a] dark:border-slate-800 rounded-lg p-2 text-xs md:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#165a21] dark:focus:ring-emerald-500/30 text-[#133c1d] dark:text-slate-100">
                         <option value="any">Any Capacity</option>
                         <option value="not-full">Has Open Slots</option>
                         <option value="full">Fully Registered</option>
                     </select>
                 </div>
+
                 <div class="sm:col-span-2 md:col-span-1 flex items-end">
                     <button (click)="resetFilters()"
-                        class="w-full py-2 bg-[#165a21] text-white hover:bg-[#113c1c] text-xs font-bold rounded-lg transition-colors">Clear
-                        All Filters</button>
+                        class="w-full py-2 bg-[#165a21] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition-colors dark:ring-1 dark:ring-white/10">
+                        Clear All Filters
+                    </button>
                 </div>
             </div>
             }
 
             <!-- Desktop Table -->
-            <div class="hidden md:block overflow-x-auto mt-6">
+            <div class="hidden md:block overflow-x-auto mt-6 rounded-2xl">
                 <table class="w-full text-left border-separate border-spacing-0">
                     <thead class="sticky top-0 z-10">
-                        <tr class="bg-[#f0faf2] rounded-t-xl">
+                        <tr class="bg-[#f0faf2] dark:bg-slate-950/40 rounded-t-xl">
                             <th
-                                class="py-5 pl-4 pr-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase rounded-tl-xl">
+                                class="py-5 pl-4 pr-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase rounded-tl-xl">
                                 TOURNAMENT</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                MAIN COURT</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                COURT</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                TEAM SIZE</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">MAX
-                            </th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                CURRENT</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                FEES</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                STATUS</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">
-                                START</th>
-                            <th class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] uppercase">END
-                            </th>
                             <th
-                                class="py-5 pr-4 pl-3 text-right text-[11px] font-extrabold tracking-wider text-[#416248] uppercase rounded-tr-xl">
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                MAIN COURT</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                COURT</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                TEAM SIZE</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                MAX</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                CURRENT</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                FEES</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                STATUS</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                START</th>
+                            <th
+                                class="py-5 px-3 text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase">
+                                END</th>
+                            <th
+                                class="py-5 pr-4 pl-3 text-right text-[11px] font-extrabold tracking-wider text-[#416248] dark:text-slate-400 uppercase rounded-tr-xl">
                                 ACTIONS</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-[#addfa7]/40">
+
+                    <tbody class="divide-y divide-[#addfa7]/40 dark:divide-slate-800">
                         @for (item of filteredTournaments(); track item.id) {
-                        <tr class="group hover:bg-[#b9e5b5]/40 transition-all duration-200 ease-in-out">
+                        <tr
+                            class="group hover:bg-[#b9e5b5]/40 dark:hover:bg-white/5 transition-all duration-200 ease-in-out">
                             <td class="py-4 pl-4 pr-3">
                                 <div [routerLink]="['/Admin/AdminSpecTournament', item.id]"
                                     class="flex items-center gap-4">
                                     <div
-                                        class="relative w-12 h-12 rounded-xl bg-gradient-to-br shadow-sm flex-shrink-0 flex items-center justify-center border border-white/20">
-                                        @if (item.primary_image?.url) { <img [src]="item.primary_image.url"
-                                            [alt]="item.name" class="w-full h-full object-cover rounded-xl" /> }
-                                        @else { <span class="text-white font-black text-sm">{{
-                                            item.name.substring(0,2).toUpperCase() }}</span> }
+                                        class="relative w-12 h-12 rounded-xl bg-gradient-to-br shadow-sm dark:shadow-none flex-shrink-0 flex items-center justify-center border border-white/20 dark:border-white/10 overflow-hidden">
+                                        @if (item.primary_image?.url) {
+                                        <img [src]="item.primary_image.url" [alt]="item.name"
+                                            class="w-full h-full object-cover rounded-xl" />
+                                        } @else {
+                                        <span class="text-white font-black text-sm">{{
+                                            item.name.substring(0,2).toUpperCase() }}</span>
+                                        }
                                     </div>
+
                                     <div class="min-w-0">
-                                        <h4 class="font-extrabold text-sm lg:text-base text-[#113919] truncate">{{
-                                            item.name }}</h4>
-                                        <p class="text-[10px] lg:text-xs font-bold text-[#416248]/80 mt-0.5">ID: {{
-                                            item.id }}</p>
+                                        <h4
+                                            class="font-extrabold text-sm lg:text-base text-[#113919] dark:text-slate-100 truncate">
+                                            {{ item.name }}</h4>
+                                        <p
+                                            class="text-[10px] lg:text-xs font-bold text-[#416248]/80 dark:text-slate-400 mt-0.5">
+                                            ID: {{ item.id }}</p>
                                     </div>
                                 </div>
                             </td>
+
                             <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 text-sm font-semibold text-[#133c1d]">{{ item.maincourt?.name || '-' }}
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d] dark:text-slate-200">
+                                {{ item.maincourt?.name || '-' }}
                             </td>
+
                             <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 text-sm font-semibold text-[#133c1d]">{{ item.court?.name || '-' }}
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d] dark:text-slate-200">
+                                {{ item.court?.name || '-' }}
                             </td>
-                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="py-4 px-3"><span
-                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black text-[#165a21]">{{
-                                    item.team_size }}</span></td>
-                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 font-bold text-[#113919]">{{ item.max_teams }}</td>
-                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 font-bold text-[#113919]">{{ item.current_teams }}</td>
-                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 font-bold text-[#113919]">${{ item.entry_fee }}</td>
+
                             <td [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="py-4 px-3">
                                 <span
-                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] lg:text-xs font-extrabold tracking-wide shadow-sm"
+                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black text-[#165a21] dark:text-emerald-300 bg-transparent dark:bg-white/0 dark:ring-1 dark:ring-white/10">
+                                    {{ item.team_size }}
+                                </span>
+                            </td>
+
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919] dark:text-slate-100">{{ item.max_teams }}</td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919] dark:text-slate-100">{{ item.current_teams }}
+                            </td>
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
+                                class="py-4 px-3 font-bold text-[#113919] dark:text-slate-100">${{ item.entry_fee }}
+                            </td>
+
+                            <td [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="py-4 px-3">
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] lg:text-xs font-extrabold tracking-wide shadow-sm dark:shadow-none"
                                     [ngClass]="{
-                                        'bg-[#d0f6cc] text-[#165a21] border border-[#a1e29b]': item.status === 'open',
-                                        'bg-[#e2f1ff] text-[#1d63b8] border border-[#b8daff]': item.status === 'ongoing',
-                                        'bg-[#f3f4f6] text-[#4b5563] border border-[#d1d5db]': item.status === 'finished',
-                                        'bg-[#fee2e2] text-[#b91c1c] border border-[#fecaca]': item.status === 'cancelled'
-                                    }">
+                    'bg-[#d0f6cc] text-[#165a21] border border-[#a1e29b]': item.status === 'open',
+                    'bg-[#e2f1ff] text-[#1d63b8] border border-[#b8daff]': item.status === 'ongoing',
+                    'bg-[#f3f4f6] text-[#4b5563] border border-[#d1d5db]': item.status === 'finished',
+                    'bg-[#fee2e2] text-[#b91c1c] border border-[#fecaca]': item.status === 'cancelled',
+
+                    'dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/20': item.status === 'open',
+                    'dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/20': item.status === 'ongoing',
+                    'dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700': item.status === 'finished',
+                    'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/20': item.status === 'cancelled'
+                  }">
                                     <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
-                                        'bg-[#165a21]': item.status === 'open',
-                                        'bg-[#1d63b8]': item.status === 'ongoing',
-                                        'bg-[#6b7280]': item.status === 'finished',
-                                        'bg-[#b91c1c]': item.status === 'cancelled'
-                                    }"></span>
+                      'bg-[#165a21]': item.status === 'open',
+                      'bg-[#1d63b8]': item.status === 'ongoing',
+                      'bg-[#6b7280]': item.status === 'finished',
+                      'bg-[#b91c1c]': item.status === 'cancelled',
+
+                      'dark:bg-emerald-300': item.status === 'open',
+                      'dark:bg-sky-300': item.status === 'ongoing',
+                      'dark:bg-slate-400': item.status === 'finished',
+                      'dark:bg-red-300': item.status === 'cancelled'
+                    }"></span>
                                     {{ item.status | titlecase }}
                                 </span>
                             </td>
+
                             <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 text-sm font-semibold">{{ item.start_date | date:'MMM d, y' }}</td>
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d] dark:text-slate-200">{{
+                                item.start_date | date:'MMM d, y' }}</td>
                             <td [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                                class="py-4 px-3 text-sm font-semibold">{{ item.end_date | date:'MMM d, y' }}</td>
+                                class="py-4 px-3 text-sm font-semibold text-[#133c1d] dark:text-slate-200">{{
+                                item.end_date | date:'MMM d, y' }}</td>
+
                             <td class="py-4 pr-4 pl-3 text-right">
                                 @if (item.status === 'finished' || item.status === 'cancelled') {
                                 <button (click)="openViewModal(item)"
-                                    class="px-4 py-2 hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow">VIEW
-                                    RESULTS</button>
+                                    class="px-4 py-2 hover:bg-[#97e38e] dark:hover:bg-white/5 text-[#113919] dark:text-slate-100 text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow dark:shadow-none dark:ring-1 dark:ring-white/10">
+                                    VIEW RESULTS
+                                </button>
                                 } @else {
                                 <button (click)="openManageModal(item)"
-                                    class="px-4 py-2 bg-[#1a4d2e] hover:bg-[#113c1c] text-white text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow">MANAGE</button>
+                                    class="px-4 py-2 bg-[#1a4d2e] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white text-xs font-black rounded-full transition-all duration-150 shadow-sm hover:shadow dark:shadow-none dark:ring-1 dark:ring-white/10">
+                                    MANAGE
+                                </button>
                                 }
                             </td>
                         </tr>
                         } @empty {
                         <tr>
-                            <td colspan="11" class="py-12 text-center text-[#416248] font-bold">No matching tournaments
-                                found.</td>
+                            <td colspan="11" class="py-12 text-center text-[#416248] dark:text-slate-400 font-bold">
+                                No matching tournaments found.
+                            </td>
                         </tr>
                         }
                     </tbody>
@@ -277,65 +358,105 @@
             <!-- Mobile cards -->
             <div class="block md:hidden mt-4 space-y-4">
                 @for (item of filteredTournaments(); track item.id) {
-                <div class="bg-[#dff9db]/60 border border-[#bbf0b5] p-4 rounded-2xl space-y-4 shadow-sm">
+                <div
+                    class="bg-[#dff9db]/60 dark:bg-slate-900 border border-[#bbf0b5] dark:border-slate-800 p-4 rounded-2xl space-y-4 shadow-sm dark:shadow-none">
                     <div [routerLink]="['/Admin/AdminSpecTournament', item.id]" class="flex items-start gap-3">
                         <div
-                            class="relative w-12 h-12 rounded-xl bg-gradient-to-br flex-shrink-0 flex items-center justify-center border border-white/20">
-                            @if (item.primary_image?.url) { <img [src]="item.primary_image.url" [alt]="item.name"
-                                class="w-full h-full object-cover rounded-xl" /> }
-                            @else { <span class="text-white font-black text-sm">{{
-                                item.name.substring(0,2).toUpperCase() }}</span> }
+                            class="relative w-12 h-12 rounded-xl bg-gradient-to-br flex-shrink-0 flex items-center justify-center border border-white/20 dark:border-white/10 overflow-hidden">
+                            @if (item.primary_image?.url) {
+                            <img [src]="item.primary_image.url" [alt]="item.name"
+                                class="w-full h-full object-cover rounded-xl" />
+                            } @else {
+                            <span class="text-white font-black text-sm">{{ item.name.substring(0,2).toUpperCase()
+                                }}</span>
+                            }
                         </div>
+
                         <div class="min-w-0 flex-1">
-                            <h4 class="font-extrabold text-base text-[#113919] leading-tight">{{ item.name }}</h4>
-                            <p class="text-[10px] font-bold text-[#416248]/80 mt-0.5">ID: {{ item.id }}</p>
+                            <h4 class="font-extrabold text-base text-[#113919] dark:text-slate-100 leading-tight">{{
+                                item.name }}</h4>
+                            <p class="text-[10px] font-bold text-[#416248]/80 dark:text-slate-400 mt-0.5">ID: {{ item.id
+                                }}</p>
+
                             <div class="flex flex-wrap items-center gap-2 mt-2">
                                 <span
-                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide border"
-                                    [ngClass]="{'bg-[#d0f6cc] text-[#165a21]': item.status === 'open','bg-[#e2f1ff] text-[#1d63b8]': item.status === 'ongoing','bg-[#f3f4f6] text-[#4b5563]': item.status === 'finished','bg-[#fee2e2] text-[#b91c1c]': item.status === 'cancelled'}">
+                                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide border dark:ring-1 dark:ring-white/10"
+                                    [ngClass]="{
+                    'bg-[#d0f6cc] text-[#165a21] border-[#a1e29b]': item.status === 'open',
+                    'bg-[#e2f1ff] text-[#1d63b8] border-[#b8daff]': item.status === 'ongoing',
+                    'bg-[#f3f4f6] text-[#4b5563] border-[#d1d5db]': item.status === 'finished',
+                    'bg-[#fee2e2] text-[#b91c1c] border-[#fecaca]': item.status === 'cancelled',
+
+                    'dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/20': item.status === 'open',
+                    'dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/20': item.status === 'ongoing',
+                    'dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700': item.status === 'finished',
+                    'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/20': item.status === 'cancelled'
+                  }">
                                     {{ item.status | titlecase }}
                                 </span>
                             </div>
                         </div>
                     </div>
+
                     <div [routerLink]="['/Admin/AdminSpecTournament', item.id]"
-                        class="grid grid-cols-2 gap-2 pt-2 border-t border-[#addfa7]/40 text-xs">
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Main Court</span>
-                            <p class="font-bold">{{ item.maincourt?.name || '-' }}</p>
+                        class="grid grid-cols-2 gap-2 pt-2 border-t border-[#addfa7]/40 dark:border-slate-800 text-xs">
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Main
+                                Court</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">{{ item.maincourt?.name || '-' }}
+                            </p>
                         </div>
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Court</span>
-                            <p class="font-bold">{{ item.court?.name || '-' }}</p>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Court</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">{{ item.court?.name || '-' }}</p>
                         </div>
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Team Size</span>
-                            <p class="font-bold">{{ item.team_size }}</p>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Team
+                                Size</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">{{ item.team_size }}</p>
                         </div>
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Entry Fee</span>
-                            <p class="font-bold">${{ item.entry_fee }}</p>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Entry
+                                Fee</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">${{ item.entry_fee }}</p>
                         </div>
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Teams</span>
-                            <p class="font-bold">{{ item.current_teams }}/{{ item.max_teams }}</p>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Teams</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">{{ item.current_teams }}/{{
+                                item.max_teams }}</p>
                         </div>
-                        <div><span class="block text-[10px] font-extrabold text-[#416248] uppercase">Dates</span>
-                            <p class="font-bold">{{ item.start_date | date:'MMM d' }} - {{ item.end_date | date:'MMM d'
-                                }}</p>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold text-[#416248] dark:text-slate-400 uppercase">Dates</span>
+                            <p class="font-bold text-[#113919] dark:text-slate-100">{{ item.start_date | date:'MMM d' }}
+                                - {{ item.end_date | date:'MMM d' }}</p>
                         </div>
                     </div>
-                    <div class="pt-2 border-t border-[#addfa7]/40">
+
+                    <div class="pt-2 border-t border-[#addfa7]/40 dark:border-slate-800">
                         @if (item.status === 'finished' || item.status === 'cancelled') {
                         <button (click)="openViewModal(item)"
-                            class="w-full py-2.5 hover:bg-[#97e38e] text-[#113919] text-xs font-black rounded-xl transition-all">VIEW
-                            RESULTS</button>
-                        }
-                        @else {
+                            class="w-full py-2.5 hover:bg-[#97e38e] dark:hover:bg-white/5 text-[#113919] dark:text-slate-100 text-xs font-black rounded-xl transition-all dark:ring-1 dark:ring-white/10">
+                            VIEW RESULTS
+                        </button>
+                        } @else {
                         <button (click)="openManageModal(item)"
-                            class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white text-xs font-black rounded-xl transition-all">MANAGE
-                            TOURNAMENT</button>
+                            class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white text-xs font-black rounded-xl transition-all dark:ring-1 dark:ring-white/10">
+                            MANAGE TOURNAMENT
+                        </button>
                         }
                     </div>
                 </div>
                 } @empty {
-                <div class="py-8 text-center text-[#416248] font-bold bg-[#dff9db]/30 rounded-2xl">No matching
-                    tournaments found.</div>
+                <div
+                    class="py-8 text-center text-[#416248] dark:text-slate-400 font-bold bg-[#dff9db]/30 dark:bg-slate-950/40 rounded-2xl border border-transparent dark:border-slate-800">
+                    No matching tournaments found.
+                </div>
                 }
             </div>
         </main>
@@ -343,48 +464,69 @@
 
     <!-- View Modal (READ-ONLY) -->
     @if (viewTournament(); as tournament) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/75 backdrop-blur-sm animate-fadeIn"
         (click)="closeViewModal()">
-        <div class="bg-[#F0FDF4] border border-[#b8ebb3] rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleUp"
+        <div class="bg-[#F0FDF4] dark:bg-slate-900 border border-[#b8ebb3] dark:border-slate-800 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl dark:shadow-none animate-scaleUp"
             (click)="$event.stopPropagation()">
-            <div class="bg-[#165a21] p-6 text-white sticky top-0 z-10 flex items-center justify-between rounded-t-3xl">
+            <div
+                class="bg-[#165a21] dark:bg-slate-950 p-6 text-white sticky top-0 z-10 flex items-center justify-between rounded-t-3xl">
                 <div>
                     <span class="text-xs uppercase tracking-widest font-extrabold opacity-75">Historical Records</span>
                     <h3 class="text-xl font-black mt-1">{{ tournament.name }}</h3>
                 </div>
                 <button (click)="closeViewModal()"
-                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all">
+                    class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all dark:ring-1 dark:ring-white/10">
                     <svg class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
+
             <div class="p-6 space-y-4 text-sm">
                 <div class="grid grid-cols-2 gap-4">
-                    <div><span class="block text-xs font-bold text-[#416248] uppercase">ID</span>
-                        <p class="font-extrabold text-[#133c1d]">{{ tournament.id }}</p>
+                    <div>
+                        <span class="block text-xs font-bold text-[#416248] dark:text-slate-400 uppercase">ID</span>
+                        <p class="font-extrabold text-[#133c1d] dark:text-slate-100">{{ tournament.id }}</p>
                     </div>
-                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Status</span><span
-                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-[#DCFCE7] text-[#165a21]">{{
-                            tournament.status | titlecase }}</span></div>
-                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Team Size</span>
-                        <p class="text-[#133c1d]">{{ tournament.team_size }}</p>
+
+                    <div>
+                        <span class="block text-xs font-bold text-[#416248] dark:text-slate-400 uppercase">Status</span>
+                        <span
+                            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-[#DCFCE7] dark:bg-emerald-500/15 text-[#165a21] dark:text-emerald-300 dark:ring-1 dark:ring-white/10">
+                            {{ tournament.status | titlecase }}
+                        </span>
                     </div>
-                    <div><span class="block text-xs font-bold text-[#416248] uppercase">Entry Fee</span>
-                        <p class="text-[#133c1d]">${{ tournament.entry_fee }}</p>
+
+                    <div>
+                        <span class="block text-xs font-bold text-[#416248] dark:text-slate-400 uppercase">Team
+                            Size</span>
+                        <p class="text-[#133c1d] dark:text-slate-100">{{ tournament.team_size }}</p>
+                    </div>
+
+                    <div>
+                        <span class="block text-xs font-bold text-[#416248] dark:text-slate-400 uppercase">Entry
+                            Fee</span>
+                        <p class="text-[#133c1d] dark:text-slate-100">${{ tournament.entry_fee }}</p>
                     </div>
                 </div>
-                <div class="pt-3 border-t border-[#addfa7]">
-                    <span class="block text-xs font-bold text-[#416248] uppercase">Important Note</span>
-                    <p class="text-sm mt-1 text-[#133c1d]">{{ tournament.important_note || 'No additional notes.' }}</p>
+
+                <div class="pt-3 border-t border-[#addfa7] dark:border-slate-800">
+                    <span class="block text-xs font-bold text-[#416248] dark:text-slate-400 uppercase">Important
+                        Note</span>
+                    <p class="text-sm mt-1 text-[#133c1d] dark:text-slate-200">{{ tournament.important_note || 'No
+                        additional notes.' }}</p>
                 </div>
-                <div class="pt-4 border-t border-[#addfa7] flex flex-col gap-2">
+
+                <div class="pt-4 border-t border-[#addfa7] dark:border-slate-800 flex flex-col gap-2">
                     <button (click)="downloadArchiveReport(tournament)"
-                        class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white font-extrabold rounded-full transition-all text-xs shadow-md">DOWNLOAD
-                        ACCREDITED ARCHIVE REPORT</button>
+                        class="w-full py-2.5 bg-[#165a21] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white font-extrabold rounded-full transition-all text-xs shadow-md hover:shadow-lg dark:shadow-none dark:ring-1 dark:ring-white/10">
+                        DOWNLOAD ACCREDITED ARCHIVE REPORT
+                    </button>
+
                     <button (click)="closeViewModal()"
-                        class="w-full py-2.5 bg-transparent border-2 border-[#165a21] text-[#165a21] hover:bg-[#165a21]/10 font-extrabold rounded-full transition-all text-xs">CLOSE
-                        REPORT VIEW</button>
+                        class="w-full py-2.5 bg-transparent border-2 border-[#165a21] dark:border-emerald-500/40 text-[#165a21] dark:text-emerald-300 hover:bg-[#165a21]/10 dark:hover:bg-white/5 font-extrabold rounded-full transition-all text-xs">
+                        CLOSE REPORT VIEW
+                    </button>
                 </div>
             </div>
         </div>
@@ -393,15 +535,16 @@
 
     <!-- Manage Modal -->
     @if (manageTournament(); as tournament) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 dark:bg-black/75 backdrop-blur-sm animate-fadeIn"
         (click)="closeManageModal()">
-        <div class="bg-[#F0FDF4] border border-[#b8ebb3] rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl animate-scaleUp"
+        <div class="bg-[#F0FDF4] dark:bg-slate-900 border border-[#b8ebb3] dark:border-slate-800 rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl dark:shadow-none animate-scaleUp"
             (click)="$event.stopPropagation()">
 
-            <!-- Modal Header -->
-            <div class="bg-[#165a21] px-6 py-5 text-white flex items-start justify-between rounded-t-3xl flex-shrink-0">
+            <div
+                class="bg-[#165a21] dark:bg-slate-950 px-6 py-5 text-white flex items-start justify-between rounded-t-3xl flex-shrink-0">
                 <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/15 dark:bg-white/10 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
@@ -413,67 +556,83 @@
                         <h3 class="text-lg font-black leading-tight truncate">{{ tournament.name }}</h3>
                     </div>
                 </div>
+
                 <button (click)="closeManageModal()"
-                    class="text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all flex-shrink-0 ml-3">
+                    class="text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all flex-shrink-0 ml-3 dark:ring-1 dark:ring-white/10">
                     <svg class="w-5 h-5 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Scrollable Body -->
             <div class="overflow-y-auto flex-1 modal-scroll">
                 <div class="p-5 sm:p-6 space-y-5">
-
-                    <!-- Quick Info Strip -->
                     <div class="grid grid-cols-3 gap-2 sm:gap-3">
-                        <div class="bg-[#DCFCE7] rounded-2xl p-3 text-center border border-[#b8ebb3]">
-                            <p class="text-[9px] font-extrabold text-[#416248] uppercase tracking-wider mb-1">ID</p>
-                            <p class="text-sm font-black text-[#113919]">{{ tournament.id }}</p>
+                        <div
+                            class="bg-[#DCFCE7] dark:bg-slate-950/40 rounded-2xl p-3 text-center border border-[#b8ebb3] dark:border-slate-800">
+                            <p
+                                class="text-[9px] font-extrabold text-[#416248] dark:text-slate-400 uppercase tracking-wider mb-1">
+                                ID</p>
+                            <p class="text-sm font-black text-[#113919] dark:text-slate-100">{{ tournament.id }}</p>
                         </div>
-                        <div class="bg-[#DCFCE7] rounded-2xl p-3 text-center border border-[#b8ebb3]">
-                            <p class="text-[9px] font-extrabold text-[#416248] uppercase tracking-wider mb-1">Teams</p>
-                            <p class="text-sm font-black text-[#113919]">{{ tournament.current_teams }}/{{
-                                tournament.max_teams }}</p>
+                        <div
+                            class="bg-[#DCFCE7] dark:bg-slate-950/40 rounded-2xl p-3 text-center border border-[#b8ebb3] dark:border-slate-800">
+                            <p
+                                class="text-[9px] font-extrabold text-[#416248] dark:text-slate-400 uppercase tracking-wider mb-1">
+                                Teams</p>
+                            <p class="text-sm font-black text-[#113919] dark:text-slate-100">{{ tournament.current_teams
+                                }}/{{ tournament.max_teams }}</p>
                         </div>
-                        <div class="bg-[#DCFCE7] rounded-2xl p-3 text-center border border-[#b8ebb3]">
-                            <p class="text-[9px] font-extrabold text-[#416248] uppercase tracking-wider mb-1">Status</p>
+                        <div
+                            class="bg-[#DCFCE7] dark:bg-slate-950/40 rounded-2xl p-3 text-center border border-[#b8ebb3] dark:border-slate-800">
+                            <p
+                                class="text-[9px] font-extrabold text-[#416248] dark:text-slate-400 uppercase tracking-wider mb-1">
+                                Status</p>
                             <span class="inline-flex items-center gap-1 text-[10px] font-extrabold" [ngClass]="{
-                                    'text-[#165a21]': tournament.status === 'open',
-                                    'text-[#1d63b8]': tournament.status === 'ongoing',
-                                    'text-[#4b5563]': tournament.status === 'finished',
-                                    'text-[#b91c1c]': tournament.status === 'cancelled'
-                                }">
+                  'text-[#165a21]': tournament.status === 'open',
+                  'text-[#1d63b8]': tournament.status === 'ongoing',
+                  'text-[#4b5563]': tournament.status === 'finished',
+                  'text-[#b91c1c]': tournament.status === 'cancelled',
+                  'dark:text-emerald-300': tournament.status === 'open',
+                  'dark:text-sky-300': tournament.status === 'ongoing',
+                  'dark:text-slate-300': tournament.status === 'finished',
+                  'dark:text-red-300': tournament.status === 'cancelled'
+                }">
                                 <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" [ngClass]="{
-                                    'bg-[#165a21]': tournament.status === 'open',
-                                    'bg-[#1d63b8]': tournament.status === 'ongoing',
-                                    'bg-[#6b7280]': tournament.status === 'finished',
-                                    'bg-[#b91c1c]': tournament.status === 'cancelled'
-                                }"></span>
+                    'bg-[#165a21]': tournament.status === 'open',
+                    'bg-[#1d63b8]': tournament.status === 'ongoing',
+                    'bg-[#6b7280]': tournament.status === 'finished',
+                    'bg-[#b91c1c]': tournament.status === 'cancelled',
+                    'dark:bg-emerald-300': tournament.status === 'open',
+                    'dark:bg-sky-300': tournament.status === 'ongoing',
+                    'dark:bg-slate-400': tournament.status === 'finished',
+                    'dark:bg-red-300': tournament.status === 'cancelled'
+                  }"></span>
                                 {{ tournament.status | titlecase }}
                             </span>
                         </div>
                     </div>
 
-                    <!-- Manage Teams Button -->
                     <div
-                        class="manage-teams-block rounded-2xl border border-[#a2e09a] p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        class="manage-teams-block rounded-2xl border border-[#a2e09a] dark:border-slate-800 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 dark:bg-slate-950/30">
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-9 h-9 rounded-xl bg-[#165a21]/10 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-[#165a21]" fill="currentColor" viewBox="0 0 24 24">
+                                class="w-9 h-9 rounded-xl bg-[#165a21]/10 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-[#165a21] dark:text-emerald-300" fill="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path
                                         d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-sm font-extrabold text-[#113919]">Team Management</p>
-                                <p class="text-[11px] text-[#416248] font-semibold">View, add, and manage registered
-                                    teams</p>
+                                <p class="text-sm font-extrabold text-[#113919] dark:text-slate-100">Team Management</p>
+                                <p class="text-[11px] text-[#416248] dark:text-slate-400 font-semibold">View, add, and
+                                    manage registered teams</p>
                             </div>
                         </div>
+
                         <a [routerLink]="['/Admin/AdminManageTourTeams', tournament.id]"
-                            class="manage-teams-btn flex items-center justify-center gap-2 px-5 py-2.5 bg-[#165a21] hover:bg-[#113c1c] text-white text-xs font-extrabold rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.98] whitespace-nowrap">
+                            class="manage-teams-btn flex items-center justify-center gap-2 px-5 py-2.5 bg-[#165a21] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm hover:shadow-md dark:shadow-none active:scale-[0.98] whitespace-nowrap dark:ring-1 dark:ring-white/10">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
@@ -484,22 +643,26 @@
 
                     <!-- Update Tournament Details -->
                     <div class="space-y-4">
-                        <div class="flex items-center gap-2 pb-2 border-b border-[#addfa7]">
-                            <div class="w-1 h-4 rounded-full bg-[#165a21]"></div>
-                            <h4 class="text-xs font-extrabold text-[#165a21] uppercase tracking-wider">Update Tournament
-                                Details</h4>
+                        <div class="flex items-center gap-2 pb-2 border-b border-[#addfa7] dark:border-slate-800">
+                            <div class="w-1 h-4 rounded-full bg-[#165a21] dark:bg-emerald-400"></div>
+                            <h4
+                                class="text-xs font-extrabold text-[#165a21] dark:text-emerald-300 uppercase tracking-wider">
+                                Update Tournament Details</h4>
                         </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div class="sm:col-span-2">
                                 <label class="modal-label">Tournament Name</label>
                                 <input type="text" [(ngModel)]="editFormValues.name" class="modal-input"
                                     placeholder="Tournament name" />
                             </div>
+
                             <div class="sm:col-span-2">
                                 <label class="modal-label">Description</label>
                                 <textarea [(ngModel)]="editFormValues.description" rows="2"
                                     class="modal-input resize-none" placeholder="Brief description..."></textarea>
                             </div>
+
                             <div>
                                 <label class="modal-label">Team Size</label>
                                 <select [(ngModel)]="editFormValues.team_size" class="modal-input">
@@ -508,24 +671,28 @@
                                     <option value="11v11">11v11</option>
                                 </select>
                             </div>
+
                             <div>
                                 <label class="modal-label">Max Teams</label>
                                 <input type="number" [(ngModel)]="editFormValues.max_teams" class="modal-input"
                                     placeholder="0" />
                             </div>
+
                             <div>
                                 <label class="modal-label">Entry Fee ($)</label>
                                 <input type="text" [(ngModel)]="editFormValues.entry_fee" class="modal-input"
                                     placeholder="0.00" />
                             </div>
+
                             <div>
                                 <label class="modal-label">Important Note</label>
                                 <input type="text" [(ngModel)]="editFormValues.important_note" class="modal-input"
                                     placeholder="Optional note..." />
                             </div>
                         </div>
+
                         <button (click)="saveTournamentChanges()"
-                            class="w-full py-3 bg-[#165a21] hover:bg-[#113c1c] text-white font-extrabold rounded-xl transition-all text-sm shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2">
+                            class="w-full py-3 bg-[#165a21] hover:bg-[#113c1c] dark:bg-emerald-700 dark:hover:bg-emerald-600 text-white font-extrabold rounded-xl transition-all text-sm shadow-md hover:shadow-lg dark:shadow-none active:scale-[0.99] flex items-center justify-center gap-2 dark:ring-1 dark:ring-white/10">
                             <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
@@ -535,11 +702,13 @@
 
                     <!-- Change Status -->
                     <div class="space-y-3 pt-1">
-                        <div class="flex items-center gap-2 pb-2 border-b border-[#addfa7]">
-                            <div class="w-1 h-4 rounded-full bg-[#9b3d0b]"></div>
-                            <h4 class="text-xs font-extrabold text-[#165a21] uppercase tracking-wider">Change Tournament
-                                Status</h4>
+                        <div class="flex items-center gap-2 pb-2 border-b border-[#addfa7] dark:border-slate-800">
+                            <div class="w-1 h-4 rounded-full bg-[#9b3d0b] dark:bg-orange-400"></div>
+                            <h4
+                                class="text-xs font-extrabold text-[#165a21] dark:text-emerald-300 uppercase tracking-wider">
+                                Change Tournament Status</h4>
                         </div>
+
                         <div class="flex flex-col sm:flex-row gap-3">
                             <select #statusSelect class="modal-input flex-1">
                                 <option value="open">Open</option>
@@ -547,8 +716,9 @@
                                 <option value="finished">Finished</option>
                                 <option value="cancelled">Cancelled</option>
                             </select>
+
                             <button (click)="updateTournamentStatus(tournament.id, statusSelect.value)"
-                                class="px-5 py-2.5 bg-[#9b3d0b] hover:bg-[#803106] text-white font-extrabold rounded-xl transition-all text-xs shadow-md hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2 sm:whitespace-nowrap">
+                                class="px-5 py-2.5 bg-[#9b3d0b] hover:bg-[#803106] dark:bg-orange-700 dark:hover:bg-orange-600 text-white font-extrabold rounded-xl transition-all text-xs shadow-md hover:shadow-lg dark:shadow-none active:scale-[0.98] flex items-center justify-center gap-2 sm:whitespace-nowrap dark:ring-1 dark:ring-white/10">
                                 <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -560,46 +730,52 @@
 
                     <!-- Delete -->
                     <div class="pt-1">
-                        <div class="flex items-center gap-2 pb-3 border-b border-[#addfa7] mb-3">
+                        <div class="flex items-center gap-2 pb-3 border-b border-[#addfa7] dark:border-slate-800 mb-3">
                             <div class="w-1 h-4 rounded-full bg-red-600"></div>
-                            <h4 class="text-xs font-extrabold text-[#165a21] uppercase tracking-wider">Danger Zone</h4>
+                            <h4
+                                class="text-xs font-extrabold text-[#165a21] dark:text-emerald-300 uppercase tracking-wider">
+                                Danger Zone</h4>
                         </div>
+
                         <button (click)="confirmDelete(tournament)"
-                            class="w-full py-3 bg-red-700 hover:bg-red-800 text-white font-extrabold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99] text-sm">
+                            class="w-full py-3 bg-red-700 hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-500 text-white font-extrabold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg dark:shadow-none active:scale-[0.99] text-sm dark:ring-1 dark:ring-white/10">
                             <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.74 9l-.34 9m-4.72 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                    d="M14.74 9l-.34 9m-4.72 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                             </svg>
                             DELETE TOURNAMENT
                         </button>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Sticky Footer Cancel -->
-            <div class="flex-shrink-0 px-5 sm:px-6 py-4 border-t border-[#addfa7] bg-[#F0FDF4] rounded-b-3xl">
+            <div
+                class="flex-shrink-0 px-5 sm:px-6 py-4 border-t border-[#addfa7] dark:border-slate-800 bg-[#F0FDF4] dark:bg-slate-950/40 rounded-b-3xl">
                 <button (click)="closeManageModal()"
-                    class="w-full py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] text-[#133c1d] font-extrabold rounded-xl transition-all text-sm border border-[#a2e09a] active:scale-[0.99]">
+                    class="w-full py-2.5 bg-[#DCFCE7] hover:bg-[#b5ebad] dark:bg-slate-900 dark:hover:bg-white/5 text-[#133c1d] dark:text-slate-100 font-extrabold rounded-xl transition-all text-sm border border-[#a2e09a] dark:border-slate-800 active:scale-[0.99] dark:ring-1 dark:ring-white/10">
                     CANCEL
                 </button>
             </div>
-
         </div>
     </div>
     }
 
     <!-- Toast Notification -->
     @if (toastMessage()) {
-    <div [ngClass]="{'bg-[#165a21] border-white/20': toastType() === 'success', 'bg-red-700 border-red-500/30': toastType() === 'danger'}"
-        class="fixed bottom-6 right-6 z-50 text-white px-6 py-4 rounded-2xl shadow-2xl border flex items-center gap-3 animate-slideIn max-w-sm">
+    <div [ngClass]="{
+      'bg-[#165a21] border-white/20': toastType() === 'success',
+      'bg-red-700 border-red-500/30': toastType() === 'danger',
+
+      'dark:bg-emerald-700 dark:border-white/10': toastType() === 'success',
+      'dark:bg-red-600 dark:border-white/10': toastType() === 'danger'
+    }"
+        class="fixed bottom-6 right-6 z-50 text-white px-6 py-4 rounded-2xl shadow-2xl dark:shadow-none border flex items-center gap-3 animate-slideIn max-w-sm dark:ring-1 dark:ring-white/10">
         @if (toastType() === 'success') {
         <svg class="w-5 h-5 text-emerald-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        }
-        @else {
+        } @else {
         <svg class="w-5 h-5 text-red-200 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"

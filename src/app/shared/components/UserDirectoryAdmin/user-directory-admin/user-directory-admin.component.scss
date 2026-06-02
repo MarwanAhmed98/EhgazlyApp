@@ -15,3 +15,8 @@
     background: #BBF7D0;
     border-radius: 10px;
 }
+
+/* Dark mode scrollbar */
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #064E3B;
+}

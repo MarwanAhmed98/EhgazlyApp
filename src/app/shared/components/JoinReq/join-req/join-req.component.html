@@ -1,31 +1,38 @@
-<div class="min-h-screen bg-[#e2f7e6] p-4 md:p-8 font-sans text-slate-800 overflow-x-hidden">
+<div
+    class="min-h-screen bg-[#e2f7e6] dark:bg-slate-950 p-4 md:p-8 font-sans text-slate-800 dark:text-slate-100 overflow-x-hidden">
     <!-- Header Section -->
     <header class="mb-8">
-        <h1 class="text-3xl font-bold text-[#1a4d2e] mb-1">Manage Courts</h1>
-        <p class="text-[#4b7c52]">View and manage all main courts, verify ownership, and control status.</p>
+        <h1 class="text-3xl font-bold text-[#1a4d2e] dark:text-emerald-200 mb-1">Manage Courts</h1>
+        <p class="text-[#4b7c52] dark:text-slate-400">View and manage all main courts, verify ownership, and control
+            status.</p>
     </header>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div class="bg-white rounded-2xl p-6 border-b-4 border-green-700 flex justify-between items-center shadow-sm">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-2xl p-6 border-b-4 border-green-700 dark:border-emerald-500/60 flex justify-between items-center shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Total Courts</p>
-                <h2 class="text-4xl font-bold text-[#1a4d2e]">{{ totalMainCourts() }}</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] dark:text-slate-400 uppercase tracking-wider mb-1">Total
+                    Courts</p>
+                <h2 class="text-4xl font-bold text-[#1a4d2e] dark:text-slate-100">{{ totalMainCourts() }}</h2>
             </div>
-            <div class="bg-[#d1f2d9] p-3 rounded-xl">
-                <svg class="w-6 h-6 text-[#1a4d2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-[#d1f2d9] dark:bg-slate-800 p-3 rounded-xl">
+                <svg class="w-6 h-6 text-[#1a4d2e] dark:text-slate-100" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-6 border-b-4 border-blue-500 flex justify-between items-center shadow-sm">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-2xl p-6 border-b-4 border-blue-500 dark:border-sky-400/60 flex justify-between items-center shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Verified Courts</p>
-                <h2 class="text-4xl font-bold text-blue-600">{{ verifiedMainCourts() }}</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] dark:text-slate-400 uppercase tracking-wider mb-1">
+                    Verified Courts</p>
+                <h2 class="text-4xl font-bold text-blue-600 dark:text-sky-300">{{ verifiedMainCourts() }}</h2>
             </div>
-            <div class="bg-blue-50 p-3 rounded-xl text-blue-500">
+            <div class="bg-blue-50 dark:bg-slate-800 p-3 rounded-xl text-blue-500 dark:text-sky-300">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                         d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -34,12 +41,14 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl p-6 border-b-4 border-orange-800 flex justify-between items-center shadow-sm">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-2xl p-6 border-b-4 border-orange-800 dark:border-amber-400/60 flex justify-between items-center shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10">
             <div>
-                <p class="text-xs font-semibold text-[#4b7c52] uppercase tracking-wider mb-1">Pending Verification</p>
-                <h2 class="text-4xl font-bold text-orange-900">{{ pendingMainCourts() }}</h2>
+                <p class="text-xs font-semibold text-[#4b7c52] dark:text-slate-400 uppercase tracking-wider mb-1">
+                    Pending Verification</p>
+                <h2 class="text-4xl font-bold text-orange-900 dark:text-amber-300">{{ pendingMainCourts() }}</h2>
             </div>
-            <div class="bg-orange-100 p-3 rounded-xl text-orange-800">
+            <div class="bg-orange-100 dark:bg-slate-800 p-3 rounded-xl text-orange-800 dark:text-amber-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -51,7 +60,7 @@
     <!-- Filters Row -->
     <div class="flex flex-col md:flex-row gap-4 mb-6">
         <div class="relative flex-grow">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -59,12 +68,12 @@
             </span>
             <input type="text" placeholder="Search by court name, owner, or address..." [value]="searchTerm()"
                 (input)="setSearch($any($event.target).value)"
-                class="w-full pl-10 pr-4 py-3 bg-white border-none rounded-xl focus:ring-2 focus:ring-green-500 shadow-sm">
+                class="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border-none rounded-xl focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-500/30 shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500">
         </div>
 
         <div class="flex gap-4">
             <select [value]="locationFilter()" (change)="setLocationFilter($any($event.target).value)"
-                class="bg-white border-none rounded-xl px-4 py-3 shadow-sm min-w-[140px] appearance-none cursor-pointer">
+                class="bg-white dark:bg-slate-900 border-none rounded-xl px-4 py-3 shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10 min-w-[140px] appearance-none cursor-pointer text-slate-800 dark:text-slate-100">
                 <option value="ALL">All Locations</option>
                 @for (loc of availableLocations(); track loc) {
                 <option [value]="loc">{{ loc }}</option>
@@ -74,11 +83,13 @@
     </div>
 
     <!-- Table Section -->
-    <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-8">
+    <div
+        class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none overflow-hidden mb-8 border border-transparent dark:border-slate-800">
         <div class="overflow-x-auto">
             <table class="w-full table-auto border-collapse min-w-[800px]">
                 <thead>
-                    <tr class="text-[10px] md:text-xs font-bold text-[#4b7c52] uppercase tracking-widest bg-[#f0faf2]">
+                    <tr
+                        class="text-[10px] md:text-xs font-bold text-[#4b7c52] dark:text-slate-400 uppercase tracking-widest bg-[#f0faf2] dark:bg-slate-950/40">
                         <th class="px-4 py-3 md:px-6 md:py-4">Main Court Name</th>
                         <th class="px-4 py-3 md:px-6 md:py-4">Owner</th>
                         <th class="px-4 py-3 md:px-6 md:py-4">Email</th>
@@ -90,58 +101,76 @@
                         <th class="px-4 py-3 md:px-6 md:py-4 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                     @for (court of pagedCourts(); track court.id) {
-                    <tr class="hover:bg-slate-50 transition-colors">
+                    <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                         <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 font-bold text-[#1a4d2e] text-sm md:text-base">{{
-                            court.name }}</td>
-                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-700">{{ court.owner.name }}</td>
-                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 break-all">{{ court.owner.email }}
+                            class="px-4 py-3 md:px-6 md:py-4 font-bold text-[#1a4d2e] dark:text-emerald-200 text-sm md:text-base">
+                            {{ court.name }}
                         </td>
+
                         <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500">{{ court.owner.phone }}</td>
-                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 break-words">{{ court.address }}
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-700 dark:text-slate-200">
+                            {{ court.owner.name }}
                         </td>
+
                         <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
-                            class="px-4 py-3 md:px-6 md:py-4 text-sm font-semibold text-slate-700">{{ court.courts_count
-                            }}</td>
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 dark:text-slate-400 break-all">
+                            {{ court.owner.email }}
+                        </td>
+
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 dark:text-slate-400">
+                            {{ court.owner.phone }}
+                        </td>
+
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500 dark:text-slate-400 break-words">
+                            {{ court.address }}
+                        </td>
+
+                        <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]"
+                            class="px-4 py-3 md:px-6 md:py-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                            {{ court.courts_count }}
+                        </td>
+
                         <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]" class="px-4 py-3 md:px-6 md:py-4">
                             <span
-                                [class]="court.status === 'active' ? 'bg-[#d1f2d9] text-[#1a4d2e]' : 'bg-[#ffdbc2] text-[#8a421a]'"
-                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                                [class]="court.status === 'active' ? 'bg-[#d1f2d9] text-[#1a4d2e] dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-[#ffdbc2] text-[#8a421a] dark:bg-amber-500/15 dark:text-amber-300'"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap dark:ring-1 dark:ring-white/10">
                                 {{ court.status === 'active' ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
+
                         <td [routerLink]="['/Admin/AdminSpecificCourt', court.id]" class="px-4 py-3 md:px-6 md:py-4">
                             <span
-                                [class]="court.is_verified ? 'bg-[#d1f2d9] text-[#1a4d2e]' : 'bg-[#ffdbc2] text-[#8a421a]'"
-                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                                [class]="court.is_verified ? 'bg-[#d1f2d9] text-[#1a4d2e] dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-[#ffdbc2] text-[#8a421a] dark:bg-amber-500/15 dark:text-amber-300'"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap dark:ring-1 dark:ring-white/10">
                                 {{ court.is_verified ? 'Verified' : 'Pending Verification' }}
                             </span>
                         </td>
+
                         <td class="px-4 py-3 md:px-6 md:py-4 text-center relative">
                             <div class="relative">
                                 <button (click)="toggleManageMenu(court.id)"
-                                    class="bg-[#1a4d2e] text-white px-4 py-1.5 md:px-5 md:py-2 rounded-full text-xs font-bold hover:bg-[#143a23] transition-all shadow-sm whitespace-nowrap">
+                                    class="bg-[#1a4d2e] text-white px-4 py-1.5 md:px-5 md:py-2 rounded-full text-xs font-bold hover:bg-[#143a23] dark:hover:bg-emerald-700 transition-all shadow-sm dark:shadow-none whitespace-nowrap dark:ring-1 dark:ring-white/10">
                                     Manage
                                 </button>
+
                                 @if (activeManageMenuId() === court.id) {
                                 <div
-                                    class="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-lg border border-slate-100 z-10">
+                                    class="absolute right-0 mt-2 w-36 bg-white dark:bg-slate-900 rounded-xl shadow-lg dark:shadow-none border border-slate-100 dark:border-slate-800 z-10">
                                     <div class="py-1">
                                         @if (!court.is_verified) {
                                         <button (click)="verifyCourt(court)"
-                                            class="block w-full text-left px-4 py-2 text-sm text-green-700 hover:bg-green-50 transition-colors">
+                                            class="block w-full text-left px-4 py-2 text-sm text-green-700 dark:text-emerald-300 hover:bg-green-50 dark:hover:bg-white/5 transition-colors">
                                             Verify
                                         </button>
                                         }
                                         @if (court.status === 'active') {
                                         <button (click)="openSuspendModal(court)"
-                                            class="block w-full text-left px-4 py-2 text-sm text-orange-700 hover:bg-orange-50 transition-colors">
+                                            class="block w-full text-left px-4 py-2 text-sm text-orange-700 dark:text-amber-300 hover:bg-orange-50 dark:hover:bg-white/5 transition-colors">
                                             Suspend
                                         </button>
                                         }
@@ -158,36 +187,36 @@
 
         <!-- Pagination -->
         <div
-            class="px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white border-t border-slate-100">
-            <p class="text-xs text-[#4b7c52] font-medium">
+            class="px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+            <p class="text-xs text-[#4b7c52] dark:text-slate-400 font-medium">
                 Showing {{ showingFrom() }}–{{ showingTo() }} of {{ filteredCourts().length }} courts
             </p>
+
             <div class="flex gap-2 items-center">
-                <!-- Previous -->
                 <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1"
-                    class="p-2 text-slate-400 hover:text-[#1a4d2e] disabled:opacity-30 disabled:cursor-not-allowed">
+                    class="p-2 text-slate-400 dark:text-slate-500 hover:text-[#1a4d2e] dark:hover:text-emerald-200 disabled:opacity-30 disabled:cursor-not-allowed">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                         </path>
                     </svg>
                 </button>
 
-                <!-- Page numbers -->
                 @for (page of visiblePages(); track page) {
                 @if (page === -1) {
-                <span class="w-8 h-8 flex items-center justify-center text-slate-400 text-xs">…</span>
+                <span
+                    class="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs">…</span>
                 } @else {
-                <button (click)="goToPage(page)" [class]="page === currentPage()
-                                ? 'w-8 h-8 rounded-full bg-[#96e2a6] text-[#1a4d2e] font-bold text-xs'
-                                : 'w-8 h-8 rounded-full hover:bg-slate-100 text-slate-500 font-bold text-xs'">
+                <button (click)="goToPage(page)"
+                    [class]="page === currentPage()
+                ? 'w-8 h-8 rounded-full bg-[#96e2a6] text-[#1a4d2e] dark:bg-emerald-500/20 dark:text-emerald-200 font-bold text-xs'
+                : 'w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-500 dark:text-slate-300 font-bold text-xs'">
                     {{ page }}
                 </button>
                 }
                 }
 
-                <!-- Next -->
                 <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()"
-                    class="p-2 text-slate-400 hover:text-[#1a4d2e] disabled:opacity-30 disabled:cursor-not-allowed">
+                    class="p-2 text-slate-400 dark:text-slate-500 hover:text-[#1a4d2e] dark:hover:text-emerald-200 disabled:opacity-30 disabled:cursor-not-allowed">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -199,32 +228,33 @@
     <!-- Suspend Reason Modal -->
     @if (suspendModalOpen()) {
     <div class="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="closeSuspendModal()"></div>
+        <div class="absolute inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm" (click)="closeSuspendModal()"></div>
 
-        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
-            <div class="p-6 border-b border-slate-100">
-                <h3 class="text-xl font-extrabold text-[#1a4d2e]">Suspend Court</h3>
-                <p class="mt-1 text-sm text-slate-500">Provide a reason for suspension.</p>
+        <div
+            class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl dark:shadow-none overflow-hidden border border-slate-100 dark:border-slate-800">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="text-xl font-extrabold text-[#1a4d2e] dark:text-emerald-200">Suspend Court</h3>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Provide a reason for suspension.</p>
             </div>
 
             <div class="p-6">
-                <label class="block text-xs font-bold uppercase tracking-wider text-[#4b7c52] mb-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#4b7c52] dark:text-slate-400 mb-2">
                     Suspension Reason
                 </label>
                 <textarea [(ngModel)]="suspendReason" rows="4" placeholder="Enter detailed reason for suspension..."
-                    class="w-full px-4 py-3 bg-[#f0faf2] border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none resize-none"></textarea>
+                    class="w-full px-4 py-3 bg-[#f0faf2] dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-500/30 focus:outline-none resize-none text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"></textarea>
                 @if (suspendReasonError()) {
-                <p class="mt-2 text-xs text-red-600">{{ suspendReasonError() }}</p>
+                <p class="mt-2 text-xs text-red-600 dark:text-red-300">{{ suspendReasonError() }}</p>
                 }
             </div>
 
-            <div class="p-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+            <div class="p-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-3">
                 <button type="button" (click)="closeSuspendModal()"
-                    class="flex-1 px-6 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold transition-colors">
+                    class="flex-1 px-6 py-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-100 font-bold transition-colors">
                     Cancel
                 </button>
                 <button type="button" (click)="confirmSuspend()"
-                    class="flex-1 px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] text-white font-bold transition-colors">
+                    class="flex-1 px-6 py-3 rounded-xl bg-[#1a4d2e] hover:bg-[#143a23] dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-bold transition-colors dark:ring-1 dark:ring-white/10">
                     Confirm Suspend
                 </button>
             </div>

@@ -1,6 +1,6 @@
 <!-- Main Wrapper -->
 <div
-    class="min-h-screen bg-[#DFFFE3] text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
+    class="min-h-screen bg-[#DFFFE3] dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
 
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,14 +29,14 @@
     </style>
 
     <!-- Background grid + soft glow -->
-    <div class="absolute inset-0 opacity-[0.14] pointer-events-none"
+    <div class="absolute inset-0 opacity-[0.14] dark:opacity-[0.06] pointer-events-none"
         style="background-image: linear-gradient(rgba(2,44,34,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(2,44,34,.12) 1px, transparent 1px); background-size: 42px 42px;">
     </div>
     <div
-        class="absolute top-0 left-0 -ml-56 -mt-56 w-[520px] h-[520px] bg-[#2E7D32]/12 blur-3xl rounded-full pointer-events-none">
+        class="absolute top-0 left-0 -ml-56 -mt-56 w-[520px] h-[520px] bg-[#2E7D32]/12 dark:bg-emerald-500/5 blur-3xl rounded-full pointer-events-none">
     </div>
     <div
-        class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#A34700]/10 blur-3xl rounded-full pointer-events-none">
+        class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#A34700]/10 dark:bg-amber-700/5 blur-3xl rounded-full pointer-events-none">
     </div>
 
     <!-- Navbar -->
@@ -57,9 +57,9 @@
                 </div>
 
                 <button routerLink="/CreateFriendlyMatch" type="button"
-                    class="px-7 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3 w-full sm:w-auto">
+                    class="px-7 py-4 rounded-2xl bg-[#146A1E] dark:bg-emerald-800 hover:bg-[#0f5418] dark:hover:bg-emerald-700 text-white font-black shadow-lg shadow-[#2E7D32]/25 dark:shadow-emerald-900/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3 w-full sm:w-auto">
                     <span
-                        class="w-7 h-7 rounded-full bg-white/15 border border-white/15 grid place-items-center"><lucide-icon
+                        class="w-7 h-7 rounded-full bg-white/15 border border-white/15 dark:border-white/20 grid place-items-center"><lucide-icon
                             name="plus" [size]="20" [strokeWidth]="2.5"></lucide-icon></span>
                     Create New Match
                 </button>
@@ -69,23 +69,24 @@
         <!-- Search Bar -->
         <section class="mt-8 animate-fade-in-up" style="animation-delay: 90ms;">
             <div
-                class="rounded-[2.5rem] bg-white/70 dark:bg-white/5 border border-emerald-200/60 dark:border-emerald-900/40 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] overflow-hidden">
+                class="rounded-[2.5rem] bg-white/70 dark:bg-slate-800/80 border border-emerald-200/60 dark:border-slate-700 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] dark:shadow-slate-950/40 overflow-hidden">
                 <div class="flex flex-col lg:flex-row lg:items-center gap-0">
                     <div class="flex-1 flex items-center gap-4 px-6 py-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950/60" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-950/60 dark:text-slate-400"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.3-4.3" />
                         </svg>
-                        <input class="w-full bg-transparent outline-none placeholder:text-emerald-950/45 font-semibold"
+                        <input
+                            class="w-full bg-transparent outline-none placeholder:text-emerald-950/45 dark:placeholder:text-slate-500 font-semibold dark:text-white"
                             placeholder="Search by stadium or area..." [(ngModel)]="query" (input)="applyFilters()" />
                     </div>
 
-                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70"></div>
+                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70 dark:bg-slate-700"></div>
 
                     <button type="button" (click)="openFilter('date')"
-                        class="px-6 py-5 font-black text-emerald-950/80 hover:text-emerald-950 transition-all duration-300 inline-flex items-center justify-center gap-3">
+                        class="px-6 py-5 font-black text-emerald-950/80 dark:text-slate-300 hover:text-emerald-950 dark:hover:text-white transition-all duration-300 inline-flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M8 2v4" />
@@ -96,10 +97,10 @@
                         Date & Time
                     </button>
 
-                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70"></div>
+                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70 dark:bg-slate-700"></div>
 
                     <button type="button" (click)="openFilter('price')"
-                        class="px-6 py-5 font-black text-emerald-950/80 hover:text-emerald-950 transition-all duration-300 inline-flex items-center justify-center gap-3">
+                        class="px-6 py-5 font-black text-emerald-950/80 dark:text-slate-300 hover:text-emerald-950 dark:hover:text-white transition-all duration-300 inline-flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 7h-9" />
@@ -110,10 +111,10 @@
                         Price Range
                     </button>
 
-                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70"></div>
+                    <div class="hidden lg:block w-px h-10 bg-emerald-200/70 dark:bg-slate-700"></div>
 
                     <button type="button" (click)="openFilter('all')"
-                        class="px-6 py-5 font-black text-emerald-950/80 hover:text-emerald-950 transition-all duration-300 inline-flex items-center justify-center gap-3">
+                        class="px-6 py-5 font-black text-emerald-950/80 dark:text-slate-300 hover:text-emerald-950 dark:hover:text-white transition-all duration-300 inline-flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 4h18" />
@@ -135,9 +136,9 @@
             <div class="min-h-[62vh] grid place-items-center">
                 <div class="w-full max-w-2xl text-center">
                     <div
-                        class="mx-auto w-44 h-44 rounded-full bg-emerald-200/35 border border-emerald-200/60 grid place-items-center relative">
+                        class="mx-auto w-44 h-44 rounded-full bg-emerald-200/35 dark:bg-slate-800/80 border border-emerald-200/60 dark:border-slate-700 grid place-items-center relative">
                         <div
-                            class="w-24 h-24 rounded-full bg-[#146A1E] grid place-items-center shadow-xl shadow-emerald-900/10">
+                            class="w-24 h-24 rounded-full bg-[#146A1E] dark:bg-emerald-700 grid place-items-center shadow-xl shadow-emerald-900/10 dark:shadow-slate-900/30">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-50"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -149,40 +150,40 @@
                             </svg>
                         </div>
                         <span
-                            class="absolute -right-3 top-8 w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center shadow-lg">📍</span>
+                            class="absolute -right-3 top-8 w-11 h-11 rounded-2xl bg-white/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 grid place-items-center shadow-lg">📍</span>
                         <span
-                            class="absolute left-6 -bottom-4 w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center shadow-lg">👥</span>
+                            class="absolute left-6 -bottom-4 w-11 h-11 rounded-2xl bg-white/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 grid place-items-center shadow-lg">👥</span>
                         <span
-                            class="absolute left-8 top-5 w-11 h-11 rounded-2xl bg-white/70 border border-emerald-200/60 grid place-items-center shadow-lg">🔎</span>
+                            class="absolute left-8 top-5 w-11 h-11 rounded-2xl bg-white/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 grid place-items-center shadow-lg">🔎</span>
                     </div>
 
-                    <h2 class="mt-8 text-4xl sm:text-5xl font-black tracking-tighter text-emerald-950">
+                    <h2 class="mt-8 text-4xl sm:text-5xl font-black tracking-tighter text-emerald-950 dark:text-white">
                         No matches nearby<br class="hidden sm:block" /> right now.
                     </h2>
-                    <p class="mt-4 text-slate-700/80 font-semibold">
+                    <p class="mt-4 text-slate-700/80 dark:text-slate-400 font-semibold">
                         Why not host the first one and get the game started?
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                         <button routerLink="/CreateFriendlyMatch" type="button"
-                            class="px-10 py-4 rounded-2xl bg-[#146A1E] hover:bg-[#0f5418] text-white font-black shadow-lg shadow-[#2E7D32]/25 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                            class="px-10 py-4 rounded-2xl bg-[#146A1E] dark:bg-emerald-800 hover:bg-[#0f5418] dark:hover:bg-emerald-700 text-white font-black shadow-lg shadow-[#2E7D32]/25 dark:shadow-emerald-900/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                             Host a Game
                             <span
-                                class="w-7 h-7 rounded-full bg-white/15 border border-white/15 grid place-items-center"><lucide-icon
+                                class="w-7 h-7 rounded-full bg-white/15 border border-white/15 dark:border-white/20 grid place-items-center"><lucide-icon
                                     name="plus" [size]="20" [strokeWidth]="2.5"></lucide-icon></span>
                         </button>
 
                         <button type="button" (click)="expandRadius()"
-                            class="px-10 py-4 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
+                            class="px-10 py-4 rounded-2xl bg-white/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-3">
                             <span
-                                class="w-7 h-7 rounded-full bg-emerald-200/70 border border-emerald-200/60 grid place-items-center"><lucide-icon
+                                class="w-7 h-7 rounded-full bg-emerald-200/70 dark:bg-slate-700 border border-emerald-200/60 dark:border-slate-600 grid place-items-center"><lucide-icon
                                     name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon></span>
                             Expand Search Radius
                         </button>
                     </div>
 
                     <button type="button" (click)="resetFilters()"
-                        class="mt-7 text-[12px] font-black uppercase tracking-widest text-emerald-950/70 hover:text-emerald-950 transition-all duration-300">
+                        class="mt-7 text-[12px] font-black uppercase tracking-widest text-emerald-950/70 dark:text-slate-400 hover:text-emerald-950 dark:hover:text-white transition-all duration-300">
                         Browse All Stadiums →
                     </button>
                 </div>
@@ -191,60 +192,71 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 @for (m of filteredMatches; track m.id) {
                 <article
-                    class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 bg-white/70 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] transition-all duration-300 hover:-translate-y-1">
+                    class="rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-slate-700 bg-white/70 dark:bg-slate-800/80 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] dark:shadow-slate-950/40 transition-all duration-300 hover:-translate-y-1">
                     <div class="relative h-44">
                         <img src="/images/SpinnerLogo.png" [alt]="m.court.name"
                             class="absolute inset-0 w-full h-full object-cover" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/40 to-transparent"></div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-emerald-950/40 dark:from-black/60 to-transparent">
+                        </div>
                     </div>
 
                     <div class="p-6">
                         <div class="flex items-start justify-between gap-4">
                             <div>
-                                <p class="text-xl font-black tracking-tight text-emerald-950">{{ m.name }}</p>
-                                <p class="mt-1 text-sm font-semibold text-slate-600 inline-flex items-center gap-2">
+                                <p class="text-xl font-black tracking-tight text-emerald-950 dark:text-white">{{ m.name
+                                    }}</p>
+                                <p
+                                    class="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-400 inline-flex items-center gap-2">
                                     <span> <lucide-icon name="map-pin" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                     </span> {{ m.court.maincourt.address }}
                                 </p>
                             </div>
                             <div class="text-right">
-                                <p class="text-xl font-black text-[#A34700]">{{ m.court.price_per_hour }} EGP</p>
-                                <p class="text-[11px] font-black uppercase tracking-widest text-slate-500">Per Hour
+                                <p class="text-xl font-black text-[#A34700] dark:text-amber-500">{{
+                                    m.court.price_per_hour }} EGP</p>
+                                <p
+                                    class="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                    Per Hour
                                 </p>
                             </div>
                         </div>
 
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span
-                                class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
+                                class="px-3 py-2 rounded-xl bg-emerald-100/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 text-emerald-950 dark:text-white text-xs font-black inline-flex items-center gap-2">
                                 <lucide-icon name="calendar" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                 {{ m.timeslots[0].date | date:'EEE' }} , {{ m.timeslots[0].start_time | slice:0:5 }}
                             </span>
                             <span
-                                class="px-3 py-2 rounded-xl bg-emerald-100/70 border border-emerald-200/60 text-emerald-950 text-xs font-black inline-flex items-center gap-2">
+                                class="px-3 py-2 rounded-xl bg-emerald-100/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 text-emerald-950 dark:text-white text-xs font-black inline-flex items-center gap-2">
                                 <lucide-icon name="users" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                                 {{ m.current_players }} / {{ m.required_players }}
                             </span>
                         </div>
 
                         <div class="mt-5">
-                            <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Lineup
+                            <p
+                                class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70 dark:text-slate-400">
+                                Lineup
                                 Status</p>
-                            <div class="mt-2 h-2 rounded-full bg-emerald-200/60 overflow-hidden">
-                                <div class="h-full bg-[#146A1E]"
+                            <div class="mt-2 h-2 rounded-full bg-emerald-200/60 dark:bg-slate-700 overflow-hidden">
+                                <div class="h-full bg-[#146A1E] dark:bg-emerald-600"
                                     [style.width.%]="(m.current_players / m.required_players) * 100"></div>
                             </div>
                             <div class="mt-2 flex items-center justify-between">
-                                <p class="text-xs font-black text-emerald-950/70">{{ m.current_players }}/{{
+                                <p class="text-xs font-black text-emerald-950/70 dark:text-slate-300">{{
+                                    m.current_players }}/{{
                                     m.required_players
                                     }} Players</p>
-                                <p class="text-xs font-black text-[#B42318]">{{ m.spots_left }} slots left</p>
+                                <p class="text-xs font-black text-[#B42318] dark:text-rose-400">{{ m.spots_left }} slots
+                                    left</p>
                             </div>
                         </div>
 
                         <div class="mt-6 flex">
                             <button [routerLink]="['/FriendlyMatchesDetails', m.id]" type="button"
-                                class="w-full px-6 py-3 rounded-2xl bg-white/70 border border-emerald-200/60 text-emerald-950 font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                                class="w-full px-6 py-3 rounded-2xl bg-white/70 dark:bg-slate-800 border border-emerald-200/60 dark:border-slate-700 text-emerald-950 dark:text-white font-black transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
                                 Details
                             </button>
                         </div>
@@ -263,19 +275,19 @@
     [class.pointer-events-auto]="filtersModalOpen" [class.pointer-events-none]="!filtersModalOpen">
 
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="closeAllFilters()"></div>
+    <div class="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm" (click)="closeAllFilters()"></div>
 
     <!-- Modal -->
     <div class="relative w-[95%] max-w-2xl rounded-[1.5rem] bg-white dark:bg-slate-900
-        border border-emerald-200/60
-        shadow-[0_30px_80px_-20px_rgba(2,44,34,0.25)]
+        border border-emerald-200/60 dark:border-slate-700
+        shadow-[0_30px_80px_-20px_rgba(2,44,34,0.25)] dark:shadow-slate-950/50
         transition-all duration-300 overflow-hidden">
 
         <!-- Header -->
-        <div class="flex items-center justify-between px-6 py-5 border-b border-emerald-200/60">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-emerald-200/60 dark:border-slate-700">
             <div>
-                <h2 class="text-xl font-bold text-emerald-950">Filters</h2>
-                <p class="text-xs text-emerald-950/60 mt-1">
+                <h2 class="text-xl font-bold text-emerald-950 dark:text-white">Filters</h2>
+                <p class="text-xs text-emerald-950/60 dark:text-slate-400 mt-1">
                     @if (filterMode === 'date') { Filter by date }
                     @else if (filterMode === 'price') { Filter by price }
                     @else { Filter by date and price }
@@ -283,7 +295,7 @@
             </div>
 
             <button (click)="closeAllFilters()"
-                class="w-9 h-9 rounded-lg border border-emerald-200 hover:bg-emerald-100 text-emerald-950">
+                class="w-9 h-9 rounded-lg border border-emerald-200 dark:border-slate-700 hover:bg-emerald-100 dark:hover:bg-slate-800 text-emerald-950 dark:text-white">
                 ✕
             </button>
         </div>
@@ -294,36 +306,40 @@
             <!-- PRICE FULL WIDTH -->
             @if (filterMode === 'price') {
             <div class="space-y-6">
-                <h3 class="text-sm font-bold text-emerald-950">Price Range (EGP)</h3>
+                <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Price Range (EGP)</h3>
 
                 <!-- Slider Track -->
-                <div class="h-2 bg-emerald-200/60 rounded-full relative">
-                    <div class="absolute h-full bg-[#146A1E] rounded-full" [style.left.%]="priceTrackLeft"
-                        [style.right.%]="priceTrackRight"></div>
+                <div class="h-2 bg-emerald-200/60 dark:bg-slate-700 rounded-full relative">
+                    <div class="absolute h-full bg-[#146A1E] dark:bg-emerald-600 rounded-full"
+                        [style.left.%]="priceTrackLeft" [style.right.%]="priceTrackRight"></div>
                 </div>
 
                 <!-- Min Slider -->
                 <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
-                    [(ngModel)]="minPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
+                    [(ngModel)]="minPrice" (input)="onPriceSliderInput()"
+                    class="w-full accent-[#146A1E] dark:accent-emerald-600" />
 
                 <!-- Max Slider -->
                 <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
-                    [(ngModel)]="maxPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
+                    [(ngModel)]="maxPrice" (input)="onPriceSliderInput()"
+                    class="w-full accent-[#146A1E] dark:accent-emerald-600" />
 
                 <!-- Manual Inputs -->
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl border border-emerald-200 bg-white">
-                        <p class="text-xs font-bold text-emerald-950/60">Min Price</p>
+                    <div
+                        class="p-4 rounded-xl border border-emerald-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        <p class="text-xs font-bold text-emerald-950/60 dark:text-slate-400">Min Price</p>
                         <input type="number" [(ngModel)]="minPriceInput" (input)="onPriceManualInput('min')"
                             (blur)="onPriceManualBlur('min')"
-                            class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
+                            class="w-full mt-2 text-xl font-bold text-emerald-950 dark:text-white outline-none border-none bg-transparent" />
                     </div>
 
-                    <div class="p-4 rounded-xl border border-emerald-200 bg-white">
-                        <p class="text-xs font-bold text-emerald-950/60">Max Price</p>
+                    <div
+                        class="p-4 rounded-xl border border-emerald-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        <p class="text-xs font-bold text-emerald-950/60 dark:text-slate-400">Max Price</p>
                         <input type="number" [(ngModel)]="maxPriceInput" (input)="onPriceManualInput('max')"
                             (blur)="onPriceManualBlur('max')"
-                            class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
+                            class="w-full mt-2 text-xl font-bold text-emerald-950 dark:text-white outline-none border-none bg-transparent" />
                     </div>
                 </div>
             </div>
@@ -332,9 +348,9 @@
             <!-- DATE FULL WIDTH -->
             @if (filterMode === 'date') {
             <div class="space-y-6">
-                <h3 class="text-sm font-bold text-emerald-950">Select Date</h3>
+                <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Select Date</h3>
                 <input type="date" [(ngModel)]="selectedDateISO" (change)="applyFilters()"
-                    class="w-full p-4 rounded-xl border border-emerald-200 font-bold text-emerald-950" />
+                    class="w-full p-4 rounded-xl border border-emerald-200 dark:border-slate-700 font-bold text-emerald-950 dark:text-white bg-white dark:bg-slate-800" />
             </div>
             }
 
@@ -344,34 +360,36 @@
 
                 <!-- PRICE SECTION -->
                 <div class="space-y-4">
-                    <h3 class="text-sm font-bold text-emerald-950">Price</h3>
+                    <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Price</h3>
 
-                    <div class="h-2 bg-emerald-200/60 rounded-full relative">
-                        <div class="absolute h-full bg-[#146A1E] rounded-full" [style.left.%]="priceTrackLeft"
-                            [style.right.%]="priceTrackRight"></div>
+                    <div class="h-2 bg-emerald-200/60 dark:bg-slate-700 rounded-full relative">
+                        <div class="absolute h-full bg-[#146A1E] dark:bg-emerald-600 rounded-full"
+                            [style.left.%]="priceTrackLeft" [style.right.%]="priceTrackRight"></div>
                     </div>
 
                     <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
-                        [(ngModel)]="minPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
+                        [(ngModel)]="minPrice" (input)="onPriceSliderInput()"
+                        class="w-full accent-[#146A1E] dark:accent-emerald-600" />
 
                     <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
-                        [(ngModel)]="maxPrice" (input)="onPriceSliderInput()" class="w-full accent-[#146A1E]" />
+                        [(ngModel)]="maxPrice" (input)="onPriceSliderInput()"
+                        class="w-full accent-[#146A1E] dark:accent-emerald-600" />
 
                     <div class="grid grid-cols-2 gap-3">
                         <input type="number" [(ngModel)]="minPriceInput" (input)="onPriceManualInput('min')"
                             (blur)="onPriceManualBlur('min')"
-                            class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
+                            class="w-full mt-2 text-xl font-bold text-emerald-950 dark:text-white outline-none border-none bg-transparent" />
                         <input type="number" [(ngModel)]="maxPriceInput" (input)="onPriceManualInput('max')"
                             (blur)="onPriceManualBlur('max')"
-                            class="w-full mt-2 text-xl font-bold text-emerald-950 outline-none border-none bg-transparent" />
+                            class="w-full mt-2 text-xl font-bold text-emerald-950 dark:text-white outline-none border-none bg-transparent" />
                     </div>
                 </div>
 
                 <!-- DATE SECTION -->
                 <div class="space-y-4">
-                    <h3 class="text-sm font-bold text-emerald-950">Date</h3>
+                    <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Date</h3>
                     <input type="date" [(ngModel)]="selectedDateISO" (change)="applyFilters()"
-                        class="w-full p-4 rounded-xl border border-emerald-200 font-bold text-emerald-950" />
+                        class="w-full p-4 rounded-xl border border-emerald-200 dark:border-slate-700 font-bold text-emerald-950 dark:text-white bg-white dark:bg-slate-800" />
                 </div>
 
             </div>
@@ -379,20 +397,20 @@
         </div>
 
         <!-- Footer -->
-        <div class="flex justify-between items-center px-6 py-5 border-t border-emerald-200/60">
+        <div class="flex justify-between items-center px-6 py-5 border-t border-emerald-200/60 dark:border-slate-700">
             <button (click)="resetAllFilters(true)"
-                class="text-sm font-bold text-emerald-950/70 hover:text-emerald-950">
+                class="text-sm font-bold text-emerald-950/70 dark:text-slate-400 hover:text-emerald-950 dark:hover:text-white">
                 Reset Filters
             </button>
 
             <div class="flex gap-2">
                 <button (click)="closeAllFilters()"
-                    class="px-5 py-2 rounded-xl border border-emerald-200 text-emerald-950 font-bold">
+                    class="px-5 py-2 rounded-xl border border-emerald-200 dark:border-slate-700 text-emerald-950 dark:text-white font-bold">
                     Cancel
                 </button>
 
                 <button (click)="applyAndCloseAllFilters()"
-                    class="px-6 py-2 rounded-xl bg-[#146A1E] text-white font-bold hover:bg-[#0f5418]">
+                    class="px-6 py-2 rounded-xl bg-[#146A1E] dark:bg-emerald-700 text-white font-bold hover:bg-[#0f5418] dark:hover:bg-emerald-600">
                     Apply
                 </button>
             </div>

@@ -92,7 +92,7 @@ export const routes: Routes = [
     {
         path: 'MyBookings',
         component: PlayerbookingComponent,
-        title: 'My Bookings',
+        title: 'About Us',
     },
     {
         path: 'FullBookingDetails/:id',

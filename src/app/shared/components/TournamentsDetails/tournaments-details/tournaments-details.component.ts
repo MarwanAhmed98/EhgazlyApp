@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { PlayernavComponent } from '../../../../layouts/playernav/playernav/playernav.component';
 import { RouterLink } from "@angular/router";
+import { AiComponent } from "../../Ai/ai/ai.component";
 @Component({
   selector: 'app-tournaments-details',
-  imports: [PlayernavComponent, RouterLink],
+  imports: [PlayernavComponent, RouterLink, AiComponent],
   templateUrl: './tournaments-details.component.html',
   styleUrl: './tournaments-details.component.scss'
 })

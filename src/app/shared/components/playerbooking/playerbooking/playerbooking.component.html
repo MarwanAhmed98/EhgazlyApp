@@ -1,5 +1,5 @@
 <app-playernav [active]="'my-bookings'"></app-playernav>
-<div class="min-h-screen bg-[#F0FDF4] font-sans antialiased">
+<div class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 font-sans antialiased">
   <!-- Hero Section -->
   <section class="relative overflow-hidden bg-gradient-to-br from-[#0a2e14] via-[#165a21] to-[#1d6e2a] text-white">
     <div class="absolute inset-0 opacity-10">
@@ -15,7 +15,7 @@
         class="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-xs font-bold uppercase tracking-wider">
         Sports Field Booking Platform</div>
       <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">Welcome to <span
-          class="text-[#DCFCE7]">Ehgezly</span></h1>
+          class="text-[#DCFCE7] dark:text-emerald-300">Ehgezly</span></h1>
       <p class="mt-6 text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
         Smart sports field booking – find, compare, and reserve football fields instantly.
         Connect with players, manage teams, and grow the game.
@@ -40,30 +40,34 @@
         </div>
       </div>
     </div>
-    <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F0FDF4] to-transparent"></div>
+    <div
+      class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F0FDF4] dark:from-slate-950 to-transparent">
+    </div>
   </section>
 
   <!-- About + Mission in two columns -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
       <!-- About -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-[#b8ebb3]">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-sm border border-[#b8ebb3] dark:border-slate-700">
         <div class="flex items-center gap-2 mb-4">
-          <div class="w-8 h-1 bg-[#165a21] rounded-full"></div>
-          <span class="text-xs font-black uppercase tracking-wider text-[#165a21]">Our story</span>
+          <div class="w-8 h-1 bg-[#165a21] dark:bg-emerald-500 rounded-full"></div>
+          <span class="text-xs font-black uppercase tracking-wider text-[#165a21] dark:text-emerald-400">Our
+            story</span>
         </div>
-        <h2 class="text-3xl md:text-4xl font-black text-[#133c1d] mb-4">About <span
-            class="text-[#165a21]">Ehgezly</span>
+        <h2 class="text-3xl md:text-4xl font-black text-[#133c1d] dark:text-white mb-4">About <span
+            class="text-[#165a21] dark:text-emerald-400">Ehgezly</span>
         </h2>
-        <div class="space-y-4 text-[#133c1d]/80 leading-relaxed">
+        <div class="space-y-4 text-[#133c1d]/80 dark:text-slate-300 leading-relaxed">
           <p>Ehgezly is a smart sports field booking platform designed to make the process of finding and reserving
             football fields easier, faster, and more convenient for everyone.</p>
           <p>Our platform connects players, teams, and field owners through one simple digital solution. Instead of
             wasting time calling multiple fields or visiting locations to check availability, users can browse nearby
             fields, compare prices, view photos and ratings, and book instantly online.</p>
-          <p class="font-semibold text-[#165a21] pt-2">At Ehgezly, we aim to transform the traditional booking
-            experience
-            into a modern and organized system powered by technology and community interaction.</p>
+          <p class="font-semibold text-[#165a21] dark:text-emerald-400 pt-2">At Ehgezly, we aim to transform the
+            traditional booking
+            experience into a modern and organized system powered by technology and community interaction.</p>
         </div>
       </div>
 
@@ -91,78 +95,95 @@
   <!-- Features: Players & Teams + Field Owners -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-12">
-      <div class="inline-block w-12 h-1 bg-[#165a21] rounded-full mb-3"></div>
-      <h2 class="text-3xl md:text-4xl font-black text-[#133c1d]">What We Offer</h2>
-      <p class="mt-3 text-[#416248] max-w-2xl mx-auto">Everything you need to play, organize, and grow the beautiful
+      <div class="inline-block w-12 h-1 bg-[#165a21] dark:bg-emerald-500 rounded-full mb-3"></div>
+      <h2 class="text-3xl md:text-4xl font-black text-[#133c1d] dark:text-white">What We Offer</h2>
+      <p class="mt-3 text-[#416248] dark:text-slate-400 max-w-2xl mx-auto">Everything you need to play, organize, and
+        grow the beautiful
         game.</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- For Players & Teams -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-[#b8ebb3] transition-all hover:shadow-xl">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-[#b8ebb3] dark:border-slate-700 transition-all hover:shadow-xl">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21]"><svg
-              class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            class="w-12 h-12 rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg></div>
-          <h3 class="text-2xl font-black text-[#133c1d]">For Players &amp; Teams</h3>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-black text-[#133c1d] dark:text-white">For Players &amp; Teams</h3>
         </div>
         <ul class="space-y-4">
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Easy online booking</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Easy online booking</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Smart field search and filtering</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Smart field search and filtering</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Real-time availability</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Real-time availability</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Ratings and reviews</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Ratings and reviews</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Team creation and player finder</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Team creation and player finder</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Match reminders and notifications</span></li>
+            </svg><span class="dark:text-slate-300">Match reminders and notifications</span></li>
         </ul>
       </div>
 
       <!-- For Field Owners -->
-      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-[#b8ebb3] transition-all hover:shadow-xl">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-[#b8ebb3] dark:border-slate-700 transition-all hover:shadow-xl">
         <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21]"><svg
-              class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            class="w-12 h-12 rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1M5 21v-4a2 2 0 012-2h10a2 2 0 012 2v4" />
-            </svg></div>
-          <h3 class="text-2xl font-black text-[#133c1d]">For Field Owners</h3>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-black text-[#133c1d] dark:text-white">For Field Owners</h3>
         </div>
         <ul class="space-y-4">
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Booking management dashboard</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Booking management dashboard</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Revenue and booking analytics</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Revenue and booking analytics</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Schedule management tools</span></li>
-          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#165a21] flex-shrink-0 mt-0.5" fill="none"
+            </svg><span class="dark:text-slate-300">Schedule management tools</span></li>
+          <li class="flex items-start gap-3"><svg
+              class="w-5 h-5 text-[#165a21] dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none"
               stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg><span>Promotional and marketing features</span></li>
+            </svg><span class="dark:text-slate-300">Promotional and marketing features</span></li>
         </ul>
       </div>
     </div>
@@ -171,52 +192,60 @@
   <!-- Why Choose Us -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-12">
-      <div class="inline-block w-12 h-1 bg-[#165a21] rounded-full mb-3"></div>
-      <h2 class="text-3xl md:text-4xl font-black text-[#133c1d]">Why Choose Ehgezly?</h2>
+      <div class="inline-block w-12 h-1 bg-[#165a21] dark:bg-emerald-500 rounded-full mb-3"></div>
+      <h2 class="text-3xl md:text-4xl font-black text-[#133c1d] dark:text-white">Why Choose Ehgezly?</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div
-        class="bg-white rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] transition-all hover:-translate-y-1 hover:shadow-md">
-        <div class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21] mb-4">
+        class="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] dark:border-slate-700 transition-all hover:-translate-y-1 hover:shadow-md">
+        <div
+          class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400 mb-4">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
-        <h3 class="font-black text-[#133c1d] mb-2">Fast &amp; User-Friendly</h3>
-        <p class="text-sm text-[#416248]">Intuitive interface, seamless booking flow, instant confirmations.</p>
+        <h3 class="font-black text-[#133c1d] dark:text-white mb-2">Fast &amp; User-Friendly</h3>
+        <p class="text-sm text-[#416248] dark:text-slate-400">Intuitive interface, seamless booking flow, instant
+          confirmations.</p>
       </div>
       <div
-        class="bg-white rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] transition-all hover:-translate-y-1 hover:shadow-md">
-        <div class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21] mb-4">
+        class="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] dark:border-slate-700 transition-all hover:-translate-y-1 hover:shadow-md">
+        <div
+          class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400 mb-4">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
-        <h3 class="font-black text-[#133c1d] mb-2">Trusted Information</h3>
-        <p class="text-sm text-[#416248]">Verified fields, genuine ratings, and transparent pricing.</p>
+        <h3 class="font-black text-[#133c1d] dark:text-white mb-2">Trusted Information</h3>
+        <p class="text-sm text-[#416248] dark:text-slate-400">Verified fields, genuine ratings, and transparent pricing.
+        </p>
       </div>
       <div
-        class="bg-white rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] transition-all hover:-translate-y-1 hover:shadow-md">
-        <div class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21] mb-4">
+        class="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] dark:border-slate-700 transition-all hover:-translate-y-1 hover:shadow-md">
+        <div
+          class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400 mb-4">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
         </div>
-        <h3 class="font-black text-[#133c1d] mb-2">Smart Recommendations</h3>
-        <p class="text-sm text-[#416248]">Personalized suggestions based on your location and preferences.</p>
+        <h3 class="font-black text-[#133c1d] dark:text-white mb-2">Smart Recommendations</h3>
+        <p class="text-sm text-[#416248] dark:text-slate-400">Personalized suggestions based on your location and
+          preferences.</p>
       </div>
       <div
-        class="bg-white rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] transition-all hover:-translate-y-1 hover:shadow-md">
-        <div class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#165a21] mb-4">
+        class="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center shadow-sm border border-[#b8ebb3] dark:border-slate-700 transition-all hover:-translate-y-1 hover:shadow-md">
+        <div
+          class="w-14 h-14 mx-auto rounded-full bg-[#DCFCE7] dark:bg-emerald-900/50 flex items-center justify-center text-[#165a21] dark:text-emerald-400 mb-4">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         </div>
-        <h3 class="font-black text-[#133c1d] mb-2">Community-Based</h3>
-        <p class="text-sm text-[#416248]">Connect with players, create teams, and enjoy the beautiful game.</p>
+        <h3 class="font-black text-[#133c1d] dark:text-white mb-2">Community-Based</h3>
+        <p class="text-sm text-[#416248] dark:text-slate-400">Connect with players, create teams, and enjoy the
+          beautiful game.</p>
       </div>
     </div>
   </section>
@@ -247,7 +276,8 @@
   </section>
 
   <!-- Footer note (optional, but clean) -->
-  <footer class="border-t border-[#addfa7] py-8 text-center text-sm text-[#416248]">
+  <footer
+    class="border-t border-[#addfa7] dark:border-slate-800 py-8 text-center text-sm text-[#416248] dark:text-slate-400">
     <div class="max-w-7xl mx-auto px-4">© 2026 Ehgezly. All rights reserved. Play smarter, book easier.</div>
   </footer>
 </div>
