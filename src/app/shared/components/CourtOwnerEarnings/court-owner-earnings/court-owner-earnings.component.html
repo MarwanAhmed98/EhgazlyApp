@@ -1,22 +1,24 @@
-<div class="min-h-screen bg-[#E2F5E9] p-4 md:p-8 font-sans text-slate-800 relative">
+<div
+    class="min-h-screen bg-[#E2F5E9] dark:bg-[#071E14] p-4 md:p-8 font-sans text-slate-800 dark:text-slate-100 relative">
     <div class="max-w-7xl mx-auto space-y-6">
 
         <!-- Header Section: Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Total Earnings -->
-            <div class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20 transition-all hover:shadow-md">
+            <div
+                class="bg-[#BFF0D4] dark:bg-emerald-500/10 rounded-3xl p-6 shadow-sm border border-white/20 dark:border-white/10 transition-all hover:shadow-md dark:hover:shadow-black/40">
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <p class="text-sm font-medium text-slate-600 mb-1">Total Revenue</p>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Total Revenue</p>
                         <h2 class="text-3xl font-bold flex items-baseline gap-2">
                             {{ FinancialDetails?.total_revenue ?? '0.00' }}
                             <span class="text-sm font-semibold opacity-70">EGP</span>
                         </h2>
                     </div>
-                    <div class="p-3 bg-white/30 rounded-2xl">
+                    <div class="p-3 bg-white/30 dark:bg-white/10 rounded-2xl">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-emerald-700">
+                            class="text-emerald-700 dark:text-emerald-200">
                             <rect width="20" height="12" x="2" y="6" rx="2" />
                             <circle cx="12" cy="12" r="2" />
                             <path d="M6 12h.01M18 12h.01" />
@@ -26,8 +28,9 @@
             </div>
 
             <!-- App Commission -->
-            <div class="bg-[#BFF0D4] rounded-3xl p-6 shadow-sm border border-white/20 transition-all hover:shadow-md">
-                <p class="text-sm font-medium text-slate-600 mb-1">App Commission</p>
+            <div
+                class="bg-[#BFF0D4] dark:bg-emerald-500/10 rounded-3xl p-6 shadow-sm border border-white/20 dark:border-white/10 transition-all hover:shadow-md dark:hover:shadow-black/40">
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">App Commission</p>
                 <h2 class="text-3xl font-bold flex items-baseline gap-2 mb-4">
                     {{ FinancialDetails?.commission_percentage ?? '0.00' }}
                     <span class="text-sm font-semibold opacity-70">%</span>
@@ -35,7 +38,8 @@
             </div>
 
             <!-- Net Payout (Primary Card) -->
-            <div class="bg-[#0D5C2E] rounded-3xl p-6 shadow-lg text-white transition-transform hover:scale-[1.02]">
+            <div
+                class="bg-[#0D5C2E] dark:bg-[#0D5C2E] rounded-3xl p-6 shadow-lg dark:shadow-black/60 text-white transition-transform hover:scale-[1.02]">
                 <p class="text-sm font-medium opacity-80 mb-1">Your Net Payout</p>
                 <h2 class="text-4xl font-bold flex items-baseline gap-2 mb-6">
                     {{ FinancialDetails?.app_due_amount ?? '0.00' }}
@@ -43,7 +47,7 @@
                 </h2>
 
                 <button type="button" (click)="onWithdrawFunds()"
-                    class="w-full bg-[#AF4D13] hover:bg-[#964110] active:scale-95 transition-all text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-inner">
+                    class="w-full bg-[#AF4D13] hover:bg-[#964110] dark:hover:bg-[#b85a1f] active:scale-95 transition-all text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-inner">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -56,16 +60,17 @@
         </div>
 
         <!-- Payout History Section -->
-        <div class="bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-emerald-100">
+        <div
+            class="bg-white dark:bg-[#0B2419] rounded-[2rem] p-4 md:p-6 shadow-sm dark:shadow-black/40 border border-emerald-100 dark:border-white/10">
             <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-800">Payout History</h3>
-                    <p class="text-sm text-slate-500">Track your recent bank transfers</p>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">Payout History</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Track your recent bank transfers</p>
                 </div>
 
                 <!-- Download Report (LOCAL) -->
                 <button type="button" (click)="downloadReportLocal()" [disabled]="downloadLoading"
-                    class="text-emerald-700 font-bold text-sm flex items-center gap-2 hover:bg-emerald-50 px-4 py-2 rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="text-emerald-700 dark:text-emerald-200 font-bold text-sm flex items-center gap-2 hover:bg-emerald-50 dark:hover:bg-white/10 px-4 py-2 rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed">
                     @if (!downloadLoading) {
                     Download <span class="hidden sm:inline">Report</span>
                     } @else {
@@ -84,7 +89,7 @@
             <div class="hidden md:block overflow-x-auto">
                 <table class="w-full text-left border-separate border-spacing-y-3">
                     <thead>
-                        <tr class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        <tr class="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-widest">
                             <th class="pb-2 pl-4">Reference ID</th>
                             <th class="pb-2">Date</th>
                             <th class="pb-2">Method</th>
@@ -96,22 +101,27 @@
 
                     <tbody>
                         <tr *ngFor="let item of FinancialDetails?.payment_history || []" class="group">
-                            <td class="bg-[#E2F5E9]/30 py-4 pl-4 rounded-l-2xl font-bold text-slate-700">#{{ item.id }}
+                            <td
+                                class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4 pl-4 rounded-l-2xl font-bold text-slate-700 dark:text-slate-100">
+                                #{{ item.id }}
                             </td>
 
-                            <td class="bg-[#E2F5E9]/30 py-4 text-slate-600 text-sm font-medium whitespace-nowrap">
+                            <td
+                                class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4 text-slate-600 dark:text-slate-300 text-sm font-medium whitespace-nowrap">
                                 {{ item.created_at | date:'MMM dd, yyyy' }}
                             </td>
 
-                            <td class="bg-[#E2F5E9]/30 py-4 text-slate-600 text-sm font-medium capitalize">
+                            <td
+                                class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4 text-slate-600 dark:text-slate-300 text-sm font-medium capitalize">
                                 {{ item.payment_type }}
                             </td>
 
-                            <td class="bg-[#E2F5E9]/30 py-4 font-bold text-slate-700 whitespace-nowrap">
+                            <td
+                                class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4 font-bold text-slate-700 dark:text-slate-100 whitespace-nowrap">
                                 {{ item.amount | number:'1.2-2' }} EGP
                             </td>
 
-                            <td class="bg-[#E2F5E9]/30 py-4">
+                            <td class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4">
                                 <span
                                     class="px-3 py-1 rounded-full text-[10px] font-black border flex items-center w-fit gap-1 uppercase status-badge"
                                     [class.status-badge--approved]="toLower(item.status) === 'approved'"
@@ -125,7 +135,7 @@
                                 </span>
                             </td>
 
-                            <td class="bg-[#E2F5E9]/30 py-4 pr-4 rounded-r-2xl">
+                            <td class="bg-[#E2F5E9]/30 dark:bg-white/5 py-4 pr-4 rounded-r-2xl">
                                 <div class="action-cell">
                                     <button type="button" class="eye-action-btn"
                                         (click)="viewItem(item); $event.stopPropagation()" aria-label="View details">
@@ -146,12 +156,12 @@
             <!-- Mobile View -->
             <div class="md:hidden space-y-4">
                 <div *ngFor="let item of FinancialDetails?.payment_history || []"
-                    class="bg-[#E2F5E9]/20 rounded-3xl p-5 border border-emerald-100/50 shadow-sm">
+                    class="bg-[#E2F5E9]/20 dark:bg-white/5 rounded-3xl p-5 border border-emerald-100/50 dark:border-white/10 shadow-sm dark:shadow-black/40">
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <span
-                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Reference</span>
-                            <span class="font-bold text-slate-700">#{{ item.id }}</span>
+                                class="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block mb-0.5">Reference</span>
+                            <span class="font-bold text-slate-700 dark:text-slate-100">#{{ item.id }}</span>
                         </div>
 
                         <span
@@ -170,32 +180,35 @@
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <span
-                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Date</span>
-                            <span class="text-sm font-medium text-slate-600">{{ item.created_at | date:'MMM dd, yyyy'
-                                }}</span>
+                                class="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block mb-0.5">Date</span>
+                            <span class="text-sm font-medium text-slate-600 dark:text-slate-300">{{ item.created_at |
+                                date:'MMM dd, yyyy' }}</span>
                         </div>
                         <div>
                             <span
-                                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Amount</span>
-                            <span class="text-sm font-bold text-slate-800">{{ item.amount | number:'1.2-2' }} EGP</span>
+                                class="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider block mb-0.5">Amount</span>
+                            <span class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ item.amount |
+                                number:'1.2-2' }} EGP</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-center pt-4 border-t border-emerald-100/50">
+                    <div
+                        class="flex justify-between items-center pt-4 border-t border-emerald-100/50 dark:border-white/10">
                         <div class="flex items-center gap-2">
-                            <div class="p-1.5 bg-white rounded-lg shadow-sm">
+                            <div class="p-1.5 bg-white dark:bg-white/10 rounded-lg shadow-sm dark:shadow-black/40">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-emerald-700">
+                                    stroke-linejoin="round" class="text-emerald-700 dark:text-emerald-200">
                                     <rect width="20" height="14" x="2" y="5" rx="2" />
                                     <line x1="2" x2="22" y1="10" y2="10" />
                                 </svg>
                             </div>
-                            <span class="text-xs text-slate-500 font-medium capitalize">{{ item.payment_type }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium capitalize">{{
+                                item.payment_type }}</span>
                         </div>
 
                         <button type="button" (click)="viewItem(item); $event.stopPropagation()"
-                            class="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-50">
+                            class="flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-200 bg-white dark:bg-white/10 px-3 py-2 rounded-xl shadow-sm dark:shadow-black/40 border border-emerald-50 dark:border-white/10 hover:bg-emerald-50 dark:hover:bg-white/15 transition-colors">
                             Details
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -228,8 +241,10 @@
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <h3 class="text-lg sm:text-xl font-black text-slate-900 truncate">Payments Commission</h3>
-                        <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5 truncate">
+                        <h3 class="text-lg sm:text-xl font-black text-slate-900 dark:text-slate-100 truncate">Payments
+                            Commission</h3>
+                        <p
+                            class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5 truncate">
                             Submit a payout request with receipt proof.
                         </p>
                     </div>
@@ -323,8 +338,10 @@
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <h3 class="text-lg sm:text-xl font-black text-slate-900 truncate">Payment Details</h3>
-                        <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5 truncate">
+                        <h3 class="text-lg sm:text-xl font-black text-slate-900 dark:text-slate-100 truncate">Payment
+                            Details</h3>
+                        <p
+                            class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5 truncate">
                             Reference #{{ selectedPayment?.id }}
                         </p>
                     </div>
@@ -367,7 +384,8 @@
                 </div>
 
                 @if (selectedPayment?.rejection_reason) {
-                <div class="mt-4 p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold">
+                <div
+                    class="mt-4 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-400/20 text-red-800 dark:text-red-200 text-sm font-semibold">
                     Rejection reason: {{ selectedPayment?.rejection_reason }}
                 </div>
                 }

@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen md:p-8 font-sans text-slate-800 relative working-hours-container bg-[#E2F5E9] dark:bg-slate-800 p-6 rounded-xl shadow-md">
+    class="min-h-screen md:p-8 font-sans text-slate-800 dark:text-slate-100 relative working-hours-container bg-[#E2F5E9] dark:bg-[#071E14] p-6 rounded-xl shadow-md dark:shadow-black/50">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
@@ -8,14 +8,14 @@
         </div>
         <div class="flex gap-3">
             <select *ngIf="mainCourts.length > 0" (change)="onMainCourtChange($event)"
-                class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
                 <option *ngFor="let court of mainCourts" [value]="court.id"
                     [selected]="court.id === selectedMainCourtId">
                     {{ court.name || 'Court #' + court.id }}
                 </option>
             </select>
             <button (click)="openHoursModal()"
-                class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all duration-200 flex items-center gap-2">
+                class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,34 +29,37 @@
     <!-- Working Hours Cards Grid -->
     <div *ngIf="workingHoursList.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div *ngFor="let item of workingHoursList; trackBy: trackById"
-            class="bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-slate-100 dark:border-slate-700">
+            class="bg-white dark:bg-slate-800 rounded-xl shadow-md dark:shadow-black/45 hover:shadow-lg dark:hover:shadow-black/60 transition-shadow duration-200 overflow-hidden border border-slate-100 dark:border-white/10">
             <div class="p-5">
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-lg font-semibold capitalize text-slate-800 dark:text-white">{{ item.day_of_week }}
                     </h3>
-                    <span [class]="item.is_open
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'"
+                    <span
+                        [class]="item.is_open
+                        ? 'bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-200 dark:border dark:border-green-400/20'
+                        : 'bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-200 dark:border dark:border-red-400/20'"
                         class="px-3 py-1 rounded-full text-xs font-medium">
                         {{ item.is_open ? 'Open' : 'Closed' }}
                     </span>
                 </div>
                 <div *ngIf="item.is_open" class="flex justify-between items-center text-slate-600 dark:text-slate-300">
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-700 dark:text-slate-200"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span>{{ formatTime(item.open_time) }} – {{ formatTime(item.close_time) }}</span>
                     </div>
                 </div>
-                <div *ngIf="!item.is_open" class="text-slate-500 italic text-sm">Closed all day</div>
+                <div *ngIf="!item.is_open" class="text-slate-500 dark:text-slate-400 italic text-sm">Closed all day
+                </div>
             </div>
         </div>
     </div>
 
-    <div *ngIf="workingHoursList.length === 0" class="text-center py-12 bg-slate-50 dark:bg-slate-800 rounded-xl">
+    <div *ngIf="workingHoursList.length === 0"
+        class="text-center py-12 bg-slate-50 dark:bg-white/5 rounded-xl border border-transparent dark:border-white/10">
         <p class="text-slate-500 dark:text-slate-400">No working hours found. Click "Add / Edit Hours" to set schedule.
         </p>
     </div>
@@ -78,20 +81,20 @@
         <div class="modal-body">
             <form [formGroup]="hoursForm" (ngSubmit)="submitHours()">
                 <div *ngFor="let day of daysOfWeek; let i = index"
-                    class="day-form-item border-b border-slate-200 dark:border-slate-700 pb-4 mb-4">
+                    class="day-form-item border-b border-slate-200 dark:border-white/10 pb-4 mb-4">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <label class="text-slate-700 dark:text-slate-300 font-medium capitalize w-full sm:w-auto">{{ day
                             }}</label>
                         <div class="flex items-center gap-2">
-                            <span class="text-sm text-slate-500">Closed</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">Closed</span>
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" [formControlName]="day" class="sr-only peer"
                                     (change)="onOpenToggle(day)">
                                 <div
-                                    class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600">
+                                    class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300 dark:peer-focus:ring-emerald-400/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600">
                                 </div>
                             </label>
-                            <span class="text-sm text-slate-500">Open</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">Open</span>
                         </div>
                     </div>
 
@@ -101,21 +104,21 @@
                         <div class="flex-1">
                             <label class="block text-sm text-slate-600 dark:text-slate-400 mb-1">Open Time</label>
                             <input type="time" [formControlName]="day + '_open'"
-                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
                         </div>
                         <div class="flex-1">
                             <label class="block text-sm text-slate-600 dark:text-slate-400 mb-1">Close Time</label>
                             <input type="time" [formControlName]="day + '_close'"
-                                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                class="w-full px-3 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" (click)="closeModal()"
-                        class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">Cancel</button>
+                        class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition">Cancel</button>
                     <button type="submit" [disabled]="isSubmitting"
-                        class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition">
+                        class="px-5 py-2 bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-lg shadow-md dark:shadow-black/40 disabled:opacity-50 disabled:cursor-not-allowed transition">
                         {{ isSubmitting ? 'Saving...' : 'Save All Hours' }}
                     </button>
                 </div>

@@ -48,7 +48,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   isSideNavOpen = true;
   isDarkMode: boolean = false;
   currentTitle = 'Dashboard';
-  header = { breadcrumbRoot: 'Ehgazly' };
+  header = { breadcrumbRoot: 'Ehgezly' };
   brand = { name: 'Ehgezly', logoUrl: '/assets/images/logo.png' };
   userName: string =
     (typeof localStorage !== 'undefined' && localStorage.getItem('UserName')) || 'User';
@@ -280,7 +280,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
           };
         },
         error: (err) => {
-          this.toastService.error(err?.error?.message ?? 'Failed to mark as read.', 'Ehgazly');
+          this.toastService.error(err?.error?.message ?? 'Failed to mark as read.', 'Ehgezly');
         },
       });
   }
@@ -307,7 +307,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
           };
         },
         error: (err) => {
-          this.toastService.error(err?.error?.message ?? 'Failed to mark all as read.', 'Ehgazly');
+          this.toastService.error(err?.error?.message ?? 'Failed to mark all as read.', 'Ehgezly');
         },
       });
   }
@@ -399,7 +399,7 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('userId');
-      this.toastService.success('Logged out successfully.', 'Ehgazly');
+      this.toastService.success('Logged out successfully.', 'Ehgezly');
     }
     this.router.navigate(['/Login']);
   }

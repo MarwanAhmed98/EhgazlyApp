@@ -1,9 +1,9 @@
 .notif-dd {
     position: absolute;
-    top: calc(100% + 10px); // ✅ sits just below the bell button
-    right: 0; // ✅ aligned to the right edge — never overflows
+    top: calc(100% + 10px);
+    right: 0;
     width: 380px;
-    max-width: calc(100vw - 1rem); // ✅ safety clamp on very small screens
+    max-width: calc(100vw - 1rem);
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     border-radius: 1.5rem;
@@ -14,9 +14,8 @@
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
     transform: scale(0.95);
-    transform-origin: top right; // ✅ animates from the top-right corner (bell icon)
+    transform-origin: top right;
 
-    // ✅ FIXED dark mode: uses .dark class instead of @media prefers-color-scheme
     :global(html.dark) & {
         background: rgba(15, 23, 42, 0.92);
         border-color: rgba(30, 41, 59, 0.8);
@@ -212,7 +211,7 @@
     position: relative;
 
     &:hover {
-        background: #f8fafc;
+        // background: #f8fafc;
 
         :global(html.dark) & {
             background: #1e293b;
@@ -365,7 +364,7 @@
     }
 
     &::-webkit-scrollbar-track {
-        background: #f1f5f9;
+        // background: #f1f5f9;
         border-radius: 4px;
     }
 
@@ -403,4 +402,77 @@
     50% {
         opacity: 0.8;
     }
+}
+
+:host-context(.dark) .notif-dd {
+    background: rgba(2, 6, 23, 0.72);
+    border-color: rgba(51, 65, 85, 0.65);
+    box-shadow:
+        0 18px 60px rgba(0, 0, 0, 0.55),
+        0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.dark) .notif-dd__title {
+    color: rgba(226, 232, 240, 0.95);
+}
+
+:host-context(.dark) .notif-dd__sub {
+    color: rgba(226, 232, 240, 0.6);
+}
+
+:host-context(.dark) .notif-dd__close {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(51, 65, 85, 0.6);
+    color: rgba(226, 232, 240, 0.8);
+}
+
+:host-context(.dark) .notif-dd__tab {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(51, 65, 85, 0.6);
+    color: rgba(226, 232, 240, 0.75);
+}
+
+:host-context(.dark) .notif-dd__tab.is-active {
+    background: rgba(46, 125, 50, 0.18);
+    border-color: rgba(46, 125, 50, 0.28);
+    color: #86efac;
+}
+
+:host-context(.dark) .notif-item__icon {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(51, 65, 85, 0.6);
+}
+
+:host-context(.dark) .notif-item__title {
+    color: rgba(226, 232, 240, 0.95);
+}
+
+:host-context(.dark) .notif-item__desc {
+    color: rgba(226, 232, 240, 0.62);
+}
+
+:host-context(.dark) .notif-item__time {
+    color: rgba(226, 232, 240, 0.5);
+}
+
+:host-context(.dark) .notif-empty__title {
+    color: rgba(226, 232, 240, 0.9);
+}
+
+:host-context(.dark) .notif-empty__desc {
+    color: rgba(226, 232, 240, 0.55);
+}
+
+:host-context(.dark) .notif-dd__footer {
+    border-top-color: rgba(51, 65, 85, 0.6);
+}
+
+:host-context(.dark) .notif-dd__cta {
+    background: rgba(46, 125, 50, 0.16);
+    border-color: rgba(46, 125, 50, 0.22);
+    color: #86efac;
+}
+
+:host-context(.dark) .notif-dd__link {
+    color: rgba(226, 232, 240, 0.62);
 }

@@ -3,11 +3,12 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { LoginNavbarComponent } from "../../../../layouts/LoginNavbar/login-navbar/login-navbar.component";
 
 
 @Component({
   selector: 'app-forget-pass',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LoginNavbarComponent],
   templateUrl: './forget-pass.component.html',
   styleUrl: './forget-pass.component.scss'
 })

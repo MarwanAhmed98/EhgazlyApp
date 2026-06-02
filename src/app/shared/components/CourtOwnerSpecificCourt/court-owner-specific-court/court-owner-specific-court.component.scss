@@ -1,6 +1,3 @@
-// Modern responsive styling – complements Tailwind CSS
-// No global overrides, only page‑specific enhancements
-
 :host {
     display: block;
     animation: fadeIn 0.4s ease-out;
@@ -18,7 +15,6 @@
     }
 }
 
-// Improve line clamp for descriptions
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -27,7 +23,6 @@
     overflow: hidden;
 }
 
-// Custom scrollbar for any overflow (optional)
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -47,7 +42,6 @@
     background: #94a3b8;
 }
 
-// Hover lift effect for cards (Tailwind can do, but fallback)
 .hover-lift {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
@@ -57,20 +51,17 @@
     }
 }
 
-// Touch-friendly tap highlight removal for mobile
 button,
 a,
 [role="button"] {
     -webkit-tap-highlight-color: transparent;
 }
 
-// Ensure images don't overflow on small screens
 img {
     max-width: 100%;
     height: auto;
 }
 
-// Responsive adjustments for very small screens
 @media (max-width: 640px) {
     .rounded-3xl {
         border-radius: 1.5rem;

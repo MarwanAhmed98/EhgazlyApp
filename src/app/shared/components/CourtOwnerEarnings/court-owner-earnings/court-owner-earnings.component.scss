@@ -7,7 +7,7 @@
 }
 
 .modal-backdrop {
-    @apply fixed inset-0 z-50 bg-black/40 backdrop-blur-sm;
+    @apply fixed inset-0 z-50 bg-black/40 dark:bg-black/70 backdrop-blur-sm;
 }
 
 .modal-wrap {
@@ -15,7 +15,7 @@
 }
 
 .modal-card {
-    @apply w-full bg-white rounded-[1.5rem] sm:rounded-[2rem] border border-emerald-100 shadow-xl overflow-hidden;
+    @apply w-full bg-white dark:bg-[#0B2419] rounded-[1.5rem] sm:rounded-[2rem] border border-emerald-100 dark:border-white/10 shadow-xl dark:shadow-black/70 overflow-hidden;
 }
 
 .modal-card--compact {
@@ -27,7 +27,7 @@
 }
 
 .modal-head {
-    @apply p-4 sm:p-5 md:p-6 flex items-start justify-between gap-3 border-b border-emerald-100/60;
+    @apply p-4 sm:p-5 md:p-6 flex items-start justify-between gap-3 border-b border-emerald-100/60 dark:border-white/10;
 }
 
 .modal-title {
@@ -35,15 +35,15 @@
 }
 
 .modal-badge {
-    @apply w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-700 grid place-items-center shrink-0;
+    @apply w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-400/20 text-emerald-700 dark:text-emerald-200 grid place-items-center shrink-0;
 }
 
 .modal-badge--info {
-    @apply bg-white border-emerald-100 text-emerald-700;
+    @apply bg-white dark:bg-white/10 border-emerald-100 dark:border-white/10 text-emerald-700 dark:text-emerald-200;
 }
 
 .modal-close {
-    @apply w-9 h-9 sm:w-10 sm:h-10 rounded-2xl border border-emerald-100 bg-white text-slate-500 font-black transition-colors hover:bg-emerald-50 hover:text-emerald-800;
+    @apply w-9 h-9 sm:w-10 sm:h-10 rounded-2xl border border-emerald-100 dark:border-white/10 bg-white dark:bg-white/10 text-slate-500 dark:text-slate-300 font-black transition-colors hover:bg-emerald-50 dark:hover:bg-white/10 hover:text-emerald-800 dark:hover:text-emerald-100;
 }
 
 .modal-form {
@@ -63,7 +63,7 @@
 }
 
 .modal-footer {
-    @apply p-4 sm:p-5 md:p-6 border-t border-emerald-100/60 bg-white flex flex-col-reverse sm:flex-row gap-3 sm:justify-end;
+    @apply p-4 sm:p-5 md:p-6 border-t border-emerald-100/60 dark:border-white/10 bg-white dark:bg-[#0B2419] flex flex-col-reverse sm:flex-row gap-3 sm:justify-end;
     position: sticky;
     bottom: 0;
 }
@@ -74,11 +74,11 @@
 }
 
 .label {
-    @apply text-sm font-black text-slate-700;
+    @apply text-sm font-black text-slate-700 dark:text-slate-200;
 }
 
 .input {
-    @apply w-full rounded-2xl bg-[#E2F5E9]/35 border border-emerald-100 px-4 py-3 text-slate-800 outline-none transition-all focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400;
+    @apply w-full rounded-2xl bg-[#E2F5E9]/35 dark:bg-white/10 border border-emerald-100 dark:border-white/10 px-4 py-3 text-slate-800 dark:text-slate-100 outline-none transition-all focus:ring-2 focus:ring-emerald-500/30 dark:focus:ring-emerald-400/25 focus:border-emerald-400 dark:focus:border-emerald-400/30;
 }
 
 .textarea {
@@ -86,16 +86,16 @@
 }
 
 .file {
-    @apply w-full rounded-2xl bg-white border border-emerald-100 px-4 py-3 text-sm font-semibold text-slate-700;
+    @apply w-full rounded-2xl bg-white dark:bg-white/10 border border-emerald-100 dark:border-white/10 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200;
 }
 
 .error {
-    @apply text-xs font-bold text-[#B42318];
+    @apply text-xs font-bold text-[#B42318] dark:text-red-300;
 }
 
 /* Preview limited height */
 .preview {
-    @apply rounded-2xl overflow-hidden border border-emerald-100 bg-white;
+    @apply rounded-2xl overflow-hidden border border-emerald-100 dark:border-white/10 bg-white dark:bg-white/5;
 }
 
 .preview--compact {
@@ -124,7 +124,7 @@
 }
 
 .btn-ghost {
-    @apply bg-white text-slate-700 border border-emerald-100 hover:bg-emerald-50 disabled:opacity-60 disabled:cursor-not-allowed;
+    @apply bg-white dark:bg-white/10 text-slate-700 dark:text-slate-200 border border-emerald-100 dark:border-white/10 hover:bg-emerald-50 dark:hover:bg-white/10 disabled:opacity-60 disabled:cursor-not-allowed;
 }
 
 /* Action button */
@@ -199,7 +199,7 @@
    Details Table (Modal Only)
    ========================= */
 .detail-table-wrap {
-    @apply rounded-2xl border border-emerald-100 bg-white overflow-hidden;
+    @apply rounded-2xl border border-emerald-100 dark:border-white/10 bg-white dark:bg-white/5 overflow-hidden;
 }
 
 .detail-table {
@@ -214,19 +214,19 @@
 }
 
 .detail-th {
-    @apply px-4 py-3 text-left text-[11px] sm:text-xs font-black uppercase tracking-widest text-slate-500 bg-[#E2F5E9]/40;
+    @apply px-4 py-3 text-left text-[11px] sm:text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-300 bg-[#E2F5E9]/40 dark:bg-white/5;
     width: 40%;
     vertical-align: top;
 }
 
 .detail-td {
-    @apply px-4 py-3 text-sm sm:text-[15px] font-semibold text-slate-800 bg-white;
+    @apply px-4 py-3 text-sm sm:text-[15px] font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-transparent;
     vertical-align: top;
     word-break: break-word;
 }
 
 .detail-text {
-    @apply text-slate-800;
+    @apply text-slate-800 dark:text-slate-100;
 }
 
 /* =========================
@@ -238,32 +238,29 @@
 
 /* Approved -> Green */
 .status-badge--approved {
-    @apply bg-[#D1FAE5] text-emerald-800 border-emerald-200;
+    @apply bg-[#D1FAE5] dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-400/20;
 }
 
 .status-dot--approved {
     background: #059669;
-    /* emerald-600 */
 }
 
 /* Rejected -> Red */
 .status-badge--rejected {
-    @apply bg-red-50 text-red-800 border-red-200;
+    @apply bg-red-50 dark:bg-red-500/10 text-red-800 dark:text-red-200 border-red-200 dark:border-red-400/20;
 }
 
 .status-dot--rejected {
     background: #dc2626;
-    /* red-600 */
 }
 
 /* Pending -> Yellow/Orange */
 .status-badge--pending {
-    @apply bg-[#FEF3C7] text-amber-800 border-amber-200;
+    @apply bg-[#FEF3C7] dark:bg-amber-500/10 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-400/20;
 }
 
 .status-dot--pending {
     background: #d97706;
-    /* amber-600 */
 }
 
 .status-dot {
@@ -276,7 +273,7 @@
 
 /* Optional image preview row */
 .detail-img {
-    @apply rounded-2xl overflow-hidden border border-emerald-100 bg-[#E2F5E9]/25;
+    @apply rounded-2xl overflow-hidden border border-emerald-100 dark:border-white/10 bg-[#E2F5E9]/25 dark:bg-white/5;
     max-height: 220px;
 }
 

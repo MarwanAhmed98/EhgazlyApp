@@ -4,9 +4,10 @@ import { RouterLink } from "@angular/router";
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { LoginNavbarComponent } from "../../../../layouts/LoginNavbar/login-navbar/login-navbar.component";
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LoginNavbarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

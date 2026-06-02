@@ -43,7 +43,6 @@ textarea {
     resize: none;
 }
 
-// Custom Scrollbar
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -57,7 +56,6 @@ textarea {
     border-radius: 10px;
 }
 
-// Interactive states
 button:disabled {
     cursor: not-allowed;
     opacity: 0.5;

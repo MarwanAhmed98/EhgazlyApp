@@ -1,0 +1,14 @@
+<nav class="w-full flex items-center justify-between py-6 px-6 md:px-10 absolute top-0 left-0 z-50 pointer-events-none">
+    <div class="flex items-center gap-3 pointer-events-auto">
+        <div
+            class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center shadow-lg shadow-[#7C69EF]/20 overflow-hidden">
+            <img src="/images/MyLogo.png" alt="Ehgezly Logo" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-xl font-bold text-main tracking-tight">Ehgezly</span>
+    </div>
+
+    <button (click)="toggleDarkMode()"
+        class="pointer-events-auto w-10 h-10 flex items-center justify-center text-muted bg-surface border border-main rounded-full hover:bg-app transition-all shadow-sm">
+        <i [class]="isDarkMode ? 'fas fa-sun text-amber-400' : 'fas fa-moon'"></i>
+    </button>
+</nav>

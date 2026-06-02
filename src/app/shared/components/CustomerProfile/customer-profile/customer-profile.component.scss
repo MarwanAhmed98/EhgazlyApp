@@ -904,3 +904,48 @@ $shadow-btn: 0 4px 14px rgba(21, 128, 61, .35);
         background: rgba(55, 65, 81, 0.6);
     }
 }
+
+// Dark mode overrides for SCSS-managed elements
+:host-context(.dark) {
+    .profile-root {
+        background: #030712;
+        color: #f3f4f6;
+    }
+
+    .bg-orb--1 {
+        background: radial-gradient(circle, rgba(16, 185, 129, .10) 0%, transparent 70%);
+    }
+
+    .bg-orb--2 {
+        background: radial-gradient(circle, rgba(5, 150, 105, .08) 0%, transparent 70%);
+    }
+
+    .hero-card__glow {
+        background: linear-gradient(135deg, rgba(16, 185, 129, .10) 0%, transparent 60%);
+    }
+
+    .modal-overlay {
+        background: rgba(0, 0, 0, .6);
+    }
+
+    .modal-divider {
+        background: rgba(55, 65, 81, 0.6);
+    }
+
+    .field-readonly {
+        background: rgba(31, 41, 55, 1);
+        border-color: rgba(75, 85, 99, 1);
+    }
+
+    .contact-chip {
+        border-color: rgba(55, 65, 81, 1);
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(16, 185, 129, 0.35);
+    }
+}

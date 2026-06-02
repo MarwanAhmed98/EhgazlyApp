@@ -216,3 +216,136 @@
 .badge--neutral {
     @apply bg-slate-50 text-slate-700 border-slate-200;
 }
+
+.stat-card {
+    @apply bg-white dark:bg-[#0B2419] rounded-[1.75rem] p-5 md:p-6 border border-white/60 dark:border-white/10 shadow-sm relative overflow-hidden min-h-[140px] transition-all duration-300;
+    box-shadow: 0 12px 30px -18px rgba(2, 44, 34, 0.28);
+}
+
+.stat-card:hover {
+    @apply -translate-y-0.5 shadow-md;
+    box-shadow: 0 18px 40px -22px rgba(2, 44, 34, 0.35);
+}
+
+.stat-card--dark {
+    @apply bg-[#0D2E1F] dark:bg-[#0D2E1F] border-white/10 dark:border-white/10 shadow-md;
+    box-shadow: 0 18px 45px -28px rgba(0, 0, 0, 0.55);
+}
+
+.stat-action {
+    @apply text-slate-400 dark:text-slate-300 rounded-2xl p-2 -mr-2 transition-colors duration-200 hover:text-slate-600 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-white/10;
+}
+
+.stat-label {
+    @apply text-[10px] font-black text-slate-400 dark:text-slate-400 uppercase tracking-wider;
+}
+
+.stat-label--dark {
+    @apply text-emerald-400/80 dark:text-emerald-300/80;
+}
+
+.stat-value {
+    @apply text-3xl font-black mt-1 tracking-tight text-slate-900 dark:text-white;
+}
+
+.stat-value--dark {
+    @apply text-white;
+}
+
+.stat-icon {
+    @apply w-11 h-11 rounded-2xl grid place-items-center border;
+}
+
+.stat-icon--green {
+    @apply bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 dark:text-emerald-300 border-emerald-100 dark:border-emerald-400/20;
+}
+
+.stat-icon--blue {
+    @apply bg-blue-50 dark:bg-blue-500/10 text-blue-500 dark:text-blue-300 border-blue-100 dark:border-blue-400/20;
+}
+
+.stat-icon--orange {
+    @apply bg-orange-50 dark:bg-orange-500/10 text-orange-500 dark:text-orange-300 border-orange-100 dark:border-orange-400/20;
+}
+
+.stat-icon--darkGreen {
+    @apply bg-[#1A4D36] dark:bg-[#1A4D36] text-emerald-300 border-white/10 dark:border-white/10;
+}
+
+/* Recent activity */
+.recent-wrap {
+    @apply bg-[#BFF0CC] dark:bg-[#0A2A1C] rounded-[2rem] p-5 md:p-6 border border-emerald-200/50 dark:border-white/10 shadow-sm;
+    box-shadow: 0 12px 30px -18px rgba(2, 44, 34, 0.22);
+}
+
+.recent-title {
+    @apply text-xl md:text-2xl font-black truncate text-slate-900 dark:text-white;
+}
+
+.recent-subtitle {
+    @apply mt-1 text-[11px] md:text-xs font-semibold text-emerald-950/60 dark:text-emerald-100/70;
+}
+
+.recent-refresh {
+    @apply shrink-0 text-slate-700 dark:text-slate-100 rounded-2xl bg-white/70 dark:bg-white/10 border border-emerald-200/60 dark:border-white/10 p-2 md:p-2.5 transition-all duration-200 hover:bg-white dark:hover:bg-white/15 hover:-translate-y-0.5 active:translate-y-0;
+}
+
+.recent-cta {
+    @apply w-full mt-6 py-3 md:py-4 bg-[#A7E6B8] dark:bg-[#123E2B] text-emerald-950 dark:text-emerald-50 font-black rounded-2xl text-sm border border-emerald-200/60 dark:border-white/10 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+}
+
+/* Activity card */
+.activity-card {
+    @apply bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/60 dark:border-white/10 flex items-center gap-4 shadow-sm transition-all duration-300;
+    box-shadow: 0 10px 24px -18px rgba(2, 44, 34, 0.3);
+}
+
+.activity-card:hover {
+    @apply -translate-y-0.5 bg-white/80 dark:bg-white/15 shadow-md;
+    box-shadow: 0 16px 32px -22px rgba(2, 44, 34, 0.38);
+}
+
+.activity-avatar {
+    @apply w-11 h-11 md:w-12 md:h-12 rounded-2xl overflow-hidden border border-emerald-200/50 dark:border-white/10 bg-emerald-50 dark:bg-emerald-500/10 shrink-0;
+}
+
+.activity-name {
+    @apply text-sm md:text-[15px] font-black truncate text-slate-900 dark:text-white;
+}
+
+.activity-desc {
+    @apply mt-1 text-[11px] md:text-xs text-slate-600 dark:text-slate-300 truncate;
+}
+
+.activity-meta {
+    @apply mt-2 flex items-center gap-2 text-[10px] md:text-[11px] font-semibold text-slate-500 dark:text-slate-400;
+}
+
+.activity-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-emerald-500/60 dark:bg-emerald-400/60;
+}
+
+/* Status badge base */
+.activity-badge {
+    @apply text-[10px] md:text-[11px] font-black px-2.5 py-1 rounded-full border inline-flex items-center whitespace-nowrap;
+}
+
+.badge--success {
+    @apply bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-400/20;
+}
+
+.badge--pending {
+    @apply bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-200 border-amber-200 dark:border-amber-400/20;
+}
+
+.badge--danger {
+    @apply bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-200 border-red-200 dark:border-red-400/20;
+}
+
+.badge--info {
+    @apply bg-sky-50 dark:bg-sky-500/10 text-sky-800 dark:text-sky-200 border-sky-200 dark:border-sky-400/20;
+}
+
+.badge--neutral {
+    @apply bg-slate-50 dark:bg-white/10 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-white/10;
+}

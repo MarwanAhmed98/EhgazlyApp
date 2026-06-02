@@ -3,12 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { LoginNavbarComponent } from "../../../../layouts/LoginNavbar/login-navbar/login-navbar.component";
 
 type Role = 'customer' | 'courtowner';
 
 @Component({
   selector: 'app-signup',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LoginNavbarComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })

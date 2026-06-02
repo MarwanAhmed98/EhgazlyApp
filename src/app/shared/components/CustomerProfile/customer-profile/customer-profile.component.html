@@ -1,6 +1,6 @@
 <app-playernav></app-playernav>
 
-<div class="profile-root dark:bg-gray-950">
+<div class="profile-root dark:bg-gray-950 dark:text-gray-100">
 
     <div class="bg-orb bg-orb--1"></div>
     <div class="bg-orb bg-orb--2"></div>
@@ -25,12 +25,12 @@
                 </div>
                 <div class="hero-identity">
                     <h1 class="hero-name dark:text-gray-50">{{ ProfileDetails.name }}</h1>
-                    <p class="hero-role dark:bg-emerald-900/40 dark:border-emerald-700/60 dark:text-emerald-400">{{
+                    <p class="hero-role dark:bg-emerald-900/40 dark:border-emerald-700/60 dark:text-emerald-300">{{
                         PlayerRole }}</p>
                     <div class="hero-contacts">
                         <a
                             class="contact-chip dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-400" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-300" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -39,7 +39,7 @@
                         </a>
                         <a
                             class="contact-chip dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-400" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="chip-icon dark:text-emerald-300" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="hero-actions">
-                <button (click)="shareProfile()" class="btn-share">
+                <button (click)="shareProfile()" class="btn-share dark:hover:bg-emerald-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
                     Share Profile
                 </button>
                 <button (click)="openEditModal()" aria-label="Edit Profile"
-                    class="btn-settings dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-400 dark:hover:bg-gray-700">
+                    class="btn-settings dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-300 dark:hover:bg-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -74,7 +74,7 @@
         <!-- Stats Section -->
         <section class="stats-section dark:bg-gray-900 dark:border-gray-700/50">
             <div class="stats-header dark:border-gray-700/60">
-                <div class="stats-header__icon dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-400">
+                <div class="stats-header__icon dark:bg-gray-800 dark:border-gray-600 dark:text-emerald-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -93,43 +93,43 @@
                         <div class="stat-dot stat-dot--neutral"></div>
                     </div>
                     <span class="stat-value dark:text-gray-100">{{ ProfileDetails.stats.booking_count }}</span>
-                    <span class="stat-desc dark:text-gray-500">All time bookings</span>
+                    <span class="stat-desc dark:text-gray-400">All time bookings</span>
                 </div>
                 <div class="stat-card stat-card--active dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--green dark:text-emerald-400">Active</span>
+                        <span class="stat-label stat-label--green dark:text-emerald-300">Active</span>
                         <div class="stat-dot stat-dot--green"></div>
                     </div>
-                    <span class="stat-value stat-value--green dark:text-emerald-400">{{
+                    <span class="stat-value stat-value--green dark:text-emerald-300">{{
                         ProfileDetails.stats.active_bookings_count }}</span>
-                    <span class="stat-desc dark:text-gray-500">Currently running</span>
+                    <span class="stat-desc dark:text-gray-400">Currently running</span>
                 </div>
                 <div class="stat-card stat-card--completed dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--blue dark:text-blue-400">Completed</span>
+                        <span class="stat-label stat-label--blue dark:text-blue-300">Completed</span>
                         <div class="stat-dot stat-dot--blue"></div>
                     </div>
-                    <span class="stat-value stat-value--blue dark:text-blue-400">{{
+                    <span class="stat-value stat-value--blue dark:text-blue-300">{{
                         ProfileDetails.stats.completed_bookings_count }}</span>
-                    <span class="stat-desc dark:text-gray-500">Successfully done</span>
+                    <span class="stat-desc dark:text-gray-400">Successfully done</span>
                 </div>
                 <div class="stat-card stat-card--cancelled dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--amber dark:text-amber-400">Cancelled</span>
+                        <span class="stat-label stat-label--amber dark:text-amber-300">Cancelled</span>
                         <div class="stat-dot stat-dot--amber"></div>
                     </div>
-                    <span class="stat-value stat-value--amber dark:text-amber-400">{{
+                    <span class="stat-value stat-value--amber dark:text-amber-300">{{
                         ProfileDetails.stats.cancelled_bookings_count }}</span>
-                    <span class="stat-desc dark:text-gray-500">By you or host</span>
+                    <span class="stat-desc dark:text-gray-400">By you or host</span>
                 </div>
                 <div class="stat-card stat-card--rejected dark:bg-gray-800/60 dark:border-gray-700/50">
                     <div class="stat-card__top">
-                        <span class="stat-label stat-label--red dark:text-red-400">Rejected</span>
+                        <span class="stat-label stat-label--red dark:text-red-300">Rejected</span>
                         <div class="stat-dot stat-dot--red"></div>
                     </div>
-                    <span class="stat-value stat-value--red dark:text-red-400">{{
+                    <span class="stat-value stat-value--red dark:text-red-300">{{
                         ProfileDetails.stats.rejected_bookings_count }}</span>
-                    <span class="stat-desc dark:text-gray-500">Declined requests</span>
+                    <span class="stat-desc dark:text-gray-400">Declined requests</span>
                 </div>
             </div>
         </section>
@@ -143,9 +143,9 @@
                 <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 animate-fade-in-up">
                     <div>
                         <h1
-                            class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D] dark:text-emerald-400">
+                            class="text-4xl sm:text-6xl font-black tracking-tighter text-[#14532D] dark:text-emerald-300">
                             YOUR ARENA</h1>
-                        <p class="mt-2 text-emerald-800/70 dark:text-emerald-500/90 font-semibold max-w-xl">
+                        <p class="mt-2 text-emerald-800/70 dark:text-emerald-400/80 font-semibold max-w-xl">
                             {{ tab() === 'upcoming' ? 'Manage your upcoming matches and pitch history.' : 'Review your
                             past performances and stadium visits.' }}
                         </p>
@@ -157,12 +157,12 @@
                             class="inline-flex p-1.5 rounded-full bg-[#DCFCE7] dark:bg-gray-800 border border-emerald-200 dark:border-gray-700 shadow-sm">
                             <button (click)="setTab('upcoming')"
                                 class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-                                [class]="tab() === 'upcoming' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-400/70 hover:text-emerald-900 dark:hover:text-emerald-300'">
+                                [class]="tab() === 'upcoming' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-300/70 hover:text-emerald-900 dark:hover:text-emerald-200'">
                                 Upcoming
                             </button>
                             <button (click)="setTab('previous')"
                                 class="px-6 sm:px-8 py-2.5 rounded-full text-sm font-black transition-all duration-300"
-                                [class]="tab() === 'previous' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-400/70 hover:text-emerald-900 dark:hover:text-emerald-300'">
+                                [class]="tab() === 'previous' ? 'bg-[#14532D] dark:bg-emerald-700 text-white shadow-lg' : 'text-emerald-800/60 dark:text-emerald-300/70 hover:text-emerald-900 dark:hover:text-emerald-200'">
                                 Previous
                             </button>
                         </div>
@@ -170,16 +170,14 @@
                 </div>
 
                 <div class="mt-10 min-h-[400px]">
-
                     @if (filteredBookings().length > 0) {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                         @for (b of filteredBookings(); track b.id) {
                         <article
-                            class="group bg-white dark:bg-gray-900 rounded-2xl border border-emerald-100 dark:border-gray-700/60 overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-emerald-900/20 transition-all duration-300 hover:-translate-y-1">
+                            class="group bg-white dark:bg-gray-900 rounded-2xl border border-emerald-100 dark:border-gray-700/60 overflow-hidden shadow-sm hover:shadow-lg dark:hover:shadow-black/60 transition-all duration-300 hover:-translate-y-1">
                             <div class="flex flex-col h-full">
                                 <div class="p-5 sm:p-6 md:p-7 flex flex-col justify-between h-full">
                                     <div>
-                                        <!-- Status Badge & ID Row -->
                                         <div class="flex justify-between items-start mb-5">
                                             <span [class]="getStatusBadgeClass(b.status)"
                                                 class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
@@ -188,28 +186,26 @@
                                                 {{ b.status }}
                                             </span>
                                             <div
-                                                class="flex items-center gap-1 text-emerald-800/50 dark:text-emerald-500/60 text-xs font-bold">
+                                                class="flex items-center gap-1 text-emerald-800/50 dark:text-emerald-400/60 text-xs font-bold">
                                                 <span>ID: {{ b.id }}</span>
                                             </div>
                                         </div>
 
-                                        <!-- Court Info -->
                                         <div>
                                             <h3
                                                 class="text-2xl sm:text-3xl font-black text-emerald-950 dark:text-gray-50 tracking-tight leading-tight line-clamp-1">
                                                 {{ b.court.name }}
                                             </h3>
                                             <p
-                                                class="text-sm font-bold text-emerald-700/70 dark:text-emerald-500/80 mt-1">
+                                                class="text-sm font-bold text-emerald-700/70 dark:text-emerald-400/80 mt-1">
                                                 {{ b.court.maincourt.name }}</p>
                                         </div>
 
-                                        <!-- Date & Time -->
                                         <div class="mt-6 flex flex-wrap gap-3 sm:gap-4">
                                             <div
-                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl">
+                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-200 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl border border-transparent dark:border-emerald-700/30">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-400" fill="none"
+                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-300" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                                                     <path d="M16 2v4M8 2v4M3 10h18"></path>
@@ -217,9 +213,9 @@
                                                 <span>{{ b.timeslot.date | date: "mediumDate" }}</span>
                                             </div>
                                             <div
-                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl">
+                                                class="flex items-center gap-2 text-emerald-800 dark:text-emerald-200 font-semibold text-sm bg-emerald-50 dark:bg-emerald-900/30 px-3 py-2 rounded-xl border border-transparent dark:border-emerald-700/30">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-400" fill="none"
+                                                    class="h-4 w-4 text-emerald-600 dark:text-emerald-300" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <circle cx="12" cy="12" r="10"></circle>
                                                     <polyline points="12 6 12 12 16 14"></polyline>
@@ -229,16 +225,15 @@
                                         </div>
                                     </div>
 
-                                    <!-- Action Buttons -->
                                     <div
                                         class="mt-8 flex items-center gap-3 pt-2 border-t border-emerald-100 dark:border-gray-700/60">
                                         @if (tab() === 'previous') {
                                         <button
-                                            class="flex-1 px-4 py-3 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase tracking-wider hover:bg-emerald-200 dark:hover:bg-emerald-900/60 transition-all">
+                                            class="flex-1 px-4 py-3 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 text-[11px] font-black uppercase tracking-wider hover:bg-emerald-200 dark:hover:bg-emerald-900/60 transition-all">
                                             Match Report
                                         </button>
                                         <button routerLink="/Venues"
-                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-emerald-700/70 dark:text-emerald-500 hover:text-emerald-900 dark:hover:text-emerald-300 transition-all">
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-emerald-700/70 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-200 transition-all">
                                             Rebook
                                         </button>
                                         } @else {
@@ -247,7 +242,7 @@
                                             View Details
                                         </button>
                                         <button (click)="CancelBooking(b.id)"
-                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-all hover:underline">
+                                            class="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-red-600 dark:text-red-300 hover:text-red-700 dark:hover:text-red-200 transition-all hover:underline">
                                             Cancel
                                         </button>
                                         }
@@ -255,30 +250,6 @@
                                 </div>
                             </div>
                         </article>
-                        }
-
-                        @if (tab() === 'upcoming') {
-                        <div
-                            class="bg-emerald-50/40 dark:bg-emerald-900/10 border-2 border-dashed border-emerald-300 dark:border-emerald-700/50 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition-all group">
-                            <div
-                                class="w-16 h-16 rounded-full bg-[#14532D] dark:bg-emerald-700 text-white flex items-center justify-center shadow-lg mb-5 group-hover:scale-105 transition-transform">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M12 5v14M5 12h14" />
-                                </svg>
-                            </div>
-                            <h3
-                                class="text-xl sm:text-2xl font-black text-emerald-950 dark:text-gray-50 uppercase tracking-tight">
-                                Ready for more?</h3>
-                            <p
-                                class="mt-2 text-emerald-800/70 dark:text-emerald-400/80 font-semibold text-sm max-w-[220px]">
-                                Book another court and keep the momentum going.</p>
-                            <button routerLink="/Venues"
-                                class="mt-6 px-8 py-3 rounded-full bg-[#A34700] text-white font-black text-xs uppercase tracking-wider shadow-md hover:bg-[#8c3c00] hover:-translate-y-0.5 transition-all">
-                                Find a Venue
-                            </button>
-                        </div>
                         }
                     </div>
                     } @else {
@@ -289,7 +260,7 @@
                                 class="w-32 h-32 rounded-full bg-[#DCFCE7] dark:bg-emerald-900/30 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"
                                     fill="none" stroke="#14532D" stroke-width="1.5"
-                                    class="dark:[&>*]:stroke-emerald-400">
+                                    class="dark:[&>*]:stroke-emerald-300">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="m6.7 6.7 10.6 10.6" />
                                     <circle cx="12" cy="12" r="3" />
@@ -303,7 +274,7 @@
                         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-950 dark:text-gray-50 mb-3">
                             No {{ tab() }} matches yet.</h2>
                         <p
-                            class="text-emerald-700/70 dark:text-emerald-500/80 font-semibold max-w-md mb-8 text-base leading-relaxed">
+                            class="text-emerald-700/70 dark:text-emerald-400/80 font-semibold max-w-md mb-8 text-base leading-relaxed">
                             Your next goal is just a booking away. Let's find the perfect pitch for your team.
                         </p>
                         <button routerLink="/Venues"
@@ -325,18 +296,18 @@
                 <div
                     class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
                     <div class="text-center sm:text-left">
-                        <p class="text-xl sm:text-2xl font-black text-[#14532D] dark:text-emerald-400">Ehgazly</p>
-                        <p class="text-xs text-emerald-800/50 dark:text-emerald-600/70 font-bold mt-1">© {{
+                        <p class="text-xl sm:text-2xl font-black text-[#14532D] dark:text-emerald-300">Ehgazly</p>
+                        <p class="text-xs text-emerald-800/50 dark:text-emerald-500/70 font-bold mt-1">© {{
                             (allBookings().length > 0 ? (allBookings()[0].created_at | date:'yyyy') : '2024') }}
                             Ehgazly. The Digital Locker Room.</p>
                     </div>
-                    <div class="flex gap-6 text-xs font-black text-emerald-800/50 dark:text-emerald-600/70">
-                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Privacy
+                    <div class="flex gap-6 text-xs font-black text-emerald-800/50 dark:text-emerald-500/70">
+                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-300 transition-colors">Privacy
                             Policy</a>
-                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Terms
+                        <a href="#" class="hover:text-emerald-900 dark:hover:text-emerald-300 transition-colors">Terms
                             of Service</a>
                         <a href="#"
-                            class="hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">Support</a>
+                            class="hover:text-emerald-900 dark:hover:text-emerald-300 transition-colors">Support</a>
                     </div>
                 </div>
             </footer>
@@ -344,20 +315,20 @@
     </main>
 
     <!-- Toast Notification -->
-    <div *ngIf="toastMessage()" class="toast animate-slide-up">
+    <div *ngIf="toastMessage()" class="toast animate-slide-up dark:bg-emerald-900/80 dark:border-white/10">
         <div class="toast__inner">
-            <svg xmlns="http://www.w3.org/2000/svg" class="toast__icon" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="toast__icon dark:text-emerald-300" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="toast__msg">{{ toastMessage() }}</span>
         </div>
-        <button (click)="dismissToast()" class="toast__close">&times;</button>
+        <button (click)="dismissToast()" class="toast__close dark:text-white/60 dark:hover:text-white">&times;</button>
     </div>
 
     <!-- Edit Profile Modal -->
-    <div *ngIf="isModalOpen()" class="modal-overlay animate-fade-in" (click)="closeModal()">
+    <div *ngIf="isModalOpen()" class="modal-overlay animate-fade-in dark:bg-black/60" (click)="closeModal()">
         <div class="modal-panel dark:bg-gray-900 dark:border-gray-700/50" (click)="$event.stopPropagation()">
             <div class="modal-header">
                 <h3 class="modal-title dark:text-gray-50">Edit Profile</h3>
@@ -370,7 +341,7 @@
                 </div>
                 <div class="modal-avatar-info">
                     <p class="modal-avatar-name dark:text-gray-100">{{ ProfileDetails.name }}</p>
-                    <label class="modal-avatar-upload dark:text-emerald-400 dark:hover:text-emerald-300">
+                    <label class="modal-avatar-upload dark:text-emerald-300 dark:hover:text-emerald-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="upload-icon" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -420,7 +391,7 @@
                 <button (click)="closeModal()"
                     class="btn-cancel dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                     [disabled]="isUpdating()">Cancel</button>
-                <button (click)="saveChanges()" class="btn-save" [disabled]="isUpdating()">
+                <button (click)="saveChanges()" class="btn-save dark:hover:bg-emerald-800" [disabled]="isUpdating()">
                     <ng-container *ngIf="!isUpdating(); else updatingTpl">Save Changes</ng-container>
                     <ng-template #updatingTpl>Saving...</ng-template>
                 </button>

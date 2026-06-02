@@ -11,11 +11,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/Auth/auth.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { LoginNavbarComponent } from "../../../../layouts/LoginNavbar/login-navbar/login-navbar.component";
 
 
 @Component({
   selector: 'app-reset-pass',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LoginNavbarComponent],
   templateUrl: './reset-pass.component.html',
   styleUrl: './reset-pass.component.scss',
 })

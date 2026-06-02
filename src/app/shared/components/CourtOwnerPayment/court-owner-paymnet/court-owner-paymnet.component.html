@@ -1,4 +1,5 @@
-<div class="min-h-screen bg-[#E2F5E9] p-4 md:p-8 font-sans text-slate-800 relative payment-management-container">
+<div
+    class="min-h-screen bg-[#E2F5E9] dark:bg-[#071E14] p-4 md:p-8 font-sans text-slate-800 dark:text-slate-100 relative payment-management-container">
     <!-- Header with Main Court Selector -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
@@ -9,14 +10,14 @@
             <!-- Main Court Dropdown -->
             <select *ngIf="mainCourts().length > 0" [ngModel]="selectedMainCourtId()"
                 (ngModelChange)="onMainCourtChange($event)"
-                class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
                 <option *ngFor="let court of mainCourts()" [value]="court.id">
                     {{ court.name || 'Court #' + court.id }}
                 </option>
             </select>
             <!-- Add Payment Method Button -->
             <button (click)="openAddModal()" [disabled]="!selectedMainCourtId()"
-                class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,20 +28,10 @@
         </div>
     </div>
 
-    <!-- Loading State -->
-    <!-- <div *ngIf="isLoading()" class="flex justify-center items-center py-16">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-green-600 border-t-transparent"></div>
-    </div> -->
-
-    <!-- Error State -->
-    <!-- <div *ngIf="errorMessage()" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-        {{ errorMessage() }}
-    </div> -->
-
     <!-- Payment Methods Grid -->
     <div *ngIf="paymentMethods().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div *ngFor="let method of paymentMethods()"
-            class="bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 dark:border-slate-700 group">
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-md dark:shadow-black/45 hover:shadow-xl dark:hover:shadow-black/60 transition-all duration-300 overflow-hidden border border-slate-100 dark:border-white/10 group">
             <div class="p-5">
                 <div class="flex justify-between items-start mb-3">
                     <div>
@@ -49,15 +40,15 @@
                         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ method.identifier }}</p>
                     </div>
                     <span [class]="method.is_active
-              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'"
+              ? 'bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-200 dark:border dark:border-green-400/20'
+              : 'bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-200 dark:border dark:border-red-400/20'"
                         class="px-3 py-1 rounded-full text-xs font-medium uppercase">
                         {{ method.is_active ? 'Active' : 'Inactive' }}
                     </span>
                 </div>
-                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-white/10">
                     <button (click)="openEditModal(method)"
-                        class="p-2 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/30 rounded-lg transition-colors"
+                        class="p-2 text-amber-600 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-500/10 rounded-lg transition-colors"
                         title="Edit Payment Method">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,7 +56,7 @@
                         </svg>
                     </button>
                     <button (click)="openDeleteConfirm(method)"
-                        class="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                        class="p-2 text-red-600 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
                         title="Delete Payment Method">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -79,13 +70,16 @@
 
     <!-- Empty State -->
     <div *ngIf="paymentMethods().length === 0 && selectedMainCourtId()"
-        class="text-center py-16 bg-slate-50 dark:bg-slate-800/50 rounded-2xl">
-        <svg class="w-16 h-16 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        class="text-center py-16 bg-slate-50 dark:bg-white/5 rounded-2xl border border-transparent dark:border-white/10">
+        <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-500 mb-3" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
         </svg>
         <p class="text-slate-500 dark:text-slate-400 font-medium">No payment methods found for this facility.</p>
-        <button (click)="openAddModal()" class="mt-4 text-green-600 hover:text-green-700 font-medium">+ Add your first
+        <button (click)="openAddModal()"
+            class="mt-4 text-green-600 dark:text-emerald-300 hover:text-green-700 dark:hover:text-emerald-200 font-medium">+
+            Add your first
             payment method</button>
     </div>
 
@@ -97,7 +91,8 @@
             <div class="modal-header">
                 <h2 class="text-xl font-semibold text-slate-800 dark:text-white">{{ isEditMode() ? 'Edit Payment Method'
                     : 'Add Payment Method' }}</h2>
-                <button (click)="closeFormModal()" class="text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                <button (click)="closeFormModal()"
+                    class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
@@ -111,7 +106,7 @@
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Payment Type
                             *</label>
                         <select formControlName="type"
-                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-slate-800 dark:border-slate-600">
+                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30 dark:bg-slate-800 dark:border-white/10 text-slate-800 dark:text-slate-100">
                             <option value="">Select type</option>
                             <option value="instapay">Instapay</option>
                             <option value="vodafone_cash">Vodafone Cash</option>
@@ -120,33 +115,33 @@
                             <option value="we_pay">We Pay</option>
                         </select>
                         <div *ngIf="paymentForm.get('type')?.invalid && paymentForm.get('type')?.touched"
-                            class="text-red-500 text-xs mt-1">Payment type is required</div>
+                            class="text-red-500 dark:text-red-300 text-xs mt-1">Payment type is required</div>
                     </div>
                     <!-- Identifier -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Identifier
                             *</label>
                         <input type="text" formControlName="identifier"
-                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-slate-800 dark:border-slate-600"
+                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30 dark:bg-slate-800 dark:border-white/10 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                             placeholder="e.g., user123, phone number" />
                         <div *ngIf="paymentForm.get('identifier')?.invalid && paymentForm.get('identifier')?.touched"
-                            class="text-red-500 text-xs mt-1">Identifier is required</div>
+                            class="text-red-500 dark:text-red-300 text-xs mt-1">Identifier is required</div>
                     </div>
                     <!-- Active Toggle -->
                     <div class="mb-5">
                         <label class="flex items-center cursor-pointer">
                             <input type="checkbox" formControlName="is_active" class="sr-only peer" />
                             <div
-                                class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 relative">
+                                class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300 dark:peer-focus:ring-emerald-400/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 relative">
                             </div>
                             <span class="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">Active</span>
                         </label>
                     </div>
                     <div class="modal-footer">
                         <button type="button" (click)="closeFormModal()"
-                            class="px-4 py-2 border rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Cancel</button>
+                            class="px-4 py-2 border border-slate-200 dark:border-white/10 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">Cancel</button>
                         <button type="submit" [disabled]="isSubmitting()"
-                            class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md disabled:opacity-50">
+                            class="px-5 py-2 bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white rounded-lg shadow-md dark:shadow-black/40 disabled:opacity-50">
                             {{ isSubmitting() ? 'Saving...' : (isEditMode() ? 'Update' : 'Add') }}
                         </button>
                     </div>
@@ -159,21 +154,24 @@
     <div *ngIf="isDeleteModalOpen()" class="modal-overlay" (click)="closeDeleteModal()">
         <div class="modal-container max-w-md" (click)="$event.stopPropagation()">
             <div class="p-6 text-center">
-                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div
+                    class="w-14 h-14 bg-red-100 dark:bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-7 h-7 text-red-600 dark:text-red-300" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
                 <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Delete Payment Method</h3>
-                <p class="text-slate-600 dark:text-slate-300 mb-6">Are you sure you want to delete <strong>{{
+                <p class="text-slate-600 dark:text-slate-300 mb-6">Are you sure you want to delete <strong
+                        class="text-slate-800 dark:text-slate-100">{{
                         paymentToDelete?.type!| replaceUnderscore }}</strong> ({{ paymentToDelete?.identifier }})? This
                     action cannot be undone.</p>
                 <div class="flex gap-3 justify-center">
                     <button (click)="closeDeleteModal()"
-                        class="px-4 py-2 border rounded-lg text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700">Cancel</button>
+                        class="px-4 py-2 border border-slate-200 dark:border-white/10 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">Cancel</button>
                     <button (click)="confirmDelete()"
-                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md">Delete</button>
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-500 text-white rounded-lg shadow-md dark:shadow-black/40">Delete</button>
                 </div>
             </div>
         </div>
