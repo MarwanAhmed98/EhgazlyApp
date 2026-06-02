@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
 import { IAdminDashboard, RecentBooking } from '../../../interfaces/iadmin-dashboard';
 import { AdminFinancialsService } from '../../../../core/services/AdminFinancials/admin-financials.service';
+import { IAdminFinancials } from '../../../interfaces/iadmin-financials';
 
 @Component({
   selector: 'app-user-directory-admin',
@@ -21,6 +22,8 @@ export class UserDirectoryAdminComponent implements OnInit {
   statusFilter = signal<string>('ALL');
   currentPage = signal<number>(1);
   pageSize = 10;
+  TotalPaidDetails: IAdminFinancials = {} as IAdminFinancials;
+  TotalPaid = signal<string>('0');
   private filteredBookings = computed(() => {
     const bookings = this.recentBookings();
     const term = this.normalize(this.searchTerm());
@@ -82,6 +85,7 @@ export class UserDirectoryAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDashboardData();
+    this.GetAppEarnings();
   }
 
   loadDashboardData(): void {
@@ -184,5 +188,13 @@ export class UserDirectoryAdminComponent implements OnInit {
 
   private normalize(s: string): string {
     return (s ?? '').toLowerCase().trim();
+  }
+  GetAppEarnings(): void {
+    this.adminFinancialsService.GetAdminFinancialData().subscribe({
+      next: (res) => {
+        this.TotalPaidDetails = res.data;
+        this.TotalPaid.set(this.TotalPaidDetails.total_paid);
+      }
+    })
   }
 }
