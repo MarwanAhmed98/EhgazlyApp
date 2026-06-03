@@ -18,6 +18,7 @@ import { Iplayerprofile } from '../../../shared/interfaces/iplayerprofile';
 import { ToastService } from '../../../core/services/toast/toast.service';
 import { PlayerNotiService } from '../../../shared/components/PlayerNoti/player-noti.service';
 import { INotifications, Notification as NotiItem } from '../../../shared/interfaces/inotifications';
+import { TranslateService } from '../../../core/services/translate/translate.service';
 
 export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friendly-matches';
 
@@ -37,60 +38,43 @@ export class PlayernavComponent implements OnInit, OnDestroy {
   private readonly playerNotiService = inject(PlayerNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly platformId = inject(PLATFORM_ID);
-
+  private readonly pageTranslator = inject(TranslateService);
   private routerSub?: Subscription;
   private notiSub?: Subscription;
-
   ProfileDetails: Iplayerprofile = {} as Iplayerprofile;
-
   NotificationsDetails: INotifications = {
     notifications: [],
     unread_count: 0,
   };
-
-  // loading/error state for dropdown
+  isTranslating = false;
+  isArabic = false;
   notiLoading = false;
   notiError = '';
-
-  // mark-as-read loading set (prevents double clicks)
   readonly markingReadIds = new Set<number>();
-
-  // mark-all loading
   markAllLoading = false;
-
   @Input() active: PlayerNavActive = 'my-bookings';
   @Input() tournamentsLink: string | any[] = '/Tournaments';
   @Input() FriendlyMatchesLink: string | any[] = '/FriendlyMatches';
   @Input() venuesLink: string | any[] = '/Venues';
   @Input() myBookingsLink: string | any[] = '/MyBookings';
   @Input() customerProfileLink: string | any[] = '/CustomerProfile';
-
   isMobileMenuOpen = false;
   currentTitle = 'My Bookings';
   isDarkMode: boolean = false;
-
-  // Dropdown state
   isProfileMenuOpen = false;
   isProfileRoute = false;
-
-  // Notifications dropdown state
   isNotificationsOpen = false;
   notifFilter: 'all' | NavbarNotifType = 'all';
-
-  // viewport-safe positioning values (px)
   notifPanelLeft = 8;
   notifPanelTop = 72;
   notifPanelOrigin = 'top right';
-
   @ViewChild('notifBtn', { read: ElementRef }) notifBtn?: ElementRef<HTMLElement>;
   @ViewChild('notifPanel', { read: ElementRef }) notifPanel?: ElementRef<HTMLElement>;
-
   get filteredNavbarNotifications(): NotiItem[] {
     const list = this.NotificationsDetails?.notifications ?? [];
     if (this.notifFilter === 'all') return list;
     return list.filter((n) => String(n.type || '').toLowerCase() === this.notifFilter);
   }
-
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedTheme = localStorage.getItem('theme');
@@ -106,7 +90,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     this.updateTitleByRoute();
     this.updateProfileRouteFlag();
     this.GetNoti();
-
     this.routerSub = this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => {
@@ -117,8 +100,13 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         this.closeProfileMenu();
         this.closeNotifications();
       });
-  }
 
+    this.isArabic = localStorage.getItem('lang') === 'ar';
+    if (this.isArabic) {
+      document.dir = 'rtl';
+      this.autoTranslatePage();
+    }
+  }
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.notiSub?.unsubscribe();
@@ -129,7 +117,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
     this.applyTheme();
   }
-
   private applyTheme(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.isDarkMode) {
@@ -138,19 +125,16 @@ export class PlayernavComponent implements OnInit, OnDestroy {
       document.documentElement.classList.remove('dark');
     }
   }
-  // ===== Notifications API =====
   GetNoti(): void {
     this.notiSub?.unsubscribe();
     this.notiLoading = true;
     this.notiError = '';
-
     this.notiSub = this.playerNotiService
       .GetNotifications()
       .pipe(finalize(() => (this.notiLoading = false)))
       .subscribe({
         next: (res) => {
           const data = res?.data ?? res;
-
           this.NotificationsDetails = {
             notifications: data?.notifications ?? [],
             unread_count: Number(data?.unread_count ?? 0),
@@ -164,11 +148,8 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  // ===== Notifications dropdown =====
   toggleNotifications(ev: Event): void {
     ev.stopPropagation();
-
     this.closeProfileMenu();
     this.isNotificationsOpen = !this.isNotificationsOpen;
 
@@ -177,32 +158,24 @@ export class PlayernavComponent implements OnInit, OnDestroy {
       queueMicrotask(() => this.positionNotificationsPanel());
     }
   }
-
   closeNotifications(): void {
     this.isNotificationsOpen = false;
   }
-
   private positionNotificationsPanel(): void {
     const btn = this.notifBtn?.nativeElement;
     const panel = this.notifPanel?.nativeElement;
     if (!btn || !panel) return;
-
     const gap = 10;
     const safe = 8;
-
     const btnRect = btn.getBoundingClientRect();
-
     const panelRect = panel.getBoundingClientRect();
     const panelW = panelRect.width || 360;
     const panelH = panelRect.height || 420;
-
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-
     let left = btnRect.right - panelW;
     let top = btnRect.bottom + gap;
     let origin = 'top right';
-
     if (left < safe) {
       left = safe;
       origin = 'top left';
@@ -211,31 +184,24 @@ export class PlayernavComponent implements OnInit, OnDestroy {
       left = Math.max(safe, vw - safe - panelW);
       origin = 'top right';
     }
-
     const spaceBelow = vh - (btnRect.bottom + gap) - safe;
     const spaceAbove = btnRect.top - gap - safe;
-
     if (panelH > spaceBelow && spaceAbove > spaceBelow) {
       top = Math.max(safe, btnRect.top - gap - panelH);
       origin = origin.includes('left') ? 'bottom left' : 'bottom right';
     } else {
       top = Math.min(vh - safe - panelH, top);
     }
-
     left = Math.min(Math.max(safe, left), vw - safe - panelW);
     top = Math.min(Math.max(safe, top), vh - safe - panelH);
-
     this.notifPanelLeft = Math.round(left);
     this.notifPanelTop = Math.round(top);
     this.notifPanelOrigin = origin;
   }
-
   setNotifFilter(filterValue: 'all' | NavbarNotifType): void {
     this.notifFilter = filterValue;
     queueMicrotask(() => this.positionNotificationsPanel());
   }
-
-  // ===== REAL Mark as Read =====
   onNotificationClick(item: NotiItem): void {
     const id = Number(item?.id);
     if (!Number.isFinite(id)) return;
@@ -243,7 +209,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
 
     this.MarkAsRead(id);
   }
-
   MarkAsRead(notificationId: number): void {
     if (!Number.isFinite(notificationId)) return;
     if (this.markingReadIds.has(notificationId)) return;
@@ -276,15 +241,11 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  // ===== REAL Mark ALL as Read =====
   MarkAllAsRead(): void {
     const unread = Number(this.NotificationsDetails?.unread_count ?? 0);
     if (unread === 0) return;
     if (this.markAllLoading) return;
-
     this.markAllLoading = true;
-
     this.playerNotiService
       .MarkAllAsRead()
       .pipe(finalize(() => (this.markAllLoading = false)))
@@ -306,14 +267,10 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  // ===== NEW: Handle Pay button click =====
   onPayNotification(item: NotiItem): void {
-    // You can implement the actual payment logic here.
-    // For now, we show a toast and close the dropdown.
     console.log('Pay clicked for notification:', item);
     this.toastService.info('Payment gateway will open soon.', 'Ehgazly');
-    this.closeNotifications(); // optional: close dropdown after action
+    this.closeNotifications();
   }
 
   getNotifIcon(type: string): 'calendar-check' | 'match' | 'invite' | 'calendar-cancel' {
@@ -324,7 +281,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     if (t.includes('cancel')) return 'calendar-cancel';
     return 'match';
   }
-
   getNotifIconBg(type: string): string {
     const icon = this.getNotifIcon(type);
     switch (icon) {
@@ -340,7 +296,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         return 'bg-slate-100';
     }
   }
-
   formatNotiTime(iso: string): string {
     if (!iso) return '';
     const d = new Date(iso);
@@ -356,8 +311,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     if (days === 1) return 'Yesterday';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
-
-  // ===== Profile dropdown (Desktop only) =====
   toggleProfileMenu(ev: Event): void {
     if (window.innerWidth < 768) return;
 
@@ -509,5 +462,26 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     localStorage.removeItem('userId');
     this.router.navigate(['/Login']);
     this.toastService.success('Logged out successfully', 'Ehgazly');
+  }
+  async toggleTranslation() {
+    if (this.isArabic) {
+      localStorage.setItem('lang', 'en');
+      document.dir = 'ltr';
+      window.location.reload();
+      return;
+    }
+
+    this.isTranslating = true;
+    await this.pageTranslator.translatePage();
+    document.dir = 'rtl';
+    localStorage.setItem('lang', 'ar');
+    this.isArabic = true;
+    this.isTranslating = false;
+  }
+  private async autoTranslatePage() {
+    this.isTranslating = true;
+    await new Promise(resolve => setTimeout(resolve, 800));
+    await this.pageTranslator.translatePage();
+    this.isTranslating = false;
   }
 }
