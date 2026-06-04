@@ -156,15 +156,18 @@
                         <div
                             class="h-full rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
                             <div>
-                                <p class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">COURT
+                                <p class="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">Football
+                                    COURT
                                     SELECTION</p>
-                                <p class="text-sm font-black text-slate-600 dark:text-slate-400">Choose your court</p>
+                                <p class="text-sm font-black text-slate-600 dark:text-slate-400">Choose your Football
+                                    court</p>
                             </div>
                             <div class="mt-5">
                                 <div
                                     class="inline-flex flex-wrap gap-2 p-1.5 rounded-2xl bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40">
                                     @if (customerspecificCourts().length === 0) {
-                                    <div class="px-6 py-3 text-sm font-black text-slate-500">Loading courts...</div>
+                                    <div class="px-6 py-3 text-sm font-black text-slate-500">Loading Football courts...
+                                    </div>
                                     }
                                     @for (court of customerspecificCourts(); track court.id) {
                                     <button type="button" (click)="selectCourt(court.id)"

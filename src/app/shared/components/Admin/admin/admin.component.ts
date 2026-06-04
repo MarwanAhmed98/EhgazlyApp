@@ -6,7 +6,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { AdminNotiService } from '../../../../core/services/AdminNoti/admin-noti.service';
 import { INotifications, Notification as NotiItem } from '../../../../shared/interfaces/inotifications';
-import { TranslateService } from '../../../../core/services/translate/translate.service';
+import { TranslateBtnComponent } from "../../TranslateBtn/translate-btn/translate-btn.component";
 
 type NavItem = {
   key: string;
@@ -19,7 +19,7 @@ type NavItem = {
 
 @Component({
   selector: 'app-admin',
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule, TranslateBtnComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -29,7 +29,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly adminNotiService = inject(AdminNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
-  private readonly pageTranslator = inject(TranslateService);
   UserNameeeee: string = localStorage.getItem('username')!;
   isDarkMode: boolean = false;
   isSideNavOpen = true;
@@ -88,11 +87,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe(e => this.updateTitleByRoute(e.urlAfterRedirects));
     this.GetNoti();
-    this.isArabic = localStorage.getItem('lang') === 'ar';
-    if (this.isArabic) {
-      document.dir = 'rtl';
-      this.autoTranslatePage();
-    }
   }
 
   ngOnDestroy(): void {
@@ -285,26 +279,5 @@ export class AdminComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeNotifications();
-  }
-  async toggleTranslation() {
-    if (this.isArabic) {
-      localStorage.setItem('lang', 'en');
-      document.dir = 'ltr';
-      window.location.reload();
-      return;
-    }
-
-    this.isTranslating = true;
-    await this.pageTranslator.translatePage();
-    document.dir = 'rtl';
-    localStorage.setItem('lang', 'ar');
-    this.isArabic = true;
-    this.isTranslating = false;
-  }
-  private async autoTranslatePage() {
-    this.isTranslating = true;
-    await new Promise(resolve => setTimeout(resolve, 800));
-    await this.pageTranslator.translatePage();
-    this.isTranslating = false;
   }
 }

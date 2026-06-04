@@ -18,7 +18,7 @@ import { Iplayerprofile } from '../../../shared/interfaces/iplayerprofile';
 import { ToastService } from '../../../core/services/toast/toast.service';
 import { PlayerNotiService } from '../../../shared/components/PlayerNoti/player-noti.service';
 import { INotifications, Notification as NotiItem } from '../../../shared/interfaces/inotifications';
-import { TranslateService } from '../../../core/services/translate/translate.service';
+import { TranslateBtnComponent } from "../../../shared/components/TranslateBtn/translate-btn/translate-btn.component";
 
 export type PlayerNavActive = 'tournaments' | 'venues' | 'my-bookings' | 'friendly-matches';
 
@@ -27,7 +27,7 @@ type NavbarNotifType = 'booking_confirmed' | 'teams' | 'system';
 @Component({
   selector: 'app-playernav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgClass, LucideAngularModule],
+  imports: [RouterLink, RouterLinkActive, NgClass, LucideAngularModule, TranslateBtnComponent],
   templateUrl: './playernav.component.html',
   styleUrl: './playernav.component.scss',
 })
@@ -38,7 +38,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
   private readonly playerNotiService = inject(PlayerNotiService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly pageTranslator = inject(TranslateService);
   private routerSub?: Subscription;
   private notiSub?: Subscription;
   ProfileDetails: Iplayerprofile = {} as Iplayerprofile;
@@ -100,12 +99,6 @@ export class PlayernavComponent implements OnInit, OnDestroy {
         this.closeProfileMenu();
         this.closeNotifications();
       });
-
-    this.isArabic = localStorage.getItem('lang') === 'ar';
-    if (this.isArabic) {
-      document.dir = 'rtl';
-      this.autoTranslatePage();
-    }
   }
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
@@ -463,25 +456,5 @@ export class PlayernavComponent implements OnInit, OnDestroy {
     this.router.navigate(['/Login']);
     this.toastService.success('Logged out successfully', 'Ehgazly');
   }
-  async toggleTranslation() {
-    if (this.isArabic) {
-      localStorage.setItem('lang', 'en');
-      document.dir = 'ltr';
-      window.location.reload();
-      return;
-    }
 
-    this.isTranslating = true;
-    await this.pageTranslator.translatePage();
-    document.dir = 'rtl';
-    localStorage.setItem('lang', 'ar');
-    this.isArabic = true;
-    this.isTranslating = false;
-  }
-  private async autoTranslatePage() {
-    this.isTranslating = true;
-    await new Promise(resolve => setTimeout(resolve, 800));
-    await this.pageTranslator.translatePage();
-    this.isTranslating = false;
-  }
 }

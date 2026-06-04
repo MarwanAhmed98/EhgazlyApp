@@ -1,21 +1,21 @@
 <div
-    class="min-h-screen md:p-8 font-sans text-slate-800 dark:text-slate-100 relative working-hours-container bg-[#E2F5E9] dark:bg-[#071E14] p-6 rounded-xl shadow-md dark:shadow-black/50">
+    class="min-h-screen md:p-8 font-sans text-slate-800 dark:text-slate-100 relative working-hours-container bg-[#E2F5E9] dark:bg-[#071E14] p-6 rounded-xl shadow-md dark:shadow-black/50 overflow-x-hidden">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Main Court Working Hours</h1>
             <p class="text-slate-500 dark:text-slate-400">Manage weekly schedule for your court</p>
         </div>
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-3">
             <select *ngIf="mainCourts.length > 0" (change)="onMainCourtChange($event)"
-                class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
+                class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30 w-full sm:w-auto">
                 <option *ngFor="let court of mainCourts" [value]="court.id"
                     [selected]="court.id === selectedMainCourtId">
                     {{ court.name || 'Court #' + court.id }}
                 </option>
             </select>
             <button (click)="openHoursModal()"
-                class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2">
+                class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -32,24 +32,27 @@
             class="bg-white dark:bg-slate-800 rounded-xl shadow-md dark:shadow-black/45 hover:shadow-lg dark:hover:shadow-black/60 transition-shadow duration-200 overflow-hidden border border-slate-100 dark:border-white/10">
             <div class="p-5">
                 <div class="flex justify-between items-start mb-3">
-                    <h3 class="text-lg font-semibold capitalize text-slate-800 dark:text-white">{{ item.day_of_week }}
+                    <h3 class="text-lg font-semibold capitalize text-slate-800 dark:text-white break-words">{{
+                        item.day_of_week }}
                     </h3>
                     <span
                         [class]="item.is_open
                         ? 'bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-200 dark:border dark:border-green-400/20'
                         : 'bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-200 dark:border dark:border-red-400/20'"
-                        class="px-3 py-1 rounded-full text-xs font-medium">
+                        class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ml-2">
                         {{ item.is_open ? 'Open' : 'Closed' }}
                     </span>
                 </div>
                 <div *ngIf="item.is_open" class="flex justify-between items-center text-slate-600 dark:text-slate-300">
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-700 dark:text-slate-200"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 text-slate-700 dark:text-slate-200 shrink-0" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>{{ formatTime(item.open_time) }} – {{ formatTime(item.close_time) }}</span>
+                        <span class="break-words">{{ formatTime(item.open_time) }} – {{ formatTime(item.close_time)
+                            }}</span>
                     </div>
                 </div>
                 <div *ngIf="!item.is_open" class="text-slate-500 dark:text-slate-400 italic text-sm">Closed all day
@@ -114,7 +117,7 @@
                     </div>
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer flex flex-wrap justify-end gap-3">
                     <button type="button" (click)="closeModal()"
                         class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition">Cancel</button>
                     <button type="submit" [disabled]="isSubmitting"

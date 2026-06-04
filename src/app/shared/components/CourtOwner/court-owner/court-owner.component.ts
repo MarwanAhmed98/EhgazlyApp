@@ -17,7 +17,7 @@ import { PlayerNotiService } from '../../PlayerNoti/player-noti.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { INotifications, Notification as NotiItem } from '../../../interfaces/inotifications';
 import { CourtOwnerNavService } from '../../../../core/services/CourtOwnerNav/court-owner-nav.service';
-import { TranslateService } from '../../../../core/services/translate/translate.service';
+import { TranslateBtnComponent } from "../../TranslateBtn/translate-btn/translate-btn.component";
 
 type NavItem = {
   key: string;
@@ -31,7 +31,7 @@ type NavItem = {
 @Component({
   selector: 'app-court-owner',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule, TranslateBtnComponent],
   templateUrl: './court-owner.component.html',
   styleUrls: ['./court-owner.component.scss'],
 })
@@ -42,7 +42,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   private readonly courtOwnerNavService = inject(CourtOwnerNavService);
   private readonly toastService = inject(ToastService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
-  private readonly pageTranslator = inject(TranslateService);
   UserNameeeee: string = localStorage.getItem('username')!;
 
   // Navigation state
@@ -141,11 +140,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       .subscribe((e) => {
         this.updateTitleByRoute(e.urlAfterRedirects);
       });
-    this.isArabic = localStorage.getItem('lang') === 'ar';
-    if (this.isArabic) {
-      document.dir = 'rtl';
-      this.autoTranslatePage();
-    }
   }
 
   ngOnDestroy(): void {
@@ -410,26 +404,5 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       this.toastService.success('Logged out successfully.', 'Ehgezly');
     }
     this.router.navigate(['/Login']);
-  }
-  async toggleTranslation() {
-    if (this.isArabic) {
-      localStorage.setItem('lang', 'en');
-      document.dir = 'ltr';
-      window.location.reload();
-      return;
-    }
-
-    this.isTranslating = true;
-    await this.pageTranslator.translatePage();
-    document.dir = 'rtl';
-    localStorage.setItem('lang', 'ar');
-    this.isArabic = true;
-    this.isTranslating = false;
-  }
-  private async autoTranslatePage() {
-    this.isTranslating = true;
-    await new Promise(resolve => setTimeout(resolve, 800));
-    await this.pageTranslator.translatePage();
-    this.isTranslating = false;
   }
 }

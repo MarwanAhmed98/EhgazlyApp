@@ -97,9 +97,7 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button (click)="toggleTranslation()" [disabled]="isTranslating">
-                        {{ isTranslating ? 'جاري الترجمة...' : isArabic ? 'English' : 'العربية' }}
-                    </button>
+                    <app-translate-btn></app-translate-btn>
                     <button (click)="toggleDarkMode()"
                         class="pointer-events-auto w-10 h-10 flex items-center justify-center text-muted bg-surface border border-main rounded-full hover:bg-app transition-all shadow-sm">
                         <i [class]="isDarkMode ? 'fas fa-sun text-amber-400' : 'fas fa-moon'"></i>

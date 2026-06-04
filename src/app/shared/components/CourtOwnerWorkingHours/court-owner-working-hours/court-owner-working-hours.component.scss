@@ -1,5 +1,11 @@
+:host {
+    display: block;
+    overflow-x: hidden;
+}
+
 .working-hours-container {
     @apply p-4 md:p-6 max-w-7xl mx-auto;
+    overflow-x: hidden;
 }
 
 .modal-overlay {
@@ -74,6 +80,11 @@
     select,
     input {
         font-size: 16px;
+    }
+
+    .modal-footer {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 
