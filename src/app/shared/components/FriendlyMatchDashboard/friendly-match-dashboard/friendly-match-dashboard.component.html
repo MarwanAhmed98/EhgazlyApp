@@ -1,8 +1,7 @@
-<!-- Main Wrapper -->
 <div
     class="min-h-screen bg-[#DFFFE3] dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
 
-    <!-- Typography -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -28,7 +27,7 @@
         }
     </style>
 
-    <!-- Background grid + soft glow -->
+
     <div class="absolute inset-0 opacity-[0.14] dark:opacity-[0.06] pointer-events-none"
         style="background-image: linear-gradient(rgba(2,44,34,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(2,44,34,.12) 1px, transparent 1px); background-size: 42px 42px;">
     </div>
@@ -39,11 +38,11 @@
         class="absolute bottom-0 right-0 -mr-56 -mb-56 w-[520px] h-[520px] bg-[#A34700]/10 dark:bg-amber-700/5 blur-3xl rounded-full pointer-events-none">
     </div>
 
-    <!-- Navbar -->
+
     <app-playernav [active]="'friendly-matches'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
-        <!-- Header -->
+
         <section class="animate-fade-in-up">
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                 <div>
@@ -65,8 +64,6 @@
                 </button>
             </div>
         </section>
-
-        <!-- Search Bar -->
         <section class="mt-8 animate-fade-in-up" style="animation-delay: 90ms;">
             <div
                 class="rounded-[2.5rem] bg-white/70 dark:bg-slate-800/80 border border-emerald-200/60 dark:border-slate-700 shadow-[0_30px_70px_-40px_rgba(2,44,34,.25)] dark:shadow-slate-950/40 overflow-hidden">
@@ -128,11 +125,8 @@
                 </div>
             </div>
         </section>
-
-        <!-- Results -->
         <section class="mt-10 animate-fade-in-up" style="animation-delay: 140ms;">
             @if (filteredMatches.length === 0) {
-            <!-- Empty state -->
             <div class="min-h-[62vh] grid place-items-center">
                 <div class="w-full max-w-2xl text-center">
                     <div
@@ -268,22 +262,14 @@
         </section>
     </main>
 </div>
-
-<!-- ===================== BRAND-ALIGNED FILTER MODAL ===================== -->
 <div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
     [class.opacity-100]="filtersModalOpen" [class.opacity-0]="!filtersModalOpen"
     [class.pointer-events-auto]="filtersModalOpen" [class.pointer-events-none]="!filtersModalOpen">
-
-    <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm" (click)="closeAllFilters()"></div>
-
-    <!-- Modal -->
     <div class="relative w-[95%] max-w-2xl rounded-[1.5rem] bg-white dark:bg-slate-900
         border border-emerald-200/60 dark:border-slate-700
         shadow-[0_30px_80px_-20px_rgba(2,44,34,0.25)] dark:shadow-slate-950/50
         transition-all duration-300 overflow-hidden">
-
-        <!-- Header -->
         <div class="flex items-center justify-between px-6 py-5 border-b border-emerald-200/60 dark:border-slate-700">
             <div>
                 <h2 class="text-xl font-bold text-emerald-950 dark:text-white">Filters</h2>
@@ -299,32 +285,20 @@
                 ✕
             </button>
         </div>
-
-        <!-- Content -->
         <div class="p-6">
-
-            <!-- PRICE FULL WIDTH -->
             @if (filterMode === 'price') {
             <div class="space-y-6">
                 <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Price Range (EGP)</h3>
-
-                <!-- Slider Track -->
                 <div class="h-2 bg-emerald-200/60 dark:bg-slate-700 rounded-full relative">
                     <div class="absolute h-full bg-[#146A1E] dark:bg-emerald-600 rounded-full"
                         [style.left.%]="priceTrackLeft" [style.right.%]="priceTrackRight"></div>
                 </div>
-
-                <!-- Min Slider -->
                 <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
                     [(ngModel)]="minPrice" (input)="onPriceSliderInput()"
                     class="w-full accent-[#146A1E] dark:accent-emerald-600" />
-
-                <!-- Max Slider -->
                 <input type="range" [min]="priceMinBound" [max]="priceMaxBound" [step]="priceStep"
                     [(ngModel)]="maxPrice" (input)="onPriceSliderInput()"
                     class="w-full accent-[#146A1E] dark:accent-emerald-600" />
-
-                <!-- Manual Inputs -->
                 <div class="grid grid-cols-2 gap-4">
                     <div
                         class="p-4 rounded-xl border border-emerald-200 dark:border-slate-700 bg-white dark:bg-slate-800">
@@ -344,8 +318,6 @@
                 </div>
             </div>
             }
-
-            <!-- DATE FULL WIDTH -->
             @if (filterMode === 'date') {
             <div class="space-y-6">
                 <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Select Date</h3>
@@ -353,12 +325,8 @@
                     class="w-full p-4 rounded-xl border border-emerald-200 dark:border-slate-700 font-bold text-emerald-950 dark:text-white bg-white dark:bg-slate-800" />
             </div>
             }
-
-            <!-- BOTH -->
             @if (filterMode === 'all') {
             <div class="grid md:grid-cols-2 gap-6">
-
-                <!-- PRICE SECTION -->
                 <div class="space-y-4">
                     <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Price</h3>
 
@@ -384,8 +352,6 @@
                             class="w-full mt-2 text-xl font-bold text-emerald-950 dark:text-white outline-none border-none bg-transparent" />
                     </div>
                 </div>
-
-                <!-- DATE SECTION -->
                 <div class="space-y-4">
                     <h3 class="text-sm font-bold text-emerald-950 dark:text-white">Date</h3>
                     <input type="date" [(ngModel)]="selectedDateISO" (change)="applyFilters()"
@@ -395,8 +361,6 @@
             </div>
             }
         </div>
-
-        <!-- Footer -->
         <div class="flex justify-between items-center px-6 py-5 border-t border-emerald-200/60 dark:border-slate-700">
             <button (click)="resetAllFilters(true)"
                 class="text-sm font-bold text-emerald-950/70 dark:text-slate-400 hover:text-emerald-950 dark:hover:text-white">

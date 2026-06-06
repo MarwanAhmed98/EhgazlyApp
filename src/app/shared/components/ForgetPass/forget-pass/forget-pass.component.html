@@ -1,8 +1,5 @@
-<!-- Main Wrapper -->
 <div
     class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-
-    <!-- Background Glow Elements (Consistent with Landing Page) -->
     <div
         class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
     </div>
@@ -10,21 +7,7 @@
         class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
     </div>
     <app-login-navbar></app-login-navbar>
-    <!-- Back to Login Navigation -->
-    <!-- <div class="absolute top-6 left-6 z-50">
-        <a routerLink="/Login"
-            class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#2E7D32] dark:text-slate-400 dark:hover:text-[#4ade80] transition-colors group">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform"
-                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back to Login
-        </a>
-    </div> -->
-
     <div class="max-w-7xl w-full mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
-
-        <!-- Left Side: Branding & Visual -->
         <div class="hidden lg:flex flex-col items-start space-y-8 animate-fade-in-up">
             <div
                 class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-100 dark:bg-green-900/30 text-[#2E7D32] dark:text-[#4ade80] text-sm font-semibold border border-green-200 dark:border-green-800/50">
@@ -43,8 +26,6 @@
                 Enter your email to receive a password reset link. Secure access, simple steps, and you’re back on the
                 pitch.
             </p>
-
-            <!-- Image Card -->
             <div
                 class="relative w-full h-[320px] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#2E7D32]/20 group mt-4">
                 <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=1200"
@@ -57,13 +38,9 @@
                 </div>
             </div>
         </div>
-
-        <!-- Right Side: Form -->
         <div class="w-full max-w-md mx-auto lg:max-w-none lg:mx-0 animate-fade-in-up" style="animation-delay: 100ms;">
             <div
                 class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none">
-
-                <!-- Logo Mobile -->
                 <div
                     class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2E7D32] to-[#578061] flex items-center justify-center text-white font-bold mb-6 lg:mb-8">
                     E
@@ -75,7 +52,6 @@
                 </p>
 
                 <form [formGroup]="ForgetForm" (ngSubmit)="SubmitForm()" class="space-y-5">
-                    <!-- Email -->
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Email Address</label>
                         <div class="relative">
@@ -115,8 +91,6 @@
                         </div>
                     </div>
                     }
-
-                    <!-- Submit Button -->
                     <button [disabled]="ForgetForm.invalid" type="submit"
                         class="w-full mt-4 bg-[#146A1E] hover:bg-[#0f5418] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-black py-4 rounded-2xl shadow-lg shadow-[#2E7D32]/25 transition-all hover:-translate-y-0.5 active:translate-y-0">
                         Reset Password
@@ -136,8 +110,6 @@
                 </p>
 
             </div>
-
-            <!-- Bottom Footer Links -->
             <div
                 class="mt-8 flex justify-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
                 <a href="#" class="hover:text-[#2E7D32] dark:hover:text-[#4ade80] transition-colors">Privacy Policy</a>
@@ -148,8 +120,6 @@
 
     </div>
 </div>
-
-<!-- Success Modal -->
 <div class="fixed inset-0 z-[60] flex items-center justify-center transition-all duration-300"
     [class.opacity-100]="showSuccess" [class.opacity-0]="!showSuccess" [class.pointer-events-auto]="showSuccess"
     [class.pointer-events-none]="!showSuccess">

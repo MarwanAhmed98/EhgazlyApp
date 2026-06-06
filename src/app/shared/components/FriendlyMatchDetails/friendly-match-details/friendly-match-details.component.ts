@@ -31,7 +31,6 @@ export class FriendlyMatchDetailsComponent implements OnInit {
 
   participationState: ParticipationState = 'never_joined';
 
-  // compute once per session
   private currentUserId: string | number = 'guest';
 
   MatchId: any;
@@ -98,7 +97,6 @@ export class FriendlyMatchDetailsComponent implements OnInit {
       if (isIn) return 'joined';
     }
 
-    // LEFT state for CURRENT USER ONLY
     const storedLeft =
       localStorage.getItem(this.leftMatchStorageKey()) === 'true';
 
@@ -115,13 +113,8 @@ export class FriendlyMatchDetailsComponent implements OnInit {
 
   private syncUIStateFromBackend(): void {
     const d: any = this.SpecificMatchesDetails as any;
-
-    // IMPORTANT
     const storedLeft =
       localStorage.getItem(this.leftMatchStorageKey()) === 'true';
-
-    // IF USER LEFT BEFORE
-    // DON'T LET BACKEND OVERRIDE IT
     if (storedLeft) {
       this.participationState = 'left';
     } else {
@@ -139,7 +132,7 @@ export class FriendlyMatchDetailsComponent implements OnInit {
   }
 
   GetSpecificMatch(): void {
-    this.currentUserId = this.getCurrentUserId(); // أضف السطر ده
+    this.currentUserId = this.getCurrentUserId();
 
     this.playerFRiendlyMatchService.GetSpecificMatches(this.MatchId).subscribe({
       next: (res) => {
@@ -203,7 +196,6 @@ export class FriendlyMatchDetailsComponent implements OnInit {
     });
   }
 
-  // ===== Delete match (unchanged) =====
   openDeleteModal(): void {
     if (this.deleteStatus === 'deleting') return;
     this.isDeleteModalOpen = true;

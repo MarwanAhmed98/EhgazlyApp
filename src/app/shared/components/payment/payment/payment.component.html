@@ -1,8 +1,5 @@
-<!-- Main Wrapper -->
 <div
     class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
-
-    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -43,8 +40,6 @@
             animation: popIn .35s cubic-bezier(.2, .9, .2, 1) both;
         }
     </style>
-
-    <!-- Background Glow -->
     <div
         class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
     </div>
@@ -55,7 +50,6 @@
     <app-playernav [active]="'venues'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 py-10 sm:py-14 relative z-10">
-        <!-- Header -->
         <section class="animate-fade-in-up">
             <div class="max-w-4xl">
                 <h1
@@ -71,12 +65,8 @@
                 </p>
             </div>
         </section>
-
-        <!-- Content -->
         <section class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left -->
             <div class="lg:col-span-7 space-y-6">
-                <!-- Select Payment Method - DYNAMIC -->
                 <div class="animate-fade-in-up" style="animation-delay: 90ms;">
                     <div
                         class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
@@ -186,10 +176,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Right -->
             <div class="lg:col-span-5 space-y-6">
-                <!-- Booking Summary -->
                 <div class="animate-fade-in-up" style="animation-delay: 100ms;">
                     <div
                         class="rounded-[2rem] bg-emerald-950 text-white border border-emerald-900/40 shadow-2xl shadow-emerald-950/20 overflow-hidden relative">
@@ -234,7 +221,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Upload Receipt -->
                 <div class="animate-fade-in-up" style="animation-delay: 160ms;">
                     <div
                         class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-6 sm:p-7 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.22)]">
@@ -242,10 +228,7 @@
                             class="text-xl sm:text-2xl font-black tracking-tight text-emerald-950 dark:text-white text-center">
                             Upload Receipt
                         </p>
-
-                        <!-- Dropzone / States -->
                         <div class="mt-5 relative">
-                            <!-- Default + Uploading -->
                             @if (uploadStatus === 'idle' || uploadStatus === 'uploading') {
                             <label
                                 class="block rounded-[1.75rem] border-2 border-dashed p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/60 dark:hover:bg-white/5"
@@ -294,8 +277,6 @@
                                 </div>
                             </label>
                             }
-
-                            <!-- Success (inline preview stays) -->
                             @if (uploadStatus === 'success') {
                             <div
                                 class="animate-pop-in rounded-[1.75rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 bg-white/70 dark:bg-white/5">
@@ -339,8 +320,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Confirm Reservation -->
                 <div class="animate-fade-in-up" style="animation-delay: 220ms;">
                     <div
                         class="rounded-[2rem] bg-emerald-100/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 sm:p-6 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.20)]">
@@ -381,8 +360,6 @@
         </section>
     </main>
 </div>
-
-<!-- Centered Modal (Upload + Confirm feedback) -->
 <div class="fixed inset-0 z-[90] flex items-center justify-center transition-all duration-300"
     [class.opacity-100]="isStatusModalOpen" [class.opacity-0]="!isStatusModalOpen"
     [class.pointer-events-auto]="isStatusModalOpen" [class.pointer-events-none]="!isStatusModalOpen" aria-live="polite">
@@ -392,8 +369,6 @@
     <div class="relative w-[92%] max-w-xl rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 shadow-2xl shadow-slate-300/40 dark:shadow-none overflow-hidden transition-all duration-300"
         [class.translate-y-0]="isStatusModalOpen" [class.translate-y-3]="!isStatusModalOpen"
         [class.scale-100]="isStatusModalOpen" [class.scale-95]="!isStatusModalOpen">
-
-        <!-- UPLOAD SUCCESS -->
         @if (modalKind === 'uploadSuccess') {
         <div class="p-8 sm:p-20 text-center">
             <div
@@ -430,8 +405,6 @@
             </button>
         </div>
         }
-
-        <!-- UPLOAD ERROR -->
         @if (modalKind === 'uploadError') {
         <div class="p-8 sm:p-20 text-center">
             <div

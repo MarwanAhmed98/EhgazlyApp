@@ -42,16 +42,14 @@ export class PaymentComponent implements OnInit, OnDestroy {
   SelectedDate: string | null = null;
   courtId: number | null = null;
   MaincourtId: number | null = null;
-  timeslotIds: number[] = []; // Changed from single timeslotId to array
-
-  // Dynamic payment properties
+  timeslotIds: number[] = [];
   paymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: PaymentMethod | null = null;
   transferAddress: string = '';
 
   CreateBookingForm: FormGroup = new FormGroup({
     court_id: new FormControl<number | null>(null),
-    timeslot_ids: new FormControl<number[] | null>(null), // Changed to array
+    timeslot_ids: new FormControl<number[] | null>(null),
     payment_method_id: new FormControl<number | null>(null),
     receipt_image: new FormControl<File | null>(null),
   });
@@ -87,11 +85,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     });
     this.activatedRoute.paramMap.subscribe((pm) => {
       const court = Number(pm.get('selectedCourtId'));
-      const slotsParam = pm.get('selectedSlotsId'); // Comma-separated IDs
+      const slotsParam = pm.get('selectedSlotsId');
       this.MaincourtId = Number(pm.get('MainCourtId'));
       this.courtId = Number.isFinite(court) ? court : null;
-
-      // Parse multiple slot IDs
       if (slotsParam) {
         this.timeslotIds = slotsParam.split(',').map(id => Number(id)).filter(id => !isNaN(id));
       } else {
@@ -101,8 +97,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.SelectedDate = pm.get('selectedDateISO');
       this.courtLabel = this.courtId ? `Court ${this.courtId}` : '—';
       this.dateLabel = this.formatDateLabel(this.SelectedDate);
-
-      // Temporary time label – will be updated after fetching details
       this.timeLabel = this.timeslotIds.length ? `${this.timeslotIds.length} slot(s)` : '—';
 
       this.booking.field = this.fieldName;
@@ -338,8 +332,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
       next: (res) => {
         const list = (res?.data ?? []) as Icustomertimeslot[];
         this.SummaryDetails = Array.isArray(list) ? list : [];
-
-        // Filter selected slots
         const selectedSlots = this.SummaryDetails.filter(slot =>
           this.timeslotIds.includes(Number(slot.id))
         );

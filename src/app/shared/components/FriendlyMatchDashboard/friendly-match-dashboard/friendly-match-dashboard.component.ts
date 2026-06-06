@@ -19,18 +19,12 @@ type FilterMode = 'date' | 'price' | 'all';
 })
 export class FriendlyMatchDashboardComponent implements OnInit {
   private readonly playerFRiendlyMatchService = inject(PlayerFRiendlyMatchService);
-
-  // ===================== API DATA =====================
   allMatches: IfriendlyMatch[] = [];
   filteredMatches: IfriendlyMatch[] = [];
   AllMatchesDetails: IfriendlyMatch[] = [];
-
-  // ===================== FILTER STATE =====================
   query = '';
   filtersModalOpen = false;
   filterMode: FilterMode = 'all';
-
-  // ✅ FIXED: Expanded price range to cover all API prices (0 - 1200 EGP)
   readonly priceMinBound = 0;
   readonly priceMaxBound = 1200;
   readonly priceStep = 50;
@@ -43,8 +37,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
 
   selectedDateISO: string = '';
   availabilityOnly = false;
-
-  // UI helpers
   priceTrackLeft = 0;
   priceTrackRight = 0;
 
@@ -55,8 +47,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.GetMatches();
   }
-
-  // ===================== MODAL =====================
   openFilter(mode: FilterMode): void {
     this.filterMode = mode;
     this.filtersModalOpen = true;
@@ -72,8 +62,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
     this.applyFilters();
     this.closeAllFilters();
   }
-
-  // ===================== FILTERING =====================
   applyFilters(): void {
     const q = (this.query || '').trim().toLowerCase();
     const base = Array.isArray(this.allMatches) ? this.allMatches : [];
@@ -133,8 +121,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
     this.selectedDateISO = '';
     this.applyFilters();
   }
-
-  // ===================== PRICE UI =====================
   onPriceSliderInput(): void {
     this.minPrice = this.snapToStep(this.clamp(this.minPrice, this.priceMinBound, this.priceMaxBound), this.priceStep);
     this.maxPrice = this.snapToStep(this.clamp(this.maxPrice, this.priceMinBound, this.priceMaxBound), this.priceStep);
@@ -229,8 +215,6 @@ export class FriendlyMatchDashboardComponent implements OnInit {
   expandRadius(): void {
     this.resetAllFilters(true);
   }
-
-  // ===================== API =====================
   GetMatches(): void {
     this.playerFRiendlyMatchService.GetAllMatches().subscribe({
       next: (res) => {

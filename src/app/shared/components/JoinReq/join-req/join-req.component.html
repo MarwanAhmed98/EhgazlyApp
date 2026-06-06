@@ -1,13 +1,10 @@
 <div
     class="min-h-screen bg-[#e2f7e6] dark:bg-slate-950 p-4 md:p-8 font-sans text-slate-800 dark:text-slate-100 overflow-x-hidden">
-    <!-- Header Section -->
     <header class="mb-8">
         <h1 class="text-3xl font-bold text-[#1a4d2e] dark:text-emerald-200 mb-1">Manage Courts</h1>
         <p class="text-[#4b7c52] dark:text-slate-400">View and manage all main courts, verify ownership, and control
             status.</p>
     </header>
-
-    <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div
             class="bg-white dark:bg-slate-900 rounded-2xl p-6 border-b-4 border-green-700 dark:border-emerald-500/60 flex justify-between items-center shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10">
@@ -56,8 +53,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Filters Row -->
     <div class="flex flex-col md:flex-row gap-4 mb-6">
         <div class="relative flex-grow">
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500">
@@ -81,8 +76,6 @@
             </select>
         </div>
     </div>
-
-    <!-- Table Section -->
     <div
         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none overflow-hidden mb-8 border border-transparent dark:border-slate-800">
         <div class="overflow-x-auto">
@@ -184,8 +177,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
         <div
             class="px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
             <p class="text-xs text-[#4b7c52] dark:text-slate-400 font-medium">
@@ -224,8 +215,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Suspend Reason Modal -->
     @if (suspendModalOpen()) {
     <div class="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6">
         <div class="absolute inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm" (click)="closeSuspendModal()"></div>

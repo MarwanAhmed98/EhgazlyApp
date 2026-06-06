@@ -3,9 +3,9 @@
 <div class="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans antialiased transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left Column: Match & Court Details -->
+
             <div class="lg:col-span-7 space-y-6">
-                <!-- Match Summary Card -->
+
                 <div
                     class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
                     <div class="flex items-center justify-between border-b border-emerald-200/60 pb-4 mb-4">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <!-- Court Information Card -->
+
                 <div
                     class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
                     <h2
@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-                <!-- Timeslots Card -->
+
                 <div
                     class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6 transition-all">
                     <h2
@@ -91,9 +91,9 @@
                 </div>
             </div>
 
-            <!-- Right Column: Payment Section -->
+
             <div class="lg:col-span-5 space-y-6">
-                <!-- Total Price Card -->
+
                 <div class="bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-3xl p-6 text-white shadow-xl">
                     <p class="text-xs font-extrabold uppercase tracking-wider opacity-80">Total Price</p>
                     <h2 class="text-4xl font-black mt-1">{{ OpenMatchDetails.total_price }} <span
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <!-- Payment Methods -->
+
                 <div
                     class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6">
                     <h2
@@ -125,8 +125,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Transfer Details Card (shown only when payment method selected) -->
                 @if (selectedPaymentMethodId && selectedPaymentIdentifier) {
                 <div
                     class="bg-emerald-50 dark:bg-emerald-900/30 rounded-3xl border border-emerald-300 p-6 animate-fadeIn">
@@ -145,8 +143,6 @@
                         payment.</p>
                 </div>
                 }
-
-                <!-- Receipt Upload -->
                 <div
                     class="bg-white dark:bg-emerald-950/10 rounded-3xl shadow-md border border-emerald-200/60 dark:border-emerald-900/40 p-6">
                     <h2

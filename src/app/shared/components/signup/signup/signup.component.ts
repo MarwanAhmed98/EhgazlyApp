@@ -35,7 +35,7 @@ export class SignupComponent {
     }),
     password: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.pattern(/^\w{6,}$/)],
+      validators: [Validators.required, Validators.pattern(/^.{6,}$/)],
     }),
     rePassword: new FormControl<string>('', { nonNullable: true }),
     phone: new FormControl<string>('', {

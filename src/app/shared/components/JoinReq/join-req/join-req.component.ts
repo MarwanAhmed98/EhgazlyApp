@@ -22,25 +22,15 @@ export class JoinReqComponent implements OnInit {
   private readonly adminManageCourtsService = inject(AdminManageCourtsService);
   private readonly adminDashboardService = inject(AdminDashboardService);
   private readonly http = inject(HttpClient);
-
-  // Dashboard data
   dashboardData = signal<IAdminDashboard | null>(null);
   totalMainCourts = computed(() => this.dashboardData()?.total_maincourts ?? 0);
   verifiedMainCourts = computed(() => this.dashboardData()?.verified_maincourts ?? 0);
   pendingMainCourts = computed(() => this.dashboardData()?.pending_maincourts ?? 0);
-
-  // Courts data
   allCourts = signal<IAdminMainCourts[]>([]);
-
-  // Filters
   searchTerm = signal('');
   locationFilter = signal('ALL');
-
-  // Pagination
   currentPage = signal(1);
   readonly pageSize = 10;
-
-  // Filtered dataset (no pagination applied)
   filteredCourts = computed(() => {
     let courts = this.allCourts();
     const term = this.searchTerm().toLowerCase();
@@ -60,22 +50,16 @@ export class JoinReqComponent implements OnInit {
 
     return courts;
   });
-
-  // Total pages based on filtered dataset
   totalPages = computed(() => {
     const total = this.filteredCourts().length;
     return total === 0 ? 1 : Math.ceil(total / this.pageSize);
   });
-
-  // Paginated slice for display
   pagedCourts = computed(() => {
     const page = this.currentPage();
     const start = (page - 1) * this.pageSize;
     const end = start + this.pageSize;
     return this.filteredCourts().slice(start, end);
   });
-
-  // Showing X–Y info text
   showingFrom = computed(() => {
     if (this.filteredCourts().length === 0) return 0;
     return (this.currentPage() - 1) * this.pageSize + 1;
@@ -84,8 +68,6 @@ export class JoinReqComponent implements OnInit {
   showingTo = computed(() => {
     return Math.min(this.currentPage() * this.pageSize, this.filteredCourts().length);
   });
-
-  // Visible page numbers with ellipsis (-1 = ellipsis)
   visiblePages = computed(() => {
     const total = this.totalPages();
     const current = this.currentPage();
@@ -98,30 +80,30 @@ export class JoinReqComponent implements OnInit {
 
     pages.push(1);
 
-    if (current > 3) pages.push(-1); // left ellipsis
+    if (current > 3) pages.push(-1);
 
     const start = Math.max(2, current - 1);
     const end = Math.min(total - 1, current + 1);
 
     for (let i = start; i <= end; i++) pages.push(i);
 
-    if (current < total - 2) pages.push(-1); // right ellipsis
+    if (current < total - 2) pages.push(-1);
 
     pages.push(total);
 
     return pages;
   });
 
-  // Manage menu
+
   activeManageMenuId = signal<number | null>(null);
 
-  // Suspend modal
+
   suspendModalOpen = signal(false);
   suspendReason = signal('');
   suspendReasonError = signal('');
   selectedCourtForSuspend = signal<IAdminMainCourts | null>(null);
 
-  // Available locations from courts
+
   availableLocations = computed(() => {
     const locations = new Set<string>();
     this.allCourts().forEach(court => {

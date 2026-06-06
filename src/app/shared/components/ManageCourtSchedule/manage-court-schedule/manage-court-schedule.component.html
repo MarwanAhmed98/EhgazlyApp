@@ -1,6 +1,5 @@
 <div
     class="min-h-screen bg-[#D1F2D1] dark:bg-[#071E14] p-4 md:p-8 font-sans text-[#1A4D2E] dark:text-slate-100 overflow-x-hidden relative">
-    <!-- Header -->
     <header class="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-center justify-between mb-8 gap-6">
         <div class="flex flex-col gap-4">
             <h1
@@ -39,8 +38,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Main Grid -->
     <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 pb-8">
         <div class="lg:col-span-12 flex flex-col gap-6 w-full">
             <div class="bg-[#E8F8E8] dark:bg-white/10 rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 shadow-sm dark:shadow-black/45 flex-1 w-full transition-opacity duration-300 border border-transparent dark:border-white/10"
@@ -77,8 +74,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bulk Actions -->
                 @if (selectedCourtId() && selectedDate()) {
                 <div class="flex gap-3 mb-6 justify-end">
                     <button (click)="blockFullDay()" [disabled]="isLoadingSlots() || !isFacilityOpen()"
@@ -91,8 +86,6 @@
                     </button>
                 </div>
                 }
-
-                <!-- Loading State -->
                 @if (isLoadingSlots()) {
                 <div class="flex justify-center py-12">
                     <div
@@ -100,15 +93,11 @@
                     </div>
                 </div>
                 }
-
-                <!-- Empty State -->
                 @if (!isLoadingSlots() && slots().length === 0 && selectedCourtId()) {
                 <div class="text-center py-12 text-[#4A7C59] dark:text-slate-300 font-medium">
                     No time slots available for this date.
                 </div>
                 }
-
-                <!-- Slots Grid -->
                 <div class="space-y-4">
                     @for (slot of slots(); track slot.id) {
                     <div class="flex items-start gap-3 md:gap-4">
@@ -192,8 +181,6 @@
             </div>
         </div>
     </div>
-
-    <!-- CONFIRMATION MODAL -->
     @if (isConfirmModalOpen()) {
     <div
         class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/50 dark:bg-black/70 backdrop-blur-md modal-backdrop">
@@ -225,8 +212,6 @@
         </div>
     </div>
     }
-
-    <!-- SLOT MANAGEMENT MODAL -->
     @if (isModalOpen()) {
     <div
         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 dark:bg-black/70 backdrop-blur-sm modal-backdrop">
