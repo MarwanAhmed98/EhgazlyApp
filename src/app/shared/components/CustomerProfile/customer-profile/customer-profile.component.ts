@@ -47,8 +47,6 @@ export class CustomerProfileComponent implements OnInit {
     this.GetProfileData();
     this.getAllBookings();
   }
-
-  // ─── Helper methods for status colors ───────────────────────────────────
   getStatusBadgeClass(status: string): string {
     const lowerStatus = status?.toLowerCase();
     if (lowerStatus === 'confirmed' || lowerStatus === 'completed') {
@@ -76,8 +74,6 @@ export class CustomerProfileComponent implements OnInit {
     }
     return 'bg-gray-400';
   }
-
-  // ─── Existing methods (unchanged business logic) ────────────────────────
   showToast(message: string) {
     this.toastMessage.set(message);
     setTimeout(() => this.dismissToast(), 4000);

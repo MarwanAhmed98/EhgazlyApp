@@ -1,13 +1,11 @@
 <div
     class="min-h-screen md:p-8 font-sans text-slate-800 dark:text-slate-100 relative working-hours-container bg-[#E2F5E9] dark:bg-slate-900 p-6 rounded-xl shadow-md dark:shadow-black/50 courts-management-container">
-    <!-- Header & Main Court Selector -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
             <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">Courts Management</h1>
             <p class="text-slate-500 dark:text-slate-400 mt-1">Manage sub‑courts under your main facility</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <!-- Main Court Dropdown -->
             <select *ngIf="mainCourts().length > 0" [ngModel]="selectedMainCourtId()"
                 (ngModelChange)="onMainCourtChange($event)"
                 class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
@@ -15,7 +13,6 @@
                     {{ court.name || 'Court #' + court.id }}
                 </option>
             </select>
-            <!-- Add Court Button -->
             <button (click)="openAddModal()" [disabled]="!selectedMainCourtId()"
                 class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -27,13 +24,10 @@
             </button>
         </div>
     </div>
-
-    <!-- Courts Grid -->
     <div *ngIf="courts().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div *ngFor="let court of courts()"
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-md dark:shadow-black/45 hover:shadow-xl dark:hover:shadow-black/60 transition-all duration-300 overflow-hidden border border-slate-100 dark:border-white/10 group">
             <div class="p-5">
-                <!-- Header: Name + Status -->
                 <div class="flex justify-between items-start mb-3">
                     <h3 class="text-lg font-bold text-slate-800 dark:text-white truncate">{{ court.name }}</h3>
                     <span [class]="court.status?.toLowerCase() === 'open' 
@@ -43,12 +37,10 @@
                         {{ court.status || 'closed' }}
                     </span>
                 </div>
-                <!-- Description -->
                 <div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 mb-4">
                     <lucide-icon name="message-circle" [size]="20" [strokeWidth]="2.5"></lucide-icon>
                     <span>{{ court.description || 'No description' }}</span>
                 </div>
-                <!-- Details Grid -->
                 <div class="grid grid-cols-2 gap-y-2 gap-x-3 text-sm mb-5">
                     <div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
                         <lucide-icon name="file-type-corner" [size]="20" [strokeWidth]="2.5"></lucide-icon>
@@ -67,7 +59,6 @@
                         <span>{{ court.status === 'open' ? 'Available' : 'Not available' }}</span>
                     </div>
                 </div>
-                <!-- Action Buttons -->
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-white/10">
                     <button [routerLink]="['/CourtOwner/CourtOwnerSpecific', selectedMainCourtId(), court.id]"
                         class="p-2 text-blue-600 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors"
@@ -90,8 +81,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Empty State -->
     <div *ngIf="courts().length === 0 && selectedMainCourtId()"
         class="text-center py-16 bg-slate-50 dark:bg-white/5 rounded-2xl border border-transparent dark:border-white/10">
         <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-500 mb-3" fill="none" stroke="currentColor"
@@ -105,10 +94,6 @@
             Add your first
             court</button>
     </div>
-
-    <!-- ================= MODALS ================= -->
-
-    <!-- Add / Edit Court Modal -->
     <div *ngIf="isFormModalOpen()" class="modal-overlay" (click)="closeFormModal()">
         <div class="modal-container max-w-xl" (click)="$event.stopPropagation()">
             <div class="modal-header">
@@ -124,7 +109,7 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="courtForm" (ngSubmit)="submitCourtForm()">
-                    <!-- Name -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Court Name
                             *</label>
@@ -133,7 +118,7 @@
                         <div *ngIf="courtForm.get('name')?.invalid && courtForm.get('name')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Name is required</div>
                     </div>
-                    <!-- Description -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description
                             *</label>
@@ -142,7 +127,7 @@
                         <div *ngIf="courtForm.get('description')?.invalid && courtForm.get('description')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Description is required</div>
                     </div>
-                    <!-- Type -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Type *</label>
                         <select formControlName="type"
@@ -155,7 +140,7 @@
                         <div *ngIf="courtForm.get('type')?.invalid && courtForm.get('type')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Type is required</div>
                     </div>
-                    <!-- Surface Type -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Surface Type
                             *</label>
@@ -170,7 +155,7 @@
                         <div *ngIf="courtForm.get('surface_type')?.invalid && courtForm.get('surface_type')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Surface type is required</div>
                     </div>
-                    <!-- Price per hour -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Price per Hour
                             *</label>
@@ -179,7 +164,7 @@
                         <div *ngIf="courtForm.get('price_per_hour')?.invalid && courtForm.get('price_per_hour')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Valid price is required</div>
                     </div>
-                    <!-- Status -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Status
                             *</label>
@@ -204,8 +189,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
     <div *ngIf="isDeleteModalOpen()" class="modal-overlay" (click)="closeDeleteModal()">
         <div class="modal-container max-w-md" (click)="$event.stopPropagation()">
             <div class="p-6 text-center">
@@ -230,8 +213,6 @@
             </div>
         </div>
     </div>
-
-    <!-- View Details Modal -->
     <div *ngIf="isViewModalOpen()" class="modal-overlay" (click)="closeViewModal()">
         <div class="modal-container max-w-md" (click)="$event.stopPropagation()">
             <div class="modal-header">

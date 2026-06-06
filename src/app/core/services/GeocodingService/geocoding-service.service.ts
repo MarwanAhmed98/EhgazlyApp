@@ -22,8 +22,6 @@ export class GeocodingService {
       .set('format', 'json')
       .set('limit', '1')
       .set('addressdetails', '0');
-
-    // Nominatim requires a valid User-Agent header
     const headers = {
       'User-Agent': 'YourAppName/1.0 (your.email@example.com)'
     };

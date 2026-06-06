@@ -26,7 +26,6 @@ interface ChatMessage {
   imports: [CommonModule, FormsModule],
   templateUrl: './ai.component.html',
   styleUrl: './ai.component.scss',
-  // Explicitly Default (not OnPush) to avoid missed detectChanges calls
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class AiComponent implements OnInit, OnDestroy, AfterViewChecked {
@@ -49,7 +48,6 @@ export class AiComponent implements OnInit, OnDestroy, AfterViewChecked {
   private shouldScrollToBottom = false;
 
   ngOnInit(): void {
-    // Pre-fetch so questions are ready when panel first opens
     this.fetchQuestions();
   }
 
@@ -67,17 +65,10 @@ export class AiComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   togglePanel(): void {
     this.isOpen = !this.isOpen;
-
-    // Re-fetch only if previous attempt failed or list is empty
     if (this.isOpen && this.suggestedQuestions.length === 0 && !this.loadingQuestions) {
       this.fetchQuestions();
     }
   }
-
-  /**
-   * Single method responsible for loading questions.
-   * Handles both plain array responses and wrapped { data: [...] } responses.
-   */
   fetchQuestions(): void {
     this.loadingQuestions = true;
     this.questionsError = false;
@@ -88,7 +79,6 @@ export class AiComponent implements OnInit, OnDestroy, AfterViewChecked {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: any) => {
-          // Guard: handle both raw array and wrapped object
           if (Array.isArray(res)) {
             this.suggestedQuestions = res as string[];
           } else if (res && Array.isArray(res.data)) {
@@ -99,8 +89,6 @@ export class AiComponent implements OnInit, OnDestroy, AfterViewChecked {
 
           this.loadingQuestions = false;
           this.questionsError = this.suggestedQuestions.length === 0;
-
-          // Force change detection — critical fix when called outside Angular zone
           this.cdr.detectChanges();
         },
         error: () => {

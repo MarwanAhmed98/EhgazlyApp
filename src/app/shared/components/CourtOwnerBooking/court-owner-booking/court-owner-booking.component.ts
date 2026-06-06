@@ -81,10 +81,8 @@ export class CourtOwnerBookingComponent implements OnInit {
     this.loadPastBookings();
     this.loadFinancialData();
   }
-
-  // FIX: helper to extract array from either res or res.data
   private extractArray(res: any): ICourtOwnerBookings[] {
-    console.log('API raw response:', res); // <-- remove after confirming structure
+    console.log('API raw response:', res);
     if (Array.isArray(res)) return res;
     if (Array.isArray(res?.data)) return res.data;
     if (Array.isArray(res?.data?.data)) return res.data.data;
@@ -110,7 +108,7 @@ export class CourtOwnerBookingComponent implements OnInit {
   loadFinancialData(): void {
     this.courtOwnerPaymentService.GetOwnerFinancialData().subscribe({
       next: (res) => {
-        console.log('Financial raw response:', res); // <-- remove after confirming
+        console.log('Financial raw response:', res);
         this.FinancialDetails = res?.data ?? res;
       },
       error: (err) => {

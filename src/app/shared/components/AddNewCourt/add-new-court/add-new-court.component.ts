@@ -30,13 +30,9 @@ export class AddNewCourtComponent implements OnDestroy {
 
   private destroy$ = new Subject<void>();
   geocodingLoading = false;
-
-  // ================= UI STATE =================
   isSubmitting = false;
   successMessage = '';
   errorMessage = '';
-
-  // ================= FORM =================
   CourtForm: FormGroup = new FormGroup({
     courtSize: new FormControl('5A', [Validators.required]),
     courtName: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -103,16 +99,12 @@ export class AddNewCourtComponent implements OnDestroy {
       longitude: null
     }, { emitEvent: false });
   }
-
-  // ================= SIZE =================
   selectedSize: string = '5A';
 
   selectSize(size: string): void {
     this.selectedSize = size;
     this.CourtForm.get('courtSize')?.setValue(size);
   }
-
-  // ================= GALLERY LOGIC =================
   galleryImages = signal<GalleryImage[]>([]);
   galleryUploadStatus: GalleryUploadStatus = 'idle';
   galleryError = '';
@@ -170,8 +162,6 @@ export class AddNewCourtComponent implements OnDestroy {
       this.galleryTimer = null;
     }
   }
-
-  // ================= HELPERS =================
   previewMap(): void {
     const link = (this.CourtForm.get('mapsLink')?.value || '').toString().trim();
     if (!link) return;
@@ -192,8 +182,6 @@ export class AddNewCourtComponent implements OnDestroy {
       'Something went wrong. Please try again.'
     );
   }
-
-  // ================= ADD NEW COURT =================
   submitForm(): void {
     this.successMessage = '';
     this.errorMessage = '';

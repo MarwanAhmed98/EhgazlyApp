@@ -1,11 +1,7 @@
 <div
     class="min-h-screen bg-[#EAF7EE] dark:bg-slate-950 p-4 sm:p-6 lg:p-8 font-sans text-slate-800 dark:text-slate-200 antialiased selection:bg-[#BCEFCD] dark:selection:bg-[#2d4d3a] selection:text-[#136336] dark:selection:text-white">
-
-    <!-- Top Header / Dashboard Metrics -->
     <header class="max-w-7xl mx-auto mb-6 sm:mb-8">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-
-            <!-- Primary Large Eco Card (Total Court Owners) -->
             <div
                 class="md:col-span-6 bg-[#BCEFCD] dark:bg-[#1a3a2a] rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[180px] group transition-all duration-300 hover:shadow-md">
                 <div
@@ -24,8 +20,6 @@
                         dashboardStats().total_courtowners | number }}</h2>
                 </div>
             </div>
-
-            <!-- Metric Card: Pending Owners -->
             <div
                 class="md:col-span-3 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[150px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
                 <div class="flex items-center justify-between">
@@ -50,8 +44,6 @@
                         dashboardStats().pending_owners | number }}</h3>
                 </div>
             </div>
-
-            <!-- Metric Card: Total Main Courts -->
             <div
                 class="md:col-span-3 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[150px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
                 <div class="flex items-center justify-between">
@@ -78,15 +70,9 @@
 
         </div>
     </header>
-
-    <!-- Main Section: Table Container -->
     <main class="max-w-7xl mx-auto">
-
-        <!-- Table Card / Container -->
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden border border-[#D1F5DD]/30 dark:border-slate-700">
-
-            <!-- Desktop / Tablet Table View -->
             <div class="hidden md:block overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-[1000px]">
                     <thead>
@@ -106,7 +92,6 @@
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                         @for (owner of paginatedOwners(); track owner.id) {
                         <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-700/50 transition-colors group">
-                            <!-- Owner info -->
                             <td class="py-4 px-4">
                                 <div class="flex items-center space-x-3">
                                     <div class="flex-shrink-0">
@@ -195,8 +180,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Mobile Card List View -->
             <div class="block md:hidden">
                 <div
                     class="bg-[#D1F5DD] dark:bg-slate-700 px-4 py-3 text-[#136336] dark:text-white text-xs font-black uppercase tracking-wider">
@@ -277,8 +260,6 @@
                     }
                 </div>
             </div>
-
-            <!-- Pagination -->
             <footer
                 class="bg-[#D1F5DD] dark:bg-slate-700 px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-2 border-t border-[#D1F5DD]/40 dark:border-slate-600 rounded-b-2xl">
                 <div class="text-xs sm:text-sm font-semibold text-[#136336] dark:text-emerald-300">
@@ -312,8 +293,6 @@
         </div>
     </main>
 </div>
-
-<!-- ===== REJECT MODAL ===== -->
 @if (rejectModalOpen()) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeRejectModal()">
     <div class="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm"></div>
@@ -387,8 +366,6 @@
     </div>
 </div>
 }
-
-<!-- ===== SUSPEND MODAL ===== -->
 @if (suspendModalOpen()) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeSuspendModal()">
     <div class="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm"></div>
@@ -464,8 +441,6 @@
     </div>
 </div>
 }
-
-<!-- ===== COMMISSION MODAL ===== -->
 @if (isCommissionModalOpen()) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center p-4" (click)="closeCommissionModal()">
     <div class="absolute inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm"></div>

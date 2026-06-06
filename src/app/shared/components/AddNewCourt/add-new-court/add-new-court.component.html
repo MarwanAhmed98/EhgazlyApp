@@ -1,6 +1,5 @@
 <div class="min-h-screen bg-[#F0FDF4] p-4 md:p-8 lg:p-12 font-sans text-[#064E3B]">
     <div class="max-w-6xl mx-auto">
-        <!-- Header -->
         <header class="mb-10">
             <span class="text-xs font-bold uppercase tracking-widest text-[#15803D]">New Listing</span>
             <h1 class="text-4xl md:text-5xl font-black mt-2 mb-4">Create a New Court</h1>
@@ -11,9 +10,7 @@
         </header>
 
         <form [formGroup]="CourtForm" (ngSubmit)="submitForm()" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Column: Form Content -->
             <div class="lg:col-span-2 space-y-8">
-                <!-- Section: Facility Details -->
                 <section
                     class="bg-white/60 backdrop-blur-sm rounded-[2rem] p-8 border border-green-100 shadow-sm space-y-6">
                     <div class="flex items-center gap-3 mb-2">
@@ -80,8 +77,6 @@
                         }
                     </div>
                 </section>
-
-                <!-- Section: Location -->
                 <section
                     class="bg-white/60 backdrop-blur-sm rounded-[2rem] p-8 border border-green-100 shadow-sm space-y-6">
                     <div class="flex items-center gap-3 mb-2">
@@ -248,8 +243,6 @@
                     }
                 </section>
             </div>
-
-            <!-- Submit Button Only -->
             <div
                 class="lg:col-span-3 flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-green-100">
                 <button type="submit" [disabled]="isSubmitting || CourtForm.invalid"

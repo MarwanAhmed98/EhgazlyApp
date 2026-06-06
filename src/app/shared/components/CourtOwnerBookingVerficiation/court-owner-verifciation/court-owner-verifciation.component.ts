@@ -59,8 +59,6 @@ export class CourtOwnerVerifciationComponent implements OnInit {
   rejectReason = '';
 
   verifyState: VerifyState = 'idle';
-
-  // Receipt image preview properties
   isImageModalOpen = false;
   currentImageUrl = '';
 
@@ -101,8 +99,6 @@ export class CourtOwnerVerifciationComponent implements OnInit {
     const phoneDigits = this.profile.phone.replace(/[^\d+]/g, '');
     window.location.href = `tel:${phoneDigits}`;
   }
-
-  // Receipt image preview methods
   openImagePreview(imageUrl: string): void {
     if (imageUrl && imageUrl.trim()) {
       this.currentImageUrl = imageUrl;

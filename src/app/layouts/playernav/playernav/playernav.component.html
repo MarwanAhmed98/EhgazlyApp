@@ -2,8 +2,6 @@
   class="sticky top-0 z-50 backdrop-blur-2xl bg-white/80 dark:bg-slate-950/70 border-b border-slate-200/60 dark:border-slate-800/60">
 
   <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-
-    <!-- Logo -->
     <div class="flex items-center gap-4">
       <div class="w-10 h-10  rounded-[50%] flex items-center justify-center shadow-xl shadow-emerald-200/50">
         <span class="text-white italic font-black text-xl"><img src="/images/MyLogo.png" alt=""></span>
@@ -12,8 +10,6 @@
         Ehgezly
       </span>
     </div>
-
-    <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-10 text-[15px] font-bold text-slate-500 dark:text-slate-300">
       <a [routerLink]="venuesLink" class="hover:text-[#2E7D32] transition-colors relative"
         [ngClass]="{'text-[#2E7D32] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-[#2E7D32] after:rounded-full': active === 'venues'}">
@@ -33,10 +29,7 @@
         About Us
       </a>
     </div>
-
-    <!-- Right icons -->
     <div class="flex items-center gap-3">
-      <!-- Translate button – visible on desktop, hidden on mobile -->
       <div class="hidden md:block">
         <app-translate-btn></app-translate-btn>
       </div>
@@ -59,8 +52,6 @@
           </span>
           }
         </button>
-
-        <!-- Notifications Dropdown Panel -->
         <div #notifPanel class="notif-dd" [class.notif-dd--open]="isNotificationsOpen" [style.left.px]="notifPanelLeft"
           [style.top.px]="notifPanelTop" [style.transformOrigin]="notifPanelOrigin" role="dialog"
           aria-label="Notifications">
@@ -82,8 +73,6 @@
               ✕
             </button>
           </div>
-
-          <!-- Loading -->
           @if (notiLoading) {
           <div class="notif-loading">
             <div class="notif-loading__row"></div>
@@ -91,8 +80,6 @@
             <div class="notif-loading__row"></div>
           </div>
           }
-
-          <!-- Error -->
           @if (!notiLoading && notiError) {
           <div class="notif-empty">
             <p class="notif-empty__title">Couldn't load notifications</p>
@@ -102,8 +89,6 @@
             </button>
           </div>
           }
-
-          <!-- Tabs -->
           @if (!notiLoading && !notiError) {
           <!-- <div class="notif-dd__tabs">
             <button type="button" class="notif-dd__tab" [class.is-active]="notifFilter === 'all'"
@@ -171,8 +156,6 @@
                 <span class="notif-item__desc">{{ item.message || '' }}</span>
                 <span class="notif-item__time">{{ formatNotiTime(item.created_at) }}</span>
               </span>
-
-              <!-- PAY BUTTON (conditional) -->
               @if (item.type === 'match_ready') {
               <span [routerLink]="['/OpenMatchPayment' , item.match_id]" class="pay-btn" role="button" tabindex="0">
                 Pay
@@ -190,8 +173,6 @@
             </div>
             }
           </div>
-
-          <!-- Footer -->
           <div class="notif-dd__footer">
             <button type="button" class="notif-dd__cta" (click)="MarkAllAsRead()"
               [disabled]="(NotificationsDetails?.unread_count ?? 0) === 0 || markAllLoading"
@@ -202,8 +183,6 @@
           }
         </div>
       </div>
-
-      <!-- Profile Dropdown (Desktop only) -->
       <div class="relative hidden md:block">
         <button type="button" (click)="toggleProfileMenu($event)"
           class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center cursor-pointer transition-all"
@@ -238,8 +217,6 @@
           </button>
         </div>
       </div>
-
-      <!-- Mobile button -->
       <button type="button" (click)="openMobileMenu()"
         class="md:hidden w-12 h-12 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 transition-all"
         aria-label="Toggle menu">
@@ -247,14 +224,10 @@
       </button>
     </div>
   </div>
-
-  <!-- Mobile Overlay -->
   <div (click)="closeMobileMenu()"
     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden transition-opacity duration-300"
     [ngClass]="isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'">
   </div>
-
-  <!-- Mobile Sidebar -->
   <aside
     class="md:hidden fixed top-0 left-0 h-screen w-[85%] max-w-[320px] bg-white dark:bg-slate-950 z-[100] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col"
     [class.translate-x-0]="isMobileMenuOpen" [class.-translate-x-full]="!isMobileMenuOpen">
@@ -314,13 +287,9 @@
         </div>
         <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
       </a>
-
-      <!-- Translate Button - mobile version (visible only in sidebar) -->
       <div class="px-5 py-3 mt-2">
         <app-translate-btn></app-translate-btn>
       </div>
-
-      <!-- Mobile ONLY: Profile + Logout -->
       <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60">
         <button type="button" (click)="goToProfileFromMobile()"
           class="w-full group flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">

@@ -1,13 +1,7 @@
-<!-- MAIN WRAPPER -->
 <div class="min-h-screen bg-[#F1F9F3] text-[#0c5c24] font-sans antialiased p-4 sm:p-6 md:p-8">
     <div class="max-w-7xl mx-auto">
-
-        <!-- ==========================================
-             VIEW 1: STADIUM DIRECTORY DASHBOARD
-             ========================================== -->
         @if (currentView() === 'list') {
         <div class="space-y-6 animate-fadeIn">
-            <!-- Header Section -->
             <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0c5c24] tracking-tight">
@@ -27,10 +21,7 @@
                     New Field Listing
                 </button>
             </header>
-
-            <!-- Controls: Search, Filters & Quick Stats -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
-                <!-- Search & Filter Controls -->
                 <div class="lg:col-span-2 bg-[#DFF5E6] rounded-2xl p-3 flex flex-col md:flex-row items-center gap-3">
                     <div class="relative w-full md:w-72">
                         <span
@@ -45,8 +36,6 @@
                             placeholder="Search..."
                             class="w-full pl-10 pr-4 py-2.5 bg-white text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0c5c24] border-none text-sm transition-all shadow-sm" />
                     </div>
-
-                    <!-- Segmented Control Filters -->
                     <div
                         class="flex flex-wrap items-center gap-1.5 w-full md:w-auto md:ml-auto overflow-x-auto no-scrollbar">
                         @for (tab of tabs; track tab) {
@@ -59,8 +48,6 @@
                         }
                     </div>
                 </div>
-
-                <!-- Total Inventory Metric Card -->
                 <div
                     class="bg-[#CBEED4] rounded-2xl p-4 flex items-center justify-between shadow-sm border border-[#b2e5be]">
                     <div class="space-y-1">
@@ -80,11 +67,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Stadiums Table / Responsive Cards -->
             <div class="bg-white rounded-3xl shadow-sm border border-[#e0f2e5] overflow-hidden">
-
-                <!-- Desktop Table View -->
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -165,8 +148,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Mobile Cards View -->
                 <div class="block md:hidden divide-y divide-[#f1f9f3]">
                     @for (stadium of paginatedStadiums(); track stadium.id) {
                     <div class="p-4 space-y-4 hover:bg-[#f9fdfa] transition-all duration-150">
@@ -222,8 +203,6 @@
                     </div>
                     }
                 </div>
-
-                <!-- Table Footer Pagination -->
                 <div
                     class="border-t border-[#f1f9f3] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#fcfdfe]">
                     <span class="text-sm font-semibold text-gray-500 text-center sm:text-left">
@@ -259,8 +238,6 @@
                 </div>
 
             </div>
-
-            <!-- Metric Footer Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div
                     class="relative bg-[#E6F7EB] rounded-3xl p-6 overflow-hidden shadow-sm border border-[#d2edd9] group hover:shadow-md transition-all">
@@ -334,15 +311,8 @@
             </div>
         </div>
         }
-
-        <!-- ==========================================
-             VIEW 2: COURT MANAGEMENT DETAIL PAGE 
-             (Exactly matching the reference image)
-             ========================================== -->
         @if (currentView() === 'details' && selectedStadium()) {
         <div class="space-y-6 animate-fadeIn pb-12">
-
-            <!-- Breadcrumbs / Back button -->
             <div class="flex items-center justify-between">
                 <button (click)="navigateToList()"
                     class="inline-flex items-center gap-2 text-[#0c5c24] hover:text-[#08471b] font-bold text-sm bg-white hover:bg-[#DFF5E6] px-4 py-2 rounded-full transition-all border border-[#e0f2e5] cursor-pointer">
@@ -357,20 +327,13 @@
                         }}</span>
                 </div>
             </div>
-
-            <!-- Top Grid: Main Image Card and Side Column (Performance Data, Promote Court) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <!-- Left Big Image Card with Floating Badges -->
                 <div
                     class="lg:col-span-2 relative rounded-3xl overflow-hidden shadow-md border border-[#e0f2e5] h-72 sm:h-96 md:h-[420px] group">
                     <img [src]="selectedStadium()?.image" [alt]="selectedStadium()?.name"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102" />
-                    <!-- Gradient Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-t from-[#021f0c]/90 via-transparent to-transparent">
                     </div>
-
-                    <!-- Edit Circle Button (Top Right) -->
                     <button (click)="showDemoToast('Upload replacement photo functionality triggered.')"
                         class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md flex items-center justify-center text-white transition-all cursor-pointer border border-white/10"
                         title="Edit Stadium Picture">
@@ -379,19 +342,14 @@
                                 d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l12.519-12.519-5.69-5.69-12.519 12.519 5.69 5.69zm15.459-15.459L21.127.816a1.998 1.998 0 0 0-2.827 0L16.486 2.63l5.69 5.69 1.814-1.814a1.998 1.998 0 0 0 0-2.817z" />
                         </svg>
                     </button>
-
-                    <!-- Information Overlaid Bottom Left -->
                     <div class="absolute bottom-6 left-6 right-6 text-white space-y-2">
-                        <!-- Active Field Badge -->
                         <div
                             class="inline-flex items-center px-3 py-1 bg-[#DFF5E6] text-[#0c5c24] text-[10px] font-black tracking-widest uppercase rounded-full">
                             {{ selectedStadium()?.status }} FIELD
                         </div>
-                        <!-- Stadium Name -->
                         <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm">
                             {{ selectedStadium()?.name }}
                         </h2>
-                        <!-- Location Pin -->
                         <p class="flex items-center gap-1 text-sm text-[#A5DFB3] font-bold">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2.5">
@@ -402,11 +360,7 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- Right Sidebar Column -->
                 <div class="space-y-4 flex flex-col justify-between">
-
-                    <!-- Performance Data Card -->
                     <div
                         class="bg-[#0c5c24] text-white p-6 rounded-3xl shadow-sm space-y-4 flex flex-col justify-between h-1/2">
                         <div>
@@ -418,14 +372,11 @@
                                 </h3>
                                 <span class="text-[10px] text-[#A5DFB3] font-bold tracking-wider">UTILIZATION</span>
                             </div>
-                            <!-- Custom styled progress bar from reference design -->
                             <div class="w-full bg-white/10 h-2.5 rounded-full mt-3 overflow-hidden">
                                 <div class="bg-[#A5DFB3] h-full rounded-full transition-all duration-1000"
                                     [style.width.%]="selectedStadium()?.utilization"></div>
                             </div>
                         </div>
-
-                        <!-- Upcoming Bookings Segment -->
                         <div class="bg-[#09471b] rounded-2xl p-3.5 flex items-center gap-3.5 border border-white/5">
                             <div class="p-2.5 bg-white/5 rounded-xl text-[#A5DFB3]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -444,8 +395,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Promote Court Card -->
                     <div
                         class="bg-[#CBEED4] p-6 rounded-3xl shadow-sm border border-[#b2e5be] space-y-4 flex flex-col justify-between h-1/2">
                         <div class="space-y-1.5">
@@ -454,8 +403,6 @@
                                 Boost this field to the top of the user discovery page.
                             </p>
                         </div>
-
-                        <!-- Toggle Feature Court -->
                         <div
                             class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be] shadow-xs">
                             <div class="flex items-center gap-2">
@@ -466,8 +413,6 @@
                                 </svg>
                                 <span class="text-xs font-black text-[#0c5c24] tracking-wide">Feature Court</span>
                             </div>
-
-                            <!-- Modern custom slider switch -->
                             <button (click)="toggleFeaturedState()"
                                 class="w-12 h-6 rounded-full p-0.5 transition-colors duration-200 focus:outline-none relative cursor-pointer"
                                 [class.bg-[#0c5c24]]="selectedStadium()?.isFeatured"
@@ -477,15 +422,11 @@
                                     [class.translate-x-0]="!selectedStadium()?.isFeatured"></div>
                             </button>
                         </div>
-
-                        <!-- Update Public Profile Button -->
                         <button (click)="showDemoToast('Public profile successfully updated & synced.')"
                             class="w-full bg-[#8F3E00] hover:bg-[#7a3400] text-white py-3.5 rounded-full font-black text-xs uppercase tracking-widest shadow-md transition-all active:scale-98 cursor-pointer">
                             Update Public Profile
                         </button>
                     </div>
-
-                    <!-- Simple Account Help Widget -->
                     <div
                         class="bg-[#D1EAF7] p-4 rounded-3xl border border-[#b3d4f3] flex items-center gap-3.5 shadow-xs">
                         <div
@@ -504,14 +445,9 @@
 
                 </div>
             </div>
-
-            <!-- Technical Specs & Amenities Cards Row -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- Technical Specs -->
                 <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-4 shadow-sm">
                     <h3 class="text-base font-extrabold flex items-center gap-2 text-[#0c5c24]">
-                        <!-- SVG Analytics/Tech icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -521,28 +457,21 @@
                     </h3>
 
                     <div class="space-y-2.5">
-                        <!-- Surface Type -->
                         <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
                             <span class="text-xs font-semibold text-gray-500">Surface Type</span>
                             <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.surfaceType }}</span>
                         </div>
-
-                        <!-- Pitch Size -->
                         <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
                             <span class="text-xs font-semibold text-gray-500">Pitch Size</span>
                             <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.capacity }}
                                 Official</span>
                         </div>
-
-                        <!-- Lighting -->
                         <div class="bg-white p-3 rounded-2xl flex items-center justify-between border border-[#b2e5be]">
                             <span class="text-xs font-semibold text-gray-500">Lighting</span>
                             <span class="text-xs font-black text-[#0c5c24]">{{ selectedStadium()?.lighting }}</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Facility Amenities with clean visual block items -->
                 <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-4 shadow-sm">
                     <h3 class="text-base font-extrabold flex items-center gap-2 text-[#0c5c24]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -554,7 +483,6 @@
                     </h3>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <!-- VIP LOUNGE -->
                         <div
                             class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
@@ -565,19 +493,14 @@
                             <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase mt-1">VIP
                                 Lounge</span>
                         </div>
-
-                        <!-- SECURE PARKING -->
                         <div
                             class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
                             <span class="text-xl font-extrabold text-[#0c5c24] leading-none">P</span>
                             <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase">Secure
                                 Parking</span>
                         </div>
-
-                        <!-- SHOWERS -->
                         <div
                             class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
-                            <!-- Custom Shower Spray SVG -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -585,8 +508,6 @@
                             </svg>
                             <span class="text-[9px] font-black tracking-widest text-gray-500 uppercase">Showers</span>
                         </div>
-
-                        <!-- FREE WI-FI -->
                         <div
                             class="bg-white p-3 rounded-2xl border border-[#b2e5be] flex flex-col items-center justify-center text-center space-y-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0c5c24]" fill="none"
@@ -600,8 +521,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Recent Activity Block with full Table Design matches image layout -->
             <div class="bg-[#CBEED4] p-6 rounded-3xl border border-[#b2e5be] space-y-6 shadow-sm">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-extrabold text-[#0c5c24]">Recent Activity</h3>
@@ -614,8 +533,6 @@
                         </svg>
                     </button>
                 </div>
-
-                <!-- Table Content matching image structure -->
                 <div class="overflow-hidden">
                     <div class="hidden md:block">
                         <table class="w-full text-left border-collapse">
@@ -630,7 +547,6 @@
                             </thead>
                             <tbody class="space-y-3">
                                 @for (act of selectedStadium()?.recentActivity; track act.user) {
-                                <!-- Row formatted to look like distinct white block cards exactly matching reference -->
                                 <tr
                                     class="bg-white border-y-[6px] border-[#CBEED4] first:border-t-0 last:border-b-0 rounded-2xl overflow-hidden transition-all hover:bg-gray-50">
                                     <td class="py-4 px-4 rounded-l-2xl">
@@ -667,8 +583,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Responsive Mobile Activity Stack Cards -->
                     <div class="block md:hidden space-y-3">
                         @for (act of selectedStadium()?.recentActivity; track act.user) {
                         <div class="bg-white p-4 rounded-2xl shadow-xs border border-white space-y-3">
@@ -716,8 +630,6 @@
 
     </div>
 </div>
-
-<!-- Create Listing Modal Overlay (Maintained, functional, visually cohesive) -->
 @if (showCreateModal()) {
 <div
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-300">
@@ -815,24 +727,17 @@
 </div>
 }
 
-<!-- ==========================================
-         PROMOTE STADIUM / FEATURED STATUS MODAL
-         (Exactly matching the reference image)
-         ========================================== -->
 @if (showFeatureModal()) {
 <div (click)="closeFeatureModalOnOutsideClick($event)" id="featureModalOverlay"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-fadeIn">
     <div
         class="bg-white rounded-[32px] w-full max-w-[520px] shadow-2xl overflow-hidden border border-[#e0f2e5] transform transition-transform duration-300 scale-100 p-8 space-y-6 text-[#0c5c24]">
-        <!-- Top Left Badge Icon -->
         <div class="w-12 h-12 rounded-2xl bg-[#CBFAD5] flex items-center justify-center text-[#0e5c24]">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 20 20">
                 <path
                     d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.961 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.53 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
         </div>
-
-        <!-- Header Titles -->
         <div class="space-y-2">
             <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight text-gray-900">
                 Promote Stadium (Featured Status)
@@ -841,10 +746,7 @@
                 Set the timeframe for this stadium to appear at the top of the user discovery feed.
             </p>
         </div>
-
-        <!-- Date Fields Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Start Date -->
             <div class="space-y-2">
                 <label class="text-[10px] font-black text-[#0c5c24] tracking-widest uppercase block">Start Date</label>
                 <div
@@ -859,8 +761,6 @@
                     </svg>
                 </div>
             </div>
-
-            <!-- End Date -->
             <div class="space-y-2">
                 <label class="text-[10px] font-black text-[#0c5c24] tracking-widest uppercase block">End Date</label>
                 <div
@@ -876,8 +776,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Discovery Boost Active Info Box -->
         <div class="bg-[#F1F9F3] p-4 rounded-3xl border border-[#e0f2e5] flex items-start gap-3">
             <div class="p-1 bg-[#0c5c24] rounded-full text-white shrink-0 mt-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
@@ -892,8 +790,6 @@
                     during this period. Estimated user reach: ~4,500 athletes.</p>
             </div>
         </div>
-
-        <!-- Action Buttons Layout -->
         <div class="flex items-center gap-4 pt-2">
             <button (click)="publishFeaturedStatus()"
                 class="flex-1 bg-[#0c5c24] hover:bg-[#08471b] text-white py-4 px-6 rounded-full font-bold text-sm tracking-wide shadow-md transition-all active:scale-98 cursor-pointer text-center">
@@ -907,8 +803,6 @@
     </div>
 </div>
 }
-
-<!-- Simple Toast Notification Overlay -->
 @if (toastMessage()) {
 <div
     class="fixed bottom-6 right-6 z-50 bg-[#0c5c24] text-white py-3.5 px-6 rounded-2xl shadow-xl border border-[#a5dfb3] animate-slideIn flex items-center gap-2">

@@ -1,8 +1,5 @@
-<!-- Main Wrapper -->
 <div
     class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans selection:bg-[#2E7D32] selection:text-white transition-colors duration-300 relative overflow-hidden">
-
-    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -27,20 +24,15 @@
             animation: fadeInUp .7s cubic-bezier(.4, 0, .2, 1) both;
         }
     </style>
-
-    <!-- Background Glow -->
     <div
         class="absolute top-0 left-0 -ml-48 -mt-48 w-96 h-96 bg-[#2E7D32]/10 blur-3xl rounded-full pointer-events-none">
     </div>
     <div
         class="absolute bottom-0 right-0 -mr-48 -mb-48 w-96 h-96 bg-[#1565C0]/10 blur-3xl rounded-full pointer-events-none">
     </div>
-
-    <!-- Navbar -->
     <app-playernav [active]="'venues'"></app-playernav>
 
     <main class="max-w-7xl mx-auto px-6 py-8 sm:py-12 relative z-10">
-        <!-- Hero -->
         <section class="animate-fade-in-up">
             <div
                 class="relative rounded-[2.5rem] overflow-hidden border border-emerald-200/60 dark:border-emerald-900/40 shadow-2xl shadow-emerald-200/30 dark:shadow-none">
@@ -88,10 +80,7 @@
                 </div>
             </div>
         </section>
-
-        <!-- Content Grid -->
         <section class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left -->
             <div class="lg:col-span-8 space-y-10">
                 <!-- Pitch Specifications -->
                 <!-- <div class="animate-fade-in-up" style="animation-delay: 80ms;">
@@ -121,8 +110,6 @@
                         }
                     </div>
                 </div> -->
-
-                <!-- Stadium Gallery -->
                 <div class="animate-fade-in-up" style="animation-delay: 140ms;">
                     <div class="flex items-center justify-between gap-6">
                         <div class="flex items-center gap-4">
@@ -160,8 +147,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Luxury Amenities -->
                 <div class="animate-fade-in-up" style="animation-delay: 200ms;">
                     <div class="flex items-center gap-4">
                         <span class="w-7 h-[3px] rounded-full bg-[#A34700]"></span>
@@ -183,10 +168,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Right -->
             <div class="lg:col-span-4 space-y-6">
-                <!-- Map Card -->
                 <a [href]="CourtDetails.map_link" target="_blank" class="animate-fade-in-up block"
                     style="animation-delay: 180ms;">
 

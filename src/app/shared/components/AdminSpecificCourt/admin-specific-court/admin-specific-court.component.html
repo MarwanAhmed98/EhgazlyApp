@@ -1,8 +1,6 @@
 <div
     class="min-h-screen bg-[#EAF7EE] dark:bg-slate-950 p-4 sm:p-6 lg:p-8 font-sans text-slate-800 dark:text-slate-100 antialiased">
     <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="text-2xl sm:text-3xl font-bold text-[#136336] dark:text-emerald-200">
@@ -17,14 +15,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- Main Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- Left Column: Main Info, Owner, Location -->
             <div class="lg:col-span-2 space-y-6">
-
-                <!-- Header Card: Name + Statuses + Address -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 overflow-hidden">
                     <div
@@ -99,8 +91,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Owner Information Card -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -131,8 +121,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Location Card -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -184,8 +172,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Courts List Section -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -255,8 +241,6 @@
                         </div>
                     </ng-template>
                 </div>
-
-                <!-- Amenities Section -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -283,8 +267,6 @@
                         </div>
                     </ng-template>
                 </div>
-
-                <!-- Payment Methods Section -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -312,8 +294,6 @@
                         </div>
                     </ng-template>
                 </div>
-
-                <!-- Working Hours Section -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -376,11 +356,7 @@
                     </ng-template>
                 </div>
             </div>
-
-            <!-- Right Column: Stats & Images -->
             <div class="space-y-6">
-
-                <!-- Quick Stats Card -->
                 <div
                     class="bg-gradient-to-br from-[#136336] to-[#0b3d20] dark:from-emerald-700 dark:to-slate-950 rounded-2xl shadow-lg dark:shadow-none text-white p-6 border border-transparent dark:border-white/10">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-80">Courts Count</p>
@@ -389,8 +365,6 @@
                         Total courts inside this facility
                     </div>
                 </div>
-
-                <!-- Images Gallery -->
                 <div
                     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm dark:shadow-none border border-[#BCEFCD] dark:border-slate-800 p-6">
                     <h3 class="text-lg font-bold text-[#136336] dark:text-emerald-200 flex items-center gap-2 mb-4">
@@ -432,8 +406,6 @@
         </div>
     </div>
 </div>
-
-<!-- Image Modal -->
 <div *ngIf="selectedImage" class="fixed inset-0 bg-black/80 dark:bg-black/85 z-50 flex items-center justify-center p-4"
     (click)="closeImageModal()">
     <div class="relative max-w-4xl w-full" (click)="$event.stopPropagation()">

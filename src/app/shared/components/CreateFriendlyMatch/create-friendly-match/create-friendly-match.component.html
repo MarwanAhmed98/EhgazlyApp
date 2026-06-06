@@ -83,7 +83,7 @@
 
     <main class="max-w-3xl mx-auto px-6 pb-16 pt-10 sm:pt-12 relative z-10">
 
-        <!-- Title -->
+
         <section class="text-center animate-fade-in-up">
             <h1 class="text-4xl sm:text-5xl font-black tracking-tighter text-emerald-950">Create a Match</h1>
             <p class="mt-3 text-sm sm:text-base font-semibold text-emerald-950/70">Find teammates and book your pitch in
@@ -93,13 +93,13 @@
         <form [formGroup]="CreateMatchForm" (ngSubmit)="onSubmit()" class="mt-10 space-y-8 animate-fade-in-up"
             style="animation-delay:90ms;">
 
-            <!-- ── 1. SELECT COURT ── -->
+
             <section>
                 <div class="flex items-center gap-3">
                     <p class="text-sm font-black uppercase tracking-widest text-emerald-950">1. Select Court</p>
                 </div>
 
-                <!-- Search -->
+
                 <div class="mt-4 rounded-[1.75rem] bg-white/60 border border-emerald-200/60 p-4">
                     <div class="flex items-center gap-3 px-2">
                         <input type="text"
@@ -108,7 +108,6 @@
                     </div>
                 </div>
 
-                <!-- Stadium trigger -->
                 <button type="button" (click)="toggleVenuesOpen()"
                     class="mt-4 w-full text-left rounded-[1.75rem] border border-emerald-200/60 bg-white/55 p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_20px_50px_-25px_rgba(2,44,34,0.14)]">
                     <div class="flex items-center justify-between gap-4">
@@ -127,7 +126,7 @@
                     </div>
                 </button>
 
-                <!-- Stadium list -->
+
                 @if (venuesOpen) {
                 @if (mainCourtsLoading) {
                 <div class="mt-3 rounded-[1.75rem] bg-white/55 border border-emerald-200/60 p-5">
@@ -184,7 +183,7 @@
                 }
                 }
 
-                <!-- Courts list -->
+
                 @if (selectedMainCourt) {
                 <div class="mt-6">
                     <div class="flex items-center justify-between gap-4">
@@ -253,16 +252,16 @@
                 }
             </section>
 
-            <!-- ── 2. DATE & TIME (REDESIGNED) ── -->
+
             <section>
                 <div class="flex items-center gap-3">
                     <p class="text-sm font-black uppercase tracking-widest text-emerald-950">2. Date &amp; Time</p>
                 </div>
 
-                <!-- Calendar Card -->
+
                 <div class="mt-4 rounded-[1.75rem] bg-white/60 border border-emerald-200/60 p-5">
 
-                    <!-- Month Navigation -->
+
                     <div class="flex items-center justify-between mb-5">
                         <button type="button" (click)="prevMonth()"
                             class="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200/60 grid place-items-center text-emerald-950 font-black text-lg transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-30 disabled:pointer-events-none"
@@ -274,7 +273,7 @@
                             [disabled]="!selectedCourtId">›</button>
                     </div>
 
-                    <!-- Weekday headers -->
+
                     <div class="grid grid-cols-7 mb-2">
                         @for (d of weekDayLabels; track d) {
                         <p class="text-center text-[10px] font-black uppercase tracking-widest text-emerald-950/45">{{ d
@@ -282,7 +281,7 @@
                         }
                     </div>
 
-                    <!-- Day cells -->
+
                     <div class="grid grid-cols-7 gap-y-1">
                         @for (cell of calendarCells; track cell.iso) {
                         <div class="flex justify-center">
@@ -308,7 +307,7 @@
                 </div>
                 }
 
-                <!-- Time Slots Table -->
+
                 <div class="mt-5">
                     @if (timeSlotsLoading) {
                     <div class="rounded-[1.75rem] bg-white/55 border border-emerald-200/60 p-5 flex items-center gap-3">
@@ -322,7 +321,7 @@
                     </div>
                     } @else if (availableTimeSlots.length > 0) {
 
-                    <!-- Table header row -->
+
                     <div class="flex items-center justify-between mb-3 px-1">
                         <p class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Available Slots
                         </p>
@@ -336,7 +335,7 @@
 
                     <div class="rounded-[1.75rem] border border-emerald-200/60 overflow-hidden bg-white/60">
 
-                        <!-- Column heads -->
+
                         <div
                             class="grid grid-cols-[1fr_110px_72px] gap-2 px-5 py-3 bg-emerald-50/80 border-b border-emerald-200/60">
                             <p class="text-[10px] font-black uppercase tracking-widest text-emerald-950/55">Time Slot
@@ -352,7 +351,7 @@
                             class="slot-row w-full grid grid-cols-[1fr_110px_72px] gap-2 px-5 py-4 items-center text-left disabled:opacity-50 disabled:pointer-events-none"
                             [class]="getSlotRowClass(slot, last)">
 
-                            <!-- Time label -->
+
                             <div>
                                 <p class="text-sm font-black text-emerald-950">{{ slot.display }}</p>
                                 @if (slot.isPrime) {
@@ -361,7 +360,7 @@
                                 }
                             </div>
 
-                            <!-- Status badge -->
+
                             <div class="flex justify-center">
                                 <span
                                     class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl whitespace-nowrap"
@@ -370,7 +369,7 @@
                                 </span>
                             </div>
 
-                            <!-- Checkbox -->
+
                             <div class="flex justify-center">
                                 <span
                                     class="w-8 h-8 rounded-xl border grid place-items-center transition-all duration-200 text-sm font-black"
@@ -383,7 +382,7 @@
                         }
                     </div>
 
-                    <!-- Summary bar -->
+
                     @if (selectedTimeslots.length > 0) {
                     <div class="mt-4 rounded-2xl bg-[#D1FFD7]/70 border border-emerald-300/60 px-5 py-4 animate-pop-in">
                         <div class="flex flex-wrap items-center justify-between gap-3">
@@ -415,7 +414,7 @@
                 }
             </section>
 
-            <!-- ── 3. PLAYERS NEEDED ── -->
+
             <section>
                 <div class="flex items-center gap-3">
                     <p class="text-sm font-black uppercase tracking-widest text-emerald-950">3. Players Needed</p>
@@ -445,7 +444,7 @@
                 }
             </section>
 
-            <!-- ── 4. MATCH DETAILS ── -->
+
             <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="md:col-span-2">
                     <label class="text-[11px] font-black uppercase tracking-widest text-emerald-950/70">Match
@@ -479,7 +478,7 @@
                 </div>
             </section>
 
-            <!-- ── SUBMIT ── -->
+
             <section class="pt-2">
                 <button type="submit" [disabled]="submitting || CreateMatchForm.invalid"
                     class="w-full rounded-[2.2rem] px-6 py-5 text-white font-black text-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:pointer-events-none"
@@ -510,7 +509,6 @@
     </main>
 </div>
 
-<!-- ── SUCCESS MODAL ── -->
 @if (isMatchCreatedModalOpen) {
 <div class="fixed inset-0 z-[100] flex items-center justify-center transition-all duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-md" (click)="closeSuccess()"></div>

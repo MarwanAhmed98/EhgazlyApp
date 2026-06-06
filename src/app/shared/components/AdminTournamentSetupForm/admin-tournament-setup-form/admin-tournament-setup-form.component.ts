@@ -52,21 +52,15 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
   @Output() tournamentCreated = new EventEmitter<void>();
 
   tournamentForm: FormGroup;
-
-  // Courts
   mainCourts = signal<MainCourt[]>([]);
   courts = signal<Court[]>([]);
   selectedCourtId = signal<number | string | null>(null);
-
-  // Calendar & Slots
   currentDate = signal(new Date());
   calendarDays = signal<{ date: Date; dayNumber: number; isCurrentMonth: boolean }[]>([]);
   selectedDate = signal<Date | null>(null);
   availableSlots = signal<Timeslot[]>([]);
   selectedTimeslotIds = signal<number[]>([]);
   isLoadingSlots = signal(false);
-
-  // Poster
   posterIsDragging = signal<boolean>(false);
   posterUploadStatus = signal<UploadStatus>('idle');
   posterErrorMessage = signal<string>('');
@@ -76,8 +70,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
 
   private lastSelectedPosterFile: File | null = null;
   private posterUploadTimer: number | null = null;
-
-  // Tournament / Modal / Toast
   tournamentStatus = signal<'Draft' | 'Published'>('Draft');
   isModalOpen = signal<boolean>(false);
   modalKind = signal<ModalKind>('none');
@@ -131,10 +123,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     const url = this.posterPreviewUrl();
     if (url) URL.revokeObjectURL(url);
   }
-
-  // -------------------------
-  // COURTS
-  // -------------------------
   loadMainCourts(): void {
     this.adminManageCourtsService.ShowAllCourts().subscribe({
       next: (res: any) => {
@@ -151,10 +139,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     this.selectedCourtId.set(null);
     this.resetSchedule();
   }
-
-  // -------------------------
-  // CALENDAR
-  // -------------------------
   isCalendarEnabled(): boolean {
     const mainId = this.tournamentForm.get('maincourt_id')?.value;
     const courtId = this.tournamentForm.get('court_id')?.value;
@@ -221,10 +205,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
 
     this.fetchSlots(date);
   }
-
-  // -------------------------
-  // FETCH SLOTS
-  // -------------------------
   fetchSlots(date: Date): void {
     const courtId = this.selectedCourtId();
     if (!courtId) {
@@ -277,10 +257,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     this.tournamentForm.get('timeslot_ids')?.setValue([]);
     this.generateCalendar();
   }
-
-  // -------------------------
-  // SLOT SELECTION
-  // -------------------------
   toggleSlot(slot: Timeslot): void {
     const current = this.selectedTimeslotIds();
     const updated = current.includes(slot.id)
@@ -296,10 +272,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
   isSlotSelected(slotId: number): boolean {
     return this.selectedTimeslotIds().includes(slotId);
   }
-
-  // -------------------------
-  // POSTER
-  // -------------------------
   onPosterDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -413,10 +385,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
       this.posterUploadTimer = null;
     }
   }
-
-  // -------------------------
-  // VALIDATION
-  // -------------------------
   isFieldInvalid(field: string): boolean {
     const control = this.tournamentForm.get(field);
     return !!(control && control.invalid && (control.touched || control.dirty));
@@ -463,10 +431,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
 
     return true;
   }
-
-  // -------------------------
-  // SUBMIT
-  // -------------------------
   onSubmit(): void {
     this.openPublishModal();
   }
@@ -476,8 +440,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     this.modalKind.set('publishConfirm');
     this.isModalOpen.set(true);
   }
-
-  // Helper to convert time string to H:i format (e.g., "14:30:00" -> "14:30")
   private formatTimeToHIS(timeStr: string): string {
     const match = timeStr.match(/^(\d{1,2}):(\d{2})/);
     if (match) {
@@ -502,14 +464,10 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     formData.append('rules', this.tournamentForm.get('rules')?.value || '');
     formData.append('entry_fee', this.tournamentForm.get('entryFee')?.value);
     formData.append('max_teams', this.tournamentForm.get('max_teams')?.value.toString());
-
-    // timeslot_ids
     const slotIds = this.selectedTimeslotIds();
     slotIds.forEach((id, index) => {
       formData.append(`timeslot_ids[${index}]`, id.toString());
     });
-
-    // schedule – fixed time format
     const selectedSlot = this.availableSlots().find(s => s.id === slotIds[0]);
     const scheduledDate = this.formatDateForApi(this.selectedDate()!);
     const scheduledTime = selectedSlot?.start_time
@@ -527,8 +485,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     formData.append('prizes[1][position]', '2');
     formData.append('prizes[1][title]', this.tournamentForm.get('prize2_title')?.value);
     formData.append('prizes[1][prize_money]', this.tournamentForm.get('prize2_money')?.value);
-
-    // Cover image
     const coverFile = this.posterFile();
     if (coverFile) {
       formData.append('cover_image', coverFile, coverFile.name);
@@ -574,10 +530,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     this.selectedCourtId.set(null);
     this.generateCalendar();
   }
-
-  // -------------------------
-  // DRAFT
-  // -------------------------
   openDraftModal(): void {
     this.modalKind.set('draftConfirm');
     this.isModalOpen.set(true);
@@ -625,7 +577,7 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
         }
       }
     } catch {
-      // ignore malformed draft
+
     }
   }
 
@@ -634,9 +586,6 @@ export class AdminTournamentSetupFormComponent implements OnInit, OnDestroy {
     this.modalKind.set('none');
   }
 
-  // -------------------------
-  // TOAST
-  // -------------------------
   private triggerToast(message: string, type: ToastType): void {
     this.toastType.set(type);
     this.toastMessage.set(message);

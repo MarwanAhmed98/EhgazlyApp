@@ -56,11 +56,9 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
-
-  // Display card time: "11:00:00" → "11:00"
   formatTime(time: string): string {
     if (!time) return '';
-    const hhmm = time.substring(0, 5); // "HH:MM"
+    const hhmm = time.substring(0, 5);
     if (hhmm === '00:00') return '24:00';
     return hhmm;
   }
@@ -84,8 +82,6 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
     this.daysOfWeek.forEach(day => {
       const existing = this.workingHoursList.find(h => h.day_of_week === day);
       const isOpen = existing ? existing.is_open : false;
-
-      // "11:00:00" → "11:00" for type="time" input
       const openTime = existing?.open_time
         ? existing.open_time.substring(0, 5)
         : '09:00';
@@ -116,10 +112,8 @@ export class CourtOwnerWorkingHoursComponent implements OnInit {
   getDayControlValue(day: string): { is_open: boolean } {
     return { is_open: this.hoursForm.get(day)?.value || false };
   }
-
-  // type="time" already returns "HH:MM" → send as-is, backend expects "H:i" format
   private toBackendTime(hhmm: string): string {
-    return hhmm; // "00:00", "09:00", "13:00" — all correct as-is
+    return hhmm;
   }
 
   submitHours(): void {

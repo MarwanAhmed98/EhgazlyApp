@@ -1,9 +1,6 @@
 <div class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 p-4 md:p-8 font-sans text-[#1A2E1A] dark:text-slate-200">
     <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- Top Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Total Revenue -->
             <div
                 class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
                 <div
@@ -31,8 +28,6 @@
                     All time revenue
                 </div>
             </div>
-
-            <!-- App Due Amount -->
             <div
                 class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
                 <div
@@ -60,8 +55,6 @@
                     Pending payments: {{ FinancialDetails.pending_payments || 0 }}
                 </div>
             </div>
-
-            <!-- Remaining Balance -->
             <div
                 class="bg-[#DCFCE7] dark:bg-slate-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] transition-transform hover:scale-[1.02] cursor-default shadow-sm">
                 <div
@@ -90,8 +83,6 @@
                     Net due
                 </div>
             </div>
-
-            <!-- Total Paid + Pending -->
             <div
                 class="bg-[#8B4000] dark:bg-amber-800 rounded-[2rem] p-6 flex flex-col justify-between min-h-[180px] text-white shadow-xl shadow-[#8B4000]/20 dark:shadow-black/40 transition-transform hover:scale-[1.05] cursor-pointer">
                 <div class="bg-white/10 w-10 h-10 rounded-lg flex items-center justify-center mb-4">
@@ -114,10 +105,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Payment History Section (Improved UI/UX) -->
         <div class="space-y-5 mt-8">
-            <!-- Header with title and subtle accent -->
             <div class="flex justify-between items-center px-1">
                 <div class="flex items-center gap-2">
                     <div class="w-1 h-7 bg-[#8B4000] dark:bg-amber-500 rounded-full"></div>
@@ -127,11 +115,8 @@
                     {{ paymentHistorySorted.length }} transactions
                 </div>
             </div>
-
-            <!-- Card container for table -->
             <div
                 class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-[#B7EBB7]/40 dark:border-slate-700 overflow-hidden transition-all duration-200">
-                <!-- Responsive table wrapper -->
                 <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-[#B7EBB7] scrollbar-track-[#E2F7DE]">
                     <table class="w-full text-sm">
                         <thead>
@@ -257,8 +242,6 @@
         </div>
     </div>
 </div>
-
-<!-- Modal -->
 @if (showModal && selectedPayment) {
 <div class="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center p-4 z-50"
     (click)="closeModal()">

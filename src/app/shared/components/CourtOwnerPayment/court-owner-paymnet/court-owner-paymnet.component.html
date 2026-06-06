@@ -1,13 +1,13 @@
 <div
     class="min-h-screen bg-[#E2F5E9] dark:bg-[#071E14] p-4 md:p-8 font-sans text-slate-800 dark:text-slate-100 relative payment-management-container">
-    <!-- Header with Main Court Selector -->
+
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
             <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">Payment Methods Management</h1>
             <p class="text-slate-500 dark:text-slate-400 mt-1">Manage payment options for your facility</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <!-- Main Court Dropdown -->
+
             <select *ngIf="mainCourts().length > 0" [ngModel]="selectedMainCourtId()"
                 (ngModelChange)="onMainCourtChange($event)"
                 class="px-4 py-2 border border-slate-300 dark:border-white/10 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-green-500 dark:focus:ring-emerald-400/30 focus:border-green-500 dark:focus:border-emerald-400/30">
@@ -15,7 +15,7 @@
                     {{ court.name || 'Court #' + court.id }}
                 </option>
             </select>
-            <!-- Add Payment Method Button -->
+
             <button (click)="openAddModal()" [disabled]="!selectedMainCourtId()"
                 class="bg-green-600 hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium py-2 px-5 rounded-lg shadow-md dark:shadow-black/40 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -27,8 +27,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Payment Methods Grid -->
     <div *ngIf="paymentMethods().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div *ngFor="let method of paymentMethods()"
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-md dark:shadow-black/45 hover:shadow-xl dark:hover:shadow-black/60 transition-all duration-300 overflow-hidden border border-slate-100 dark:border-white/10 group">
@@ -67,8 +65,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Empty State -->
     <div *ngIf="paymentMethods().length === 0 && selectedMainCourtId()"
         class="text-center py-16 bg-slate-50 dark:bg-white/5 rounded-2xl border border-transparent dark:border-white/10">
         <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-500 mb-3" fill="none" stroke="currentColor"
@@ -82,10 +78,6 @@
             Add your first
             payment method</button>
     </div>
-
-    <!-- ================= MODALS ================= -->
-
-    <!-- Add / Edit Payment Method Modal -->
     <div *ngIf="isFormModalOpen()" class="modal-overlay" (click)="closeFormModal()">
         <div class="modal-container max-w-lg" (click)="$event.stopPropagation()">
             <div class="modal-header">
@@ -101,7 +93,6 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="paymentForm" (ngSubmit)="submitForm()">
-                    <!-- Type Dropdown -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Payment Type
                             *</label>
@@ -117,7 +108,7 @@
                         <div *ngIf="paymentForm.get('type')?.invalid && paymentForm.get('type')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Payment type is required</div>
                     </div>
-                    <!-- Identifier -->
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Identifier
                             *</label>
@@ -127,7 +118,6 @@
                         <div *ngIf="paymentForm.get('identifier')?.invalid && paymentForm.get('identifier')?.touched"
                             class="text-red-500 dark:text-red-300 text-xs mt-1">Identifier is required</div>
                     </div>
-                    <!-- Active Toggle -->
                     <div class="mb-5">
                         <label class="flex items-center cursor-pointer">
                             <input type="checkbox" formControlName="is_active" class="sr-only peer" />
@@ -149,8 +139,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
     <div *ngIf="isDeleteModalOpen()" class="modal-overlay" (click)="closeDeleteModal()">
         <div class="modal-container max-w-md" (click)="$event.stopPropagation()">
             <div class="p-6 text-center">

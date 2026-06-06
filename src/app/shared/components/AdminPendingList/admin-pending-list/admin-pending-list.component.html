@@ -1,11 +1,7 @@
 <div
     class="min-h-screen bg-[#EAF8EE] text-[#0E3A1A] dark:bg-slate-950 dark:text-slate-100 font-sans antialiased pb-12 transition-colors duration-300 overflow-x-hidden">
-
-    <!-- Top Header Navigation -->
     <header class="max-w-7xl mx-auto px-4 pt-5 pb-2 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4">
-
-            <!-- Filters (Left side) -->
             <div class="flex flex-wrap gap-2 items-center min-w-0">
                 <button (click)="setFilter('all')" [class.bg-[#135824]]="currentFilter() === 'all'"
                     [class.text-white]="currentFilter() === 'all'" [class.bg-[#CBEFDF]]="currentFilter() !== 'all'"
@@ -35,8 +31,6 @@
                     High Value (&gt; 5,000 EGP)
                 </button>
             </div>
-
-            <!-- Total Pending Stats Card (Right side) -->
             <div
                 class="bg-[#D1F3DB] dark:bg-slate-900/60 px-4 sm:px-6 py-4 rounded-2xl flex items-center justify-between gap-4 shadow-sm dark:shadow-none border border-[#BDECC9] dark:border-slate-800 self-start md:self-auto w-full sm:w-auto sm:min-w-[240px] max-w-full">
                 <div class="min-w-0">
@@ -57,11 +51,7 @@
 
         </div>
     </header>
-
-    <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6">
-
-        <!-- Live Search & Helper Controls -->
         <div
             class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm dark:shadow-none border border-[#D5EFE0] dark:border-slate-800 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-start sm:items-center">
             <div class="relative w-full sm:max-w-md min-w-0">
@@ -81,12 +71,8 @@
                 Real-time Sync Enabled
             </div>
         </div>
-
-        <!-- Ledger Table Card -->
         <div
             class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm dark:shadow-none border border-[#D5EFE0] dark:border-slate-800 overflow-hidden">
-
-            <!-- Header and Export -->
             <div
                 class="px-4 sm:px-6 pt-5 sm:pt-6 pb-4 flex items-center justify-between gap-3 border-b border-[#F0F9F3] dark:border-slate-800">
                 <h3 class="text-lg font-bold text-[#0E3A1A] dark:text-slate-100 tracking-tight min-w-0 truncate">
@@ -101,8 +87,6 @@
                     Export CSV
                 </button>
             </div>
-
-            <!-- Mobile/Tablet (NO tables): card list -->
             <div class="block lg:hidden p-4 sm:p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @for (tx of paginatedTransactions(); track tx.id) {
@@ -128,8 +112,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- ✅ FIXED badge (ngClass for dark variants) -->
                             <span
                                 class="inline-flex items-center gap-1.5 px-3 rounded-full text-xs font-bold shrink-0 dark:ring-1 dark:ring-white/10"
                                 [ngClass]="{
@@ -201,8 +183,6 @@
                     }
                 </div>
             </div>
-
-            <!-- Desktop Table (kept) -->
             <div class="hidden lg:block">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
@@ -283,7 +263,6 @@
         'dark:bg-red-300': tx.status === 'REJECTED'
       }"></span>
 
-                                        <!-- ✅ prevents breaking to a new line like in your screenshot -->
                                         <span class="leading-none whitespace-nowrap">
                                             {{ tx.status }}
                                         </span>
@@ -315,8 +294,6 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Pagination Footer -->
             <div
                 class="px-4 sm:px-6 py-5 border-t border-[#F0F9F3] dark:border-slate-800 bg-[#FAFDFB] dark:bg-slate-950/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <span class="text-sm font-semibold text-[#51765A] dark:text-slate-400">
@@ -358,16 +335,12 @@
         </div>
     </main>
 </div>
-
-<!-- VIEW RECEIPT MODAL -->
 @if (selectedReceipt()) {
 <div
     class="fixed inset-0 bg-[#0E3A1A]/70 dark:bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
 
     <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl transform transition-all border border-[#CDEFE0] dark:border-slate-800 my-4
              max-h-[78vh] flex flex-col">
-
-        <!-- Modal Header -->
         <div class="bg-[#135824] dark:bg-slate-950 text-white p-5 sm:p-6 relative shrink-0">
             <button (click)="closeReceipt()"
                 class="absolute top-3 sm:top-4 right-3 sm:right-4 text-emerald-200 hover:text-white bg-[#0e441b] dark:bg-white/10 p-2 rounded-full transition-all">
@@ -386,8 +359,6 @@
                 Submitted on {{ selectedReceipt()?.dateSubmitted }}
             </p>
         </div>
-
-        <!-- ✅ Scrollable Body -->
         <div class="p-5 sm:p-6 space-y-5 overflow-y-auto min-h-0">
             <div
                 class="flex items-center gap-4 bg-[#F4FAF5] dark:bg-slate-950/40 p-4 rounded-2xl border border-[#D1EAD9] dark:border-slate-800 min-w-0">
@@ -477,8 +448,6 @@
                 }
             </div>
         </div>
-
-        <!-- ✅ Sticky Footer -->
         <div
             class="bg-[#F4FAF5] dark:bg-slate-950/40 px-5 sm:px-6 py-3 border-t border-[#D1EAD9] dark:border-slate-800 text-center shrink-0">
             <span class="text-[10px] font-bold text-[#51765A] dark:text-slate-400 uppercase tracking-widest">

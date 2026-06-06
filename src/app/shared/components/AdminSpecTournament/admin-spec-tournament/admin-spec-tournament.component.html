@@ -1,7 +1,5 @@
 <div class="min-h-screen bg-[#F0FDF4] text-[#133c1d] font-sans antialiased p-4 md:p-8">
     <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- Loading State -->
         @if (!SpecDetails.id) {
         <div class="flex items-center justify-center py-20">
             <div class="text-center">
@@ -12,10 +10,7 @@
             </div>
         </div>
         }
-
-        <!-- Tournament Content -->
         @if (SpecDetails.id) {
-        <!-- Hero Section with Cover Image -->
         <div class="relative rounded-3xl overflow-hidden shadow-lg bg-[#165a21]">
             <div class="absolute inset-0 bg-gradient-to-t from-[#0a2e14] via-[#165a21]/60 to-transparent z-10"></div>
             @if (SpecDetails.primary_image?.url) {
@@ -74,10 +69,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Overview & Stats Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Left: Overview -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
@@ -103,8 +95,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Venue Information -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,8 +116,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Prizes Section -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,8 +142,6 @@
                     </div>
                     }
                 </div>
-
-                <!-- Schedule -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,8 +171,6 @@
                     </div>
                     }
                 </div>
-
-                <!-- Reserved Timeslots -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,8 +208,6 @@
                     </div>
                     }
                 </div>
-
-                <!-- Teams Section -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-[#b8ebb3]">
                     <h2 class="text-xl font-black text-[#165a21] flex items-center gap-2 mb-4"><svg class="w-5 h-5"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -259,8 +241,6 @@
                     }
                 </div>
             </div>
-
-            <!-- Right: Statistics Cards -->
             <div class="space-y-6">
                 <div class="bg-gradient-to-br from-[#165a21] to-[#1d6e2a] rounded-3xl p-6 text-white shadow-md">
                     <p class="text-xs font-bold uppercase tracking-wider opacity-80">Max Teams</p>

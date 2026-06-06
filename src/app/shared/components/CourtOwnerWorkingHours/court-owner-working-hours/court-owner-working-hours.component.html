@@ -1,6 +1,5 @@
 <div
     class="min-h-screen md:p-8 font-sans text-slate-800 dark:text-slate-100 relative working-hours-container bg-[#E2F5E9] dark:bg-[#071E14] p-6 rounded-xl shadow-md dark:shadow-black/50 overflow-x-hidden">
-    <!-- Header -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Main Court Working Hours</h1>
@@ -25,8 +24,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Working Hours Cards Grid -->
     <div *ngIf="workingHoursList.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div *ngFor="let item of workingHoursList; trackBy: trackById"
             class="bg-white dark:bg-slate-800 rounded-xl shadow-md dark:shadow-black/45 hover:shadow-lg dark:hover:shadow-black/60 transition-shadow duration-200 overflow-hidden border border-slate-100 dark:border-white/10">
@@ -67,8 +64,6 @@
         </p>
     </div>
 </div>
-
-<!-- Modal Overlay -->
 <div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
     <div class="modal-container" (click)="$event.stopPropagation()">
         <div class="modal-header">
@@ -100,8 +95,6 @@
                             <span class="text-sm text-slate-500 dark:text-slate-400">Open</span>
                         </div>
                     </div>
-
-                    <!-- Time inputs (visible when open) -->
                     <div *ngIf="getDayControlValue(day)?.is_open"
                         class="mt-3 flex flex-col sm:flex-row gap-3 pl-0 sm:pl-6">
                         <div class="flex-1">

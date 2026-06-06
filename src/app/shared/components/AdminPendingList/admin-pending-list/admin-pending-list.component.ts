@@ -1,10 +1,10 @@
 import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Add for ngModel
+import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../../../core/services/toast/toast.service';
 import { AdminManageOwnerPaymentsService } from '../../../../core/services/AdminManageOwnerPayments/admin-manage-owner-payments.service';
 import { IAdminManageOwnerPayments } from '../../../interfaces/iadmin-manage-owner-payments';
-import { HttpClient } from '@angular/common/http'; // For direct API call if needed
+import { HttpClient } from '@angular/common/http';
 import { environments } from '../../../../shared/environment';
 import { AdminDashboardService } from '../../../../core/services/AdminDashboard/admin-dashboard.service';
 import { IAdminDashboard } from '../../../interfaces/iadmin-dashboard';
@@ -26,7 +26,7 @@ interface Transaction {
 
 @Component({
   selector: 'app-admin-pending-list',
-  imports: [CommonModule, FormsModule], // add FormsModule
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-pending-list.component.html',
   styleUrl: './admin-pending-list.component.scss'
 })
@@ -48,8 +48,6 @@ export class AdminPendingListComponent implements OnInit {
   showAuditTool = signal<boolean>(false);
   toastMessage = signal<string | null>(null);
   toastType = signal<'success' | 'error' | 'info'>('success');
-
-  // Rejection modal state
   showRejectModal = signal<boolean>(false);
   rejectionReason = signal<string>('');
   rejectionValidationError = signal<string | null>(null);
@@ -212,8 +210,6 @@ export class AdminPendingListComponent implements OnInit {
       }
     });
   }
-
-  // New method to open reject modal
   openRejectModal(txId: number | string) {
     this.pendingRejectTxId.set(txId);
     this.rejectionReason.set('');
@@ -237,12 +233,9 @@ export class AdminPendingListComponent implements OnInit {
 
     const txId = this.pendingRejectTxId();
     if (!txId) return;
-
-    // Call reject API with body containing rejection_reason
     const url = `${environments.baseUrl}/admin/owner-payments/${txId}/reject`;
     this.http.put(url, { rejection_reason: reason }).subscribe({
       next: () => {
-        // Update UI
         this.transactions.update(prev =>
           prev.map(tx => tx.id === txId ? { ...tx, status: 'REJECTED' } : tx)
         );

@@ -40,7 +40,6 @@ export class CourtOwnerSpecificCourtComponent implements OnInit {
       error: (err) => {
         console.error('Failed to load court details', err);
         this.isLoading = false;
-        // Optionally handle error (toast, redirect, etc.)
       }
     });
   }

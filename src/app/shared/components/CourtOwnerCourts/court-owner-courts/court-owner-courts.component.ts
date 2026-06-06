@@ -20,15 +20,9 @@ export class CourtOwnerCourtsComponent implements OnInit {
   private courtOwnerCourtsService = inject(CourtOwnerCourtsService);
   private courtOwnerMainCourtsService = inject(CourtOwnerMainCourtsService);
   private fb = inject(FormBuilder);
-
-  // State signals
   mainCourts: WritableSignal<ICourtOwnerMainCourt[]> = signal([]);
   selectedMainCourtId: WritableSignal<number | null> = signal(null);
   courts: WritableSignal<IcourtownerCourts[]> = signal([]);
-  // isLoading: WritableSignal<boolean> = signal(false);
-  // errorMessage: WritableSignal<string> = signal('');
-
-  // Modal states
   isFormModalOpen = signal(false);
   isEditMode = signal(false);
   isDeleteModalOpen = signal(false);
@@ -38,8 +32,6 @@ export class CourtOwnerCourtsComponent implements OnInit {
   currentCourtId: number | null = null;
   courtToDelete: IcourtownerCourts | null = null;
   selectedCourt = signal<IcourtownerCourts | null>(null);
-
-  // Form group
   courtForm!: FormGroup;
 
   ngOnInit(): void {
@@ -59,7 +51,6 @@ export class CourtOwnerCourtsComponent implements OnInit {
   }
 
   loadMainCourts(): void {
-    // this.isLoading.set(true);
     this.courtOwnerMainCourtsService.GetMainCourt().subscribe({
       next: (res) => {
         const data = res?.data || [];
@@ -68,14 +59,12 @@ export class CourtOwnerCourtsComponent implements OnInit {
           this.selectedMainCourtId.set(data[0].id);
           this.loadCourts();
         } else {
-          // this.isLoading.set(false);
-          // this.errorMessage.set('No main courts found. Please create a main court first.');
+
         }
       },
       error: (err) => {
         console.error(err);
-        // this.isLoading.set(false);
-        // this.errorMessage.set('Failed to load main courts.');
+
       }
     });
   }
@@ -88,22 +77,18 @@ export class CourtOwnerCourtsComponent implements OnInit {
   loadCourts(): void {
     const mainId = this.selectedMainCourtId();
     if (!mainId) return;
-    // this.isLoading.set(true);
-    // this.errorMessage.set('');
+
     this.courtOwnerCourtsService.ShowAllCourt(mainId).subscribe({
       next: (res) => {
         this.courts.set(res?.data || []);
-        // this.isLoading.set(false);
+
       },
       error: (err) => {
         console.error(err);
-        // this.isLoading.set(false);
-        // this.errorMessage.set('Could not load courts. Please try again.');
+
       }
     });
   }
-
-  // Add Modal
   openAddModal(): void {
     this.isEditMode.set(false);
     this.currentCourtId = null;
@@ -117,8 +102,6 @@ export class CourtOwnerCourtsComponent implements OnInit {
     });
     this.isFormModalOpen.set(true);
   }
-
-  // Edit Modal
   openEditModal(court: IcourtownerCourts): void {
     this.isEditMode.set(true);
     this.currentCourtId = court.id;
@@ -133,7 +116,6 @@ export class CourtOwnerCourtsComponent implements OnInit {
     this.isFormModalOpen.set(true);
   }
 
-  // Submit add/edit
   submitCourtForm(): void {
     if (this.courtForm.invalid) {
       this.courtForm.markAllAsTouched();
@@ -164,7 +146,7 @@ export class CourtOwnerCourtsComponent implements OnInit {
         error: (err) => {
           console.error(err);
           this.isSubmitting.set(false);
-          // this.errorMessage.set('Failed to update court.');
+
         }
       });
     } else {
@@ -177,13 +159,12 @@ export class CourtOwnerCourtsComponent implements OnInit {
         error: (err) => {
           console.error(err);
           this.isSubmitting.set(false);
-          // this.errorMessage.set('Failed to add court.');
+
         }
       });
     }
   }
 
-  // Delete confirmation
   openDeleteConfirm(court: IcourtownerCourts): void {
     this.courtToDelete = court;
     this.isDeleteModalOpen.set(true);
@@ -203,18 +184,14 @@ export class CourtOwnerCourtsComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isSubmitting.set(false);
-        // this.errorMessage.set('Failed to delete court.');
+
       }
     });
   }
-
-  // View details
   openViewModal(court: IcourtownerCourts): void {
     this.selectedCourt.set(court);
     this.isViewModalOpen.set(true);
   }
-
-  // Close modals
   closeFormModal(): void {
     this.isFormModalOpen.set(false);
   }

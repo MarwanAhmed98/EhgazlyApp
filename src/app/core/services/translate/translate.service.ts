@@ -9,11 +9,7 @@ export class TranslateService {
 
   async translatePage(): Promise<void> {
     this.isArabicMode = true;
-
-    // 1. ترجمة المحتوى الحالي فوراً
     await this.scanAndTranslate(document.body);
-
-    // 2. تشغيل المراقب لترجمة أي محتوى جديد يظهر (عند التنقل بين الصفحات)
     if (!this.observer) {
       this.observer = new MutationObserver((mutations) => {
         mutations.forEach(mutation => {
@@ -32,24 +28,18 @@ export class TranslateService {
     }
   }
 
-  // دالة مخصصة للبحث عن النصوص وترجمتها داخل عنصر معين
   private async scanAndTranslate(rootElement: HTMLElement): Promise<void> {
     const textNodes: { node: Text; original: string }[] = [];
-
-    // البحث عن النصوص داخل العنصر المحدد
     const walker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT);
     let currentNode = walker.nextNode();
 
     while (currentNode) {
       const text = currentNode.textContent?.trim();
-      // شرط الترجمة: نص يحتوي على حروف إنجليزية ولم يتم ترجمته بعد
       if (text && text.length > 1 && /[a-zA-Z]/.test(text)) {
         textNodes.push({ node: currentNode as Text, original: text });
       }
       currentNode = walker.nextNode();
     }
-
-    // ترجمة النصوص المجمعة
     await Promise.all(
       textNodes.map(async item => {
         try {

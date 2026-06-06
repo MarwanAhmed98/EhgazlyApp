@@ -235,7 +235,6 @@ export class CourtOwnerEarningsComponent implements OnInit {
     });
   }
 
-  /* ---------------- Eye/View (TABLE MODAL) ---------------- */
   private buildDetailsRows(item: PaymentHistory | null): void {
     if (!item) {
       this.detailsRows = [];

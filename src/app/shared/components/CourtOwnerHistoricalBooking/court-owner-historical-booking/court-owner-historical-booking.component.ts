@@ -22,12 +22,9 @@ interface Booking {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourtOwnerHistoricalBookingComponent {
-  // Filters State
   activeCourtFilter = signal<'All' | 'Padel' | 'Football'>('All');
   searchQuery = signal('');
   dateFilter = signal<string | null>(null);
-
-  // Mock Data
   allBookings = signal<Booking[]>([
     { id: '1', date: 'Oct 24, 2023', time: '08:00 PM - 09:30 PM', player: 'Ahmed Mansour', court: 'Padel Court 1', amount: 450.00, payment: 'Wallet', status: 'ACCEPTED', rawDate: new Date(2023, 9, 24) },
     { id: '2', date: 'Oct 23, 2023', time: '06:00 PM - 07:00 PM', player: 'Sara El-Din', court: 'Main Football 5x5', amount: 300.00, payment: 'Cash', status: 'ACCEPTED', rawDate: new Date(2023, 9, 23) },
@@ -35,8 +32,6 @@ export class CourtOwnerHistoricalBookingComponent {
     { id: '4', date: 'Oct 21, 2023', time: '09:00 PM - 10:00 PM', player: 'Heba Hassan', court: 'Training Zone', amount: 150.00, payment: 'Wallet', status: 'ACCEPTED', rawDate: new Date(2023, 9, 21) },
     { id: '5', date: 'Oct 20, 2023', time: '08:00 PM - 09:30 PM', player: 'Youssef Ali', court: 'Padel Court 1', amount: 450.00, payment: 'Visa', status: 'ACCEPTED', rawDate: new Date(2023, 9, 20) },
   ]);
-
-  // Computed Values
   filteredBookings = computed(() => {
     let list = this.allBookings();
 

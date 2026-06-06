@@ -1,7 +1,5 @@
 <div class="min-h-screen bg-[#F0FDF4] dark:bg-slate-950 p-4 sm:p-6 lg:p-8 font-sans antialiased">
     <div class="max-w-6xl mx-auto pb-24">
-
-        <!-- HEADER SECTION -->
         <header class="mb-10">
             <div
                 class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 dark:bg-emerald-900/40 text-[#10B981] dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
@@ -20,14 +18,8 @@
                 Ehgazly.
             </p>
         </header>
-
-        <!-- FORM CONTAINER -->
         <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-            <!-- LEFT COLUMN -->
             <div class="lg:col-span-7 flex flex-col gap-8">
-
-                <!-- BASIC INFO CARD -->
                 <div
                     class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-[#E2E8F0]/60 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
@@ -67,8 +59,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- MARKETING ASSETS CARD -->
                 <div
                     class="bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
@@ -219,11 +209,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- RIGHT COLUMN -->
             <div class="lg:col-span-5 flex flex-col gap-8">
-
-                <!-- LOGISTICS CARD -->
                 <div
                     class="bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
                     <div class="p-6 sm:p-8">
@@ -236,7 +222,6 @@
                         </div>
 
                         <div class="space-y-6">
-                            <!-- Main Court -->
                             <div>
                                 <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Main
                                     Court</label>
@@ -251,8 +236,6 @@
                                     <span>Main court is required</span>
                                 </div>
                             </div>
-
-                            <!-- Court -->
                             <div>
                                 <label
                                     class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Court</label>
@@ -267,8 +250,6 @@
                                     <span>Court is required</span>
                                 </div>
                             </div>
-
-                            <!-- Calendar -->
                             <div>
                                 <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Select
                                     Date</label>
@@ -322,16 +303,12 @@
                                     <span>Please select a date</span>
                                 </div>
                             </div>
-
-                            <!-- Loading slots -->
                             <div *ngIf="isLoadingSlots()" class="flex items-center gap-2 py-2 animate-fade-in">
                                 <span
                                     class="w-4 h-4 rounded-full border-2 border-[#10B981]/30 dark:border-emerald-600/30 border-t-[#10B981] dark:border-t-emerald-500 animate-spin"></span>
                                 <span class="text-sm font-medium text-[#64748B] dark:text-slate-400">Loading available
                                     slots...</span>
                             </div>
-
-                            <!-- Available slots -->
                             <div *ngIf="!isLoadingSlots() && availableSlots().length > 0" class="animate-fade-in">
                                 <label class="block text-sm font-bold text-[#334155] dark:text-slate-300 mb-2">Available
                                     Time Slots</label>
@@ -360,8 +337,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- PARTICIPATION CARD -->
                 <div
                     class="relative bg-[#E8FBF2]/90 dark:bg-slate-800/80 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-md">
                     <div class="absolute top-0 bottom-0 left-0 w-1.5 bg-[#B45309] dark:bg-amber-700"></div>
@@ -431,8 +406,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- BOTTOM SECTION -->
             <div class="lg:col-span-12">
                 <div
                     class="bg-[#E8FBF2]/70 dark:bg-slate-800/70 rounded-3xl shadow-sm border border-[#22C55E]/20 dark:border-slate-700 transition-all duration-300 hover:shadow-md overflow-hidden">
@@ -508,8 +481,6 @@
             </div>
         </form>
     </div>
-
-    <!-- FOOTER -->
     <footer
         class="fixed bottom-0 left-0 right-0 bg-[#F0FDF4]/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-[#10B981]/15 dark:border-emerald-900/30 px-4 py-4 z-40 shadow-[0_-8px_30px_rgb(0,0,0,0.03)] dark:shadow-black/20">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -537,8 +508,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- MODALS -->
     <div class="fixed inset-0 z-[90] flex items-center justify-center p-4 transition-all duration-300"
         [class.opacity-100]="isModalOpen()" [class.opacity-0]="!isModalOpen()"
         [class.pointer-events-auto]="isModalOpen()" [class.pointer-events-none]="!isModalOpen()" aria-live="polite">
@@ -546,8 +515,6 @@
         <div class="relative w-[92%] max-w-xl max-h-[85vh] overflow-hidden rounded-3xl bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 shadow-2xl transition-all duration-300"
             [class.translate-y-0]="isModalOpen()" [class.translate-y-3]="!isModalOpen()"
             [class.scale-100]="isModalOpen()" [class.scale-95]="!isModalOpen()">
-
-            <!-- Publish confirm -->
             <div *ngIf="modalKind() === 'publishConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
                     <div
@@ -581,8 +548,6 @@
                         Publish</button>
                 </div>
             </div>
-
-            <!-- Draft confirm -->
             <div *ngIf="modalKind() === 'draftConfirm'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh]">
                 <div class="flex items-start gap-4">
                     <div
@@ -606,8 +571,6 @@
                         Save</button>
                 </div>
             </div>
-
-            <!-- Success -->
             <div *ngIf="modalKind() === 'success'" class="p-6 sm:p-8 overflow-y-auto max-h-[85vh] text-center">
                 <div
                     class="mx-auto w-14 h-14 rounded-full bg-[#10B981] dark:bg-emerald-600 text-white grid place-items-center shadow-lg">
@@ -622,8 +585,6 @@
             </div>
         </div>
     </div>
-
-    <!-- TOAST -->
     <div class="fixed bottom-24 sm:bottom-8 right-4 sm:right-8 z-[100] pointer-events-none">
         <ng-container *ngIf="toastMessage() as msg">
             <div class="pointer-events-auto max-w-[92vw] sm:max-w-sm rounded-2xl border px-5 py-4 shadow-2xl transition-all duration-300"

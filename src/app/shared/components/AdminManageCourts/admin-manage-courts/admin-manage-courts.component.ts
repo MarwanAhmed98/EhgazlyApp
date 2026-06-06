@@ -17,12 +17,12 @@ interface Stadium {
   owner: string;
   location: string;
   status: 'ACTIVE' | 'MAINTENANCE' | 'UNDER REVIEW';
-  capacity: string; // Used for "Pitch Size" e.g., "11x11 Official"
+  capacity: string;
   image: string;
-  utilization: number; // e.g., 88
-  upcomingBookings: number; // e.g., 14
-  surfaceType: string; // e.g., "Professional Turf"
-  lighting: string; // e.g., "LED Floodlights"
+  utilization: number;
+  upcomingBookings: number;
+  surfaceType: string;
+  lighting: string;
   isFeatured: boolean;
   featureStartDate?: string;
   featureEndDate?: string;
@@ -36,11 +36,11 @@ interface Stadium {
   styleUrl: './admin-manage-courts.component.scss'
 })
 export class AdminManageCourtsComponent {
-  // Mock Data upgraded to match specifications of both Directory & Details Reference layouts
+
   private initialStadiums: Stadium[] = [
     {
       id: '#ST-90210',
-      name: 'Anfield Pro Pitch', // Matches the details layout reference directly
+      name: 'Anfield Pro Pitch',
       owner: 'Ahmed Mansour',
       location: 'Maadi, Cairo - Sector 4',
       status: 'ACTIVE',
@@ -137,11 +137,11 @@ export class AdminManageCourtsComponent {
     }
   ];
 
-  // Router-free state signals
+
   currentView = signal<'list' | 'details'>('list');
   selectedStadiumId = signal<string | null>(null);
 
-  // Directory listing state signals
+
   stadiums = signal<Stadium[]>(this.initialStadiums);
   searchQuery = signal<string>('');
   activeTab = signal<string>('All');
@@ -152,12 +152,11 @@ export class AdminManageCourtsComponent {
   showCreateModal = signal<boolean>(false);
   toastMessage = signal<string>('');
 
-  // Promote Court Modal States
+
   showFeatureModal = signal<boolean>(false);
   featureStartDate: string = '2023-10-24';
   featureEndDate: string = '2023-10-31';
 
-  // Form input model for creating stadium listings
   newStadium = {
     name: '',
     owner: '',
@@ -170,14 +169,13 @@ export class AdminManageCourtsComponent {
     lighting: 'LED Floodlights'
   };
 
-  // Derive selected stadium metadata dynamically
   selectedStadium = computed(() => {
     const id = this.selectedStadiumId();
     if (!id) return null;
     return this.stadiums().find(item => item.id === id) || null;
   });
 
-  // Filter list results
+
   filteredStadiums = computed(() => {
     let list = this.stadiums();
     const query = this.searchQuery().toLowerCase().trim();
@@ -196,7 +194,7 @@ export class AdminManageCourtsComponent {
     return list;
   });
 
-  // Pagination bounds
+
   paginatedStadiums = computed(() => {
     const list = this.filteredStadiums();
     const startIndex = (this.currentPage() - 1) * this.pageSize;
@@ -262,7 +260,6 @@ export class AdminManageCourtsComponent {
     }
   }
 
-  // Navigate to full details page with selected stadium
   navigateToDetails(id: string) {
     this.selectedStadiumId.set(id);
     this.currentView.set('details');
@@ -274,14 +271,13 @@ export class AdminManageCourtsComponent {
     this.selectedStadiumId.set(null);
   }
 
-  // Triggered when clicking the Feature switch
+
   toggleFeaturedState() {
     const currentId = this.selectedStadiumId();
     if (currentId) {
       const stadium = this.stadiums().find(item => item.id === currentId);
       if (stadium) {
         if (stadium.isFeatured) {
-          // Immediately deactivate if currently active
           this.stadiums.update(items => {
             return items.map(item => {
               if (item.id === currentId) {
@@ -292,14 +288,11 @@ export class AdminManageCourtsComponent {
           });
           this.showDemoToast('Featured Court deactivated');
         } else {
-          // Otherwise, open the promotion dates configurations modal
           this.openFeatureModal(stadium);
         }
       }
     }
   }
-
-  // Open the Promote Settings Modal
   openFeatureModal(stadium: Stadium) {
     this.featureStartDate = stadium.featureStartDate || '2023-10-24';
     this.featureEndDate = stadium.featureEndDate || '2023-10-31';
@@ -316,8 +309,6 @@ export class AdminManageCourtsComponent {
       this.closeFeatureModal();
     }
   }
-
-  // Action inside Promote Settings Modal: Confirm & Publish
   publishFeaturedStatus() {
     const currentId = this.selectedStadiumId();
     if (currentId) {
@@ -338,8 +329,6 @@ export class AdminManageCourtsComponent {
     }
     this.closeFeatureModal();
   }
-
-  // Create Listing Modal triggers
   openCreateModal() {
     this.newStadium = {
       name: '',
@@ -386,8 +375,6 @@ export class AdminManageCourtsComponent {
     this.closeCreateModal();
     this.showDemoToast('Stadium listing successfully created!');
   }
-
-  // Toast Helper
   showDemoToast(msg: string) {
     this.toastMessage.set(msg);
     setTimeout(() => {

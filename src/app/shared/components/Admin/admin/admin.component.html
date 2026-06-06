@@ -1,19 +1,13 @@
 <div
     class="flex min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans transition-colors duration-300">
-
-    <!-- Overlay -->
     @if (isSideNavOpen) {
     <div (click)="toggleSideNav()" class="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40 lg:hidden">
     </div>
     }
-
-    <!-- Side Nav -->
     <aside [class.translate-x-0]="isSideNavOpen" [class.-translate-x-full]="!isSideNavOpen" class="w-72 fixed inset-y-0 left-0 z-50 lg:z-30 transition-transform duration-300 ease-in-out
            bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl
            border-r border-emerald-200/60 dark:border-slate-800/60
            flex flex-col overflow-y-scroll">
-
-        <!-- Brand + Close Button -->
         <div class="px-6 py-6 flex items-center justify-between">
             <div class="flex items-center gap-3 min-w-0">
                 <div
@@ -32,8 +26,6 @@
                 <lucide-icon name="x" [size]="20" [strokeWidth]="2.5"></lucide-icon>
             </button>
         </div>
-
-        <!-- Nav items -->
         <nav class="px-4 pb-6 flex-1 space-y-2">
             @for (item of navItems; track item.key) {
             <a [routerLink]="item.route" (click)="onNavClick(item)"
@@ -62,8 +54,6 @@
             </a>
             }
         </nav>
-
-        <!-- Bottom actions -->
         <div class="px-6 py-6 border-t border-emerald-200/60 dark:border-slate-800/60 space-y-3">
             <button type="button" (click)="logout()" class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl border border-red-200/60 dark:border-red-900/30
                bg-red-50/70 dark:bg-red-950/20
@@ -77,8 +67,6 @@
             </button>
         </div>
     </aside>
-
-    <!-- Main content -->
     <main class="flex-1 w-full transition-[margin] duration-300 ease-in-out" [class.lg:ml-72]="isSideNavOpen"
         [class.lg:ml-0]="!isSideNavOpen">
 
@@ -118,8 +106,6 @@
                             class="w-10 h-10 rounded-2xl border border-emerald-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-white/5 object-cover"
                             alt="Avatar" />
                     </div>
-
-                    <!-- NOTIFICATION BELL -->
                     <div class="relative" #notifWrap>
                         <button #notifBtn type="button" (click)="toggleNotifications($event)"
                             class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center relative transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
@@ -133,8 +119,6 @@
                             </span>
                             }
                         </button>
-
-                        <!-- Dropdown Panel — anchored to right edge, no overflow -->
                         <div #notifPanel class="notif-dd" [class.notif-dd--open]="isNotificationsOpen"
                             [class.notif-dd--closed]="!isNotificationsOpen" role="dialog" aria-label="Notifications">
 

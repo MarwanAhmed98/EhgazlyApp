@@ -1,29 +1,5 @@
 <div class="specific-court-container">
-    <!-- Loading State -->
-    <!-- <div *ngIf="isLoading" class="flex justify-center items-center min-h-[60vh]">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
-    </div> -->
-
-    <!-- Error State with helpful actions -->
-    <!-- <div *ngIf="errorMessage && !isLoading"
-        class="max-w-2xl mx-auto mt-12 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-800 text-center">
-        <div class="w-16 h-16 bg-red-100 dark:bg-red-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Oops! Something went wrong</h3>
-        <p class="text-slate-600 dark:text-slate-300 mb-6">{{ errorMessage }}</p>
-        <button (click)="goBackToCourts()"
-            class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition shadow-md">
-            ← Back to Courts
-        </button>
-    </div> -->
-
-    <!-- Content -->
     <div *ngIf="courtData" class="max-w-7xl mx-auto space-y-8">
-        <!-- COURT HEADER SECTION -->
         <div
             class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
             <div class="relative h-48 md:h-64 bg-gradient-to-r from-green-900 to-green-700">
@@ -84,8 +60,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- COURT DETAILS SECTION -->
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700">
             <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
@@ -126,8 +100,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- COURT IMAGES SECTION -->
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700">
             <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
@@ -156,8 +128,6 @@
                 <p class="text-slate-500 dark:text-slate-400 font-medium">No images available for this court.</p>
             </div>
         </div>
-
-        <!-- TIMESLOTS SECTION -->
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 md:p-8 border border-slate-100 dark:border-slate-700 mb-8">
             <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">

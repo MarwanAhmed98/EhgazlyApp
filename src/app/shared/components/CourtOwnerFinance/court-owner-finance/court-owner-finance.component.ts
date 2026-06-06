@@ -25,24 +25,18 @@ export class CourtOwnerFinanceComponent {
   private readonly router = inject(Router);
 
   filterStatus = signal<StatusFilter>('All');
-
-  // Search
   searchQuery = signal<string>('');
 
-  // Date filter (NO default selection)
-  selectedMonth = signal<MonthKey>(''); // "" => no date filtering
 
-  // Month picker popover
+  selectedMonth = signal<MonthKey>('');
+
+
   isMonthPickerOpen = signal<boolean>(false);
   monthPickerYear = signal<number>(new Date().getFullYear());
 
-  // Row action menu
+
   openTxMenuId = signal<string | null>(null);
-
-  // Outstanding dues
   outstandingDues = signal<number>(3120);
-
-  // Simple demand proxy for Optimize Pricing (0..1)
   demandIndex = signal<number>(0.65);
 
   transactions = signal<Transaction[]>([
@@ -76,12 +70,10 @@ export class CourtOwnerFinanceComponent {
       return { key: `${y}-${m}`, label };
     });
   });
-
-  // Derived list with ALL filters (status + search + month)
   filteredTransactions = computed(() => {
     const status = this.filterStatus();
     const q = this.searchQuery().trim().toLowerCase();
-    const month = (this.selectedMonth() ?? '').trim(); // "" => no date filter
+    const month = (this.selectedMonth() ?? '').trim();
 
     return this.transactions().filter((tx) => {
       if (status !== 'All' && tx.status !== status) return false;
@@ -115,7 +107,6 @@ export class CourtOwnerFinanceComponent {
       this.openTxMenuId.set(null);
     });
 
-    // Sync picker year ONLY after user selects a month
     effect(() => {
       const key = (this.selectedMonth() ?? '').trim();
       if (!key) return;
@@ -126,7 +117,6 @@ export class CourtOwnerFinanceComponent {
     });
   }
 
-  // 1) Settle Dues Now
   settleDuesNow(): void {
     const due = this.outstandingDues();
     if (due <= 0) return;
@@ -149,8 +139,6 @@ export class CourtOwnerFinanceComponent {
       this.router.navigate(['//CourtOwner/Billing&Payments']);
     }, 3000);
   }
-
-  // 2) Download Button (CSV of CURRENT filtered view)
   downloadTransactionsCsv(): void {
     const rows = this.filteredTransactions();
 
@@ -177,8 +165,6 @@ export class CourtOwnerFinanceComponent {
 
     URL.revokeObjectURL(url);
   }
-
-  // 3) Action Button (row menu actions)
   toggleTxMenu(id: string): void {
     this.openTxMenuId.set(this.openTxMenuId() === id ? null : id);
   }
@@ -201,8 +187,8 @@ export class CourtOwnerFinanceComponent {
     const total = inScope.length || 1;
     const pending = inScope.filter((t) => t.status === 'Pending').length;
 
-    const availabilityRatio = pending / total; // 0..1
-    const demandRatio = 1 - availabilityRatio; // 0..1
+    const availabilityRatio = pending / total;
+    const demandRatio = 1 - availabilityRatio;
 
     const multiplier =
       demandRatio >= 0.7 ? 1.12 :
@@ -225,12 +211,12 @@ export class CourtOwnerFinanceComponent {
     );
   }
 
-  // 5) Search Function
+
   onSearchInput(value: string): void {
     this.searchQuery.set(value ?? '');
   }
 
-  // 6) Date Filter Enhancement: ANY month via month picker
+
   toggleMonthPicker(): void {
     this.isMonthPickerOpen.set(!this.isMonthPickerOpen());
   }
@@ -244,15 +230,13 @@ export class CourtOwnerFinanceComponent {
     this.isMonthPickerOpen.set(false);
   }
 
-  // Optional: programmatic reset (keeps UI the same)
+
   clearMonthFilter(): void {
     this.selectedMonth.set('');
     this.isMonthPickerOpen.set(false);
   }
 
-  // --------------------------
-  // Helpers
-  // --------------------------
+
   private round2(n: number): number {
     return Math.round(n * 100) / 100;
   }

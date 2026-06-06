@@ -94,7 +94,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // ==================== NOTIFICATION PROPERTIES ====================
   private notiSub?: Subscription;
   NotificationsDetails: INotifications = {
     notifications: [],
@@ -118,8 +117,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
     if (this.notifFilter === 'all') return list;
     return list.filter((n) => String(n.type || '').toLowerCase() === this.notifFilter);
   }
-
-  // ==================== LIFECYCLE ====================
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedTheme = localStorage.getItem('theme');
@@ -145,8 +142,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.notiSub?.unsubscribe();
   }
-
-  // ==================== THEME ====================
   toggleDarkMode(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     this.isDarkMode = !this.isDarkMode;
@@ -162,8 +157,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
       document.documentElement.classList.remove('dark');
     }
   }
-
-  // ==================== NOTIFICATION METHODS ====================
   GetNoti(): void {
     this.notiSub?.unsubscribe();
     this.notiLoading = true;
@@ -375,7 +368,6 @@ export class CourtOwnerComponent implements OnInit, OnDestroy {
     this.closeNotifications();
   }
 
-  // ==================== UI & NAVIGATION METHODS ====================
   toggleSideNav(): void {
     this.isSideNavOpen = !this.isSideNavOpen;
   }

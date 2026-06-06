@@ -20,10 +20,7 @@ export class AdminManageTourTeamsComponent implements OnInit {
 
   teams = signal<ITeamTournament[]>([]);
   productid: string | null = null;
-
-  // UI state
   openDropdownId = signal<number | null>(null);
-  // isLoadingAction = signal<boolean>(false);
   receiptModalUrl = signal<string | null>(null);
   isRejectModalOpen = signal<boolean>(false);
   selectedTeamForReject: ITeamTournament | null = null;
@@ -50,28 +47,20 @@ export class AdminManageTourTeamsComponent implements OnInit {
       }
     });
   }
-
-  // Dropdown
   toggleDropdown(teamId: number, event: Event): void {
     event.stopPropagation();
     this.openDropdownId.set(this.openDropdownId() === teamId ? null : teamId);
   }
-
-  // Approve
   approveTeam(teamId: number): void {
     if (!this.productid) return;
-    // this.isLoadingAction.set(true);
     this.openDropdownId.set(null);
     this.adminTournamentsService.ApproveTeam(this.productid, teamId).subscribe({
       next: () => {
         this.toastService.success('Team approved successfully');
         this.loadTeams();
-        // this.isLoadingAction.set(false);
       }
     });
   }
-
-  // Reject modal flow
   openRejectModal(team: ITeamTournament): void {
     this.selectedTeamForReject = team;
     this.rejectionReason = '';
@@ -104,8 +93,6 @@ export class AdminManageTourTeamsComponent implements OnInit {
       }
     });
   }
-
-  // Receipt modal
   openReceiptModal(url: string): void {
     this.receiptModalUrl.set(url);
   }

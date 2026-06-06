@@ -54,12 +54,12 @@ export class CreateFriendlyMatchComponent implements OnInit {
   private readonly matchesService = inject(PlayerFRiendlyMatchService);
   private readonly router = inject(Router);
 
-  // ── Data ──
+
   MainCourtsDetails: IAllcourts[] = [];
   CourtsDetails: ICourt[] = [];
   TimeDetails: Icustomertimeslot[] = [];
 
-  // ── Selection state ──
+
   selectedMainCourt: IAllcourts | null = null;
   selectedCourt: ICourt | null = null;
   selectedCourtId: number | null = null;
@@ -67,13 +67,13 @@ export class CreateFriendlyMatchComponent implements OnInit {
   availableTimeSlots: TimeChip[] = [];
   selectedTimeslots: TimeChip[] = [];
 
-  // ── Legacy single-slot kept for backward compat ──
+
   selectedTimeSlot: string | null = null;
   selectedTimeslotId: string | null = null;
 
   formattedMatchTime = '';
 
-  // ── Loading / error flags ──
+
   timeSlotsLoading = false;
   timeSlotsError = '';
   venuesOpen = false;
@@ -83,14 +83,14 @@ export class CreateFriendlyMatchComponent implements OnInit {
   mainCourtsError = '';
   courtsError = '';
 
-  // ── UI state ──
+
   submitting = false;
   errorMessage = '';
   isMatchCreatedModalOpen = false;
   dateOptions: DateChip[] = [];
   venueSearch = new FormControl<string>('', { nonNullable: true });
 
-  // ── Calendar ──
+
   weekDayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   calendarYear = new Date().getFullYear();
   calendarMonth = new Date().getMonth();
@@ -142,7 +142,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     }),
   });
 
-  // ── Lifecycle ──
   ngOnInit(): void {
     this.dateOptions = this.buildNextDates(this.todayISO(), 5);
     this.buildCalendar();
@@ -150,7 +149,7 @@ export class CreateFriendlyMatchComponent implements OnInit {
     this.resetTimeSlotsState();
   }
 
-  // ── Computed getters ──
+
   get calendarMonthLabel(): string {
     return new Date(this.calendarYear, this.calendarMonth, 1)
       .toLocaleString('en-US', { month: 'long', year: 'numeric' });
@@ -183,7 +182,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     return `${start} – ${end}`;
   }
 
-  // ── Calendar ──
   prevMonth(): void {
     if (this.calendarMonth === 0) {
       this.calendarMonth = 11;
@@ -212,14 +210,10 @@ export class CreateFriendlyMatchComponent implements OnInit {
     const lastDay = new Date(this.calendarYear, this.calendarMonth + 1, 0);
     const cells: CalendarCell[] = [];
     const startPad = firstDay.getDay();
-
-    // Pad from previous month
     for (let i = startPad - 1; i >= 0; i--) {
       const d = new Date(this.calendarYear, this.calendarMonth, -i);
       cells.push({ iso: this.dateToISO(d), day: d.getDate(), currentMonth: false, enabled: false });
     }
-
-    // Current month
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const date = new Date(this.calendarYear, this.calendarMonth, d);
       cells.push({
@@ -229,8 +223,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
         enabled: date >= today,
       });
     }
-
-    // Pad to fill 6 rows (42 cells)
     const remaining = 42 - cells.length;
     for (let d = 1; d <= remaining; d++) {
       const date = new Date(this.calendarYear, this.calendarMonth + 1, d);
@@ -243,8 +235,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
   private dateToISO(date: Date): string {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
-
-  // ── Multi-select slot logic ──
   isSlotSelected(slot: TimeChip): boolean {
     return this.selectedTimeslots.some(s => s.id === slot.id);
   }
@@ -259,8 +249,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     }
 
     this.selectedTimeslots.sort((a, b) => a.startTime.localeCompare(b.startTime));
-
-    // Keep legacy bindings in sync
     this.selectedTimeSlot = this.selectedTimeslots.length > 0 ? this.selectedTimeslots[0].value : null;
     this.selectedTimeslotId = this.selectedTimeslots.length > 0 ? String(this.selectedTimeslots[0].id) : null;
 
@@ -279,8 +267,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     this.CreateMatchForm.patchValue({ time: '' });
     this.CreateMatchForm.get('time')?.markAsTouched();
   }
-
-  // ── Venue / court ──
   toggleVenuesOpen(): void {
     this.venuesOpen = !this.venuesOpen;
     if (this.venuesOpen && this.MainCourtsDetails.length === 0 && !this.mainCourtsLoading) {
@@ -362,8 +348,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
       this.CreateMatchForm.patchValue({ dateISO: '', time: '' });
     }
   }
-
-  // ── Date ──
   selectDate(iso: string): void {
     if (!this.selectedCourtId) return;
 
@@ -376,8 +360,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     this.resetTimeSlotsState();
     this.GetTimeAndDate(this.selectedCourtId, iso);
   }
-
-  // ── Time slots ──
   GetTimeAndDate(courtId: number, selectedDateISO: string): void {
     this.timeSlotsLoading = true;
     this.timeSlotsError = '';
@@ -414,8 +396,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
       endTime: t.end_time,
     }));
   }
-
-  // ── Players ──
   incrementPlayers(): void {
     const v = this.CreateMatchForm.get('playersNeeded')?.value || 0;
     this.CreateMatchForm.patchValue({ playersNeeded: Math.min(20, v + 1) });
@@ -427,8 +407,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
     this.CreateMatchForm.patchValue({ playersNeeded: Math.max(1, v - 1) });
     this.CreateMatchForm.get('playersNeeded')?.markAsTouched();
   }
-
-  // ── Submit ──
   onSubmit(): void {
     this.errorMessage = '';
     this.CreateMatchForm.markAllAsTouched();
@@ -492,8 +470,6 @@ export class CreateFriendlyMatchComponent implements OnInit {
         },
       });
   }
-
-  // ── Helpers ──
   dismissError(controlName: string): void {
     const control = this.CreateMatchForm.get(controlName);
     if (control) {

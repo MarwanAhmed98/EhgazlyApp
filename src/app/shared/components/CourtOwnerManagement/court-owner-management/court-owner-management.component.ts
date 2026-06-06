@@ -13,8 +13,6 @@ import { ICourtOwnerMainCourt } from '../../../interfaces/icourt-owner-main-cour
 })
 export class CourtOwnerManagementComponent implements OnInit {
   private readonly courtOwnerMainCourtsService = inject(CourtOwnerMainCourtsService);
-
-  // State Signals
   mainCourts = signal<ICourtOwnerMainCourt[]>([]);
   isDeleteModalOpen = signal<boolean>(false);
   selectedCourtId = signal<number | null>(null);
@@ -43,8 +41,6 @@ export class CourtOwnerManagementComponent implements OnInit {
     const val = value ?? 0;
     return '$' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
-
-  // Modal methods
   openDeleteModal(): void {
     this.isDeleteModalOpen.set(true);
   }
@@ -54,9 +50,7 @@ export class CourtOwnerManagementComponent implements OnInit {
   }
 
   confirmDeleteCourt(): void {
-    // Execute the actual DeleteCourt service call
     this.DeleteCourt();
-    // Close modal after deletion (modal will close on service success)
   }
 
   downloadCsv() {
@@ -93,7 +87,6 @@ export class CourtOwnerManagementComponent implements OnInit {
     this.courtOwnerMainCourtsService.DeleteMainCourt(this.selectedCourtId()?.toString() || '').subscribe({
       next: (res) => {
         console.log(res);
-        // Update local state after successful deletion
         const currentId = this.selectedCourtId();
         this.mainCourts.update(prev => prev.filter(c => c.id !== currentId));
         if (this.mainCourts().length > 0) {
@@ -101,13 +94,11 @@ export class CourtOwnerManagementComponent implements OnInit {
         } else {
           this.selectedCourtId.set(null);
         }
-        // Close modal
         this.closeDeleteModal();
       },
       error: (err) => {
         console.error('Delete failed', err);
-        // Optionally keep modal open or show error toast
-        this.closeDeleteModal(); // Close anyway for UX
+        this.closeDeleteModal();
       }
     });
   }

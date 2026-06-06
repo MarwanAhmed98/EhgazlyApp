@@ -42,22 +42,16 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
   currentPage = signal<number>(1);
   itemsPerPage = 5;
   openDropdownId = signal<number | null>(null);
-
-  // Reject modal state
   rejectModalOpen = signal<boolean>(false);
   rejectTargetId = signal<number | null>(null);
   rejectionReason = '';
   rejectionReasonTouched = signal<boolean>(false);
   rejectLoading = signal<boolean>(false);
-
-  // Suspend modal state
   suspendModalOpen = signal<boolean>(false);
   suspendTargetId = signal<number | null>(null);
   suspensionReason = '';
   suspensionReasonTouched = signal<boolean>(false);
   suspendLoading = signal<boolean>(false);
-
-  // Commission modal state
   isCommissionModalOpen = signal<boolean>(false);
   commissionTargetId = signal<number | null>(null);
   commissionPercentage = signal<number>(0);
@@ -112,8 +106,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       },
     });
   }
-
-  // Dropdown
   toggleDropdown(ownerId: number, event: Event) {
     event.stopPropagation();
     this.openDropdownId.set(this.openDropdownId() === ownerId ? null : ownerId);
@@ -126,8 +118,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       this.openDropdownId.set(null);
     }
   }
-
-  // Approve / Activate
   approveOwner(ownerId: number) {
     this.adminManageOwnersService.ApproveOwner(ownerId).subscribe({
       next: () => {
@@ -147,8 +137,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       },
     });
   }
-
-  // Reject modal
   openRejectModal(ownerId: number) {
     this.openDropdownId.set(null);
     this.rejectTargetId.set(ownerId);
@@ -237,8 +225,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       },
     });
   }
-
-  // Commission modal
   openCommissionModal(ownerId: number, currentCommission: string) {
     this.openDropdownId.set(null);
     this.commissionTargetId.set(ownerId);
@@ -292,8 +278,6 @@ export class AdminUserManagementDashboardComponent implements OnInit, OnDestroy 
       },
     });
   }
-
-  // Pagination
   paginatedOwners = computed(() => {
     const start = (this.currentPage() - 1) * this.itemsPerPage;
     return this.owners().slice(start, start + this.itemsPerPage);

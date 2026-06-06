@@ -22,15 +22,9 @@ export class CourtOwnerPaymnetComponent implements OnInit {
   private mainCourtsService = inject(CourtOwnerMainCourtsService);
   private paymentService = inject(CourtOwnerPaymentMethodService);
   private fb = inject(FormBuilder);
-
-  // State signals
   mainCourts: WritableSignal<ICourtOwnerMainCourt[]> = signal([]);
   selectedMainCourtId: WritableSignal<number | null> = signal(null);
   paymentMethods: WritableSignal<ICourtOwnerPaymentMethod[]> = signal([]);
-  // isLoading: WritableSignal<boolean> = signal(false);
-  // errorMessage: WritableSignal<string> = signal('');
-
-  // Modal states
   isFormModalOpen = signal(false);
   isEditMode = signal(false);
   isDeleteModalOpen = signal(false);
@@ -55,7 +49,6 @@ export class CourtOwnerPaymnetComponent implements OnInit {
   }
 
   loadMainCourts(): void {
-    // this.isLoading.set(true);
     this.mainCourtsService.GetMainCourt().subscribe({
       next: (res) => {
         const data = res?.data || [];
@@ -64,14 +57,10 @@ export class CourtOwnerPaymnetComponent implements OnInit {
           this.selectedMainCourtId.set(data[0].id);
           this.loadPaymentMethods();
         } else {
-          // this.isLoading.set(false);
-          // this.errorMessage.set('No main courts found. Please create a main court first.');
         }
       },
       error: (err) => {
         console.error(err);
-        // this.isLoading.set(false);
-        // this.errorMessage.set('Failed to load main courts.');
       }
     });
   }
@@ -84,17 +73,12 @@ export class CourtOwnerPaymnetComponent implements OnInit {
   loadPaymentMethods(): void {
     const mainId = this.selectedMainCourtId();
     if (!mainId) return;
-    // this.isLoading.set(true);
-    // this.errorMessage.set('');
     this.paymentService.ShowPaymentMethod(mainId).subscribe({
       next: (res) => {
         this.paymentMethods.set(res?.data || []);
-        // this.isLoading.set(false);
       },
       error: (err) => {
         console.error(err);
-        // this.isLoading.set(false);
-        // this.errorMessage.set('Could not load payment methods. Please try again.');
       }
     });
   }
@@ -142,7 +126,6 @@ export class CourtOwnerPaymnetComponent implements OnInit {
         error: (err) => {
           console.error(err);
           this.isSubmitting.set(false);
-          // this.errorMessage.set('Failed to update payment method.');
         }
       });
     } else {
@@ -157,7 +140,6 @@ export class CourtOwnerPaymnetComponent implements OnInit {
         error: (err) => {
           console.error(err);
           this.isSubmitting.set(false);
-          // this.errorMessage.set('Failed to add payment method.');
         }
       });
     }
@@ -180,7 +162,7 @@ export class CourtOwnerPaymnetComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.isSubmitting.set(false);
-        // this.errorMessage.set('Failed to delete payment method.');
+
       }
     });
   }
